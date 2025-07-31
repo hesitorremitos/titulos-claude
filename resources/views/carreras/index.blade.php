@@ -22,12 +22,14 @@
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white">
                     Carreras
                 </h3>
+                @can('crear-carreras')
                 <x-button 
                     href="{{ route('carreras.create') }}" 
                     icon="icon-[mdi--plus]"
                 >
                     Nueva Carrera
                 </x-button>
+                @endcan
             </div>
         </x-slot>
 
@@ -76,6 +78,7 @@
                         Ver
                     </x-button>
                     
+                    @can('editar-carreras')
                     <x-button 
                         href="{{ route('carreras.edit', $carrera) }}" 
                         variant="secondary" 
@@ -84,7 +87,9 @@
                     >
                         Editar
                     </x-button>
+                    @endcan
                     
+                    @can('eliminar-carreras')
                     <form method="POST" action="{{ route('carreras.destroy', $carrera) }}" class="inline" 
                           onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta carrera?')">
                         @csrf
@@ -98,6 +103,7 @@
                             Eliminar
                         </x-button>
                     </form>
+                    @endcan
                 </td>
             </tr>
         @endforeach

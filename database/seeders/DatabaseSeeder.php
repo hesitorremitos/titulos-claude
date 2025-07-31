@@ -13,17 +13,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            UserSeeder::class,
+        ]);
+        // Primero crear roles y permisos
+        $this->call([
+            RoleSeeder::class,
+        ]);
+        
         // Seeders para datos maestros
         $this->call([
             FacultadSeeder::class,
             CarreraSeeder::class,
         ]);
 
-        // Usuario de prueba
-        User::factory()->create([
-            'name' => 'Administrador',
-            'email' => 'admin@uatf.edu.bo',
-            'ci' => '12345678',
+        // Usuarios y asignación de roles
+        $this->call([
+            UserRoleSeeder::class,
         ]);
     }
 }

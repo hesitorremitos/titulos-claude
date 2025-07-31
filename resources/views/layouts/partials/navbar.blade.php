@@ -52,9 +52,14 @@
                         aria-haspopup="true"
                     >
                         <span class="icon-[mdi--account-circle] text-gray-500 dark:text-gray-400 w-6 h-6 mr-2" aria-hidden="true"></span>
-                        <span class="text-gray-700 dark:text-gray-300 hidden sm:block font-medium">
-                            {{ auth()->user()->name }}
-                        </span>
+                        <div class="text-left hidden sm:block">
+                            <div class="text-gray-700 dark:text-gray-300 font-medium">
+                                {{ auth()->user()->name }}
+                            </div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">
+                                {{ auth()->user()->roles->first()?->name ?? 'Sin rol' }}
+                            </div>
+                        </div>
                         <span class="icon-[mdi--chevron-down] text-gray-500 dark:text-gray-400 w-4 h-4 ml-2" aria-hidden="true"></span>
                     </button>
 
@@ -74,6 +79,9 @@
                             </p>
                             <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
                                 {{ auth()->user()->email }}
+                            </p>
+                            <p class="text-xs text-primary-600 dark:text-primary-400 font-medium mt-1">
+                                {{ auth()->user()->roles->first()?->name ?? 'Sin rol asignado' }}
                             </p>
                         </div>
                         

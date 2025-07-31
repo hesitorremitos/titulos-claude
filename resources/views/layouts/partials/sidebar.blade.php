@@ -14,6 +14,7 @@
 
                 <!-- Sección: Catálogos -->
                 <x-sidebar-section title="Catálogos">
+                    @can('ver-facultades')
                     <x-sidebar-link 
                         href="{{ route('facultades.index') }}" 
                         icon="mdi--school"
@@ -21,7 +22,9 @@
                     >
                         Facultades
                     </x-sidebar-link>
+                    @endcan
                     
+                    @can('ver-carreras')
                     <x-sidebar-link 
                         href="{{ route('carreras.index') }}" 
                         icon="mdi--book-education"
@@ -29,6 +32,7 @@
                     >
                         Carreras
                     </x-sidebar-link>
+                    @endcan
                 </x-sidebar-section>
             </nav>
         </div>
@@ -64,13 +68,27 @@
 
                     <!-- Sección: Catálogos -->
                     <x-sidebar-section title="Catálogos">
-                        <x-sidebar-link href="#" icon="mdi--school" :mobile="true">
+                        @can('ver-facultades')
+                        <x-sidebar-link 
+                            href="{{ route('facultades.index') }}" 
+                            icon="mdi--school" 
+                            :active="request()->routeIs('facultades.*')"
+                            :mobile="true"
+                        >
                             Facultades
                         </x-sidebar-link>
+                        @endcan
                         
-                        <x-sidebar-link href="#" icon="mdi--book-education" :mobile="true">
+                        @can('ver-carreras')
+                        <x-sidebar-link 
+                            href="{{ route('carreras.index') }}" 
+                            icon="mdi--book-education" 
+                            :active="request()->routeIs('carreras.*')"
+                            :mobile="true"
+                        >
                             Carreras
                         </x-sidebar-link>
+                        @endcan
                     </x-sidebar-section>
                 </nav>
             </div>

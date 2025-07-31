@@ -17,17 +17,19 @@
 @section('content')
 <div class="space-y-6">
     <x-card>
-        <x-slot name="header">
+                <x-slot name="header">
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white">
                     Facultades
                 </h3>
+                @can('crear-facultades')
                 <x-button 
                     href="{{ route('facultades.create') }}" 
                     icon="icon-[mdi--plus]"
                 >
                     Nueva Facultad
                 </x-button>
+                @endcan
             </div>
         </x-slot>
 
@@ -86,6 +88,7 @@
                         Ver
                     </x-button>
                     
+                    @can('editar-facultades')
                     <x-button 
                         href="{{ route('facultades.edit', $facultad) }}" 
                         variant="secondary" 
@@ -94,7 +97,9 @@
                     >
                         Editar
                     </x-button>
+                    @endcan
                     
+                    @can('eliminar-facultades')
                     <form method="POST" action="{{ route('facultades.destroy', $facultad) }}" class="inline" 
                           onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta facultad?')">
                         @csrf
@@ -108,6 +113,7 @@
                             Eliminar
                         </x-button>
                     </form>
+                    @endcan
                 </td>
             </tr>
         @endforeach

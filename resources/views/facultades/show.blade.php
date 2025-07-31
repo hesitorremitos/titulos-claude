@@ -49,6 +49,7 @@
                 Volver
             </x-button>
             
+            @can('editar-facultades')
             <x-button 
                 href="{{ route('facultades.edit', $facultad) }}" 
                 variant="secondary"
@@ -56,6 +57,7 @@
             >
                 Editar
             </x-button>
+            @endcan
         </div>
     </x-card>
 
@@ -65,6 +67,7 @@
             <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Lista de carreras
             </h4>
+            @can('crear-carreras')
             <x-button 
                 href="{{ route('carreras.create', ['facultad_id' => $facultad->id]) }}" 
                 variant="primary"
@@ -73,6 +76,7 @@
             >
                 Agregar Carrera
             </x-button>
+            @endcan
         </div>
 
         @if($facultad->carreras->count() > 0)
@@ -91,6 +95,7 @@
                             </div>
                         </div>
                         
+                        @can('ver-carreras')
                         <x-button 
                             href="{{ route('carreras.show', $carrera) }}" 
                             variant="outline"
@@ -99,6 +104,7 @@
                         >
                             Ver detalle
                         </x-button>
+                        @endcan
                     </div>
                 @endforeach
             </div>
@@ -106,6 +112,7 @@
             <div class="text-center py-8">
                 <span class="icon-[mdi--book-education] w-12 h-12 text-gray-400 mb-4 block mx-auto" aria-hidden="true"></span>
                 <p class="text-gray-500 dark:text-gray-400">No hay carreras registradas en esta facultad</p>
+                @can('crear-carreras')
                 <x-button 
                     href="{{ route('carreras.create', ['facultad_id' => $facultad->id]) }}" 
                     class="mt-4"
@@ -113,6 +120,7 @@
                 >
                     Agregar Primera Carrera
                 </x-button>
+                @endcan
             </div>
         @endif
     </x-card>
