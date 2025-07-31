@@ -75,7 +75,7 @@ class FacultadController extends Controller
     public function update(Request $request, Facultad $facultad)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255|unique:facultades,nombre,' . $facultad->id,
+            'nombre' => 'required|string|max:255|unique:facultades,nombre,'.$facultad->id,
             'direccion' => 'nullable|string|max:255',
         ], [
             'nombre.required' => 'El nombre de la facultad es obligatorio.',

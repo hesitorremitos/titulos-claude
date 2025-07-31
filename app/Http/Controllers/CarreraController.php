@@ -27,7 +27,7 @@ class CarreraController extends Controller
     {
         $facultades = Facultad::orderBy('nombre')->get();
         $facultadSeleccionada = $request->get('facultad_id');
-        
+
         return view('carreras.create', compact('facultades', 'facultadSeleccionada'));
     }
 
@@ -65,6 +65,7 @@ class CarreraController extends Controller
     public function show(Carrera $carrera)
     {
         $carrera->load('facultad');
+
         return view('carreras.show', compact('carrera'));
     }
 
@@ -74,6 +75,7 @@ class CarreraController extends Controller
     public function edit(Carrera $carrera)
     {
         $facultades = Facultad::orderBy('nombre')->get();
+
         return view('carreras.edit', compact('carrera', 'facultades'));
     }
 
@@ -83,7 +85,7 @@ class CarreraController extends Controller
     public function update(Request $request, Carrera $carrera)
     {
         $request->validate([
-            'id' => 'required|string|size:5|unique:carreras,id,' . $carrera->id . ',id|regex:/^[A-Z0-9]+$/',
+            'id' => 'required|string|size:5|unique:carreras,id,'.$carrera->id.',id|regex:/^[A-Z0-9]+$/',
             'programa' => 'required|string|max:255',
             'direccion' => 'nullable|string|max:255',
             'facultad_id' => 'required|exists:facultades,id',
@@ -112,7 +114,7 @@ class CarreraController extends Controller
     {
         // Aquí podrías verificar si tiene títulos asociados cuando implementes esas tablas
         // Por ahora, permitimos eliminar directamente
-        
+
         $carrera->delete();
 
         return redirect()->route('carreras.index')

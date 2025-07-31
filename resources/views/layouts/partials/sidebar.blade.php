@@ -34,6 +34,21 @@
                     </x-sidebar-link>
                     @endcan
                 </x-sidebar-section>
+
+                <!-- Sección: Administración -->
+                @canany(['ver-usuarios'])
+                <x-sidebar-section title="Administración">
+                    @can('ver-usuarios')
+                    <x-sidebar-link 
+                        href="{{ route('usuarios.index') }}" 
+                        icon="mdi--account-group"
+                        :active="request()->routeIs('usuarios.*')"
+                    >
+                        Usuarios
+                    </x-sidebar-link>
+                    @endcan
+                </x-sidebar-section>
+                @endcanany
             </nav>
         </div>
     </div>
@@ -90,6 +105,22 @@
                         </x-sidebar-link>
                         @endcan
                     </x-sidebar-section>
+
+                    <!-- Sección: Administración -->
+                    @canany(['ver-usuarios'])
+                    <x-sidebar-section title="Administración">
+                        @can('ver-usuarios')
+                        <x-sidebar-link 
+                            href="{{ route('usuarios.index') }}" 
+                            icon="mdi--account-group" 
+                            :active="request()->routeIs('usuarios.*')"
+                            :mobile="true"
+                        >
+                            Usuarios
+                        </x-sidebar-link>
+                        @endcan
+                    </x-sidebar-section>
+                    @endcanany
                 </nav>
             </div>
         </div>

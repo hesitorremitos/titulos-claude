@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
@@ -16,6 +16,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
+
         return view('profile.index', compact('user'));
     }
 
@@ -86,10 +87,10 @@ class ProfileController extends Controller
         ]);
 
         $user = Auth::user();
-        
+
         // Logout del usuario
         Auth::logout();
-        
+
         // Eliminar la cuenta
         $user->delete();
 

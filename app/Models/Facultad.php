@@ -29,8 +29,8 @@ class Facultad extends Model
      */
     public function scopeSearch($query, $search)
     {
-        return $query->where('nombre', 'like', '%' . $search . '%')
-                    ->orWhere('direccion', 'like', '%' . $search . '%');
+        return $query->where('nombre', 'like', '%'.$search.'%')
+            ->orWhere('direccion', 'like', '%'.$search.'%');
     }
 
     /**

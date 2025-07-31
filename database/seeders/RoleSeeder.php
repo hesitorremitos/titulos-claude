@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder
 {
@@ -20,19 +20,19 @@ class RoleSeeder extends Seeder
             'crear-facultades',
             'editar-facultades',
             'eliminar-facultades',
-            
+
             // Carreras
             'ver-carreras',
             'crear-carreras',
             'editar-carreras',
             'eliminar-carreras',
-            
+
             // Usuarios (para futura implementación)
             'ver-usuarios',
             'crear-usuarios',
             'editar-usuarios',
             'eliminar-usuarios',
-            
+
             // Títulos (para futura implementación)
             'ver-titulos',
             'crear-titulos',

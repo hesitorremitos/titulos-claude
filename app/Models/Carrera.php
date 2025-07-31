@@ -10,9 +10,10 @@ class Carrera extends Model
     use HasFactory;
 
     protected $table = 'carreras';
-    
+
     // La clave primaria es un campo char de 5 caracteres
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $fillable = [
@@ -35,9 +36,9 @@ class Carrera extends Model
      */
     public function scopeSearch($query, $search)
     {
-        return $query->where('programa', 'like', '%' . $search . '%')
-                    ->orWhere('id', 'like', '%' . $search . '%')
-                    ->orWhere('direccion', 'like', '%' . $search . '%');
+        return $query->where('programa', 'like', '%'.$search.'%')
+            ->orWhere('id', 'like', '%'.$search.'%')
+            ->orWhere('direccion', 'like', '%'.$search.'%');
     }
 
     /**
@@ -48,6 +49,7 @@ class Carrera extends Model
         if ($facultadId) {
             return $query->where('facultad_id', $facultadId);
         }
+
         return $query;
     }
 }
