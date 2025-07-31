@@ -1,134 +1,175 @@
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Gestión de Usuarios') }}
-            </h2>
-            @can('crear-usuarios')
-            <x-button href="{{ route('usuarios.create') }}" icon="icon-[mdi--plus]">
-                Nuevo Usuario
-            </x-button>
-            @endcan
-        </div>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @if (session('success'))
-                <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-                    {{ session('success') }}
-                </div>
-            @endif
+@section('title', 'Usuarios')
 
-            @if (session('error'))
-                <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <thead class="bg-gray-50 dark:bg-gray-700">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        CI
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Nombre
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Email
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Roles
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Creado
-                                    </th>
-                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Acciones
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                @forelse ($users as $user)
-                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                                            {{ $user->ci }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            {{ $user->name }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            {{ $user->email }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            @if($user->roles->count() > 0)
-                                                @foreach($user->roles as $role)
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                                        @if($role->name === 'Administrador') bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100
-                                                        @elseif($role->name === 'Jefe') bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100
-                                                        @elseif($role->name === 'Personal') bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100
-                                                        @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100 @endif">
-                                                        {{ $role->name }}
-                                                    </span>
-                                                    @if(!$loop->last), @endif
-                                                @endforeach
-                                            @else
-                                                <span class="text-gray-400 dark:text-gray-500 italic">Sin rol</span>
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            {{ $user->created_at->format('d/m/Y H:i') }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                            @can('ver-usuarios')
-                                            <x-button href="{{ route('usuarios.show', $user) }}" variant="secondary" size="sm">
-                                                Ver
-                                            </x-button>
-                                            @endcan
-
-                                            @can('editar-usuarios')
-                                            <x-button href="{{ route('usuarios.edit', $user) }}" variant="secondary" size="sm">
-                                                Editar
-                                            </x-button>
-                                            @endcan
-
-                                            @can('eliminar-usuarios')
-                                            @if($user->id !== auth()->id())
-                                            <form method="POST" action="{{ route('usuarios.destroy', $user) }}" class="inline-block" 
-                                                  onsubmit="return confirm('¿Estás seguro de que deseas eliminar este usuario?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <x-button variant="danger" size="sm" type="submit">
-                                                    Eliminar
-                                                </x-button>
-                                            </form>
-                                            @endif
-                                            @endcan
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
-                                            No se encontraron usuarios.
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Paginación -->
-                    @if ($users->hasPages())
-                        <div class="mt-6">
-                            {{ $users->links() }}
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
+@section('header')
+    <div class="flex items-center">
+        <span class="icon-[mdi--account-multiple] text-primary-600 dark:text-primary-400 w-6 h-6 mr-3"></span>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Gestión de Usuarios
+        </h2>
     </div>
-</x-app-layout>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+        Administra los usuarios del sistema y sus roles
+    </p>
+@endsection
+
+@section('content')
+<div class="space-y-6">
+    <x-card>
+        <x-slot name="header">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+                    Usuarios del Sistema
+                </h3>
+                @can('crear-usuarios')
+                <x-button 
+                    href="{{ route('usuarios.create') }}" 
+                    icon="icon-[mdi--plus]"
+                >
+                    Nuevo Usuario
+                </x-button>
+                @endcan
+            </div>
+        </x-slot>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            CI
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            Usuario
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            Email
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            Roles
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            Creado
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+        @forelse($users as $user)
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150">
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                        {{ $user->ci }}
+                    </div>
+                </td>
+                
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        <span class="icon-[mdi--account] text-primary-600 dark:text-primary-400 w-5 h-5 mr-3" aria-hidden="true"></span>
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                {{ $user->name }}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900 dark:text-gray-300">
+                        {{ $user->email }}
+                    </div>
+                </td>
+
+                <td class="px-6 py-4 whitespace-nowrap">
+                    @if($user->roles->count() > 0)
+                        <div class="flex flex-wrap gap-1">
+                            @foreach($user->roles as $role)
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                    @if($role->name === 'Administrador') bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                    @elseif($role->name === 'Jefe') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                                    @elseif($role->name === 'Personal') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                                    @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 @endif">
+                                    <span class="icon-[mdi--shield-account] w-3 h-3 mr-1" aria-hidden="true"></span>
+                                    {{ $role->name }}
+                                </span>
+                            @endforeach
+                        </div>
+                    @else
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+                            <span class="icon-[mdi--help-circle] w-3 h-3 mr-1" aria-hidden="true"></span>
+                            Sin rol
+                        </span>
+                    @endif
+                </td>
+
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900 dark:text-gray-300">
+                        {{ $user->created_at->format('d/m/Y H:i') }}
+                    </div>
+                </td>
+
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                    <x-button 
+                        href="{{ route('usuarios.show', $user) }}" 
+                        variant="outline" 
+                        size="sm"
+                        icon="icon-[mdi--eye]"
+                    >
+                        Ver
+                    </x-button>
+                    
+                    @can('editar-usuarios')
+                    <x-button 
+                        href="{{ route('usuarios.edit', $user) }}" 
+                        variant="secondary" 
+                        size="sm"
+                        icon="icon-[mdi--pencil]"
+                    >
+                        Editar
+                    </x-button>
+                    @endcan
+                    
+                    @can('eliminar-usuarios')
+                    @if($user->id !== auth()->id())
+                    <form method="POST" action="{{ route('usuarios.destroy', $user) }}" class="inline" 
+                          onsubmit="return confirm('¿Estás seguro de que quieres eliminar este usuario?')">
+                        @csrf
+                        @method('DELETE')
+                        <x-button 
+                            variant="danger" 
+                            size="sm"
+                            icon="icon-[mdi--delete]"
+                            type="submit"
+                        >
+                            Eliminar
+                        </x-button>
+                    </form>
+                    @endif
+                    @endcan
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                    <div class="flex flex-col items-center py-6">
+                        <span class="icon-[mdi--account-off] w-12 h-12 text-gray-400 dark:text-gray-500 mb-3" aria-hidden="true"></span>
+                        <p>No se encontraron usuarios.</p>
+                    </div>
+                </td>
+            </tr>
+        @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        @if($users->hasPages())
+        <div class="px-6 py-3 border-t border-gray-200 dark:border-gray-700">
+            {{ $users->links() }}
+        </div>
+        @endif
+    </x-card>
+</div>
+@endsection

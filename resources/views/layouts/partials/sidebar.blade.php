@@ -41,7 +41,7 @@
                     @can('ver-usuarios')
                     <x-sidebar-link 
                         href="{{ route('usuarios.index') }}" 
-                        icon="mdi--account-group"
+                        icon="mdi--account-multiple"
                         :active="request()->routeIs('usuarios.*')"
                     >
                         Usuarios
@@ -112,7 +112,7 @@
                         @can('ver-usuarios')
                         <x-sidebar-link 
                             href="{{ route('usuarios.index') }}" 
-                            icon="mdi--account-group" 
+                            icon="mdi--account-multiple" 
                             :active="request()->routeIs('usuarios.*')"
                             :mobile="true"
                         >
