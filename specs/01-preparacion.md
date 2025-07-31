@@ -11,6 +11,7 @@ Preparación del Proyecto
     - Alpine.js (última versión)
 - **Base de Datos:** SQLite (entorno de desarrollo)
 - **Testing:** Pest (incluido en Laravel 12) 
+- **Roles y Permisos:** Spatie laravel-permission
 
 ### Configuración Inicial Completada
 - ✅ Proyecto Laravel 12 creado
