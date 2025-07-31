@@ -14,11 +14,19 @@
 
                 <!-- Sección: Catálogos -->
                 <x-sidebar-section title="Catálogos">
-                    <x-sidebar-link href="#" icon="mdi--school">
+                    <x-sidebar-link 
+                        href="{{ route('facultades.index') }}" 
+                        icon="mdi--school"
+                        :active="request()->routeIs('facultades.*')"
+                    >
                         Facultades
                     </x-sidebar-link>
                     
-                    <x-sidebar-link href="#" icon="mdi--book-education">
+                    <x-sidebar-link 
+                        href="{{ route('carreras.index') }}" 
+                        icon="mdi--book-education"
+                        :active="request()->routeIs('carreras.*')"
+                    >
                         Carreras
                     </x-sidebar-link>
                 </x-sidebar-section>

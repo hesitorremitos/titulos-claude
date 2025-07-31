@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FacultadController;
+use App\Http\Controllers\CarreraController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,4 +28,14 @@ Route::middleware('auth')->group(function () {
         Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password');
         Route::delete('/delete', [ProfileController::class, 'delete'])->name('delete');
     });
+    
+    // Rutas de gestión de facultades
+    Route::resource('facultades', FacultadController::class)->parameters([
+        'facultades' => 'facultad'
+    ]);
+    
+    // Rutas de gestión de carreras
+    Route::resource('carreras', CarreraController::class)->parameters([
+        'carreras' => 'carrera'
+    ]);
 });
