@@ -16,7 +16,7 @@
         
         <div>
             <label for="ci" class="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300">
-                <span class="icon-[mdi--card-account-details-outline] inline-block mr-2 text-gray-500 dark:text-gray-400 w-4 h-4" aria-hidden="true"></span>
+                <span class="icon-[mdi--card-account-details] inline-block mr-2 text-gray-500 dark:text-gray-400 w-4 h-4" aria-hidden="true"></span>
                 Carnet de Identidad (CI)
             </label>
             <input 
@@ -24,18 +24,19 @@
                 id="ci" 
                 name="ci"
                 value="{{ old('ci') }}"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
+                class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm 
                        bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                        focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 
                        dark:focus:ring-primary-400 dark:focus:border-primary-400
-                       @error('ci') border-red-500 dark:border-red-400 @enderror"
+                       transition-colors duration-200
+                       {{ $errors->has('ci') ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600' }}"
                 placeholder="Ingrese su CI"
                 autocomplete="username"
                 required
             >
             @error('ci')
                 <p class="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center">
-                    <span class="icon-[mdi--alert-circle-outline] inline-block mr-1 w-4 h-4" aria-hidden="true"></span>
+                    <span class="icon-[mdi--alert-circle] inline-block mr-1 w-4 h-4" aria-hidden="true"></span>
                     {{ $message }}
                 </p>
             @enderror
@@ -43,25 +44,26 @@
 
         <div>
             <label for="password" class="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300">
-                <span class="icon-[mdi--lock-outline] inline-block mr-2 text-gray-500 dark:text-gray-400 w-4 h-4" aria-hidden="true"></span>
+                <span class="icon-[mdi--lock] inline-block mr-2 text-gray-500 dark:text-gray-400 w-4 h-4" aria-hidden="true"></span>
                 Contraseña
             </label>
             <input 
                 type="password" 
                 id="password" 
                 name="password"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
+                class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm 
                        bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                        focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 
                        dark:focus:ring-primary-400 dark:focus:border-primary-400
-                       @error('password') border-red-500 dark:border-red-400 @enderror"
+                       transition-colors duration-200
+                       {{ $errors->has('password') ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600' }}"
                 placeholder="Ingrese su contraseña"
                 autocomplete="current-password"
                 required
             >
             @error('password')
                 <p class="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center">
-                    <span class="icon-[mdi--alert-circle-outline] inline-block mr-1 w-4 h-4" aria-hidden="true"></span>
+                    <span class="icon-[mdi--alert-circle] inline-block mr-1 w-4 h-4" aria-hidden="true"></span>
                     {{ $message }}
                 </p>
             @enderror
@@ -78,7 +80,7 @@
                        dark:bg-gray-700 rounded"
             >
             <label for="remember" class="ml-2 flex items-center text-sm text-gray-700 dark:text-gray-300">
-                <span class="icon-[mdi--checkbox-marked-circle-outline] inline-block mr-1 text-gray-500 dark:text-gray-400 w-4 h-4" aria-hidden="true"></span>
+                <span class="icon-[mdi--checkbox-marked-circle] inline-block mr-1 text-gray-500 dark:text-gray-400 w-4 h-4" aria-hidden="true"></span>
                 Recordar sesión
             </label>
         </div>
