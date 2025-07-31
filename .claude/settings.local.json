@@ -5,7 +5,9 @@
       "Bash(php artisan make:migration:*)",
       "Bash(php artisan make:livewire:*)",
       "Bash(php artisan:*)",
-      "Bash(/doctor)"
+      "Bash(/doctor)",
+      "Bash(mkdir:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }
