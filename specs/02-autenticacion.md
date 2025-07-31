@@ -27,24 +27,26 @@ Implementación del sistema de login para el proyecto de digitalización de tít
   - **Secondary (Azul)**: Gradaciones del 50 al 900
 - **Soporte para modo oscuro**: Variables CSS configuradas
 
-### 4. Componente Livewire de Login
-- **Archivo**: `app/Livewire/Auth/Login.php`
+### 4. Controlador de Autenticación
+- **Archivo**: `app/Http/Controllers/AuthController.php`
 - **Funcionalidades**:
+  - Mostrar formulario de login
   - Validación de campos CI y contraseña
   - Autenticación con CI en lugar de email
   - Opción "Recordar sesión"
   - Redirección a dashboard después del login
+  - Cerrar sesión con invalidación de sesión
   - Mensajes de error en español
 
 ### 5. Vista de Login
-- **Archivo**: `resources/views/livewire/auth/login.blade.php`
+- **Archivo**: `resources/views/auth/login.blade.php`
 - **Características**:
   - Diseño responsive con Tailwind CSS v4
   - Soporte completo para modo oscuro
-  - Indicadores de carga
-  - Validación en tiempo real
-  - Mensajes de error estilizados
+  - Iconos de Iconify integrados con Tailwind
+  - Validación de errores del servidor
   - Formulario accesible con etiquetas y autocompletado
+  - Mensajes de error estilizados con iconos
 
 ### 6. Layout para Invitados
 - **Archivo**: `resources/views/layouts/guest.blade.php`
@@ -53,22 +55,42 @@ Implementación del sistema de login para el proyecto de digitalización de tít
   - Branding de la UATF
   - Soporte para modo oscuro
   - Responsive design
+  - Uso de `@yield('content')` para compatibilidad con Blade
 
 ### 7. Rutas de Autenticación
 - **Archivo**: `routes/web.php`
 - **Rutas implementadas**:
   - `/` → Redirección a login
-  - `/login` → Formulario de login
+  - `GET /login` → Formulario de login
+  - `POST /login` → Procesamiento de autenticación
   - `/dashboard` → Panel principal (requiere autenticación)
-  - `/logout` → Cerrar sesión
+  - `POST /logout` → Cerrar sesión
 
 ### 8. Dashboard Básico
 - **Archivo**: `resources/views/dashboard.blade.php`
 - **Funcionalidades**:
-  - Barra de navegación con branding
-  - Saludo personalizado con nombre de usuario
-  - Botón de cerrar sesión
+  - Barra de navegación con branding e iconos
+  - Saludo personalizado con nombre de usuario e icono
+  - Botón de cerrar sesión con icono
+  - Iconos de Iconify integrados
   - Diseño preparado para futuras funcionalidades
+
+## Iconos Implementados
+
+El sistema utiliza el plugin de Iconify para Tailwind CSS v4 con los siguientes iconos:
+
+### Iconos de Autenticación
+- `icon-[mdi--card-account-details-outline]`: Campo CI
+- `icon-[mdi--lock-outline]`: Campo contraseña  
+- `icon-[mdi--checkbox-marked-circle-outline]`: Checkbox recordar sesión
+- `icon-[mdi--login]`: Botón de inicio de sesión
+- `icon-[mdi--alert-circle-outline]`: Mensajes de error
+
+### Iconos del Dashboard
+- `icon-[mdi--school]`: Logo del sistema en header
+- `icon-[mdi--account-circle]`: Saludo de usuario
+- `icon-[mdi--logout]`: Botón cerrar sesión
+- `icon-[mdi--view-dashboard]`: Icono central del dashboard
 
 ## Usuarios de Prueba
 
@@ -107,7 +129,7 @@ composer run dev
 
 ```
 app/
-├── Livewire/Auth/Login.php (nuevo)
+├── Http/Controllers/AuthController.php (nuevo)
 ├── Models/User.php (modificado)
 database/
 ├── migrations/2025_07_31_050132_add_ci_to_users_table.php (nuevo)
@@ -115,9 +137,9 @@ database/
 resources/
 ├── css/app.css (modificado)
 ├── views/
-│   ├── layouts/guest.blade.php (nuevo)
-│   ├── livewire/auth/login.blade.php (nuevo)
-│   └── dashboard.blade.php (nuevo)
+│   ├── layouts/guest.blade.php (modificado)
+│   ├── auth/login.blade.php (nuevo)
+│   └── dashboard.blade.php (modificado)
 routes/
 └── web.php (modificado)
 ```
@@ -130,10 +152,32 @@ routes/
 4. **Catálogos**: Facultades, carreras y tipos de títulos
 5. **Registro de Títulos**: Funcionalidad principal del sistema
 
+## Cambios en la Refactorización (v2.0)
+
+### Migración de Livewire a Blade Puro
+- **Motivo**: Simplificación del sistema de autenticación al no requerir interactividad compleja
+- **Beneficios**:
+  - Mejor rendimiento (menos JavaScript)
+  - Menor complejidad del código
+  - Validación tradicional del lado del servidor
+  - Mantenimiento más sencillo
+
+### Integración de Iconos Iconify
+- **Plugin**: `@iconify/tailwind4` con `@iconify/json`
+- **Implementación**: Clases CSS nativas de Tailwind
+- **Conjunto de iconos**: Material Design Icons (mdi)
+- **Beneficios**:
+  - Iconos vectoriales optimizados
+  - Integración nativa con Tailwind CSS
+  - Sistema consistente de iconografía
+  - Soporte completo para modo oscuro
+
 ## Consideraciones Técnicas
 
 - **Seguridad**: Autenticación mediante CI único, passwords hasheados
-- **UX**: Formularios responsive con indicadores de carga
-- **Accesibilidad**: Etiquetas apropiadas, contraste adecuado
-- **Mantenibilidad**: Separación clara de responsabilidades entre Livewire y vistas
+- **UX**: Formularios responsive con iconos informativos
+- **Accesibilidad**: Etiquetas apropiadas, contraste adecuado, iconos con aria-hidden
+- **Mantenibilidad**: Separación clara entre controlador, vistas y rutas
 - **Escalabilidad**: Base preparada para roles y permisos complejos
+- **Performance**: Eliminación de Livewire para casos simples sin interactividad compleja
+- **Iconografía**: Sistema consistente de iconos con Iconify y Tailwind CSS
