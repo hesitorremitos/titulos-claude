@@ -290,7 +290,7 @@ Las personas tienen títulos, esta migracion no debe ser modificada.
 });
 ```
 
-Diplmas Academidos, tienen sus menciones, y modalidades de graduación
+Diplomas Academidos, tienen sus menciones, y modalidades de graduación
 ```php
      Schema::create('menciones_da', function (Blueprint $table) {
       $table->id();
