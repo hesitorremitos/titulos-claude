@@ -54,18 +54,25 @@ php artisan test        # Alternative test command
 
 ### Technology Stack
 - **Backend:** Laravel 12 with PHP 8.2+
-- **Frontend:** Blade templates with Livewire v3, Tailwind CSS v4, Alpine.js
+- **Frontend:** Blade templates with component system, Tailwind CSS v4, Alpine.js
 - **Database:** SQLite (development), designed for PostgreSQL/MySQL (production)
 - **Testing:** Pest PHP testing framework
-- **Authentication:** Laravel's built-in authentication with Spatie Laravel Permission for roles
-- **Icons:** Iconify integration
+- **Authentication:** Pure Laravel authentication with custom controllers and form requests
+- **Icons:** Iconify integration with Tailwind CSS v4 plugin
 - **Build Tool:** Vite
 
 ### Key Dependencies
-- `livewire/livewire`: ^3.6 - For reactive components
 - `spatie/laravel-permission`: ^6.21 - Role and permission management
 - `@tailwindcss/vite`: ^4.0.0 - Tailwind CSS v4 integration
 - `@iconify/tailwind4`: ^1.0.6 - Icon system integration
+- `pestphp/pest`: ^3.8 - Modern PHP testing framework
+
+### Component Architecture
+The application uses a component-based Blade architecture:
+- **UI Components:** `<x-ui.alert>`, `<x-ui.card>`, `<x-ui.stat-card>`, `<x-ui.action-button>`
+- **Form Components:** `<x-form.input>`, `<x-form.button>` with validation and state management
+- **Layout System:** `guest` layout for authentication, `app` layout for authenticated pages
+- **Icon System:** Uses `<span class="icon-[mdi--icon-name]"></span>` syntax with Iconify plugin
 
 ### User Roles and Permissions
 1. **Administrator:** Full CRUD access, user management, master data management
@@ -86,11 +93,19 @@ php artisan test        # Alternative test command
 
 ### File Structure Patterns
 - Controllers follow standard Laravel structure in `app/Http/Controllers/`
+- Form requests in `app/Http/Requests/Auth/` for validation logic
 - Models in `app/Models/` with Eloquent relationships
-- Livewire components expected in `app/Livewire/`
-- Views in `resources/views/` with Blade templating
+- Blade components in `resources/views/components/` (ui/ and form/ subdirectories)
+- Views in `resources/views/` with layout inheritance
 - Database migrations follow Laravel conventions
 - Specs documentation in `specs/` directory
+
+### Authentication Architecture
+- **AuthController:** Handles login/logout with proper session management
+- **LoginRequest:** Form request with CI validation and rate limiting (5 attempts)
+- **Guest Layout:** Centered design for authentication pages
+- **App Layout:** Navigation with user menu for authenticated pages
+- **Components:** Reusable form inputs and buttons with Alpine.js integration
 
 ### Database Design
 - Uses SQLite for development (database/database.sqlite)
@@ -132,7 +147,14 @@ php artisan test        # Alternative test command
 
 ## Key Configuration Files
 - `vite.config.js`: Vite build configuration with Tailwind CSS v4
-- `composer.json`: PHP dependencies and custom scripts
+- `composer.json`: PHP dependencies and custom scripts including `composer run dev`
 - `package.json`: Node.js dependencies for frontend build
-- `config/livewire.php`: Livewire configuration
 - `config/permission.php`: Spatie permission package configuration
+- `resources/css/app.css`: Includes `[x-cloak] { display: none !important; }` for Alpine.js
+
+## Development Patterns
+- **Component Usage:** Always use `<x-form.input>` and `<x-form.button>` for consistency
+- **Icon Syntax:** Use `<span class="icon-[mdi--icon-name]"></span>` format (not iconify class)
+- **Layout Inheritance:** Use `@extends('layouts.guest')` for auth, `@extends('layouts.app')` for dashboard
+- **Validation:** Server-side with form requests, client-side with Alpine.js
+- **JavaScript:** Vanilla JS in layouts, Alpine.js for component interactivity
