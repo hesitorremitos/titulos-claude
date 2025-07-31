@@ -1,51 +1,94 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Dashboard - {{ config('app.name', 'Laravel') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-white dark:bg-gray-900 font-sans antialiased">
-    <div class="min-h-screen">
-        <header class="bg-primary-600 dark:bg-primary-700 shadow">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex items-center">
-                        <h1 class="text-xl font-semibold text-white">
-                            Sistema de Títulos UATF
-                        </h1>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <span class="text-white">
-                            Bienvenido, {{ auth()->user()->name }}
-                        </span>
-                        <form action="{{ route('logout') }}" method="POST" class="inline">
-                            @csrf
-                            <button type="submit" class="text-white hover:text-primary-200 transition-colors">
-                                Cerrar Sesión
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </header>
+@extends('layouts.app')
 
-        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            <div class="px-4 py-6 sm:px-0">
-                <div class="border-4 border-dashed border-gray-200 dark:border-gray-700 rounded-lg h-96 flex items-center justify-center">
-                    <div class="text-center">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                            Dashboard
-                        </h2>
-                        <p class="text-gray-600 dark:text-gray-400">
-                            ¡Bienvenido al Sistema de Títulos de la UATF!
-                        </p>
-                    </div>
+@section('content')
+<div class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Panel de Control</h1>
+            <p class="text-gray-600 mt-2">Bienvenido al sistema de digitalización de títulos académicos</p>
+        </div>
+
+        <!-- Welcome Card -->
+        <x-ui.card class="mb-8" padding="p-6 bg-gradient-to-r from-red-50 to-blue-50">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <span class="icon-[mdi--school] h-12 w-12 text-red-600"></span>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-xl font-semibold text-gray-900">
+                        ¡Bienvenido, {{ Auth::user()->name ?? 'Usuario' }}!
+                    </h2>
+                    <p class="text-gray-600 mt-1">
+                        Estás conectado al sistema de digitalización de títulos académicos de la UATF
+                    </p>
                 </div>
             </div>
-        </main>
+        </x-ui.card>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Total Titles -->
+            <x-ui.stat-card 
+                title="Títulos Registrados"
+                value="0"
+                icon="mdi--file-document-outline"
+                icon-color="text-blue-600"
+            />
+
+            <!-- Digitalized -->
+            <x-ui.stat-card 
+                title="Digitalizados"
+                value="0"
+                icon="mdi--check-circle"
+                icon-color="text-green-600"
+            />
+
+            <!-- Pending -->
+            <x-ui.stat-card 
+                title="Pendientes"
+                value="0"
+                icon="mdi--clock-outline"
+                icon-color="text-yellow-600"
+            />
+
+            <!-- Faculties -->
+            <x-ui.stat-card 
+                title="Facultades"
+                value="0"
+                icon="mdi--school"
+                icon-color="text-red-600"
+            />
+        </div>
+
+        <!-- Quick Actions -->
+        <x-ui.card title="Acciones Rápidas">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Register Title -->
+                <x-ui.action-button 
+                    title="Registrar Título"
+                    description="Agregar nuevo título académico"
+                    icon="mdi--plus-circle"
+                    color="red"
+                />
+
+                <!-- Search Titles -->
+                <x-ui.action-button 
+                    title="Buscar Títulos"
+                    description="Consultar títulos existentes"
+                    icon="mdi--magnify"
+                    color="blue"
+                />
+
+                <!-- Manage Faculties -->
+                <x-ui.action-button 
+                    title="Administrar"
+                    description="Gestionar facultades y carreras"
+                    icon="mdi--cog"
+                    color="green"
+                />
+            </div>
+        </x-ui.card>
     </div>
-</body>
-</html>
+</div>
+@endsection

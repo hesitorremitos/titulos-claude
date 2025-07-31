@@ -7,7 +7,7 @@ Preparación del Proyecto
 - **Framework:** Laravel 12 (última versión)
 - **Frontend:** 
     - Tailwind CSS 4 (última versión)
-    - Iconify (última versión)
+    - Iconify (última versión, usado mediante el plugin de tailwind 4)
     - Alpine.js (última versión)
 - **Base de Datos:** SQLite (entorno de desarrollo)
 - **Testing:** Pest (incluido en Laravel 12) 
@@ -22,7 +22,7 @@ Preparación del Proyecto
 ### Dependencias Instaladas
 - **Laravel 12:** Framework principal
 - **Tailwind CSS 4:** Framework CSS para el frontend
-- **Iconify:** Biblioteca de iconos
+- **Iconify:** Biblioteca de iconos(Plugin para tailwindcss)
 - **Alpine.js:** Por defecto en livewire
 - **Spatie laravel-permission:** Gestión de roles y permisos
 - **Livewire:** Interactividad en el frontend
