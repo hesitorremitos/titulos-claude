@@ -23,7 +23,9 @@ Preparación del Proyecto
 - **Laravel 12:** Framework principal
 - **Tailwind CSS 4:** Framework CSS para el frontend
 - **Iconify:** Biblioteca de iconos
-- **Alpine.js:** Por defecto en Laravel 12
+- **Alpine.js:** Por defecto en livewire
+- **Spatie laravel-permission:** Gestión de roles y permisos
+- **Livewire:** Interactividad en el frontend
 - **Pest:** Framework de testing
 
 ---
