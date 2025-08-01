@@ -176,7 +176,47 @@ php artisan test        # Alternative test command
 
 ## Memory Notes
 
-- Todos los requerimientos y los pasos que se van a ir haciendo, se estand documentando en `specs/`
+### Progreso del Proyecto
+- Todos los requerimientos y los pasos que se van a ir haciendo, se están documentando en `specs/`
+- **Paso 08 COMPLETADO**: Sistema CRUD de Diplomas Académicos implementado con integración API universitaria (specs/08-sistema-diplomas-academicos.md)
+- Sistema de usuarios y permisos completamente funcional
+- Base de datos con facultades, carreras y datos maestros implementados
+
+### Sistema de Diplomas Académicos (Paso 08)
+- **Modelo principal**: DiplomaAcademico con relaciones a Persona, MencionDa, GraduacionDa, User
+- **API Externa**: https://apititulos.uatf.edu.bo/api/datos?ru={ci} (método POST por requerimientos internos UATF)
+- **Componente Livewire**: DiplomaAcademicoFormComponent (renombrado para evitar colisión de nombres)
+- **Archivos implementados**:
+  - Controllers: DiplomaAcademicoController
+  - Models: DiplomaAcademico, Persona (CI como PK)
+  - Livewire: DiplomaAcademicoFormComponent, Forms/DiplomaAcademicoForm, Forms/PersonaForm
+  - Services: UniversityApiService, UserHelperService
+  - Views: diplomas/index, create, show con componentes primary-button, secondary-button
+- **Seeders con datos reales**: GraduacionDaSeeder (32 registros), MencionDaSeeder (73 registros) desde CSV
+- **Control de acceso**: Personal (solo propios), Jefe (view-only), Administrador (full access)
+
+### Patrones de Código Establecidos
+- **Eager loading completo**: siempre incluir 'mencion.carrera.facultad' para evitar N+1
+- **Manejo de errores**: try-catch en operaciones críticas de BD
+- **Validaciones**: usar método rules() en lugar de atributos #[Validate] duplicados
+- **Autorización**: método privado checkDiplomaAccess() para DRY
+- **Storage**: usar Storage::disk('public')->path() en lugar de concatenación directa
+- **Forms Livewire**: separar lógica en Form classes dedicadas
+
+### Arquitectura de Archivos
+- **Livewire Components**: app/Livewire/ (clases principales)
+- **Livewire Forms**: app/Livewire/Forms/ (validación y lógica de datos)
+- **Services**: app/Services/ (integraciones externas y helpers)
+- **CSV Data**: database/csv/ (datos maestros para seeders)
+- **Specs**: specs/ (documentación de pasos de implementación)
+
+### Correcciones de Código Aplicadas
+- Eliminadas colisiones de nombres en Livewire
+- Corregidas rutas con barras iniciales incorrectas
+- Agregados imports faltantes (User model)
+- Refactorizada lógica de autorización repetida
+- Optimizadas consultas de base de datos
+- Implementado manejo robusto de errores
 
 ## important-instruction-reminders
 Do what has been asked; nothing more, nothing less.
