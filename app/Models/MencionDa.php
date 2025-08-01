@@ -12,7 +12,7 @@ class MencionDa extends Model
 
     protected $fillable = [
         'nombre',
-        'carrera_id'
+        'carrera_id',
     ];
 
     public function carrera(): BelongsTo

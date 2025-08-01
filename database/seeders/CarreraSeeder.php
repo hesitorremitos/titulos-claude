@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Carrera;
 use App\Models\Facultad;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class CarreraSeeder extends Seeder
@@ -12,32 +12,33 @@ class CarreraSeeder extends Seeder
     public function run(): void
     {
         $csvPath = database_path('csv/carreras.csv');
-        
-        if (!file_exists($csvPath)) {
-            $this->command->error('CSV file not found: ' . $csvPath);
+
+        if (! file_exists($csvPath)) {
+            $this->command->error('CSV file not found: '.$csvPath);
+
             return;
         }
 
         DB::transaction(function () use ($csvPath) {
             $handle = fopen($csvPath, 'r');
-            
+
             if ($handle === false) {
                 throw new \Exception('Could not open CSV file');
             }
 
             $header = fgetcsv($handle);
-            
+
             if ($header === false) {
                 throw new \Exception('Could not read CSV header');
             }
 
             // Remove BOM if present
-            $header = array_map(function($value) {
+            $header = array_map(function ($value) {
                 return str_replace("\xEF\xBB\xBF", '', $value);
             }, $header);
-            
-            if (!in_array('id_programa', $header) || !in_array('programa', $header) || !in_array('id_facultad', $header)) {
-                throw new \Exception('Invalid CSV header format. Expected: id_programa, programa, id_facultad. Found: ' . implode(', ', $header));
+
+            if (! in_array('id_programa', $header) || ! in_array('programa', $header) || ! in_array('id_facultad', $header)) {
+                throw new \Exception('Invalid CSV header format. Expected: id_programa, programa, id_facultad. Found: '.implode(', ', $header));
             }
 
             $idIndex = array_search('id_programa', $header);
@@ -58,13 +59,15 @@ class CarreraSeeder extends Seeder
 
                 if (empty($idPrograma) || empty($programa)) {
                     $skippedCount++;
+
                     continue;
                 }
 
                 $facultad = Facultad::find($idFacultad);
-                if (!$facultad) {
+                if (! $facultad) {
                     $this->command->warn("Faculty not found for ID: {$idFacultad} (Program: {$programa})");
                     $skippedCount++;
+
                     continue;
                 }
 
@@ -72,7 +75,7 @@ class CarreraSeeder extends Seeder
                     ['id' => $idPrograma],
                     [
                         'programa' => $programa,
-                        'facultad_id' => $idFacultad
+                        'facultad_id' => $idFacultad,
                     ]
                 );
 
@@ -80,7 +83,7 @@ class CarreraSeeder extends Seeder
             }
 
             fclose($handle);
-            
+
             $this->command->info("Carreras seeded successfully from CSV backup. Processed: {$processedCount}, Skipped: {$skippedCount}");
         });
     }

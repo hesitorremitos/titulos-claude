@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Persona extends Model
 {
     protected $table = 'personas';
+
     protected $primaryKey = 'ci';
+
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected $fillable = [
@@ -22,11 +25,11 @@ class Persona extends Model
         'pais',
         'departamento',
         'provincia',
-        'localidad'
+        'localidad',
     ];
 
     protected $casts = [
-        'fecha_nacimiento' => 'date'
+        'fecha_nacimiento' => 'date',
     ];
 
     public function diplomasAcademicos(): HasMany
@@ -37,6 +40,7 @@ class Persona extends Model
     public function getNombreCompletoAttribute(): string
     {
         $nombres = [$this->nombres, $this->paterno, $this->materno];
+
         return implode(' ', array_filter($nombres));
     }
 }

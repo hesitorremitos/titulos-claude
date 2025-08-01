@@ -10,7 +10,7 @@ class GraduacionDa extends Model
     protected $table = 'graduacion_da';
 
     protected $fillable = [
-        'medio_graduacion'
+        'medio_graduacion',
     ];
 
     public function diplomasAcademicos(): HasMany

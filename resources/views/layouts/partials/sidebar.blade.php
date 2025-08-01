@@ -35,6 +35,21 @@
                     @endcan
                 </x-sidebar-section>
 
+                <!-- Sección: Títulos -->
+                @canany(['ver-titulos'])
+                <x-sidebar-section title="Títulos">
+                    @can('ver-titulos')
+                    <x-sidebar-link 
+                        href="{{ route('diplomas.index') }}" 
+                        icon="mdi--certificate"
+                        :active="request()->routeIs('diplomas.*')"
+                    >
+                        Diplomas Académicos
+                    </x-sidebar-link>
+                    @endcan
+                </x-sidebar-section>
+                @endcanany
+
                 <!-- Sección: Administración -->
                 @canany(['ver-usuarios'])
                 <x-sidebar-section title="Administración">
@@ -105,6 +120,22 @@
                         </x-sidebar-link>
                         @endcan
                     </x-sidebar-section>
+
+                    <!-- Sección: Títulos -->
+                    @canany(['ver-titulos'])
+                    <x-sidebar-section title="Títulos">
+                        @can('ver-titulos')
+                        <x-sidebar-link 
+                            href="{{ route('diplomas.index') }}" 
+                            icon="mdi--certificate"
+                            :active="request()->routeIs('diplomas.*')"
+                            :mobile="true"
+                        >
+                            Diplomas Académicos
+                        </x-sidebar-link>
+                        @endcan
+                    </x-sidebar-section>
+                    @endcanany
 
                     <!-- Sección: Administración -->
                     @canany(['ver-usuarios'])

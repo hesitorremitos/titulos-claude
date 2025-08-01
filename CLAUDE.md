@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a Laravel 12 application for digitalizing academic titles for the Universidad Autónoma Tomás Frías (UATF) Department of Titles in Potosí, Bolivia. The system replaces manual physical file management with a digital system for registering, searching, and managing academic titles.
 
 **Target Title Types:**
-- Academic Diplomas (Diplomas Académicos)
+- Academic Diplomas (Diplomas Académicos)  
 - Professional Titles (Títulos Profesionales) 
 - High School Diplomas (Diplomas de Bachiller)
 
@@ -36,6 +36,8 @@ composer install        # Install PHP dependencies
 php artisan migrate          # Run database migrations
 php artisan migrate:fresh    # Drop all tables and re-run migrations
 php artisan migrate:refresh  # Rollback and re-run migrations
+php artisan db:seed          # Run database seeders
+php artisan migrate:fresh --seed  # Fresh migration with seeders
 ```
 
 ### Testing Commands
@@ -43,6 +45,7 @@ php artisan migrate:refresh  # Rollback and re-run migrations
 composer run test       # Run full test suite (clears config first)
 php artisan test        # Alternative test command
 ./vendor/bin/pest       # Direct Pest test runner
+./vendor/bin/pest --filter=TestName  # Run specific test
 ```
 
 ### Code Quality
@@ -136,3 +139,47 @@ php artisan test        # Alternative test command
 - `package.json`: Node.js dependencies for frontend build
 - `config/livewire.php`: Livewire configuration
 - `config/permission.php`: Spatie permission package configuration
+
+## Development Guidelines
+
+### Code Style and Patterns
+- Follow existing Laravel conventions and patterns observed in the codebase
+- Use Eloquent relationships consistently (seen in models like Carrera, Facultad)
+- Livewire components for reactive UI interactions (app/Livewire/)
+- Blade components for reusable UI elements (resources/views/components/)
+- Audit trail pattern: created_by, updated_by fields for traceability
+
+### File Naming Conventions
+- Controllers: PascalCase with Controller suffix (e.g., DiplomaAcademicoController)
+- Models: Singular PascalCase (e.g., DiplomaAcademico, Persona)
+- Migrations: Laravel timestamp format with descriptive names
+- Views: snake_case matching controller actions
+- Livewire: PascalCase for class, kebab-case for view
+
+### Database Conventions
+- Primary keys: 'id' for auto-increment, 'ci' for personas (string)
+- Foreign keys: Follow Laravel naming (model_id)
+- Unique constraints on business logic fields (libro, fojas, nro_documento)
+- Soft deletes not implemented - uses hard deletes
+- CI (Carnet de Identidad) is the business identifier for people
+
+### CSV Data Import Structure
+- Faculty and career data available in database/csv/
+- Seeders use CSV files for initial data population
+- Import structure: FacultadSeeder, CarreraSeeder, etc.
+
+### Testing Environment
+- Uses in-memory SQLite database for tests (phpunit.xml configuration)
+- Pest testing framework with Laravel plugin
+- Test environment variables configured in phpunit.xml
+- Test database automatically uses `:memory:` SQLite for isolation
+
+## Memory Notes
+
+- Todos los requerimientos y los pasos que se van a ir haciendo, se estand documentando en `specs/`
+
+## important-instruction-reminders
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.

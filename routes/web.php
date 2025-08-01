@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarreraController;
+use App\Http\Controllers\DiplomaAcademicoController;
 use App\Http\Controllers\FacultadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -38,7 +39,7 @@ Route::middleware('auth')->group(function () {
 
         // Rutas de gestión (solo para usuarios con permisos)
         Route::middleware(['permission:crear-facultades'])->group(function () {
-            Route::get('/create', [FacultadController::class, 'create'])->name('create');
+            Route::get('create', [FacultadController::class, 'create'])->name('create');
             Route::post('/', [FacultadController::class, 'store'])->name('store');
         });
 
@@ -60,7 +61,7 @@ Route::middleware('auth')->group(function () {
 
         // Rutas de gestión (solo para usuarios con permisos)
         Route::middleware(['permission:crear-carreras'])->group(function () {
-            Route::get('/create', [CarreraController::class, 'create'])->name('create');
+            Route::get('create', [CarreraController::class, 'create'])->name('create');
             Route::post('/', [CarreraController::class, 'store'])->name('store');
         });
 
@@ -84,7 +85,7 @@ Route::middleware('auth')->group(function () {
 
         // Rutas de gestión (solo para usuarios con permisos específicos)
         Route::middleware(['permission:crear-usuarios'])->group(function () {
-            Route::get('/create', [UserController::class, 'create'])->name('create');
+            Route::get('create', [UserController::class, 'create'])->name('create');
             Route::post('/', [UserController::class, 'store'])->name('store');
         });
 
@@ -96,6 +97,26 @@ Route::middleware('auth')->group(function () {
 
         Route::middleware(['permission:eliminar-usuarios'])->group(function () {
             Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+        });
+    });
+
+    // Rutas de Diplomas Académicos
+    Route::prefix('diplomas')->name('diplomas.')->group(function () {
+        Route::middleware(['permission:ver-titulos'])->group(function () {
+            Route::get('/', [DiplomaAcademicoController::class, 'index'])->name('index');
+        });
+
+        Route::middleware(['permission:crear-titulos'])->group(function () {
+            Route::get('create', [DiplomaAcademicoController::class, 'create'])->name('create');
+        });
+
+        Route::middleware(['permission:ver-titulos'])->group(function () {
+            Route::get('/{diploma}', [DiplomaAcademicoController::class, 'show'])->name('show');
+            Route::get('/{diploma}/download', [DiplomaAcademicoController::class, 'downloadPdf'])->name('download');
+        });
+
+        Route::middleware(['permission:eliminar-titulos'])->group(function () {
+            Route::delete('/{diploma}', [DiplomaAcademicoController::class, 'destroy'])->name('destroy');
         });
     });
 });
