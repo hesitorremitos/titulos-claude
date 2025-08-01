@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             FacultadSeeder::class,
             CarreraSeeder::class,
+            GraduacionDaSeeder::class,
+            MencionDaSeeder::class,
         ]);
 
         // Usuarios y asignación de roles
