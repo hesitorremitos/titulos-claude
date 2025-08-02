@@ -12,8 +12,103 @@
                     Dashboard
                 </x-sidebar-link>
 
-                <!-- Sección: Catálogos -->
-                <x-sidebar-section title="Catálogos">
+                <!-- Sección: Títulos Académicos -->
+                @canany(['ver-titulos'])
+                <x-sidebar-section title="Títulos Académicos">
+                    @can('ver-titulos')
+                    <x-sidebar-link 
+                        href="{{ route('diplomas.index') }}" 
+                        icon="mdi--certificate"
+                        :active="request()->routeIs('diplomas.*')"
+                    >
+                        Diplomas Académicos ✓
+                    </x-sidebar-link>
+                    <x-sidebar-link 
+                        href="#" 
+                        icon="mdi--medal"
+                        :active="false"
+                        onclick="event.preventDefault(); alert('Esta funcionalidad estará disponible próximamente.');"
+                        class="opacity-60 cursor-not-allowed"
+                    >
+                        Títulos Profesionales <span class="text-xs text-orange-500">Próximo</span>
+                    </x-sidebar-link>
+                    <x-sidebar-link 
+                        href="#" 
+                        icon="mdi--school-outline"
+                        :active="false"
+                        onclick="event.preventDefault(); alert('Esta funcionalidad estará disponible próximamente.');"
+                        class="opacity-60 cursor-not-allowed"
+                    >
+                        Maestrías <span class="text-xs text-orange-500">Próximo</span>
+                    </x-sidebar-link>
+                    <x-sidebar-link 
+                        href="#" 
+                        icon="mdi--book-open-variant"
+                        :active="false"
+                        onclick="event.preventDefault(); alert('Esta funcionalidad estará disponible próximamente.');"
+                        class="opacity-60 cursor-not-allowed"
+                    >
+                        Doctorados <span class="text-xs text-orange-500">Próximo</span>
+                    </x-sidebar-link>
+                    @endcan
+                </x-sidebar-section>
+                @endcanany
+
+                <!-- Sección: Educación Secundaria -->
+                @canany(['ver-titulos'])
+                <x-sidebar-section title="Educación Secundaria">
+                    @can('ver-titulos')
+                    <x-sidebar-link 
+                        href="#" 
+                        icon="mdi--school-outline"
+                        :active="false"
+                        onclick="event.preventDefault(); alert('Esta funcionalidad estará disponible próximamente.');"
+                        class="opacity-60 cursor-not-allowed"
+                    >
+                        Diplomas de Bachiller <span class="text-xs text-orange-500">Próximo</span>
+                    </x-sidebar-link>
+                    @endcan
+                </x-sidebar-section>
+                @endcanany
+
+                <!-- Sección: Especializaciones -->
+                @canany(['ver-titulos'])
+                <x-sidebar-section title="Especializaciones">
+                    @can('ver-titulos')
+                    <x-sidebar-link 
+                        href="#" 
+                        icon="mdi--certificate"
+                        :active="false"
+                        onclick="event.preventDefault(); alert('Esta funcionalidad estará disponible próximamente.');"
+                        class="opacity-60 cursor-not-allowed"
+                    >
+                        Certificados de Especialización <span class="text-xs text-orange-500">Próximo</span>
+                    </x-sidebar-link>
+                    <x-sidebar-link 
+                        href="#" 
+                        icon="mdi--tools"
+                        :active="false"
+                        onclick="event.preventDefault(); alert('Esta funcionalidad estará disponible próximamente.');"
+                        class="opacity-60 cursor-not-allowed"
+                    >
+                        Técnico Superior <span class="text-xs text-orange-500">Próximo</span>
+                    </x-sidebar-link>
+                    <x-sidebar-link 
+                        href="#" 
+                        icon="mdi--bookmark"
+                        :active="false"
+                        onclick="event.preventDefault(); alert('Esta funcionalidad estará disponible próximamente.');"
+                        class="opacity-60 cursor-not-allowed"
+                    >
+                        Diplomados <span class="text-xs text-orange-500">Próximo</span>
+                    </x-sidebar-link>
+                    @endcan
+                </x-sidebar-section>
+                @endcanany
+
+                <!-- Sección: Administración -->
+                @canany(['ver-usuarios', 'ver-facultades', 'ver-carreras'])
+                <x-sidebar-section title="Administración">
                     @can('ver-facultades')
                     <x-sidebar-link 
                         href="{{ route('facultades.index') }}" 
@@ -33,26 +128,7 @@
                         Carreras
                     </x-sidebar-link>
                     @endcan
-                </x-sidebar-section>
 
-                <!-- Sección: Títulos -->
-                @canany(['ver-titulos'])
-                <x-sidebar-section title="Títulos">
-                    @can('ver-titulos')
-                    <x-sidebar-link 
-                        href="{{ route('diplomas.index') }}" 
-                        icon="mdi--certificate"
-                        :active="request()->routeIs('diplomas.*')"
-                    >
-                        Diplomas Académicos
-                    </x-sidebar-link>
-                    @endcan
-                </x-sidebar-section>
-                @endcanany
-
-                <!-- Sección: Administración -->
-                @canany(['ver-usuarios'])
-                <x-sidebar-section title="Administración">
                     @can('ver-usuarios')
                     <x-sidebar-link 
                         href="{{ route('usuarios.index') }}" 
@@ -96,8 +172,35 @@
                         Dashboard
                     </x-sidebar-link>
 
-                    <!-- Sección: Catálogos -->
-                    <x-sidebar-section title="Catálogos">
+                    <!-- Sección: Títulos Académicos -->
+                    @canany(['ver-titulos'])
+                    <x-sidebar-section title="Títulos Académicos">
+                        @can('ver-titulos')
+                        <x-sidebar-link 
+                            href="{{ route('diplomas.index') }}" 
+                            icon="mdi--certificate"
+                            :active="request()->routeIs('diplomas.*')"
+                            :mobile="true"
+                        >
+                            Diplomas Académicos ✓
+                        </x-sidebar-link>
+                        <x-sidebar-link 
+                            href="#" 
+                            icon="mdi--medal"
+                            :active="false"
+                            onclick="event.preventDefault(); alert('Esta funcionalidad estará disponible próximamente.');"
+                            class="opacity-60 cursor-not-allowed"
+                            :mobile="true"
+                        >
+                            Títulos Profesionales <span class="text-xs text-orange-500">Próximo</span>
+                        </x-sidebar-link>
+                        @endcan
+                    </x-sidebar-section>
+                    @endcanany
+
+                    <!-- Sección: Administración -->
+                    @canany(['ver-usuarios', 'ver-facultades', 'ver-carreras'])
+                    <x-sidebar-section title="Administración">
                         @can('ver-facultades')
                         <x-sidebar-link 
                             href="{{ route('facultades.index') }}" 
@@ -119,27 +222,7 @@
                             Carreras
                         </x-sidebar-link>
                         @endcan
-                    </x-sidebar-section>
 
-                    <!-- Sección: Títulos -->
-                    @canany(['ver-titulos'])
-                    <x-sidebar-section title="Títulos">
-                        @can('ver-titulos')
-                        <x-sidebar-link 
-                            href="{{ route('diplomas.index') }}" 
-                            icon="mdi--certificate"
-                            :active="request()->routeIs('diplomas.*')"
-                            :mobile="true"
-                        >
-                            Diplomas Académicos
-                        </x-sidebar-link>
-                        @endcan
-                    </x-sidebar-section>
-                    @endcanany
-
-                    <!-- Sección: Administración -->
-                    @canany(['ver-usuarios'])
-                    <x-sidebar-section title="Administración">
                         @can('ver-usuarios')
                         <x-sidebar-link 
                             href="{{ route('usuarios.index') }}" 
