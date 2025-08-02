@@ -218,7 +218,85 @@ php artisan test        # Alternative test command
 - Optimizadas consultas de base de datos
 - Implementado manejo robusto de errores
 
+## Índice de Archivos del Sistema
+
+### Migraciones Consolidadas
+- `database/migrations/2025_07_31_191902_create_diploma_academicos_table.php` - Migración consolidada que incluye graduacion_da, menciones_da y diploma_academicos
+
+### Modelos
+- `app/Models/DiplomaAcademico.php` - Modelo principal diplomas académicos
+- `app/Models/MencionDa.php` - Modelo menciones académicas
+- `app/Models/GraduacionDa.php` - Modelo modalidades graduación
+- `app/Models/Persona.php` - Modelo personas (CI como PK)
+- `app/Models/Carrera.php` - Modelo carreras académicas
+- `app/Models/Facultad.php` - Modelo facultades
+- `app/Models/User.php` - Modelo usuarios del sistema
+
+### Controllers
+- `app/Http/Controllers/DiplomaAcademicoController.php` - CRUD diplomas académicos
+
+### Livewire Components
+- `app/Livewire/DiplomaAcademicoFormComponent.php` - Componente principal formulario
+- `app/Livewire/Forms/DiplomaAcademicoForm.php` - Form class validación diplomas
+- `app/Livewire/Forms/PersonaForm.php` - Form class validación personas
+
+### Services
+- `app/Services/UniversityApiService.php` - Integración API universitaria
+- `app/Services/UserHelperService.php` - Helpers para usuarios
+
+### Seeders
+- `database/seeders/DatabaseSeeder.php` - Seeder principal
+- `database/seeders/GraduacionDaSeeder.php` - Modalidades graduación
+- `database/seeders/MencionDaSeeder.php` - Menciones académicas
+- `database/seeders/FacultadSeeder.php` - Facultades
+- `database/seeders/CarreraSeeder.php` - Carreras
+- `database/seeders/UserSeeder.php` - Usuarios sistema
+- `database/seeders/RoleSeeder.php` - Roles y permisos
+- `database/seeders/UserRoleSeeder.php` - Asignación roles
+
+### Views
+- `resources/views/diplomas/index.blade.php` - Lista diplomas
+- `resources/views/diplomas/create.blade.php` - Crear diploma
+- `resources/views/diplomas/show.blade.php` - Ver diploma
+- `resources/views/components/primary-button.blade.php` - Botón primario
+- `resources/views/components/secondary-button.blade.php` - Botón secundario
+
+### CSV Data
+- `database/csv/graduacion_da.csv` - 32 modalidades graduación
+- `database/csv/menciones_da.csv` - 73 menciones académicas
+- `database/csv/facultades.csv` - Facultades UATF
+- `database/csv/carreras.csv` - 77 carreras académicas
+
+## Mantenimiento Automático del Índice
+
+**REGLA CRÍTICA**: Cada vez que se realice cualquier cambio en la estructura de archivos, AUTOMÁTICAMENTE actualizar el "Índice de Archivos del Sistema" en este mismo archivo CLAUDE.md:
+
+### Casos que requieren actualización del índice:
+1. **Crear nuevos archivos** (modelos, controllers, views, migraciones, etc.)
+2. **Eliminar archivos existentes** 
+3. **Mover/renombrar archivos**
+4. **Crear nuevas carpetas** o reorganizar estructura
+5. **Agregar nuevos seeders, services, components**
+
+### Proceso automático:
+1. Realizar el cambio solicitado
+2. INMEDIATAMENTE después, actualizar la sección "Índice de Archivos del Sistema"
+3. Agregar/eliminar/modificar las rutas correspondientes
+4. Incluir descripción funcional del archivo
+5. Mantener organización por categorías
+
+### Beneficios:
+- ✅ Acceso directo sin búsquedas repetitivas
+- ✅ Contexto inmediato de cada archivo
+- ✅ Índice siempre actualizado y confiable
+- ✅ Eficiencia máxima en desarrollo
+
 ## important-instruction-reminders
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
+# important-instruction-reminders
 Do what has been asked; nothing more, nothing less.
 NEVER create files unless they're absolutely necessary for achieving your goal.
 ALWAYS prefer editing an existing file to creating a new one.

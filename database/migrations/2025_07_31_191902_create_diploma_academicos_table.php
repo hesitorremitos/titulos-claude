@@ -11,6 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Crear tabla de modalidades de graduación
+        Schema::create('graduacion_da', function (Blueprint $table) {
+            $table->id();
+            $table->string('medio_graduacion');
+            $table->timestamps();
+        });
+
+        // Crear tabla de menciones
+        Schema::create('menciones_da', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->char('carrera_id', 5);
+            $table->foreign('carrera_id')->references('id')->on('carreras');
+            $table->timestamps();
+        });
+
+        // Crear tabla principal de diplomas académicos
         Schema::create('diploma_academicos', function (Blueprint $table) {
             $table->id();
             $table->string('ci');
@@ -42,5 +59,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('diploma_academicos');
+        Schema::dropIfExists('menciones_da');
+        Schema::dropIfExists('graduacion_da');
     }
 };
