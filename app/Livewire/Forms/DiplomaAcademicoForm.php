@@ -26,6 +26,10 @@ class DiplomaAcademicoForm extends Form
 
     public $pdfFile = null;
 
+    // Campos para manejo de archivo desde PDF upload
+    public ?string $tempFilePath = null;
+    public ?string $originalFileName = null;
+
     // Campos de cache para opciones
     public array $menciones = [];
 
@@ -129,6 +133,13 @@ class DiplomaAcademicoForm extends Form
             $filename = 'diploma_'.$ci.'_'.time().'.pdf';
             $path = $this->pdfFile->storeAs('diplomas/academicos', $filename, 'public');
             $diplomaData['file_dir'] = $path;
+        } elseif ($this->tempFilePath) {
+            // Mover archivo temporal al directorio final
+            $filename = 'diploma_'.$ci.'_'.time().'.pdf';
+            $finalPath = 'diplomas/academicos/'.$filename;
+            
+            \Storage::disk('public')->move($this->tempFilePath, $finalPath);
+            $diplomaData['file_dir'] = $finalPath;
         }
 
         return DiplomaAcademico::create($diplomaData);
@@ -144,5 +155,7 @@ class DiplomaAcademicoForm extends Form
         $this->graduacion_id = null;
         $this->observaciones = '';
         $this->pdfFile = null;
+        $this->tempFilePath = null;
+        $this->originalFileName = null;
     }
 }

@@ -62,54 +62,94 @@
                 <p class="text-blue-100 text-sm mt-1">Busca en el sistema universitario o registra manualmente</p>
             </div>
 
-            <div class="p-6">
-                <!-- Búsqueda por CI -->
-                <div class="mb-6">
-                    <label for="searchCi" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Cédula de Identidad
-                    </label>
-                    <div class="flex space-x-3">
-                        <div class="flex-1 relative">
-                            <input 
-                                type="text" 
-                                id="searchCi"
-                                wire:model="searchCi"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white {{ $isSearching ? 'bg-gray-100 dark:bg-gray-600' : '' }}"
-                                placeholder="Ej: 8631891"
+            <div class="p-6 space-y-8">
+                <!-- Sección 1: Búsqueda por CI -->
+                <div class="border border-blue-200 dark:border-blue-600 rounded-lg p-4 bg-blue-50 dark:bg-blue-900/20">
+                    <h4 class="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        Opción 1: Búsqueda por Cédula de Identidad
+                    </h4>
+                    <p class="text-blue-800 dark:text-blue-200 text-sm mb-4">
+                        Busca automáticamente los datos del estudiante en el sistema universitario
+                    </p>
+                    
+                    <div class="mb-6">
+                        <label for="searchCi" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Cédula de Identidad
+                        </label>
+                        <div class="flex space-x-3">
+                            <div class="flex-1 relative">
+                                <input 
+                                    type="text" 
+                                    id="searchCi"
+                                    wire:model="searchCi"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white {{ $isSearching ? 'bg-gray-100 dark:bg-gray-600' : '' }}"
+                                    placeholder="Ej: 8631891"
+                                    {{ $isSearching ? 'disabled' : '' }}
+                                >
+                                @if($isSearching)
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                                        <svg class="animate-spin h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    </div>
+                                @endif
+                                @error('searchCi') 
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <button 
+                                type="button"
+                                wire:click="searchPersonInApi"
+                                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center transition-all duration-200"
                                 {{ $isSearching ? 'disabled' : '' }}
                             >
-                            @if($isSearching)
-                                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-                                    <svg class="animate-spin h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                @if($isSearching)
+                                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                </div>
-                            @endif
-                            @error('searchCi') 
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
+                                    Buscando...
+                                @else
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                    Buscar
+                                @endif
+                            </button>
                         </div>
-                        <button 
-                            type="button"
-                            wire:click="searchPersonInApi"
-                            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center transition-all duration-200"
-                            {{ $isSearching ? 'disabled' : '' }}
-                        >
-                            @if($isSearching)
-                                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Buscando...
-                            @else
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                </svg>
-                                Buscar
-                            @endif
-                        </button>
                     </div>
+                </div>
+
+                <!-- Divisor -->
+                <div class="text-center">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-4 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 font-medium">O</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 2: Subida de PDF -->
+                <div class="border border-green-200 dark:border-green-600 rounded-lg p-4 bg-green-50 dark:bg-green-900/20">
+                    <h4 class="text-lg font-semibold text-green-900 dark:text-green-100 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        Opción 2: Subida Automática de PDF
+                    </h4>
+                    <p class="text-green-800 dark:text-green-200 text-sm mb-4">
+                        Sube un archivo PDF con formato: <code class="bg-green-100 dark:bg-green-800 px-2 py-1 rounded text-xs">[CI]-[nombre completo].pdf</code>
+                        <br>El sistema extraerá automáticamente el CI y buscará los datos del estudiante
+                    </p>
+                    
+                    @livewire('pdf-auto-upload-form')
                 </div>
 
                 <!-- Indicador de carga visible -->
@@ -592,35 +632,69 @@
                             </svg>
                             Archivo PDF del Diploma
                         </h5>
-                        <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
-                            <input 
-                                type="file" 
-                                wire:model="diplomaForm.pdfFile"
-                                accept=".pdf"
-                                class="hidden"
-                                id="pdfUpload"
-                            >
-                            <label for="pdfUpload" class="cursor-pointer">
-                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                <div class="mt-4">
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">
-                                        <span class="font-medium text-blue-600 hover:text-blue-500">Haz clic para subir</span>
-                                        o arrastra el archivo aquí
-                                    </p>
-                                    <p class="text-xs text-gray-500">PDF hasta 50MB</p>
+
+                        @if($diplomaForm->tempFilePath && $diplomaForm->originalFileName)
+                            <!-- Archivo ya subido desde paso 1 -->
+                            <div class="border-2 border-green-300 dark:border-green-600 rounded-lg p-6 bg-green-50 dark:bg-green-900/20">
+                                <div class="flex items-center justify-center space-x-3">
+                                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div class="text-center">
+                                        <p class="text-sm font-medium text-green-800 dark:text-green-200">
+                                            ✅ Archivo PDF ya subido en paso anterior
+                                        </p>
+                                        <p class="text-xs text-green-700 dark:text-green-300">
+                                            {{ $diplomaForm->originalFileName }}
+                                        </p>
+                                        <p class="text-xs text-green-600 dark:text-green-400 mt-1">
+                                            El archivo se asociará automáticamente al diploma al guardar
+                                        </p>
+                                    </div>
                                 </div>
-                            </label>
-                            
-                            @if($diplomaForm->pdfFile)
-                                <div class="mt-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                                    <p class="text-sm text-green-700 dark:text-green-300">
-                                        Archivo seleccionado: {{ $diplomaForm->pdfFile->getClientOriginalName() }}
-                                    </p>
+                            </div>
+                        @elseif($diplomaForm->pdfFile)
+                            <!-- Archivo subido manualmente en paso 2 -->
+                            <div class="border-2 border-blue-300 dark:border-blue-600 rounded-lg p-6 bg-blue-50 dark:bg-blue-900/20">
+                                <div class="flex items-center justify-center space-x-3">
+                                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <div class="text-center">
+                                        <p class="text-sm font-medium text-blue-800 dark:text-blue-200">
+                                            📄 Archivo PDF seleccionado
+                                        </p>
+                                        <p class="text-xs text-blue-700 dark:text-blue-300">
+                                            {{ $diplomaForm->pdfFile->getClientOriginalName() }}
+                                        </p>
+                                    </div>
                                 </div>
-                            @endif
-                        </div>
+                            </div>
+                        @else
+                            <!-- Área de upload manual -->
+                            <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
+                                <input 
+                                    type="file" 
+                                    wire:model="diplomaForm.pdfFile"
+                                    accept=".pdf"
+                                    class="hidden"
+                                    id="pdfUpload"
+                                >
+                                <label for="pdfUpload" class="cursor-pointer">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <div class="mt-4">
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                                            <span class="font-medium text-blue-600 hover:text-blue-500">Haz clic para subir</span>
+                                            o arrastra el archivo aquí
+                                        </p>
+                                        <p class="text-xs text-gray-500">PDF hasta 50MB (opcional)</p>
+                                    </div>
+                                </label>
+                            </div>
+                        @endif
+                        
                         @error('diplomaForm.pdfFile') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
                 </div>

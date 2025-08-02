@@ -236,8 +236,10 @@ php artisan test        # Alternative test command
 - `app/Http/Controllers/DiplomaAcademicoController.php` - CRUD diplomas académicos
 
 ### Livewire Components
-- `app/Livewire/DiplomaAcademicoFormComponent.php` - Componente principal formulario
-- `app/Livewire/Forms/DiplomaAcademicoForm.php` - Form class validación diplomas
+- `app/Livewire/DiplomaAcademicoFormComponent.php` - Componente principal formulario con 2 opciones de registro
+- `app/Livewire/PdfAutoUpload.php` - Componente subida automática PDF con extracción CI (index)
+- `app/Livewire/PdfAutoUploadForm.php` - Componente subida PDF para formulario registro con búsqueda API automática
+- `app/Livewire/Forms/DiplomaAcademicoForm.php` - Form class validación diplomas con manejo archivos temporales
 - `app/Livewire/Forms/PersonaForm.php` - Form class validación personas
 
 ### Services
@@ -255,9 +257,12 @@ php artisan test        # Alternative test command
 - `database/seeders/UserRoleSeeder.php` - Asignación roles
 
 ### Views
-- `resources/views/diplomas/index.blade.php` - Lista diplomas
+- `resources/views/diplomas/index.blade.php` - Lista diplomas (área subida PDF removida)
 - `resources/views/diplomas/create.blade.php` - Crear diploma
 - `resources/views/diplomas/show.blade.php` - Ver diploma
+- `resources/views/livewire/diploma-academico-form.blade.php` - Formulario registro con 2 opciones (API + PDF), paso 2 con manejo inteligente archivos
+- `resources/views/livewire/pdf-auto-upload.blade.php` - Vista componente subida automática PDF (index)
+- `resources/views/livewire/pdf-auto-upload-form.blade.php` - Vista componente subida PDF con drag & drop para formulario registro
 - `resources/views/components/primary-button.blade.php` - Botón primario
 - `resources/views/components/secondary-button.blade.php` - Botón secundario
 
@@ -269,27 +274,33 @@ php artisan test        # Alternative test command
 
 ## Mantenimiento Automático del Índice
 
-**REGLA CRÍTICA**: Cada vez que se realice cualquier cambio en la estructura de archivos, AUTOMÁTICAMENTE actualizar el "Índice de Archivos del Sistema" en este mismo archivo CLAUDE.md:
+**REGLA CRÍTICA ABSOLUTA**: Cada vez que se realice cualquier cambio en la estructura de archivos, **OBLIGATORIAMENTE** actualizar el "Índice de Archivos del Sistema" en este mismo archivo CLAUDE.md:
 
 ### Casos que requieren actualización del índice:
 1. **Crear nuevos archivos** (modelos, controllers, views, migraciones, etc.)
-2. **Eliminar archivos existentes** 
-3. **Mover/renombrar archivos**
-4. **Crear nuevas carpetas** o reorganizar estructura
-5. **Agregar nuevos seeders, services, components**
+2. **Modificar archivos existentes** con nuevas funcionalidades significativas
+3. **Eliminar archivos existentes** 
+4. **Mover/renombrar archivos**
+5. **Crear nuevas carpetas** o reorganizar estructura
+6. **Agregar nuevos seeders, services, components**
 
-### Proceso automático:
+### Proceso automático OBLIGATORIO:
 1. Realizar el cambio solicitado
-2. INMEDIATAMENTE después, actualizar la sección "Índice de Archivos del Sistema"
+2. **INMEDIATAMENTE después**, actualizar la sección "Índice de Archivos del Sistema"
 3. Agregar/eliminar/modificar las rutas correspondientes
-4. Incluir descripción funcional del archivo
+4. Incluir descripción funcional actualizada del archivo
 5. Mantener organización por categorías
+6. **NUNCA omitir este paso** - es tan importante como el cambio mismo
 
 ### Beneficios:
 - ✅ Acceso directo sin búsquedas repetitivas
 - ✅ Contexto inmediato de cada archivo
 - ✅ Índice siempre actualizado y confiable
 - ✅ Eficiencia máxima en desarrollo
+- ✅ Memoria del proyecto siempre sincronizada
+
+### **RECORDATORIO PERMANENTE**: 
+**"CREAR/MODIFICAR ARCHIVO = ACTUALIZAR ÍNDICE INMEDIATAMENTE"**
 
 ## important-instruction-reminders
 Do what has been asked; nothing more, nothing less.
