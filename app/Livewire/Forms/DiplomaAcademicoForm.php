@@ -28,6 +28,7 @@ class DiplomaAcademicoForm extends Form
 
     // Campos para manejo de archivo desde PDF upload
     public ?string $tempFilePath = null;
+
     public ?string $originalFileName = null;
 
     // Campos de cache para opciones
@@ -137,7 +138,7 @@ class DiplomaAcademicoForm extends Form
             // Mover archivo temporal al directorio final
             $filename = 'diploma_'.$ci.'_'.time().'.pdf';
             $finalPath = 'diplomas/academicos/'.$filename;
-            
+
             \Storage::disk('public')->move($this->tempFilePath, $finalPath);
             $diplomaData['file_dir'] = $finalPath;
         }

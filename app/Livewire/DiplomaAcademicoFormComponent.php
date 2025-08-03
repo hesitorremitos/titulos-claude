@@ -41,7 +41,7 @@ class DiplomaAcademicoFormComponent extends Component
     protected $listeners = [
         'carrera-selected' => 'handleCarreraSelected',
         'pdf-uploaded-with-success' => 'handlePdfUploadedWithSuccess',
-        'pdf-uploaded-manual-entry' => 'handlePdfUploadedManualEntry'
+        'pdf-uploaded-manual-entry' => 'handlePdfUploadedManualEntry',
     ];
 
     public function mount()
@@ -114,11 +114,11 @@ class DiplomaAcademicoFormComponent extends Component
         // Llenar datos desde PDF y API
         $this->searchCi = $data['ci'];
         $this->fillFromApiData($data['apiData']);
-        
+
         // Guardar información del archivo
         $this->diplomaForm->tempFilePath = $data['tempFilePath'];
         $this->diplomaForm->originalFileName = $data['originalFileName'];
-        
+
         $this->personFound = true;
         session()->flash('message', 'Datos cargados automáticamente desde PDF y API universitaria.');
     }
@@ -128,11 +128,11 @@ class DiplomaAcademicoFormComponent extends Component
         // Configurar para entrada manual
         $this->searchCi = $data['ci'];
         $this->personaForm->ci = $data['ci'];
-        
+
         // Guardar información del archivo
         $this->diplomaForm->tempFilePath = $data['tempFilePath'];
         $this->diplomaForm->originalFileName = $data['originalFileName'];
-        
+
         $this->personFound = false;
         session()->flash('message', 'CI extraído del PDF. Complete los datos personales manualmente.');
     }

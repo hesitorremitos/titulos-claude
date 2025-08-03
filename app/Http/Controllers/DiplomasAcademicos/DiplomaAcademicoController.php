@@ -52,26 +52,26 @@ class DiplomaAcademicoController extends Controller
 
         return view('diplomas.index', compact('diplomas'));
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
         $this->authorize('crear-titulos');
+
         return view('diplomas.create');
     }
-
 
     /**
      * Display the specified resource.
      */
     public function show(DiplomaAcademico $diploma)
     {
-        $diploma->load(['persona', 'mencion.carrera.facultad', 'graduacion', 'createdBy', 'updatedBy']);
+        $this->authorize('ver-titulos');
+        $this->checkDiplomaAccess($diploma);
 
-        // Control de acceso
-        $this->checkDiplomaAccess($diploma, 'ver');
+        $diploma->load(['persona', 'mencion.carrera.facultad', 'graduacion', 'createdBy', 'updatedBy']);
 
         return view('diplomas.show', compact('diploma'));
     }
@@ -81,11 +81,11 @@ class DiplomaAcademicoController extends Controller
      */
     public function destroy(DiplomaAcademico $diploma)
     {
-        // Control de acceso
-        $this->checkDiplomaAccess($diploma, 'eliminar');
+        $this->authorize('eliminar-titulos');
+        $this->checkDiplomaAccess($diploma);
 
         try {
-            // Eliminar archivo PDF si existe
+            // Delete associated file if exists
             if ($diploma->file_dir && Storage::disk('public')->exists($diploma->file_dir)) {
                 Storage::disk('public')->delete($diploma->file_dir);
             }
@@ -93,35 +93,38 @@ class DiplomaAcademicoController extends Controller
             $diploma->delete();
 
             return redirect()->route('diplomas.index')
-                ->with('success', 'Diploma académico eliminado exitosamente.');
+                ->with('success', 'Diploma eliminado exitosamente.');
         } catch (\Exception $e) {
-            return redirect()->route('diplomas.index')
-                ->with('error', 'Error al eliminar el diploma académico: '.$e->getMessage());
+            return redirect()->back()
+                ->with('error', 'Error al eliminar el diploma: '.$e->getMessage());
         }
     }
 
     /**
-     * Download PDF file
+     * Download the PDF file of the diploma.
      */
     public function downloadPdf(DiplomaAcademico $diploma)
     {
-        // Control de acceso
-        $this->checkDiplomaAccess($diploma, 'descargar');
+        $this->authorize('ver-titulos');
+        $this->checkDiplomaAccess($diploma);
 
-        if (! $diploma->file_dir || ! Storage::disk('public')->exists($diploma->file_dir)) {
-            abort(404, 'Archivo no encontrado.');
+        if (!$diploma->file_dir || !Storage::disk('public')->exists($diploma->file_dir)) {
+            return redirect()->back()->with('error', 'Archivo no encontrado.');
         }
 
-        return response()->download(Storage::disk('public')->path($diploma->file_dir));
+        $filePath = Storage::disk('public')->path($diploma->file_dir);
+        $fileName = "diploma_{$diploma->nro_documento}.pdf";
+
+        return response()->download($filePath, $fileName);
     }
 
     /**
-     * Check if user has access to the diploma
+     * Check diploma access permissions.
      */
-    private function checkDiplomaAccess(DiplomaAcademico $diploma, string $action = 'acceder'): void
+    private function checkDiplomaAccess(DiplomaAcademico $diploma): void
     {
         if (auth()->user()->hasRole('Personal') && $diploma->created_by !== auth()->id()) {
-            abort(403, "No tienes permisos para {$action} a este diploma académico.");
+            abort(403, 'No tienes permiso para acceder a este diploma.');
         }
     }
 }
