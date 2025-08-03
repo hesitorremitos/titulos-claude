@@ -226,8 +226,8 @@ php artisan test        # Alternative test command
 
 ### Modelos
 - `app/Models/DiplomaAcademico.php` - Modelo principal diplomas académicos
-- `app/Models/MencionDa.php` - Modelo menciones académicas
-- `app/Models/GraduacionDa.php` - Modelo modalidades graduación
+- `app/Models/MencionDa.php` - Modelo menciones académicas con relación diplomas()
+- `app/Models/GraduacionDa.php` - Modelo modalidades graduación con relación diplomas()
 - `app/Models/Persona.php` - Modelo personas (CI como PK)
 - `app/Models/Carrera.php` - Modelo carreras académicas
 - `app/Models/Facultad.php` - Modelo facultades
@@ -260,12 +260,15 @@ php artisan test        # Alternative test command
 - `database/seeders/UserRoleSeeder.php` - Asignación roles
 
 ### Views
-- `resources/views/diplomas/index.blade.php` - Vista principal con navegación Pills para subsecciones de Diplomas Académicos
-- `resources/views/diplomas/sections/lista.blade.php` - Sección lista diplomas con filtros y tabla
-- `resources/views/diplomas/sections/formulario.blade.php` - Sección formulario con componente Livewire
-- `resources/views/diplomas/sections/menciones.blade.php` - Sección gestión menciones con CRUD
-- `resources/views/diplomas/sections/modalidades.blade.php` - Sección gestión modalidades graduación con CRUD
-- `resources/views/diplomas/show.blade.php` - Ver diploma individual
+- `resources/views/components/diplomas/layout.blade.php` - Componente Blade sublayout unificado para Diplomas Académicos con navegación Pills integrada y título combinado
+- `resources/views/diplomas/index.blade.php` - Vista principal actualizada que usa el nuevo sublayout
+- `resources/views/diplomas/sections/lista.blade.php` - Sección lista diplomas con filtros y tabla (MVC clásico)
+- `resources/views/diplomas/sections/menciones.blade.php` - Sección gestión menciones con CRUD (MVC clásico)  
+- `resources/views/diplomas/sections/modalidades.blade.php` - Sección gestión modalidades graduación con CRUD (MVC clásico)
+- `resources/views/diplomas/show.blade.php` - Ver diploma individual actualizado con sublayout
+- `resources/views/diplomas/create.blade.php` - Formulario crear diploma actualizado con sublayout
+- `resources/views/diplomas/menciones.blade.php` - Vista wrapper para sección menciones que usa componente
+- `resources/views/diplomas/modalidades.blade.php` - Vista wrapper para sección modalidades que usa componente
 - `resources/views/livewire/diploma-academico-form.blade.php` - Formulario registro con 2 opciones (API + PDF), paso 2 con manejo inteligente archivos
 - `resources/views/livewire/menciones-crud.blade.php` - CRUD completo menciones con modal y validación integridad
 - `resources/views/livewire/modalidades-graduacion-crud.blade.php` - CRUD completo modalidades con modal y validación integridad

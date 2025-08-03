@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\DiplomasAcademicos;
 
 use App\Http\Controllers\Controller;
-use App\Models\GraduacionDa;
 use App\Models\DiplomaAcademico;
+use App\Models\GraduacionDa;
 use Illuminate\Http\Request;
 
 class ModalidadGraduacionController extends Controller
@@ -12,23 +12,15 @@ class ModalidadGraduacionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
         $this->authorize('ver-titulos');
-        
-        $query = GraduacionDa::query();
-        
-        if ($request->filled('search')) {
-            $query->where('nombre', 'like', '%' . $request->search . '%');
-        }
-        
-        if ($request->filled('activo')) {
-            $query->where('activo', $request->activo === '1');
-        }
-        
-        $modalidades = $query->orderBy('nombre')->paginate(15)->withQueryString();
-        
-        return view('diplomas.modalidades.index', compact('modalidades'));
+
+        $modalidades = GraduacionDa::withCount('diplomas')
+            ->orderBy('nombre')
+            ->paginate(15);
+
+        return view('diplomas.mod_grad.index', compact('modalidades'));
     }
 
     /**
@@ -37,8 +29,8 @@ class ModalidadGraduacionController extends Controller
     public function create()
     {
         $this->authorize('crear-titulos');
-        
-        return view('diplomas.modalidades.create');
+
+        return view('diplomas.mod_grad.create');
     }
 
     /**
@@ -47,102 +39,102 @@ class ModalidadGraduacionController extends Controller
     public function store(Request $request)
     {
         $this->authorize('crear-titulos');
-        
+
         $request->validate([
-            'nombre' => 'required|string|max:255|unique:graduacion_da,nombre',
-            'activo' => 'boolean'
+            'nombre' => 'required|string|max:255',
+            'medio_graduacion' => 'required|string|max:255',
         ]);
-        
+
         try {
             GraduacionDa::create([
                 'nombre' => $request->nombre,
-                'activo' => $request->boolean('activo', true)
+                'medio_graduacion' => $request->medio_graduacion,
             ]);
-            
+
             return redirect()->route('diplomas.modalidades.index')
-                ->with('success', 'Modalidad de graduación creada exitosamente.');
-                
+                ->with('success', 'Modalidad creada exitosamente.');
+
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Error al crear la modalidad de graduación: ' . $e->getMessage());
+                ->with('error', 'Error al crear la modalidad: '.$e->getMessage());
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(GraduacionDa $modalidad)
+    public function show(GraduacionDa $graduacion_da)
     {
         $this->authorize('ver-titulos');
-        
-        $diplomasCount = $modalidad->diplomaAcademicos()->count();
-        
-        return view('diplomas.modalidades.show', compact('modalidad', 'diplomasCount'));
+
+        $diplomasCount = $graduacion_da->diplomas()->count();
+        $modalidad = $graduacion_da; // Para mantener compatibilidad con vista
+
+        return view('diplomas.mod_grad.show', compact('modalidad', 'diplomasCount'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(GraduacionDa $modalidad)
+    public function edit(GraduacionDa $graduacion_da)
     {
         $this->authorize('editar-titulos');
-        
-        return view('diplomas.modalidades.edit', compact('modalidad'));
+        $modalidad = $graduacion_da; // Para mantener compatibilidad con vista
+
+        return view('diplomas.mod_grad.edit', compact('modalidad'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, GraduacionDa $modalidad)
+    public function update(Request $request, GraduacionDa $graduacion_da)
     {
         $this->authorize('editar-titulos');
-        
+
         $request->validate([
-            'nombre' => 'required|string|max:255|unique:graduacion_da,nombre,' . $modalidad->id,
-            'activo' => 'boolean'
+            'medio_graduacion' => 'required|string|max:255',
         ]);
-        
+
         try {
-            $modalidad->update([
-                'nombre' => $request->nombre,
-                'activo' => $request->boolean('activo', true)
+            $graduacion_da->update([
+                'medio_graduacion' => $request->medio_graduacion,
             ]);
-            
+
             return redirect()->route('diplomas.modalidades.index')
-                ->with('success', 'Modalidad de graduación actualizada exitosamente.');
-                
+                ->with('success', 'Modalidad actualizada exitosamente.');
+
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Error al actualizar la modalidad de graduación: ' . $e->getMessage());
+                ->with('error', 'Error al actualizar la modalidad: '.$e->getMessage());
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(GraduacionDa $modalidad)
+    public function destroy(GraduacionDa $graduacion_da)
     {
         $this->authorize('eliminar-titulos');
-        
+
         try {
             // Check referential integrity
-            $diplomasCount = DiplomaAcademico::where('graduacion_da_id', $modalidad->id)->count();
-            
+            $diplomasCount = $graduacion_da->diplomas()->count();
+
             if ($diplomasCount > 0) {
                 return redirect()->route('diplomas.modalidades.index')
-                    ->with('error', "No se puede eliminar la modalidad '{$modalidad->nombre}' porque está siendo utilizada por {$diplomasCount} diploma(s) académico(s).");
+                    ->with('error', "No se puede eliminar la modalidad '{$graduacion_da->nombre}' porque está siendo utilizada por {$diplomasCount} diploma(s) académico(s).");
             }
-            
-            $modalidad->delete();
-            
+
+            $graduacion_da->delete();
+
             return redirect()->route('diplomas.modalidades.index')
-                ->with('success', 'Modalidad de graduación eliminada exitosamente.');
-                
+                ->with('success', 'Modalidad eliminada exitosamente.');
+
         } catch (\Exception $e) {
             return redirect()->route('diplomas.modalidades.index')
-                ->with('error', 'Error al eliminar la modalidad de graduación: ' . $e->getMessage());
+                ->with('error', 'Error al eliminar la modalidad: '.$e->getMessage());
         }
     }
 }

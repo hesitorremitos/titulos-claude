@@ -105,61 +105,34 @@ Route::middleware('auth')->group(function () {
     // Rutas de Diplomas Académicos
     Route::prefix('diplomas')->name('diplomas.')->group(function () {
         // Rutas específicas ANTES de las rutas con parámetros
-        Route::middleware(['permission:crear-titulos'])->group(function () {
-            Route::get('/crear', [DiplomaAcademicoController::class, 'create'])->name('create');
-        });
+        Route::get('/crear', [DiplomaAcademicoController::class, 'create'])->name('create')->middleware('permission:crear-titulos');
 
         // Rutas de Menciones
-        Route::prefix('menciones')->name('menciones.')->middleware(['permission:ver-titulos'])->group(function () {
-            Route::get('/', [MencionController::class, 'index'])->name('index');
-            
-            Route::middleware(['permission:crear-titulos'])->group(function () {
-                Route::get('/crear', [MencionController::class, 'create'])->name('create');
-                Route::post('/', [MencionController::class, 'store'])->name('store');
-            });
-            
-            Route::get('/{mencion}', [MencionController::class, 'show'])->name('show');
-            
-            Route::middleware(['permission:editar-titulos'])->group(function () {
-                Route::get('/{mencion}/editar', [MencionController::class, 'edit'])->name('edit');
-                Route::put('/{mencion}', [MencionController::class, 'update'])->name('update');
-            });
-            
-            Route::middleware(['permission:eliminar-titulos'])->group(function () {
-                Route::delete('/{mencion}', [MencionController::class, 'destroy'])->name('destroy');
-            });
+        Route::prefix('menciones')->name('menciones.')->group(function () {
+            Route::get('/', [MencionController::class, 'index'])->name('index')->middleware('permission:ver-titulos');
+            Route::get('/crear', [MencionController::class, 'create'])->name('create')->middleware('permission:crear-titulos');
+            Route::post('/', [MencionController::class, 'store'])->name('store')->middleware('permission:crear-titulos');
+            Route::get('/{mencion}', [MencionController::class, 'show'])->name('show')->middleware('permission:ver-titulos');
+            Route::get('/{mencion}/editar', [MencionController::class, 'edit'])->name('edit')->middleware('permission:editar-titulos');
+            Route::put('/{mencion}', [MencionController::class, 'update'])->name('update')->middleware('permission:editar-titulos');
+            Route::delete('/{mencion}', [MencionController::class, 'destroy'])->name('destroy')->middleware('permission:eliminar-titulos');
         });
 
         // Rutas de Modalidades de Graduación
-        Route::prefix('modalidades')->name('modalidades.')->middleware(['permission:ver-titulos'])->group(function () {
-            Route::get('/', [ModalidadGraduacionController::class, 'index'])->name('index');
-            
-            Route::middleware(['permission:crear-titulos'])->group(function () {
-                Route::get('/crear', [ModalidadGraduacionController::class, 'create'])->name('create');
-                Route::post('/', [ModalidadGraduacionController::class, 'store'])->name('store');
-            });
-            
-            Route::get('/{modalidad}', [ModalidadGraduacionController::class, 'show'])->name('show');
-            
-            Route::middleware(['permission:editar-titulos'])->group(function () {
-                Route::get('/{modalidad}/editar', [ModalidadGraduacionController::class, 'edit'])->name('edit');
-                Route::put('/{modalidad}', [ModalidadGraduacionController::class, 'update'])->name('update');
-            });
-            
-            Route::middleware(['permission:eliminar-titulos'])->group(function () {
-                Route::delete('/{modalidad}', [ModalidadGraduacionController::class, 'destroy'])->name('destroy');
-            });
+        Route::prefix('modalidades')->name('modalidades.')->group(function () {
+            Route::get('/', [ModalidadGraduacionController::class, 'index'])->name('index')->middleware('permission:ver-titulos');
+            Route::get('/crear', [ModalidadGraduacionController::class, 'create'])->name('create')->middleware('permission:crear-titulos');
+            Route::post('/', [ModalidadGraduacionController::class, 'store'])->name('store')->middleware('permission:crear-titulos');
+            Route::get('/{graduacion_da}', [ModalidadGraduacionController::class, 'show'])->name('show')->middleware('permission:ver-titulos');
+            Route::get('/{graduacion_da}/editar', [ModalidadGraduacionController::class, 'edit'])->name('edit')->middleware('permission:editar-titulos');
+            Route::put('/{graduacion_da}', [ModalidadGraduacionController::class, 'update'])->name('update')->middleware('permission:editar-titulos');
+            Route::delete('/{graduacion_da}', [ModalidadGraduacionController::class, 'destroy'])->name('destroy')->middleware('permission:eliminar-titulos');
         });
 
         // Rutas principales de diplomas (AL FINAL para evitar conflictos)
-        Route::middleware(['permission:ver-titulos'])->group(function () {
-            Route::get('/', [DiplomaAcademicoController::class, 'index'])->name('index');
-            Route::get('/{diploma}', [DiplomaAcademicoController::class, 'show'])->name('show');
-            Route::get('/{diploma}/download', [DiplomaAcademicoController::class, 'downloadPdf'])->name('download');
-        });
-
-        Route::middleware(['permission:eliminar-titulos'])->group(function () {
-            Route::delete('/{diploma}', [DiplomaAcademicoController::class, 'destroy'])->name('destroy');
-        });
+        Route::get('/', [DiplomaAcademicoController::class, 'index'])->name('index')->middleware('permission:ver-titulos');
+        Route::get('/{diploma}', [DiplomaAcademicoController::class, 'show'])->name('show')->middleware('permission:ver-titulos');
+        Route::get('/{diploma}/download', [DiplomaAcademicoController::class, 'downloadPdf'])->name('download')->middleware('permission:ver-titulos');
+        Route::delete('/{diploma}', [DiplomaAcademicoController::class, 'destroy'])->name('destroy')->middleware('permission:eliminar-titulos');
     });
 });

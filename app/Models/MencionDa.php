@@ -13,11 +13,10 @@ class MencionDa extends Model
     protected $fillable = [
         'nombre',
         'carrera_id',
-        'activo',
     ];
-    
+
     protected $casts = [
-        'activo' => 'boolean',
+        //
     ];
 
     public function carrera(): BelongsTo
@@ -26,6 +25,11 @@ class MencionDa extends Model
     }
 
     public function diplomasAcademicos(): HasMany
+    {
+        return $this->hasMany(DiplomaAcademico::class, 'mencion_da_id');
+    }
+
+    public function diplomas(): HasMany
     {
         return $this->hasMany(DiplomaAcademico::class, 'mencion_da_id');
     }

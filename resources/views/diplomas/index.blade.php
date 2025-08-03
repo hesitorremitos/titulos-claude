@@ -16,48 +16,50 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Pills Navigation -->
-            <div class="mb-6">
-                <div class="border-b border-gray-200 dark:border-gray-700">
-                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                        <!-- Lista -->
-                        <a href="{{ route('diplomas.index') }}"
-                           class="@if(request()->routeIs('diplomas.index')) border-blue-500 text-blue-600 dark:text-blue-400 @else border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 @endif whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 inline-flex items-center"
-                           aria-current="@if(request()->routeIs('diplomas.index')) page @else false @endif">
-                            <span class="icon-[mdi--format-list-bulleted] w-5 h-5 mr-2"></span>
-                            Lista
-                        </a>
-                        
-                        <!-- Formulario -->
+            <!-- Quick Actions Card -->
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
+                <div class="p-6">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Accesos Rápidos</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        @can('ver-titulos')
+                            <a href="{{ route('diplomas.menciones.index') }}" 
+                               class="flex items-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
+                                <div class="flex-shrink-0">
+                                    <span class="icon-[mdi--medal] w-8 h-8 text-blue-600 dark:text-blue-400"></span>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100">Menciones Académicas</div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">Gestionar menciones por carrera</div>
+                                </div>
+                            </a>
+                        @endcan
+
+                        @can('ver-titulos')
+                            <a href="{{ route('diplomas.modalidades.index') }}" 
+                               class="flex items-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors">
+                                <div class="flex-shrink-0">
+                                    <span class="icon-[mdi--school] w-8 h-8 text-green-600 dark:text-green-400"></span>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100">Modalidades de Graduación</div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">Configurar tipos de graduación</div>
+                                </div>
+                            </a>
+                        @endcan
+
                         @can('crear-titulos')
-                        <a href="{{ route('diplomas.create') }}"
-                           class="@if(request()->routeIs('diplomas.create')) border-blue-500 text-blue-600 dark:text-blue-400 @else border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 @endif whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 inline-flex items-center"
-                           aria-current="@if(request()->routeIs('diplomas.create')) page @else false @endif">
-                            <span class="icon-[mdi--file-document-plus] w-5 h-5 mr-2"></span>
-                            Formulario
-                        </a>
+                            <a href="{{ route('diplomas.create') }}" 
+                               class="flex items-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors">
+                                <div class="flex-shrink-0">
+                                    <span class="icon-[mdi--file-document-plus] w-8 h-8 text-purple-600 dark:text-purple-400"></span>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100">Registrar Diploma</div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">Crear nuevo diploma académico</div>
+                                </div>
+                            </a>
                         @endcan
-                        
-                        <!-- Menciones -->
-                        @can('ver-titulos')
-                        <a href="{{ route('diplomas.menciones.index') }}"
-                           class="@if(request()->routeIs('diplomas.menciones.*')) border-blue-500 text-blue-600 dark:text-blue-400 @else border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 @endif whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 inline-flex items-center"
-                           aria-current="@if(request()->routeIs('diplomas.menciones.*')) page @else false @endif">
-                            <span class="icon-[mdi--medal] w-5 h-5 mr-2"></span>
-                            Menciones
-                        </a>
-                        @endcan
-                        
-                        <!-- Modalidades de Graduación -->
-                        @can('ver-titulos')
-                        <a href="{{ route('diplomas.modalidades.index') }}"
-                           class="@if(request()->routeIs('diplomas.modalidades.*')) border-blue-500 text-blue-600 dark:text-blue-400 @else border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 @endif whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 inline-flex items-center"
-                           aria-current="@if(request()->routeIs('diplomas.modalidades.*')) page @else false @endif">
-                            <span class="icon-[mdi--school] w-5 h-5 mr-2"></span>
-                            Mod. Graduación
-                        </a>
-                        @endcan
-                    </nav>
+                    </div>
                 </div>
             </div>
 

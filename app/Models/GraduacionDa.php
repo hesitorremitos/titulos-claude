@@ -11,15 +11,25 @@ class GraduacionDa extends Model
 
     protected $fillable = [
         'nombre',
-        'activo',
+        'medio_graduacion',
     ];
-    
+
     protected $casts = [
-        'activo' => 'boolean',
+        'medio_graduacion' => 'string',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
 
     public function diplomaAcademicos(): HasMany
     {
-        return $this->hasMany(DiplomaAcademico::class, 'graduacion_da_id');
+        return $this->hasMany(DiplomaAcademico::class, 'graduacion_id');
+    }
+
+    public function diplomas(): HasMany
+    {
+        return $this->hasMany(DiplomaAcademico::class, 'graduacion_id');
     }
 }
