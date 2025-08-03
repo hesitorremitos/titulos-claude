@@ -179,6 +179,7 @@ php artisan test        # Alternative test command
 ### Progreso del Proyecto
 - Todos los requerimientos y los pasos que se van a ir haciendo, se están documentando en `specs/`
 - **Paso 08 COMPLETADO**: Sistema CRUD de Diplomas Académicos implementado con integración API universitaria (specs/08-sistema-diplomas-academicos.md)
+- **Paso 09 COMPLETADO**: Mejoras UI - Sidebar Collapsible con Alpine.js y Persistencia (specs/09-mejoras-ui-sidebar-collapsible.md)
 - Sistema de usuarios y permisos completamente funcional
 - Base de datos con facultades, carreras y datos maestros implementados
 
@@ -233,12 +234,14 @@ php artisan test        # Alternative test command
 - `app/Models/User.php` - Modelo usuarios del sistema
 
 ### Controllers
-- `app/Http/Controllers/DiplomaAcademicoController.php` - CRUD diplomas académicos
+- `app/Http/Controllers/DiplomaAcademicoController.php` - CRUD diplomas académicos con sistema de navegación Pills (Lista, Formulario, Menciones, Modalidades)
 
 ### Livewire Components
 - `app/Livewire/DiplomaAcademicoFormComponent.php` - Componente principal formulario con 2 opciones de registro
 - `app/Livewire/PdfAutoUpload.php` - Componente subida automática PDF con extracción CI (index)
 - `app/Livewire/PdfAutoUploadForm.php` - Componente subida PDF para formulario registro con búsqueda API automática
+- `app/Livewire/MencionesCrud.php` - CRUD simple para gestión de menciones académicas con validación de integridad referencial
+- `app/Livewire/ModalidadesGraduacionCrud.php` - CRUD simple para modalidades de graduación con validación de integridad referencial
 - `app/Livewire/Forms/DiplomaAcademicoForm.php` - Form class validación diplomas con manejo archivos temporales
 - `app/Livewire/Forms/PersonaForm.php` - Form class validación personas
 
@@ -257,14 +260,20 @@ php artisan test        # Alternative test command
 - `database/seeders/UserRoleSeeder.php` - Asignación roles
 
 ### Views
-- `resources/views/diplomas/index.blade.php` - Lista diplomas (área subida PDF removida)
-- `resources/views/diplomas/create.blade.php` - Crear diploma
-- `resources/views/diplomas/show.blade.php` - Ver diploma
+- `resources/views/diplomas/index.blade.php` - Vista principal con navegación Pills para subsecciones de Diplomas Académicos
+- `resources/views/diplomas/sections/lista.blade.php` - Sección lista diplomas con filtros y tabla
+- `resources/views/diplomas/sections/formulario.blade.php` - Sección formulario con componente Livewire
+- `resources/views/diplomas/sections/menciones.blade.php` - Sección gestión menciones con CRUD
+- `resources/views/diplomas/sections/modalidades.blade.php` - Sección gestión modalidades graduación con CRUD
+- `resources/views/diplomas/show.blade.php` - Ver diploma individual
 - `resources/views/livewire/diploma-academico-form.blade.php` - Formulario registro con 2 opciones (API + PDF), paso 2 con manejo inteligente archivos
+- `resources/views/livewire/menciones-crud.blade.php` - CRUD completo menciones con modal y validación integridad
+- `resources/views/livewire/modalidades-graduacion-crud.blade.php` - CRUD completo modalidades con modal y validación integridad
 - `resources/views/livewire/pdf-auto-upload.blade.php` - Vista componente subida automática PDF (index)
 - `resources/views/livewire/pdf-auto-upload-form.blade.php` - Vista componente subida PDF con drag & drop para formulario registro
 - `resources/views/components/primary-button.blade.php` - Botón primario
 - `resources/views/components/secondary-button.blade.php` - Botón secundario
+- `resources/views/components/sidebar-section.blade.php` - Componente sidebar collapsible con Alpine.js y persistencia
 
 ### CSV Data
 - `database/csv/graduacion_da.csv` - 32 modalidades graduación
@@ -301,6 +310,47 @@ php artisan test        # Alternative test command
 
 ### **RECORDATORIO PERMANENTE**: 
 **"CREAR/MODIFICAR ARCHIVO = ACTUALIZAR ÍNDICE INMEDIATAMENTE"**
+
+## development-workflow-rules
+**REGLA CRÍTICA**: Antes de realizar cualquier cambio de código en el proyecto, SIEMPRE consultar la documentación actualizada de Context7 para:
+- Verificar mejores prácticas actuales de la tecnología a usar
+- Consultar patrones de implementación recomendados
+- Validar que el enfoque planteado es el más apropiado
+- Buscar ejemplos de código actualizados y optimizados
+
+### Flujo obligatorio para cambios de código:
+1. **Consultar Context7** para la tecnología específica (Laravel, Livewire, Alpine.js, Tailwind CSS, etc.)
+2. **Revisar mejores prácticas** y patrones recomendados
+3. **Implementar** siguiendo las prácticas documentadas
+4. **Validar** que el código sigue los estándares actuales
+
+Esta regla aplica especialmente para:
+- Componentes Livewire v3
+- Alpine.js con plugins 
+- Tailwind CSS v4
+- Integraciones Laravel
+- Patrones de arquitectura y diseño
+
+**Excepción**: Cambios menores de styling o correcciones obvias no requieren consulta previa.
+
+### Uso Restringido de Componentes Livewire
+**REGLA CRÍTICA**: Minimizar el uso de componentes Livewire y usar plantillas Blade normales siempre que sea posible.
+
+**Usar Livewire SOLO cuando:**
+- La sección requiere alta reactividad en tiempo real
+- Se necesita interactividad compleja sin recarga de página
+- Manejo de estados complejos que requieren sincronización servidor-cliente
+
+**Preferir Blade Templates para:**
+- Navegación estática y layouts
+- Listas y vistas de solo lectura
+- Formularios simples que pueden usar submit tradicional
+- Cualquier interfaz que no requiera reactividad inmediata
+
+**Patrón recomendado:**
+1. **Primera opción**: Controller + Blade templates
+2. **Segunda opción**: Livewire solo para secciones específicas reactivas
+3. **Evitar**: Livewire para navegación, layouts, o vistas estáticas
 
 ## important-instruction-reminders
 Do what has been asked; nothing more, nothing less.

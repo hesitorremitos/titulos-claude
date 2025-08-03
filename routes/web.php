@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarreraController;
-use App\Http\Controllers\DiplomaAcademicoController;
+use App\Http\Controllers\DiplomasAcademicos\DiplomaAcademicoController;
+use App\Http\Controllers\DiplomasAcademicos\MencionController;
+use App\Http\Controllers\DiplomasAcademicos\ModalidadGraduacionController;
 use App\Http\Controllers\FacultadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -102,15 +104,56 @@ Route::middleware('auth')->group(function () {
 
     // Rutas de Diplomas Académicos
     Route::prefix('diplomas')->name('diplomas.')->group(function () {
+        // Rutas específicas ANTES de las rutas con parámetros
+        Route::middleware(['permission:crear-titulos'])->group(function () {
+            Route::get('/crear', [DiplomaAcademicoController::class, 'create'])->name('create');
+        });
+
+        // Rutas de Menciones
+        Route::prefix('menciones')->name('menciones.')->middleware(['permission:ver-titulos'])->group(function () {
+            Route::get('/', [MencionController::class, 'index'])->name('index');
+            
+            Route::middleware(['permission:crear-titulos'])->group(function () {
+                Route::get('/crear', [MencionController::class, 'create'])->name('create');
+                Route::post('/', [MencionController::class, 'store'])->name('store');
+            });
+            
+            Route::get('/{mencion}', [MencionController::class, 'show'])->name('show');
+            
+            Route::middleware(['permission:editar-titulos'])->group(function () {
+                Route::get('/{mencion}/editar', [MencionController::class, 'edit'])->name('edit');
+                Route::put('/{mencion}', [MencionController::class, 'update'])->name('update');
+            });
+            
+            Route::middleware(['permission:eliminar-titulos'])->group(function () {
+                Route::delete('/{mencion}', [MencionController::class, 'destroy'])->name('destroy');
+            });
+        });
+
+        // Rutas de Modalidades de Graduación
+        Route::prefix('modalidades')->name('modalidades.')->middleware(['permission:ver-titulos'])->group(function () {
+            Route::get('/', [ModalidadGraduacionController::class, 'index'])->name('index');
+            
+            Route::middleware(['permission:crear-titulos'])->group(function () {
+                Route::get('/crear', [ModalidadGraduacionController::class, 'create'])->name('create');
+                Route::post('/', [ModalidadGraduacionController::class, 'store'])->name('store');
+            });
+            
+            Route::get('/{modalidad}', [ModalidadGraduacionController::class, 'show'])->name('show');
+            
+            Route::middleware(['permission:editar-titulos'])->group(function () {
+                Route::get('/{modalidad}/editar', [ModalidadGraduacionController::class, 'edit'])->name('edit');
+                Route::put('/{modalidad}', [ModalidadGraduacionController::class, 'update'])->name('update');
+            });
+            
+            Route::middleware(['permission:eliminar-titulos'])->group(function () {
+                Route::delete('/{modalidad}', [ModalidadGraduacionController::class, 'destroy'])->name('destroy');
+            });
+        });
+
+        // Rutas principales de diplomas (AL FINAL para evitar conflictos)
         Route::middleware(['permission:ver-titulos'])->group(function () {
             Route::get('/', [DiplomaAcademicoController::class, 'index'])->name('index');
-        });
-
-        Route::middleware(['permission:crear-titulos'])->group(function () {
-            Route::get('create', [DiplomaAcademicoController::class, 'create'])->name('create');
-        });
-
-        Route::middleware(['permission:ver-titulos'])->group(function () {
             Route::get('/{diploma}', [DiplomaAcademicoController::class, 'show'])->name('show');
             Route::get('/{diploma}/download', [DiplomaAcademicoController::class, 'downloadPdf'])->name('download');
         });

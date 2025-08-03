@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\DiplomasAcademicos;
 
+use App\Http\Controllers\Controller;
 use App\Models\DiplomaAcademico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -9,10 +10,12 @@ use Illuminate\Support\Facades\Storage;
 class DiplomaAcademicoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of diplomas.
      */
     public function index(Request $request)
     {
+        $this->authorize('ver-titulos');
+        
         $query = DiplomaAcademico::with(['persona', 'mencion.carrera.facultad', 'graduacion', 'createdBy']);
 
         // Filtros de búsqueda
@@ -49,14 +52,16 @@ class DiplomaAcademicoController extends Controller
 
         return view('diplomas.index', compact('diplomas'));
     }
-
+    
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
+        $this->authorize('crear-titulos');
         return view('diplomas.create');
     }
+
 
     /**
      * Display the specified resource.

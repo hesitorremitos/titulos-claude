@@ -5,15 +5,62 @@
                 {{ __('Diplomas Académicos') }}
             </h2>
             @can('crear-titulos')
-                <x-button href="{{ route('diplomas.create') }}" icon="icon-[mdi--plus]">
+                <a href="{{ route('diplomas.create') }}" 
+                   class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                    <span class="icon-[mdi--plus] w-4 h-4 mr-2"></span>
                     Nuevo Diploma
-                </x-button>
+                </a>
             @endcan
         </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <!-- Pills Navigation -->
+            <div class="mb-6">
+                <div class="border-b border-gray-200 dark:border-gray-700">
+                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                        <!-- Lista -->
+                        <a href="{{ route('diplomas.index') }}"
+                           class="@if(request()->routeIs('diplomas.index')) border-blue-500 text-blue-600 dark:text-blue-400 @else border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 @endif whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 inline-flex items-center"
+                           aria-current="@if(request()->routeIs('diplomas.index')) page @else false @endif">
+                            <span class="icon-[mdi--format-list-bulleted] w-5 h-5 mr-2"></span>
+                            Lista
+                        </a>
+                        
+                        <!-- Formulario -->
+                        @can('crear-titulos')
+                        <a href="{{ route('diplomas.create') }}"
+                           class="@if(request()->routeIs('diplomas.create')) border-blue-500 text-blue-600 dark:text-blue-400 @else border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 @endif whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 inline-flex items-center"
+                           aria-current="@if(request()->routeIs('diplomas.create')) page @else false @endif">
+                            <span class="icon-[mdi--file-document-plus] w-5 h-5 mr-2"></span>
+                            Formulario
+                        </a>
+                        @endcan
+                        
+                        <!-- Menciones -->
+                        @can('ver-titulos')
+                        <a href="{{ route('diplomas.menciones.index') }}"
+                           class="@if(request()->routeIs('diplomas.menciones.*')) border-blue-500 text-blue-600 dark:text-blue-400 @else border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 @endif whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 inline-flex items-center"
+                           aria-current="@if(request()->routeIs('diplomas.menciones.*')) page @else false @endif">
+                            <span class="icon-[mdi--medal] w-5 h-5 mr-2"></span>
+                            Menciones
+                        </a>
+                        @endcan
+                        
+                        <!-- Modalidades de Graduación -->
+                        @can('ver-titulos')
+                        <a href="{{ route('diplomas.modalidades.index') }}"
+                           class="@if(request()->routeIs('diplomas.modalidades.*')) border-blue-500 text-blue-600 dark:text-blue-400 @else border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 @endif whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 inline-flex items-center"
+                           aria-current="@if(request()->routeIs('diplomas.modalidades.*')) page @else false @endif">
+                            <span class="icon-[mdi--school] w-5 h-5 mr-2"></span>
+                            Mod. Graduación
+                        </a>
+                        @endcan
+                    </nav>
+                </div>
+            </div>
+
             <!-- Filtros de búsqueda -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6">
@@ -129,25 +176,28 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                                                 @can('ver-titulos')
-                                                    <x-button href="{{ route('diplomas.show', $diploma) }}" variant="secondary" size="sm">
+                                                    <a href="{{ route('diplomas.show', $diploma) }}" 
+                                                       class="inline-flex items-center px-3 py-1 border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition ease-in-out duration-150">
                                                         Ver
-                                                    </x-button>
+                                                    </a>
                                                 @endcan
                                                 
                                                 @if($diploma->file_dir)
-                                                    <x-button href="{{ route('diplomas.download', $diploma) }}" variant="outline" size="sm">
+                                                    <a href="{{ route('diplomas.download', $diploma) }}" 
+                                                       class="inline-flex items-center px-3 py-1 border border-gray-300 text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ease-in-out duration-150 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
                                                         PDF
-                                                    </x-button>
+                                                    </a>
                                                 @endif
                                                 
                                                 @can('eliminar-titulos')
                                                     @if(auth()->user()->hasRole('Administrador') || $diploma->created_by === auth()->id())
                                                         <form method="POST" action="{{ route('diplomas.destroy', $diploma) }}" class="inline">
                                                             @csrf @method('DELETE')
-                                                            <x-button variant="danger" size="sm" type="submit" 
-                                                                onclick="return confirm('¿Estás seguro de eliminar este diploma?')">
+                                                            <button type="submit" 
+                                                                    onclick="return confirm('¿Estás seguro de eliminar este diploma?')"
+                                                                    class="inline-flex items-center px-3 py-1 border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition ease-in-out duration-150">
                                                                 Eliminar
-                                                            </x-button>
+                                                            </button>
                                                         </form>
                                                     @endif
                                                 @endcan
@@ -170,9 +220,10 @@
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Comienza creando tu primer diploma académico.</p>
                             @can('crear-titulos')
                                 <div class="mt-6">
-                                    <x-button href="{{ route('diplomas.create') }}">
+                                    <a href="{{ route('diplomas.create') }}" 
+                                       class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                         Crear Diploma
-                                    </x-button>
+                                    </a>
                                 </div>
                             @endcan
                         </div>

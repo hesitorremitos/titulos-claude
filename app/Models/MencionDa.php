@@ -13,6 +13,11 @@ class MencionDa extends Model
     protected $fillable = [
         'nombre',
         'carrera_id',
+        'activo',
+    ];
+    
+    protected $casts = [
+        'activo' => 'boolean',
     ];
 
     public function carrera(): BelongsTo
