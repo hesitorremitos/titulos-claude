@@ -13,41 +13,6 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 
 ## Development Commands
 
-### Primary Development Workflow
-```bash
-# Start development environment (runs server, queue, and vite concurrently)
-composer run dev
-
-# Alternative individual commands:
-php artisan serve        # Start Laravel server
-php artisan queue:listen --tries=1  # Start queue worker
-npm run dev             # Start Vite development server
-```
-
-### Build and Asset Commands
-```bash
-npm run build           # Build production assets
-npm install             # Install Node.js dependencies
-composer install        # Install PHP dependencies
-```
-
-### Database Commands
-```bash
-php artisan migrate          # Run database migrations
-php artisan migrate:fresh    # Drop all tables and re-run migrations
-php artisan migrate:refresh  # Rollback and re-run migrations
-php artisan db:seed          # Run database seeders
-php artisan migrate:fresh --seed  # Fresh migration with seeders
-```
-
-### Testing Commands
-```bash
-composer run test       # Run full test suite (clears config first)
-php artisan test        # Alternative test command
-./vendor/bin/pest       # Direct Pest test runner
-./vendor/bin/pest --filter=TestName  # Run specific test
-```
-
 ### Code Quality
 ```bash
 ./vendor/bin/pint       # PHP code style fixer (Laravel Pint)
@@ -83,7 +48,7 @@ php artisan test        # Alternative test command
 - **Audit Trail:** Tracks who created/modified records and when
 
 ### External Integration
-- **University API:** `https://apititulos.uatf.edu.bo/api/datos?ru={ci}`
+- **University API:** `https://apititulos.uatf.edu.bo/api/datos?ru='{ci}'` (CI parameter must be enclosed in single quotes)
 - Used for auto-filling personal data during title registration
 - Returns array of academic records for given CI number
 
@@ -106,7 +71,6 @@ php artisan test        # Alternative test command
 - Uses Laragon (Windows development environment)
 - Git repository with main branch
 - Environment configured for SQLite database
-- Concurrent development setup via composer script
 
 ## Important Business Rules
 
@@ -127,11 +91,9 @@ php artisan test        # Alternative test command
 - "Digitalizado" (Digitalized): Has PDF file attached
 - "Pendiente de digitalización" (Pending digitalization): Registered without PDF (lost document cases)
 
-## Testing Considerations
-- Uses Pest PHP testing framework
-- In-memory SQLite database for tests
-- Test configuration in phpunit.xml
-- Tests located in tests/Feature/ and tests/Unit/
+## Development Environment
+- No testing framework implemented - testing is not required for this project
+- Manual execution and verification of functionality
 
 ## Key Configuration Files
 - `vite.config.js`: Vite build configuration with Tailwind CSS v4
@@ -168,11 +130,9 @@ php artisan test        # Alternative test command
 - Seeders use CSV files for initial data population
 - Import structure: FacultadSeeder, CarreraSeeder, etc.
 
-### Testing Environment
-- Uses in-memory SQLite database for tests (phpunit.xml configuration)
-- Pest testing framework with Laravel plugin
-- Test environment variables configured in phpunit.xml
-- Test database automatically uses `:memory:` SQLite for isolation
+### Project Environment
+- No testing environment configured - manual verification used
+- Development environment uses SQLite database
 
 ## Memory Notes
 
@@ -180,12 +140,13 @@ php artisan test        # Alternative test command
 - Todos los requerimientos y los pasos que se van a ir haciendo, se están documentando en `specs/`
 - **Paso 08 COMPLETADO**: Sistema CRUD de Diplomas Académicos implementado con integración API universitaria (specs/08-sistema-diplomas-academicos.md)
 - **Paso 09 COMPLETADO**: Mejoras UI - Sidebar Collapsible con Alpine.js y Persistencia (specs/09-mejoras-ui-sidebar-collapsible.md)
+- **Paso 10 COMPLETADO**: Subsecciones para Diplomas Académicos con arquitectura MVC limpia y layout unificado (specs/10-subsecciones-diplomas-academicos.md)
 - Sistema de usuarios y permisos completamente funcional
 - Base de datos con facultades, carreras y datos maestros implementados
 
 ### Sistema de Diplomas Académicos (Paso 08)
 - **Modelo principal**: DiplomaAcademico con relaciones a Persona, MencionDa, GraduacionDa, User
-- **API Externa**: https://apititulos.uatf.edu.bo/api/datos?ru={ci} (método POST por requerimientos internos UATF)
+- **API Externa**: https://apititulos.uatf.edu.bo/api/datos?ru='{ci}' (método POST, CI debe ir entre comillas simples)
 - **Componente Livewire**: DiplomaAcademicoFormComponent (renombrado para evitar colisión de nombres)
 - **Archivos implementados**:
   - Controllers: DiplomaAcademicoController
@@ -234,14 +195,14 @@ php artisan test        # Alternative test command
 - `app/Models/User.php` - Modelo usuarios del sistema
 
 ### Controllers
-- `app/Http/Controllers/DiplomaAcademicoController.php` - CRUD diplomas académicos con sistema de navegación Pills (Lista, Formulario, Menciones, Modalidades)
+- `app/Http/Controllers/DiplomasAcademicos/DiplomaAcademicoController.php` - CRUD principal diplomas académicos
+- `app/Http/Controllers/DiplomasAcademicos/MencionController.php` - CRUD completo menciones académicas (sin filtros)
+- `app/Http/Controllers/DiplomasAcademicos/ModalidadGraduacionController.php` - CRUD completo modalidades graduación (sin filtros)
 
 ### Livewire Components
 - `app/Livewire/DiplomaAcademicoFormComponent.php` - Componente principal formulario con 2 opciones de registro
 - `app/Livewire/PdfAutoUpload.php` - Componente subida automática PDF con extracción CI (index)
 - `app/Livewire/PdfAutoUploadForm.php` - Componente subida PDF para formulario registro con búsqueda API automática
-- `app/Livewire/MencionesCrud.php` - CRUD simple para gestión de menciones académicas con validación de integridad referencial
-- `app/Livewire/ModalidadesGraduacionCrud.php` - CRUD simple para modalidades de graduación con validación de integridad referencial
 - `app/Livewire/Forms/DiplomaAcademicoForm.php` - Form class validación diplomas con manejo archivos temporales
 - `app/Livewire/Forms/PersonaForm.php` - Form class validación personas
 
@@ -260,18 +221,19 @@ php artisan test        # Alternative test command
 - `database/seeders/UserRoleSeeder.php` - Asignación roles
 
 ### Views
-- `resources/views/components/diplomas/layout.blade.php` - Componente Blade sublayout unificado para Diplomas Académicos con navegación Pills integrada y título combinado
-- `resources/views/diplomas/index.blade.php` - Vista principal actualizada que usa el nuevo sublayout
-- `resources/views/diplomas/sections/lista.blade.php` - Sección lista diplomas con filtros y tabla (MVC clásico)
-- `resources/views/diplomas/sections/menciones.blade.php` - Sección gestión menciones con CRUD (MVC clásico)  
-- `resources/views/diplomas/sections/modalidades.blade.php` - Sección gestión modalidades graduación con CRUD (MVC clásico)
-- `resources/views/diplomas/show.blade.php` - Ver diploma individual actualizado con sublayout
-- `resources/views/diplomas/create.blade.php` - Formulario crear diploma actualizado con sublayout
-- `resources/views/diplomas/menciones.blade.php` - Vista wrapper para sección menciones que usa componente
-- `resources/views/diplomas/modalidades.blade.php` - Vista wrapper para sección modalidades que usa componente
-- `resources/views/livewire/diploma-academico-form.blade.php` - Formulario registro con 2 opciones (API + PDF), paso 2 con manejo inteligente archivos
-- `resources/views/livewire/menciones-crud.blade.php` - CRUD completo menciones con modal y validación integridad
-- `resources/views/livewire/modalidades-graduacion-crud.blade.php` - CRUD completo modalidades con modal y validación integridad
+- `resources/views/components/diplomas/layout.blade.php` - Layout unificado con navegación por tabs y título en una fila
+- `resources/views/diplomas/index.blade.php` - Vista principal con accesos rápidos a subsecciones
+- `resources/views/diplomas/create.blade.php` - Formulario creación diploma con layout unificado
+- `resources/views/diplomas/show.blade.php` - Ver diploma individual con layout unificado
+- `resources/views/diplomas/menciones/index.blade.php` - Lista menciones (sin filtros de búsqueda)
+- `resources/views/diplomas/menciones/create.blade.php` - Crear mención con layout unificado
+- `resources/views/diplomas/menciones/edit.blade.php` - Editar mención con layout unificado
+- `resources/views/diplomas/menciones/show.blade.php` - Ver mención con layout unificado
+- `resources/views/diplomas/mod_grad/index.blade.php` - Lista modalidades (sin filtros de búsqueda)
+- `resources/views/diplomas/mod_grad/create.blade.php` - Crear modalidad con layout unificado
+- `resources/views/diplomas/mod_grad/edit.blade.php` - Editar modalidad con layout unificado
+- `resources/views/diplomas/mod_grad/show.blade.php` - Ver modalidad con layout unificado
+- `resources/views/livewire/diploma-academico-form.blade.php` - Formulario registro con 2 opciones (API + PDF)
 - `resources/views/livewire/pdf-auto-upload.blade.php` - Vista componente subida automática PDF (index)
 - `resources/views/livewire/pdf-auto-upload-form.blade.php` - Vista componente subida PDF con drag & drop para formulario registro
 - `resources/views/components/primary-button.blade.php` - Botón primario
@@ -304,37 +266,15 @@ php artisan test        # Alternative test command
 5. Mantener organización por categorías
 6. **NUNCA omitir este paso** - es tan importante como el cambio mismo
 
-### Beneficios:
-- ✅ Acceso directo sin búsquedas repetitivas
-- ✅ Contexto inmediato de cada archivo
-- ✅ Índice siempre actualizado y confiable
-- ✅ Eficiencia máxima en desarrollo
-- ✅ Memoria del proyecto siempre sincronizada
+### Propósito:
+- Acceso directo sin búsquedas repetitivas
+- Contexto inmediato de cada archivo
+- Índice siempre actualizado y confiable
 
 ### **RECORDATORIO PERMANENTE**: 
 **"CREAR/MODIFICAR ARCHIVO = ACTUALIZAR ÍNDICE INMEDIATAMENTE"**
 
 ## development-workflow-rules
-**REGLA CRÍTICA**: Antes de realizar cualquier cambio de código en el proyecto, SIEMPRE consultar la documentación actualizada de Context7 para:
-- Verificar mejores prácticas actuales de la tecnología a usar
-- Consultar patrones de implementación recomendados
-- Validar que el enfoque planteado es el más apropiado
-- Buscar ejemplos de código actualizados y optimizados
-
-### Flujo obligatorio para cambios de código:
-1. **Consultar Context7** para la tecnología específica (Laravel, Livewire, Alpine.js, Tailwind CSS, etc.)
-2. **Revisar mejores prácticas** y patrones recomendados
-3. **Implementar** siguiendo las prácticas documentadas
-4. **Validar** que el código sigue los estándares actuales
-
-Esta regla aplica especialmente para:
-- Componentes Livewire v3
-- Alpine.js con plugins 
-- Tailwind CSS v4
-- Integraciones Laravel
-- Patrones de arquitectura y diseño
-
-**Excepción**: Cambios menores de styling o correcciones obvias no requieren consulta previa.
 
 ### Uso Restringido de Componentes Livewire
 **REGLA CRÍTICA**: Minimizar el uso de componentes Livewire y usar plantillas Blade normales siempre que sea posible.
@@ -355,11 +295,7 @@ Esta regla aplica especialmente para:
 2. **Segunda opción**: Livewire solo para secciones específicas reactivas
 3. **Evitar**: Livewire para navegación, layouts, o vistas estáticas
 
-## important-instruction-reminders
-Do what has been asked; nothing more, nothing less.
-NEVER create files unless they're absolutely necessary for achieving your goal.
-ALWAYS prefer editing an existing file to creating a new one.
-NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
+#NEVER use emojis or emoticons in code, views, or any project files. Keep all content professional and text-based only.
 # important-instruction-reminders
 Do what has been asked; nothing more, nothing less.
 NEVER create files unless they're absolutely necessary for achieving your goal.
