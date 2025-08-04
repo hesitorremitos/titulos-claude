@@ -198,6 +198,7 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `app/Http/Controllers/DiplomasAcademicos/DiplomaAcademicoController.php` - CRUD principal diplomas académicos
 - `app/Http/Controllers/DiplomasAcademicos/MencionController.php` - CRUD completo menciones académicas (sin filtros)
 - `app/Http/Controllers/DiplomasAcademicos/ModalidadGraduacionController.php` - CRUD completo modalidades graduación (sin filtros)
+- `app/Http/Controllers/StyleGuideController.php` - Controlador para la guía de estilos del sistema
 
 ### Livewire Components
 - `app/Livewire/DiplomaAcademicoFormComponent.php` - Componente principal formulario con 2 opciones de registro
@@ -236,9 +237,10 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `resources/views/livewire/diploma-academico-form.blade.php` - Formulario registro con 2 opciones (API + PDF)
 - `resources/views/livewire/pdf-auto-upload.blade.php` - Vista componente subida automática PDF (index)
 - `resources/views/livewire/pdf-auto-upload-form.blade.php` - Vista componente subida PDF con drag & drop para formulario registro
-- `resources/views/components/primary-button.blade.php` - Botón primario
-- `resources/views/components/secondary-button.blade.php` - Botón secundario
+- `resources/views/components/primary-button.blade.php` - Botón primario con colores primary actualizados
+- `resources/views/components/secondary-button.blade.php` - Botón secundario con focus ring consistente
 - `resources/views/components/sidebar-section.blade.php` - Componente sidebar collapsible con Alpine.js y persistencia
+- `resources/views/style-guide.blade.php` - Guía de estilos del sistema con componentes UI principales
 
 ### CSV Data
 - `database/csv/graduacion_da.csv` - 32 modalidades graduación
@@ -301,3 +303,8 @@ Do what has been asked; nothing more, nothing less.
 NEVER create files unless they're absolutely necessary for achieving your goal.
 ALWAYS prefer editing an existing file to creating a new one.
 NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
+
+## Recomendaciones Adicionales
+
+### Uso del MCP de Serena
+- **Recordar siempre usar el MCP de Serena en lo posible durante el desarrollo del sistema**
