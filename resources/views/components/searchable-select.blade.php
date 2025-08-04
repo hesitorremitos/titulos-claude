@@ -45,9 +45,9 @@
             :disabled="{{ $disabled ? 'true' : 'false' }}"
             class="relative w-full bg-white dark:bg-gray-700 border rounded-lg pl-3 pr-10 py-2.5 text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
             :class="{
-                'border-gray-300 dark:border-gray-600': !open && !error,
-                'border-primary-500 dark:border-primary-400': open && !error,
-                'border-red-500 dark:border-red-400': error,
+                'border-gray-300 dark:border-gray-600': !open && !{{ $error ? 'true' : 'false' }},
+                'border-primary-500 dark:border-primary-400': open && !{{ $error ? 'true' : 'false' }},
+                'border-red-500 dark:border-red-400': {{ $error ? 'true' : 'false' }},
                 'opacity-50 cursor-not-allowed': {{ $disabled ? 'true' : 'false' }}
             }">
             

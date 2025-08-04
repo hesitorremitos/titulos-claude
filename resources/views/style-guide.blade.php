@@ -38,7 +38,7 @@
         <nav class="bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between py-3">
-                    <div class="flex space-x-6 overflow-x-auto">
+                    <div class="flex space-x-6 flex-wrap gap-y-2">
                         <a href="#colors" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Colores</a>
                     <a href="#typography" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Tipografía</a>
                     <a href="#buttons" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Botones</a>
@@ -54,11 +54,14 @@
                     <a href="#feedback" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Feedback</a>
                     </div>
                     
-                    <!-- Dark Mode Toggle -->
-                    <button id="darkModeToggle" class="flex items-center px-3 py-1.5 bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors ml-4">
-                        <span id="darkModeIcon" class="icon-[mdi--weather-sunny] dark:icon-[mdi--weather-night] w-4 h-4 mr-1.5"></span>
-                        <span id="darkModeText" class="hidden sm:inline">Modo Oscuro</span>
-                    </button>
+                    <!-- Dark Mode Toggle with Alpine.js -->
+                    <div x-data="darkModeToggle()" class="ml-4">
+                        <button @click="toggle()" 
+                                class="flex items-center justify-center p-2 bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
+                                :aria-label="isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'">
+                            <span :class="isDark ? 'icon-[mdi--weather-night] w-5 h-5' : 'icon-[mdi--weather-sunny] w-5 h-5'" aria-hidden="true"></span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -348,31 +351,46 @@
                     <div>
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Campos de Texto</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <x-form-input 
-                                label="Nombre Completo" 
-                                name="nombre" 
-                                placeholder="Ingrese su nombre completo"
-                                required
-                            />
-                            <x-form-input 
-                                label="Carnet de Identidad" 
-                                name="ci" 
-                                placeholder="1234567 LP"
-                                icon="mdi--card-account-details"
-                            />
-                            <x-form-input 
-                                label="Email" 
-                                name="email" 
-                                type="email"
-                                placeholder="usuario@correo.com"
-                                icon="mdi--email"
-                            />
-                            <x-form-input 
-                                label="Campo con Error" 
-                                name="error_field" 
-                                value="Valor incorrecto"
-                                class="border-red-300 focus:border-red-500 focus:ring-red-500"
-                            />
+                            <div>
+                                <label for="nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Nombre Completo <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="nombre" name="nombre" 
+                                       placeholder="Ingrese su nombre completo"
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+                                       required>
+                            </div>
+                            <div>
+                                <label for="ci" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Carnet de Identidad
+                                </label>
+                                <div class="relative">
+                                    <span class="icon-[mdi--card-account-details] w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></span>
+                                    <input type="text" id="ci" name="ci" 
+                                           placeholder="1234567 LP"
+                                           class="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Email
+                                </label>
+                                <div class="relative">
+                                    <span class="icon-[mdi--email] w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></span>
+                                    <input type="email" id="email" name="email" 
+                                           placeholder="usuario@correo.com"
+                                           class="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="error_field" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Campo con Error
+                                </label>
+                                <input type="text" id="error_field" name="error_field" 
+                                       value="Valor incorrecto"
+                                       class="w-full px-3 py-2 border border-red-300 dark:border-red-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">Este campo contiene un error de validación</p>
+                            </div>
                         </div>
                     </div>
 
@@ -380,18 +398,30 @@
                     <div>
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Selectores</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <x-form-select label="Facultad" name="facultad" required>
-                                <option value="">Seleccione una facultad</option>
-                                <option value="1">Facultad de Ingeniería</option>
-                                <option value="2">Facultad de Ciencias Económicas</option>
-                                <option value="3">Facultad de Medicina</option>
-                            </x-form-select>
-                            <x-form-select label="Carrera" name="carrera">
-                                <option value="">Seleccione una carrera</option>
-                                <option value="1">Ingeniería de Sistemas</option>
-                                <option value="2">Ingeniería Civil</option>
-                                <option value="3">Ingeniería Industrial</option>
-                            </x-form-select>
+                            <div>
+                                <label for="facultad" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Facultad <span class="text-red-500">*</span>
+                                </label>
+                                <select id="facultad" name="facultad" required
+                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                                    <option value="">Seleccione una facultad</option>
+                                    <option value="1">Facultad de Ingeniería</option>
+                                    <option value="2">Facultad de Ciencias Económicas</option>
+                                    <option value="3">Facultad de Medicina</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="carrera" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Carrera
+                                </label>
+                                <select id="carrera" name="carrera"
+                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                                    <option value="">Seleccione una carrera</option>
+                                    <option value="1">Ingeniería de Sistemas</option>
+                                    <option value="2">Ingeniería Civil</option>
+                                    <option value="3">Ingeniería Industrial</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
@@ -439,70 +469,186 @@
                             </div>
 
                             <!-- Navegación del Sidebar -->
-                            <nav class="p-4 space-y-2">
-                                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Menú Principal</div>
-                                
-                                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300">
-                                    <span class="icon-[mdi--view-dashboard] w-5 h-5"></span>
-                                    <span class="text-sm font-medium">Dashboard</span>
-                                </a>
-                                
-                                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
-                                    <span class="icon-[mdi--school] w-5 h-5"></span>
-                                    <span class="text-sm">Diplomas Académicos</span>
-                                </a>
-                                
-                                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
-                                    <span class="icon-[mdi--certificate] w-5 h-5"></span>
-                                    <span class="text-sm">Títulos Profesionales</span>
-                                </a>
-                                
-                                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
-                                    <span class="icon-[mdi--account-school] w-5 h-5"></span>
-                                    <span class="text-sm">Bachiller</span>
-                                </a>
+                            <nav class="p-4 space-y-2" x-data="{ mainOpen: true, adminOpen: true }">
+                                <!-- Grupo: Menú Principal -->
+                                <div class="mb-4">
+                                    <button @click="mainOpen = !mainOpen" class="flex items-center w-full text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+                                        <span class="icon-[mdi--chevron-down] w-4 h-4 mr-1 transition-transform duration-200" :class="{ 'rotate-180': !mainOpen }"></span>
+                                        Menú Principal
+                                    </button>
+                                    
+                                    <div x-show="mainOpen" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="space-y-1">
+                                        <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300">
+                                            <span class="icon-[mdi--view-dashboard] w-5 h-5"></span>
+                                            <span class="text-sm font-medium">Dashboard</span>
+                                        </a>
+                                        
+                                        <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                                            <span class="icon-[mdi--school] w-5 h-5"></span>
+                                            <span class="text-sm">Diplomas Académicos</span>
+                                        </a>
+                                        
+                                        <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                                            <span class="icon-[mdi--certificate] w-5 h-5"></span>
+                                            <span class="text-sm">Títulos Profesionales</span>
+                                        </a>
+                                        
+                                        <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                                            <span class="icon-[mdi--account-school] w-5 h-5"></span>
+                                            <span class="text-sm">Bachiller</span>
+                                        </a>
+                                    </div>
+                                </div>
 
-                                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 mt-6">Administración</div>
-                                
-                                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
-                                    <span class="icon-[mdi--account-multiple] w-5 h-5"></span>
-                                    <span class="text-sm">Usuarios</span>
-                                </a>
-                                
-                                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
-                                    <span class="icon-[mdi--cog] w-5 h-5"></span>
-                                    <span class="text-sm">Configuración</span>
-                                </a>
+                                <!-- Grupo: Administración -->
+                                <div class="mb-4">
+                                    <button @click="adminOpen = !adminOpen" class="flex items-center w-full text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+                                        <span class="icon-[mdi--chevron-down] w-4 h-4 mr-1 transition-transform duration-200" :class="{ 'rotate-180': !adminOpen }"></span>
+                                        Administración
+                                    </button>
+                                    
+                                    <div x-show="adminOpen" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="space-y-1">
+                                        <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                                            <span class="icon-[mdi--account-multiple] w-5 h-5"></span>
+                                            <span class="text-sm">Usuarios</span>
+                                        </a>
+                                        
+                                        <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                                            <span class="icon-[mdi--cog] w-5 h-5"></span>
+                                            <span class="text-sm">Configuración</span>
+                                        </a>
+                                    </div>
+                                </div>
                             </nav>
                         </aside>
 
                         <!-- Contenido Principal -->
                         <div class="flex-1 flex flex-col overflow-hidden">
                             <!-- Header -->
-                            <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h1 class="text-xl font-semibold text-gray-900 dark:text-white">Dashboard</h1>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400">Sistema de Gestión de Títulos Académicos</p>
-                                    </div>
-                                    <div class="flex items-center space-x-4">
-                                        <!-- Notificaciones -->
-                                        <button class="relative p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
-                                            <span class="icon-[mdi--bell] w-5 h-5"></span>
-                                            <span class="absolute top-1 right-1 w-2 h-2 bg-primary-500 rounded-full"></span>
-                                        </button>
-                                        
-                                        <!-- Usuario -->
-                                        <div class="flex items-center space-x-3">
-                                            <div class="w-8 h-8 bg-secondary-500 rounded-full flex items-center justify-center">
-                                                <span class="icon-[mdi--account] w-5 h-5 text-white"></span>
-                                            </div>
-                                            <div class="text-sm">
-                                                <p class="font-medium text-gray-900 dark:text-white">Juan Pérez</p>
-                                                <p class="text-gray-500 dark:text-gray-400">Administrador</p>
+                            <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                                <!-- Top Navigation Bar -->
+                                <div class="px-6 py-4">
+                                    <div class="flex items-center justify-between">
+                                        <!-- Page Title and Description -->
+                                        <div class="flex-1 min-w-0">
+                                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Diplomas Académicos</h1>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Gestión de títulos académicos universitarios</p>
+                                        </div>
+
+                                        <!-- User Actions -->
+                                        <div class="flex items-center space-x-4">
+                                            <!-- Notificaciones -->
+                                            <button class="relative p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                                <span class="icon-[mdi--bell] w-5 h-5"></span>
+                                                <span class="absolute top-1 right-1 w-2 h-2 bg-primary-500 rounded-full"></span>
+                                            </button>
+                                            
+                                            <!-- Usuario Profile Dropdown -->
+                                            <div x-data="{ menuIsOpen: false }" x-on:keydown.esc.window="menuIsOpen = false" class="relative">
+                                                <button 
+                                                    type="button" 
+                                                    class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors hover:bg-gray-50 dark:hover:bg-gray-700"
+                                                    :class="menuIsOpen ? 'bg-primary-50 dark:bg-primary-900/20' : ''" 
+                                                    aria-haspopup="true" 
+                                                    x-on:click="menuIsOpen = ! menuIsOpen" 
+                                                    :aria-expanded="menuIsOpen">
+                                                    
+                                                    <div class="w-8 h-8 bg-secondary-500 rounded-full flex items-center justify-center">
+                                                        <span class="icon-[mdi--account] w-5 h-5 text-white"></span>
+                                                    </div>
+                                                    
+                                                    <div class="text-sm text-left">
+                                                        <p class="font-medium text-gray-900 dark:text-white">Juan Pérez</p>
+                                                        <p class="text-gray-500 dark:text-gray-400">Administrador</p>
+                                                    </div>
+                                                    
+                                                    <span class="icon-[mdi--chevron-down] w-4 h-4 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': menuIsOpen }"></span>
+                                                </button>
+                                                
+                                                <!-- Dropdown Menu -->
+                                                <div 
+                                                    x-cloak 
+                                                    x-show="menuIsOpen" 
+                                                    x-on:click.outside="menuIsOpen = false" 
+                                                    x-transition:enter="transition ease-out duration-200" 
+                                                    x-transition:enter-start="opacity-0 scale-95" 
+                                                    x-transition:enter-end="opacity-100 scale-100" 
+                                                    x-transition:leave="transition ease-in duration-150" 
+                                                    x-transition:leave-start="opacity-100 scale-100" 
+                                                    x-transition:leave-end="opacity-0 scale-95" 
+                                                    x-trap="menuIsOpen"
+                                                    class="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 border border-gray-200 dark:border-gray-700 z-50">
+                                                    
+                                                    <!-- Profile Section -->
+                                                    <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                                                        <a href="#" class="flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 px-2 py-2 rounded-md transition-colors" role="menuitem">
+                                                            <span class="icon-[mdi--account] w-5 h-5 text-gray-500 dark:text-gray-400"></span>
+                                                            <span class="text-sm font-medium text-gray-900 dark:text-white">Mi Perfil</span>
+                                                        </a>
+                                                    </div>
+                                                    
+                                                    <!-- Settings Section -->
+                                                    <div class="py-1">
+                                                        <a href="#" class="flex items-center space-x-3 px-6 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" role="menuitem">
+                                                            <span class="icon-[mdi--cog] w-5 h-5 text-gray-500 dark:text-gray-400"></span>
+                                                            <span>Configuración</span>
+                                                        </a>
+                                                        <a href="#" class="flex items-center space-x-3 px-6 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" role="menuitem">
+                                                            <span class="icon-[mdi--shield-account] w-5 h-5 text-gray-500 dark:text-gray-400"></span>
+                                                            <span>Seguridad</span>
+                                                        </a>
+                                                        <a href="#" class="flex items-center space-x-3 px-6 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" role="menuitem">
+                                                            <span class="icon-[mdi--help-circle] w-5 h-5 text-gray-500 dark:text-gray-400"></span>
+                                                            <span>Ayuda</span>
+                                                        </a>
+                                                    </div>
+                                                    
+                                                    <!-- Sign Out Section -->
+                                                    <div class="py-1 border-t border-gray-200 dark:border-gray-700">
+                                                        <a href="#" class="flex items-center space-x-3 px-6 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" role="menuitem">
+                                                            <span class="icon-[mdi--logout] w-5 h-5"></span>
+                                                            <span>Cerrar Sesión</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <!-- Sub Navigation Tabs -->
+                                <div class="px-6 py-0 bg-white dark:bg-gray-800">
+                                    <nav class="-mb-px flex space-x-8" aria-label="Sub Navigation">
+                                        <!-- Lista Activa -->
+                                        <a href="#" class="border-b-2 border-primary-500 text-primary-600 dark:text-primary-400 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center">
+                                            <span class="icon-[mdi--format-list-bulleted] w-4 h-4 mr-2"></span>
+                                            Lista Activa
+                                        </a>
+                                        
+                                        <!-- Menciones -->
+                                        <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-600 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center transition-colors">
+                                            <span class="icon-[mdi--medal] w-4 h-4 mr-2"></span>
+                                            Menciones
+                                        </a>
+                                        
+                                        <!-- Modalidades -->
+                                        <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-600 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center transition-colors">
+                                            <span class="icon-[mdi--school] w-4 h-4 mr-2"></span>
+                                            Modalidades
+                                        </a>
+                                        
+                                        <!-- Estadísticas -->
+                                        <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-600 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center transition-colors">
+                                            <span class="icon-[mdi--chart-line] w-4 h-4 mr-2"></span>
+                                            Estadísticas
+                                        </a>
+                                        
+                                        <!-- Configuración -->
+                                        <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-600 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center transition-colors">
+                                            <span class="icon-[mdi--cog] w-4 h-4 mr-2"></span>
+                                            Configuración
+                                        </a>
+                                    </nav>
                                 </div>
                             </header>
 
@@ -645,41 +791,51 @@
                         <div>
                             <h4 class="text-base font-medium text-gray-900 dark:text-white mb-4">Información Personal</h4>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <x-form-input 
-                                    label="Carnet de Identidad" 
-                                    name="ci" 
-                                    placeholder="1234567 LP"
-                                    icon="mdi--card-account-details"
-                                    required
-                                />
-                                <x-form-input 
-                                    label="Nombres" 
-                                    name="nombres" 
-                                    placeholder="Juan Carlos"
-                                    required
-                                />
-                                <x-form-input 
-                                    label="Apellido Paterno" 
-                                    name="apellido_paterno" 
-                                    placeholder="Mamani"
-                                    required
-                                />
-                                <x-form-input 
-                                    label="Apellido Materno" 
-                                    name="apellido_materno" 
-                                    placeholder="Condori"
-                                />
-                                <x-form-input 
-                                    label="Fecha de Nacimiento" 
-                                    name="fecha_nacimiento" 
-                                    type="date"
-                                    required
-                                />
-                                <x-form-input 
-                                    label="Lugar de Nacimiento" 
-                                    name="lugar_nacimiento" 
-                                    placeholder="Potosí, Bolivia"
-                                />
+                                <div>
+                                    <label for="ci2" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Carnet de Identidad <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="relative">
+                                        <span class="icon-[mdi--card-account-details] w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></span>
+                                        <input type="text" id="ci2" name="ci" placeholder="1234567 LP" required
+                                               class="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="nombres" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Nombres <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="nombres" name="nombres" placeholder="Juan Carlos" required
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                                </div>
+                                <div>
+                                    <label for="apellido_paterno" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Apellido Paterno <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="apellido_paterno" name="apellido_paterno" placeholder="Mamani" required
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                                </div>
+                                <div>
+                                    <label for="apellido_materno" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Apellido Materno
+                                    </label>
+                                    <input type="text" id="apellido_materno" name="apellido_materno" placeholder="Condori"
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                                </div>
+                                <div>
+                                    <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Fecha de Nacimiento <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                                </div>
+                                <div>
+                                    <label for="lugar_nacimiento" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Lugar de Nacimiento
+                                    </label>
+                                    <input type="text" id="lugar_nacimiento" name="lugar_nacimiento" placeholder="Potosí, Bolivia"
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                                </div>
                             </div>
                         </div>
 
@@ -687,35 +843,59 @@
                         <div>
                             <h4 class="text-base font-medium text-gray-900 dark:text-white mb-4">Información Académica</h4>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <x-form-select label="Facultad" name="facultad_id" required>
-                                    <option value="">Seleccione una facultad</option>
-                                    <option value="1">Facultad de Ingeniería</option>
-                                    <option value="2">Facultad de Ciencias Económicas</option>
-                                    <option value="3">Facultad de Medicina</option>
-                                    <option value="4">Facultad de Derecho</option>
-                                </x-form-select>
+                                <div>
+                                    <label for="facultad_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Facultad <span class="text-red-500">*</span>
+                                    </label>
+                                    <select id="facultad_id" name="facultad_id" required
+                                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                                        <option value="">Seleccione una facultad</option>
+                                        <option value="1">Facultad de Ingeniería</option>
+                                        <option value="2">Facultad de Ciencias Económicas</option>
+                                        <option value="3">Facultad de Medicina</option>
+                                        <option value="4">Facultad de Derecho</option>
+                                    </select>
+                                </div>
                                 
-                                <x-form-select label="Carrera" name="carrera_id" required>
-                                    <option value="">Seleccione una carrera</option>
-                                    <option value="1">Ingeniería de Sistemas</option>
-                                    <option value="2">Ingeniería Civil</option>
-                                    <option value="3">Ingeniería Industrial</option>
-                                </x-form-select>
+                                <div>
+                                    <label for="carrera_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Carrera <span class="text-red-500">*</span>
+                                    </label>
+                                    <select id="carrera_id" name="carrera_id" required
+                                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                                        <option value="">Seleccione una carrera</option>
+                                        <option value="1">Ingeniería de Sistemas</option>
+                                        <option value="2">Ingeniería Civil</option>
+                                        <option value="3">Ingeniería Industrial</option>
+                                    </select>
+                                </div>
 
-                                <x-form-select label="Mención" name="mencion_id">
-                                    <option value="">Sin mención específica</option>
-                                    <option value="1">Sistemas de Información</option>
-                                    <option value="2">Redes y Telecomunicaciones</option>
-                                    <option value="3">Desarrollo de Software</option>
-                                </x-form-select>
+                                <div>
+                                    <label for="mencion_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Mención
+                                    </label>
+                                    <select id="mencion_id" name="mencion_id"
+                                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                                        <option value="">Sin mención específica</option>
+                                        <option value="1">Sistemas de Información</option>
+                                        <option value="2">Redes y Telecomunicaciones</option>
+                                        <option value="3">Desarrollo de Software</option>
+                                    </select>
+                                </div>
 
-                                <x-form-select label="Modalidad de Graduación" name="graduacion_id" required>
-                                    <option value="">Seleccione modalidad</option>
-                                    <option value="1">Tesis de Grado</option>
-                                    <option value="2">Proyecto de Grado</option>
-                                    <option value="3">Trabajo Dirigido</option>
-                                    <option value="4">Examen de Grado</option>
-                                </x-form-select>
+                                <div>
+                                    <label for="graduacion_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Modalidad de Graduación <span class="text-red-500">*</span>
+                                    </label>
+                                    <select id="graduacion_id" name="graduacion_id" required
+                                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                                        <option value="">Seleccione modalidad</option>
+                                        <option value="1">Tesis de Grado</option>
+                                        <option value="2">Proyecto de Grado</option>
+                                        <option value="3">Trabajo Dirigido</option>
+                                        <option value="4">Examen de Grado</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
@@ -723,61 +903,55 @@
                         <div>
                             <h4 class="text-base font-medium text-gray-900 dark:text-white mb-4">Información del Diploma</h4>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <x-form-input 
-                                    label="Número de Libro" 
-                                    name="libro" 
-                                    placeholder="001"
-                                    required
-                                />
-                                <x-form-input 
-                                    label="Número de Fojas" 
-                                    name="fojas" 
-                                    placeholder="123"
-                                    required
-                                />
-                                <x-form-input 
-                                    label="Número de Documento" 
-                                    name="nro_documento" 
-                                    placeholder="D-2024-001"
-                                    required
-                                />
-                                <x-form-input 
-                                    label="Fecha de Emisión" 
-                                    name="fecha_emision" 
-                                    type="date"
-                                    required
-                                />
-                                <x-form-input 
-                                    label="Gestión Académica" 
-                                    name="gestion" 
-                                    placeholder="2024"
-                                    required
-                                />
-                                <x-form-select label="Estado" name="estado" required>
-                                    <option value="">Seleccione estado</option>
-                                    <option value="digitalizado">Digitalizado</option>
-                                    <option value="pendiente">Pendiente de digitalización</option>
-                                </x-form-select>
-                            </div>
-                        </div>
-
-                        <!-- Archivo PDF -->
-                        <div>
-                            <h4 class="text-base font-medium text-gray-900 dark:text-white mb-4">Documento Digital</h4>
-                            <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6">
-                                <div class="text-center">
-                                    <span class="icon-[mdi--file-pdf-box] w-12 h-12 text-primary-500 mx-auto mb-4"></span>
-                                    <div class="flex text-sm text-gray-600 dark:text-gray-400">
-                                        <label for="pdf_file" class="relative cursor-pointer bg-white dark:bg-gray-800 rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
-                                            <span>Cargar archivo PDF</span>
-                                            <input id="pdf_file" name="pdf_file" type="file" class="sr-only" accept=".pdf">
-                                        </label>
-                                        <p class="pl-1">o arrastrar y soltar</p>
-                                    </div>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">PDF hasta 50MB</p>
+                                <div>
+                                    <label for="libro" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Número de Libro <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="libro" name="libro" placeholder="001" required
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                                </div>
+                                <div>
+                                    <label for="fojas" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Número de Fojas <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="fojas" name="fojas" placeholder="123" required
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                                </div>
+                                <div>
+                                    <label for="nro_documento" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Número de Documento <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="nro_documento" name="nro_documento" placeholder="D-2024-001" required
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                                </div>
+                                <div>
+                                    <label for="fecha_emision" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Fecha de Emisión <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="date" id="fecha_emision" name="fecha_emision" required
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                                </div>
+                                <div>
+                                    <label for="gestion" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Gestión Académica <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="gestion" name="gestion" placeholder="2024" required
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                                </div>
+                                <div>
+                                    <label for="estado" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Estado <span class="text-red-500">*</span>
+                                    </label>
+                                    <select id="estado" name="estado" required
+                                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
+                                        <option value="">Seleccione estado</option>
+                                        <option value="digitalizado">Digitalizado</option>
+                                        <option value="pendiente">Pendiente de digitalización</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- Observaciones -->
                         <div>
@@ -893,14 +1067,22 @@
                     <div>
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Navigation Tabs</h3>
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                            <nav class="flex space-x-1">
-                                <a href="#" class="px-3 py-2 text-sm font-medium rounded-md bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300">
+                            <nav class="-mb-px flex space-x-8" aria-label="Sub Navigation">
+                                <!-- Lista Activa -->
+                                <a href="#" class="border-b-2 border-primary-500 text-primary-600 dark:text-primary-400 whitespace-nowrap py-3 px-1 font-medium text-sm flex items-center">
+                                    <span class="icon-[mdi--format-list-bulleted] w-4 h-4 mr-2"></span>
                                     Lista Activa
                                 </a>
-                                <a href="#" class="px-3 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                
+                                <!-- Menciones -->
+                                <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-600 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center transition-colors">
+                                    <span class="icon-[mdi--medal] w-4 h-4 mr-2"></span>
                                     Menciones
                                 </a>
-                                <a href="#" class="px-3 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                
+                                <!-- Modalidades -->
+                                <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-600 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center transition-colors">
+                                    <span class="icon-[mdi--school] w-4 h-4 mr-2"></span>
                                     Modalidades
                                 </a>
                             </nav>
@@ -910,14 +1092,27 @@
                     <!-- Breadcrumbs -->
                     <div>
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Breadcrumbs</h3>
-                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                            <nav class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-                                <a href="#" class="hover:text-gray-900 dark:hover:text-gray-100">Dashboard</a>
-                                <span class="text-gray-400">/</span>
-                                <a href="#" class="hover:text-gray-900 dark:hover:text-gray-100">Diplomas Académicos</a>
-                                <span class="text-gray-400">/</span>
-                                <span class="text-gray-900 dark:text-gray-100 font-medium">Menciones</span>
-                            </nav>
+                        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                            <div class="px-6 py-2 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-700/50">
+                                <nav class="flex" aria-label="Breadcrumb">
+                                    <ol class="flex items-center space-x-1 text-xs">
+                                        <li>
+                                            <a href="#" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 flex items-center">
+                                                <span class="icon-[mdi--home] w-3 h-3 mr-1"></span>
+                                                Dashboard
+                                            </a>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <span class="icon-[mdi--chevron-right] w-3 h-3 text-gray-400 dark:text-gray-500 mx-1"></span>
+                                            <a href="#" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">Diplomas Académicos</a>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <span class="icon-[mdi--chevron-right] w-3 h-3 text-gray-400 dark:text-gray-500 mx-1"></span>
+                                            <span class="text-gray-900 dark:text-white font-medium">Menciones</span>
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1669,63 +1864,41 @@ showToast('success', 'Mensaje', 5000);</code></pre>
             });
         });
 
-        // Funcionalidad del toggle de modo oscuro
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeIcon = document.getElementById('darkModeIcon');
-        const darkModeText = document.getElementById('darkModeText');
-        const htmlElement = document.documentElement;
-
-        // Verificar preferencia guardada o del sistema
-        const currentTheme = localStorage.getItem('theme') || 
-            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-
-        // Aplicar tema inicial
-        if (currentTheme === 'dark') {
-            htmlElement.classList.add('dark');
-            updateDarkModeButton(true);
-        } else {
-            htmlElement.classList.remove('dark');
-            updateDarkModeButton(false);
-        }
-
-        // Event listener para el toggle
-        darkModeToggle.addEventListener('click', function() {
-            const isDark = htmlElement.classList.contains('dark');
-            
-            if (isDark) {
-                htmlElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-                updateDarkModeButton(false);
-            } else {
-                htmlElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                updateDarkModeButton(true);
-            }
-        });
-
-        // Función para actualizar el botón
-        function updateDarkModeButton(isDark) {
-            if (isDark) {
-                darkModeIcon.className = 'icon-[mdi--weather-night] w-4 h-4 mr-2';
-                darkModeText.textContent = 'Modo Claro';
-            } else {
-                darkModeIcon.className = 'icon-[mdi--weather-sunny] w-4 h-4 mr-2';
-                darkModeText.textContent = 'Modo Oscuro';
-            }
-        }
-
-        // Detectar cambios en la preferencia del sistema
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-            if (!localStorage.getItem('theme')) {
-                if (e.matches) {
-                    htmlElement.classList.add('dark');
-                    updateDarkModeButton(true);
-                } else {
-                    htmlElement.classList.remove('dark');
-                    updateDarkModeButton(false);
+        // Dark Mode con Alpine.js (Esperando que Alpine esté listo)
+        // Función Alpine.js para Dark Mode Toggle
+        function darkModeToggle() {
+            return {
+                isDark: false,
+                
+                init() {
+                    // Inicializar tema basado en preferencia guardada o sistema
+                    const savedTheme = localStorage.getItem('theme');
+                    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    
+                    this.isDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark);
+                    this.applyTheme();
+                    
+                    // Escuchar cambios en preferencia del sistema
+                    window.matchMedia('(prefers-color-scheme: dark)')
+                          .addEventListener('change', (e) => {
+                        if (!localStorage.getItem('theme')) {
+                            this.isDark = e.matches;
+                            this.applyTheme();
+                        }
+                    });
+                },
+                
+                toggle() {
+                    this.isDark = !this.isDark;
+                    this.applyTheme();
+                    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+                },
+                
+                applyTheme() {
+                    document.documentElement.classList.toggle('dark', this.isDark);
                 }
             }
-        });
+        }
     </script>
     
 
