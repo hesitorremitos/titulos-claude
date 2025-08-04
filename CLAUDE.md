@@ -200,6 +200,9 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `app/Http/Controllers/DiplomasAcademicos/ModalidadGraduacionController.php` - CRUD completo modalidades graduación (sin filtros)
 - `app/Http/Controllers/StyleGuideController.php` - Controlador para la guía de estilos del sistema
 
+### View Components
+- `app/View/Components/DiplomasLayout.php` - Componente Laravel para layout unificado de diplomas académicos
+
 ### Livewire Components
 - `app/Livewire/DiplomaAcademicoFormComponent.php` - Componente principal formulario con 2 opciones de registro
 - `app/Livewire/PdfAutoUpload.php` - Componente subida automática PDF con extracción CI (index)
@@ -224,7 +227,7 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `database/seeders/UserRoleSeeder.php` - Asignación roles
 
 ### Views
-- `resources/views/components/diplomas/layout.blade.php` - Layout unificado con navegación por tabs y título en una fila
+- `resources/views/layouts/diplomas-layout.blade.php` - Layout unificado para sección diplomas académicos
 - `resources/views/diplomas/index.blade.php` - Vista principal con accesos rápidos a subsecciones
 - `resources/views/diplomas/create.blade.php` - Formulario creación diploma con layout unificado
 - `resources/views/diplomas/show.blade.php` - Ver diploma individual con layout unificado

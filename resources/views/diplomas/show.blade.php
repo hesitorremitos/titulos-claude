@@ -1,5 +1,4 @@
-<x-diplomas.layout>
-    <x-slot name="sectionTitle">Diploma #{{ $diploma->nro_documento }}</x-slot>
+<x-diplomas-layout section-title="Diploma #{{ $diploma->nro_documento }}">
     <x-slot name="headerExtra">
         <div class="flex space-x-2">
             @if($diploma->file_dir)
@@ -163,4 +162,4 @@
             </div>
         </div>
     </div>
-</x-diplomas.layout>
+</x-diplomas-layout>

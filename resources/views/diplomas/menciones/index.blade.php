@@ -1,5 +1,4 @@
-<x-diplomas.layout>
-    <x-slot name="sectionTitle">Menciones</x-slot>
+<x-diplomas-layout section-title="Menciones">
     <x-slot name="headerExtra">
         @can('crear-titulos')
             <a href="{{ route('diplomas.menciones.create') }}" 
@@ -116,4 +115,4 @@
                     @endif
                 </div>
             </div>
-</x-diplomas.layout>
+</x-diplomas-layout>

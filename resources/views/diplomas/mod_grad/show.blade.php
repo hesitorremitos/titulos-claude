@@ -1,5 +1,4 @@
-<x-diplomas.layout>
-    <x-slot name="sectionTitle">{{ $modalidad->nombre }}</x-slot>
+<x-diplomas-layout section-title="{{ $modalidad->nombre }}">
     <x-slot name="headerExtra">
         @can('editar-titulos')
             <a href="{{ route('diplomas.modalidades.edit', $modalidad) }}" 
@@ -78,4 +77,4 @@
                     </div>
                 </div>
             </div>
-</x-diplomas.layout>
+</x-diplomas-layout>
