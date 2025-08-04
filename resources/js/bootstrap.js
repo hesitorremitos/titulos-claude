@@ -3,13 +3,15 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-// Alpine.js setup
-import Alpine from 'alpinejs';
+// Livewire v3 + Alpine.js integration
+import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
+
+// Import only the Alpine.js plugins that are NOT included in Livewire by default
+// Note: Livewire v3 already includes: persist, intersect, morph, navigate, etc.
 import collapse from '@alpinejs/collapse';
-import persist from '@alpinejs/persist';
 
+// Register only the plugins not included by default in Livewire
 Alpine.plugin(collapse);
-Alpine.plugin(persist);
 
-window.Alpine = Alpine;
-Alpine.start();
+// Start Livewire (this automatically starts Alpine as well)
+Livewire.start();

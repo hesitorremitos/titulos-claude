@@ -18,7 +18,6 @@
     },
     "dependencies": {
         "@alpinejs/collapse": "^3.14.9",
-        "@alpinejs/persist": "^3.14.9",
         "alpinejs": "^3.14.9"
     }
 }
