@@ -204,6 +204,8 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `app/Livewire/DiplomaAcademicoFormComponent.php` - Componente principal formulario con 2 opciones de registro
 - `app/Livewire/PdfAutoUpload.php` - Componente subida automática PDF con extracción CI (index)
 - `app/Livewire/PdfAutoUploadForm.php` - Componente subida PDF para formulario registro con búsqueda API automática
+- `app/Livewire/Toast.php` - Sistema de notificaciones toast optimizado (eventos como arrays)
+- `app/Livewire/ButtonTest.php` - Botón simple que emite eventos con parámetros configurables
 - `app/Livewire/Forms/DiplomaAcademicoForm.php` - Form class validación diplomas con manejo archivos temporales
 - `app/Livewire/Forms/PersonaForm.php` - Form class validación personas
 
@@ -237,10 +239,12 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `resources/views/livewire/diploma-academico-form.blade.php` - Formulario registro con 2 opciones (API + PDF)
 - `resources/views/livewire/pdf-auto-upload.blade.php` - Vista componente subida automática PDF (index)
 - `resources/views/livewire/pdf-auto-upload-form.blade.php` - Vista componente subida PDF con drag & drop para formulario registro
+- `resources/views/livewire/toast.blade.php` - Vista componente toast optimizada (duración manejada directamente en Alpine.js)
+- `resources/views/livewire/button-test.blade.php` - Vista simple de botón que emite eventos
 - `resources/views/components/primary-button.blade.php` - Botón primario con colores primary actualizados
 - `resources/views/components/secondary-button.blade.php` - Botón secundario con focus ring consistente
 - `resources/views/components/sidebar-section.blade.php` - Componente sidebar collapsible con Alpine.js y persistencia
-- `resources/views/style-guide.blade.php` - Guía de estilos del sistema con componentes UI principales
+- `resources/views/style-guide.blade.php` - Guía de estilos del sistema con componentes UI principales y sección de notificaciones toast
 
 ### CSV Data
 - `database/csv/graduacion_da.csv` - 32 modalidades graduación

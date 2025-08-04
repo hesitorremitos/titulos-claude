@@ -52,6 +52,9 @@
         </div>
     </div>
     
+    <!-- Toast Component - Global para toda la aplicación -->
+    <livewire:toast />
+    
     <!-- Scripts -->
     @stack('scripts')
     
