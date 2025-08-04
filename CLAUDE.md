@@ -247,7 +247,7 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `resources/views/components/primary-button.blade.php` - Botón primario con colores primary actualizados
 - `resources/views/components/secondary-button.blade.php` - Botón secundario con focus ring consistente
 - `resources/views/components/sidebar-section.blade.php` - Componente sidebar collapsible con Alpine.js y persistencia
-- `resources/views/style-guide.blade.php` - Guía de estilos del sistema con componentes UI principales y sección de notificaciones toast
+- `resources/views/style-guide.blade.php` - Guía de estilos del sistema con componentes UI principales, notificaciones toast, select buscable con Alpine.js y drag & drop para PDF
 
 ### CSV Data
 - `database/csv/graduacion_da.csv` - 32 modalidades graduación

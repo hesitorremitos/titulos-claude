@@ -51,6 +51,8 @@
                     <a href="#navigation" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Navegación</a>
                     <a href="#icons" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Iconos</a>
                     <a href="#toasts" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Notificaciones Toast</a>
+                    <a href="#searchable-select" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Select Buscable</a>
+                    <a href="#drag-drop" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Drag & Drop PDF</a>
                     <a href="#feedback" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Feedback</a>
                 </div>
             </div>
@@ -72,15 +74,15 @@
                         <div class="grid grid-cols-3 gap-3">
                             <div class="text-center">
                                 <div class="w-full h-16 bg-primary-50 rounded-lg border mb-2"></div>
-                                <p class="text-xs font-mono">primary-50</p>
+                                <p class="text-xs font-mono text-gray-900 dark:text-white">primary-50</p>
                             </div>
                             <div class="text-center">
                                 <div class="w-full h-16 bg-primary-100 rounded-lg border mb-2"></div>
-                                <p class="text-xs font-mono">primary-100</p>
+                                <p class="text-xs font-mono text-gray-900 dark:text-white">primary-100</p>
                             </div>
                             <div class="text-center">
                                 <div class="w-full h-16 bg-primary-200 rounded-lg border mb-2"></div>
-                                <p class="text-xs font-mono">primary-200</p>
+                                <p class="text-xs font-mono text-gray-900 dark:text-white">primary-200</p>
                             </div>
                             <div class="text-center">
                                 <div class="w-full h-16 bg-primary-500 rounded-lg mb-2"></div>
@@ -103,15 +105,15 @@
                         <div class="grid grid-cols-3 gap-3">
                             <div class="text-center">
                                 <div class="w-full h-16 bg-secondary-50 rounded-lg border mb-2"></div>
-                                <p class="text-xs font-mono">secondary-50</p>
+                                <p class="text-xs font-mono text-gray-900 dark:text-white">secondary-50</p>
                             </div>
                             <div class="text-center">
                                 <div class="w-full h-16 bg-secondary-100 rounded-lg border mb-2"></div>
-                                <p class="text-xs font-mono">secondary-100</p>
+                                <p class="text-xs font-mono text-gray-900 dark:text-white">secondary-100</p>
                             </div>
                             <div class="text-center">
                                 <div class="w-full h-16 bg-secondary-200 rounded-lg border mb-2"></div>
-                                <p class="text-xs font-mono">secondary-200</p>
+                                <p class="text-xs font-mono text-gray-900 dark:text-white">secondary-200</p>
                             </div>
                             <div class="text-center">
                                 <div class="w-full h-16 bg-secondary-500 rounded-lg mb-2"></div>
@@ -136,15 +138,15 @@
                         <div class="grid grid-cols-3 gap-3">
                             <div class="text-center">
                                 <div class="w-full h-16 bg-gray-50 rounded-lg border mb-2"></div>
-                                <p class="text-xs font-mono">gray-50</p>
+                                <p class="text-xs font-mono text-gray-900 dark:text-white">gray-50</p>
                             </div>
                             <div class="text-center">
                                 <div class="w-full h-16 bg-gray-200 rounded-lg border mb-2"></div>
-                                <p class="text-xs font-mono">gray-200</p>
+                                <p class="text-xs font-mono text-gray-900 dark:text-white">gray-200</p>
                             </div>
                             <div class="text-center">
                                 <div class="w-full h-16 bg-gray-300 rounded-lg border mb-2"></div>
-                                <p class="text-xs font-mono">gray-300</p>
+                                <p class="text-xs font-mono text-gray-900 dark:text-white">gray-300</p>
                             </div>
                             <div class="text-center">
                                 <div class="w-full h-16 bg-gray-600 rounded-lg mb-2"></div>
@@ -186,19 +188,19 @@
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                         <div class="text-center">
                             <div class="w-full h-16 bg-success-500 rounded-lg mb-2"></div>
-                            <p class="text-xs font-mono">Success (success-500)</p>
+                            <p class="text-xs font-mono text-gray-900 dark:text-white">Success (success-500)</p>
                         </div>
                         <div class="text-center">
                             <div class="w-full h-16 bg-warning-500 rounded-lg mb-2"></div>
-                            <p class="text-xs font-mono">Warning (warning-500)</p>
+                            <p class="text-xs font-mono text-gray-900 dark:text-white">Warning (warning-500)</p>
                         </div>
                         <div class="text-center">
                             <div class="w-full h-16 bg-error-500 rounded-lg mb-2"></div>
-                            <p class="text-xs font-mono">Error (error-500)</p>
+                            <p class="text-xs font-mono text-gray-900 dark:text-white">Error (error-500)</p>
                         </div>
                         <div class="text-center">
                             <div class="w-full h-16 bg-info-500 rounded-lg mb-2"></div>
-                            <p class="text-xs font-mono">Info (info-500)</p>
+                            <p class="text-xs font-mono text-gray-900 dark:text-white">Info (info-500)</p>
                         </div>
                     </div>
                 </div>
@@ -214,31 +216,31 @@
                 <div class="space-y-6">
                     <div class="flex items-center space-x-6">
                         <div class="w-20 text-sm text-gray-500 dark:text-gray-400 font-mono">text-xs</div>
-                        <div class="text-xs">The quick brown fox jumps over the lazy dog</div>
+                        <div class="text-xs text-gray-900 dark:text-white">The quick brown fox jumps over the lazy dog</div>
                     </div>
                     <div class="flex items-center space-x-6">
                         <div class="w-20 text-sm text-gray-500 dark:text-gray-400 font-mono">text-sm</div>
-                        <div class="text-sm">The quick brown fox jumps over the lazy dog</div>
+                        <div class="text-sm text-gray-900 dark:text-white">The quick brown fox jumps over the lazy dog</div>
                     </div>
                     <div class="flex items-center space-x-6">
                         <div class="w-20 text-sm text-gray-500 dark:text-gray-400 font-mono">text-base</div>
-                        <div class="text-base">The quick brown fox jumps over the lazy dog</div>
+                        <div class="text-base text-gray-900 dark:text-white">The quick brown fox jumps over the lazy dog</div>
                     </div>
                     <div class="flex items-center space-x-6">
                         <div class="w-20 text-sm text-gray-500 dark:text-gray-400 font-mono">text-lg</div>
-                        <div class="text-lg">The quick brown fox jumps over the lazy dog</div>
+                        <div class="text-lg text-gray-900 dark:text-white">The quick brown fox jumps over the lazy dog</div>
                     </div>
                     <div class="flex items-center space-x-6">
                         <div class="w-20 text-sm text-gray-500 dark:text-gray-400 font-mono">text-xl</div>
-                        <div class="text-xl">The quick brown fox jumps over the lazy dog</div>
+                        <div class="text-xl text-gray-900 dark:text-white">The quick brown fox jumps over the lazy dog</div>
                     </div>
                     <div class="flex items-center space-x-6">
                         <div class="w-20 text-sm text-gray-500 dark:text-gray-400 font-mono">text-2xl</div>
-                        <div class="text-2xl">The quick brown fox jumps over the lazy dog</div>
+                        <div class="text-2xl text-gray-900 dark:text-white">The quick brown fox jumps over the lazy dog</div>
                     </div>
                     <div class="flex items-center space-x-6">
                         <div class="w-20 text-sm text-gray-500 dark:text-gray-400 font-mono">text-3xl</div>
-                        <div class="text-3xl">The quick brown fox jumps over the lazy dog</div>
+                        <div class="text-3xl text-gray-900 dark:text-white">The quick brown fox jumps over the lazy dog</div>
                     </div>
                 </div>
 
@@ -248,19 +250,19 @@
                     <div class="space-y-3">
                         <div class="flex items-center space-x-6">
                             <div class="w-24 text-sm text-gray-500 dark:text-gray-400 font-mono">normal</div>
-                            <div class="font-normal">Este texto usa font-normal (400)</div>
+                            <div class="font-normal text-gray-900 dark:text-white">Este texto usa font-normal (400)</div>
                         </div>
                         <div class="flex items-center space-x-6">
                             <div class="w-24 text-sm text-gray-500 dark:text-gray-400 font-mono">medium</div>
-                            <div class="font-medium">Este texto usa font-medium (500)</div>
+                            <div class="font-medium text-gray-900 dark:text-white">Este texto usa font-medium (500)</div>
                         </div>
                         <div class="flex items-center space-x-6">
                             <div class="w-24 text-sm text-gray-500 dark:text-gray-400 font-mono">semibold</div>
-                            <div class="font-semibold">Este texto usa font-semibold (600)</div>
+                            <div class="font-semibold text-gray-900 dark:text-white">Este texto usa font-semibold (600)</div>
                         </div>
                         <div class="flex items-center space-x-6">
                             <div class="w-24 text-sm text-gray-500 dark:text-gray-400 font-mono">bold</div>
-                            <div class="font-bold">Este texto usa font-bold (700)</div>
+                            <div class="font-bold text-gray-900 dark:text-white">Este texto usa font-bold (700)</div>
                         </div>
                     </div>
                 </div>
@@ -930,35 +932,35 @@
                         <div class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4">
                             <div class="text-center p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                                 <span class="icon-[mdi--plus] w-6 h-6 mx-auto text-gray-600 dark:text-gray-400"></span>
-                                <p class="text-xs mt-2 font-mono">mdi--plus</p>
+                                <p class="text-xs mt-2 font-mono text-gray-900 dark:text-white">mdi--plus</p>
                             </div>
                             <div class="text-center p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                                 <span class="icon-[mdi--pencil] w-6 h-6 mx-auto text-gray-600 dark:text-gray-400"></span>
-                                <p class="text-xs mt-2 font-mono">mdi--pencil</p>
+                                <p class="text-xs mt-2 font-mono text-gray-900 dark:text-white">mdi--pencil</p>
                             </div>
                             <div class="text-center p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                                 <span class="icon-[mdi--delete] w-6 h-6 mx-auto text-gray-600 dark:text-gray-400"></span>
-                                <p class="text-xs mt-2 font-mono">mdi--delete</p>
+                                <p class="text-xs mt-2 font-mono text-gray-900 dark:text-white">mdi--delete</p>
                             </div>
                             <div class="text-center p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                                 <span class="icon-[mdi--eye] w-6 h-6 mx-auto text-gray-600 dark:text-gray-400"></span>
-                                <p class="text-xs mt-2 font-mono">mdi--eye</p>
+                                <p class="text-xs mt-2 font-mono text-gray-900 dark:text-white">mdi--eye</p>
                             </div>
                             <div class="text-center p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                                 <span class="icon-[mdi--download] w-6 h-6 mx-auto text-gray-600 dark:text-gray-400"></span>
-                                <p class="text-xs mt-2 font-mono">mdi--download</p>
+                                <p class="text-xs mt-2 font-mono text-gray-900 dark:text-white">mdi--download</p>
                             </div>
                             <div class="text-center p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                                 <span class="icon-[mdi--search] w-6 h-6 mx-auto text-gray-600 dark:text-gray-400"></span>
-                                <p class="text-xs mt-2 font-mono">mdi--search</p>
+                                <p class="text-xs mt-2 font-mono text-gray-900 dark:text-white">mdi--search</p>
                             </div>
                             <div class="text-center p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                                 <span class="icon-[mdi--school] w-6 h-6 mx-auto text-gray-600 dark:text-gray-400"></span>
-                                <p class="text-xs mt-2 font-mono">mdi--school</p>
+                                <p class="text-xs mt-2 font-mono text-gray-900 dark:text-white">mdi--school</p>
                             </div>
                             <div class="text-center p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                                 <span class="icon-[mdi--account] w-6 h-6 mx-auto text-gray-600 dark:text-gray-400"></span>
-                                <p class="text-xs mt-2 font-mono">mdi--account</p>
+                                <p class="text-xs mt-2 font-mono text-gray-900 dark:text-white">mdi--account</p>
                             </div>
                         </div>
                     </div>
@@ -969,24 +971,581 @@
                         <div class="flex items-center space-x-6">
                             <div class="text-center">
                                 <span class="icon-[mdi--heart] w-4 h-4 text-red-500"></span>
-                                <p class="text-xs mt-1 font-mono">w-4 h-4</p>
+                                <p class="text-xs mt-1 font-mono text-gray-900 dark:text-white">w-4 h-4</p>
                             </div>
                             <div class="text-center">
                                 <span class="icon-[mdi--heart] w-5 h-5 text-red-500"></span>
-                                <p class="text-xs mt-1 font-mono">w-5 h-5</p>
+                                <p class="text-xs mt-1 font-mono text-gray-900 dark:text-white">w-5 h-5</p>
                             </div>
                             <div class="text-center">
                                 <span class="icon-[mdi--heart] w-6 h-6 text-red-500"></span>
-                                <p class="text-xs mt-1 font-mono">w-6 h-6</p>
+                                <p class="text-xs mt-1 font-mono text-gray-900 dark:text-white">w-6 h-6</p>
                             </div>
                             <div class="text-center">
                                 <span class="icon-[mdi--heart] w-8 h-8 text-red-500"></span>
-                                <p class="text-xs mt-1 font-mono">w-8 h-8</p>
+                                <p class="text-xs mt-1 font-mono text-gray-900 dark:text-white">w-8 h-8</p>
                             </div>
                             <div class="text-center">
                                 <span class="icon-[mdi--heart] w-12 h-12 text-red-500"></span>
-                                <p class="text-xs mt-1 font-mono">w-12 h-12</p>
+                                <p class="text-xs mt-1 font-mono text-gray-900 dark:text-white">w-12 h-12</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Select Buscable -->
+            <section id="searchable-select" class="mb-16">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Select Buscable con Alpine.js</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Componente select con búsqueda integrada y navegación por teclado</p>
+                </div>
+
+                <div class="space-y-8">
+                    <!-- Componente Básico -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Ejemplo Básico</h3>
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                            <div class="max-w-md">
+                                <div x-data="{
+                                    allOptions: [
+                                        { label: 'Ingeniería de Sistemas', value: 'ing_sistemas' },
+                                        { label: 'Ingeniería Civil', value: 'ing_civil' },
+                                        { label: 'Ingeniería Industrial', value: 'ing_industrial' },
+                                        { label: 'Ingeniería Mecánica', value: 'ing_mecanica' },
+                                        { label: 'Ingeniería Eléctrica', value: 'ing_electrica' },
+                                        { label: 'Medicina', value: 'medicina' },
+                                        { label: 'Odontología', value: 'odontologia' },
+                                        { label: 'Enfermería', value: 'enfermeria' },
+                                        { label: 'Derecho', value: 'derecho' },
+                                        { label: 'Contaduría Pública', value: 'contaduria' },
+                                        { label: 'Administración de Empresas', value: 'administracion' },
+                                        { label: 'Economía', value: 'economia' }
+                                    ],
+                                    filteredOptions: [],
+                                    isOpen: false,
+                                    openedWithKeyboard: false,
+                                    selectedOption: null,
+                                    searchQuery: '',
+                                    activeIndex: -1,
+                                    
+                                    init() {
+                                        this.filteredOptions = this.allOptions;
+                                    },
+                                    
+                                    selectOption(option) {
+                                        this.selectedOption = option;
+                                        this.isOpen = false;
+                                        this.openedWithKeyboard = false;
+                                        this.searchQuery = '';
+                                        this.activeIndex = -1;
+                                        this.$refs.hiddenInput.value = option.value;
+                                    },
+                                    
+                                    filterOptions() {
+                                        if (this.searchQuery === '') {
+                                            this.filteredOptions = this.allOptions;
+                                            return;
+                                        }
+                                        this.filteredOptions = this.allOptions.filter(option =>
+                                            option.label.toLowerCase().includes(this.searchQuery.toLowerCase())
+                                        );
+                                        this.activeIndex = -1;
+                                    },
+                                    
+                                    onKeydown(event) {
+                                        if (!this.isOpen) return;
+                                        
+                                        switch(event.key) {
+                                            case 'ArrowDown':
+                                                event.preventDefault();
+                                                this.activeIndex = Math.min(this.activeIndex + 1, this.filteredOptions.length - 1);
+                                                this.$refs.optionsList.children[this.activeIndex]?.scrollIntoView({ block: 'nearest' });
+                                                break;
+                                            case 'ArrowUp':
+                                                event.preventDefault();
+                                                this.activeIndex = Math.max(this.activeIndex - 1, 0);
+                                                this.$refs.optionsList.children[this.activeIndex]?.scrollIntoView({ block: 'nearest' });
+                                                break;
+                                            case 'Enter':
+                                                event.preventDefault();
+                                                if (this.activeIndex >= 0 && this.filteredOptions[this.activeIndex]) {
+                                                    this.selectOption(this.filteredOptions[this.activeIndex]);
+                                                }
+                                                break;
+                                            case 'Escape':
+                                                this.isOpen = false;
+                                                this.openedWithKeyboard = false;
+                                                break;
+                                        }
+                                    }
+                                }" 
+                                @keydown.window="onKeydown($event)"
+                                @click.away="isOpen = false; openedWithKeyboard = false"
+                                class="relative">
+                                    
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Seleccionar Carrera
+                                    </label>
+                                    
+                                    <!-- Trigger Button -->
+                                    <button type="button" 
+                                        @click="isOpen = !isOpen; if(isOpen) { $nextTick(() => $refs.searchInput.focus()) }"
+                                        @keydown.space.prevent="isOpen = !isOpen; if(isOpen) { $nextTick(() => $refs.searchInput.focus()) }"
+                                        @keydown.enter.prevent="isOpen = !isOpen; if(isOpen) { $nextTick(() => $refs.searchInput.focus()) }"
+                                        @keydown.arrow-down.prevent="isOpen = true; openedWithKeyboard = true; $nextTick(() => $refs.searchInput.focus())"
+                                        :aria-expanded="isOpen"
+                                        aria-haspopup="listbox"
+                                        class="relative w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                                        <span class="block truncate text-gray-900 dark:text-white">
+                                            <span x-text="selectedOption ? selectedOption.label : 'Seleccione una carrera'"></span>
+                                        </span>
+                                        <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                            <span class="icon-[mdi--chevron-down] w-5 h-5 text-gray-400" 
+                                                :class="{ 'rotate-180': isOpen }"
+                                                x-transition:all.duration.200ms></span>
+                                        </span>
+                                    </button>
+                                    
+                                    <!-- Dropdown Panel -->
+                                    <div x-show="isOpen"
+                                        x-transition:enter="transition ease-out duration-100"
+                                        x-transition:enter-start="transform opacity-0 scale-95"
+                                        x-transition:enter-end="transform opacity-100 scale-100"
+                                        x-transition:leave="transition ease-in duration-75"
+                                        x-transition:leave-start="transform opacity-100 scale-100"
+                                        x-transition:leave-end="transform opacity-0 scale-95"
+                                        class="absolute z-50 mt-1 w-full bg-white dark:bg-gray-700 shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none border border-gray-200 dark:border-gray-600">
+                                        
+                                        <!-- Search Input -->
+                                        <div class="p-2 border-b border-gray-200 dark:border-gray-600">
+                                            <div class="relative">
+                                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                    <span class="icon-[mdi--search] w-4 h-4 text-gray-400"></span>
+                                                </span>
+                                                <input x-ref="searchInput"
+                                                    x-model="searchQuery"
+                                                    @input="filterOptions()"
+                                                    @keydown.enter.prevent
+                                                    placeholder="Buscar carrera..."
+                                                    class="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-500 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400">
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Options List -->
+                                        <ul x-ref="optionsList" role="listbox" class="py-1">
+                                            <template x-for="(option, index) in filteredOptions" :key="option.value">
+                                                <li @click="selectOption(option)"
+                                                    @mouseenter="activeIndex = index"
+                                                    :class="{
+                                                        'bg-primary-600 text-white': activeIndex === index,
+                                                        'text-gray-900 dark:text-white': activeIndex !== index,
+                                                        'bg-primary-50 dark:bg-primary-900/50': selectedOption && selectedOption.value === option.value && activeIndex !== index
+                                                    }"
+                                                    class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-primary-100 dark:hover:bg-primary-800/50 transition-colors"
+                                                    role="option">
+                                                    <span class="block truncate font-normal" x-text="option.label"></span>
+                                                    <span x-show="selectedOption && selectedOption.value === option.value"
+                                                        class="absolute inset-y-0 right-0 flex items-center pr-4"
+                                                        :class="activeIndex === index ? 'text-white' : 'text-primary-600'">
+                                                        <span class="icon-[mdi--check] w-5 h-5"></span>
+                                                    </span>
+                                                </li>
+                                            </template>
+                                            
+                                            <!-- No Results Message -->
+                                            <li x-show="filteredOptions.length === 0" 
+                                                class="text-gray-500 dark:text-gray-400 text-sm py-2 px-3">
+                                                No se encontraron resultados
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <!-- Hidden Input -->
+                                    <input x-ref="hiddenInput" type="hidden" name="carrera_id">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Características -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Características</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-medium text-gray-900 dark:text-white mb-2">Funcionalidades</h4>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                    <li>• Búsqueda en tiempo real</li>
+                                    <li>• Navegación con teclado (flechas, Enter, Escape)</li>
+                                    <li>• Resaltado de opción activa</li>
+                                    <li>• Indicador visual de selección</li>
+                                    <li>• Transiciones suaves</li>
+                                    <li>• Accesibilidad completa (ARIA)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900 dark:text-white mb-2">Controles de Teclado</h4>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                    <li>• <strong>↑/↓:</strong> Navegar opciones</li>
+                                    <li>• <strong>Enter:</strong> Seleccionar opción</li>
+                                    <li>• <strong>Escape:</strong> Cerrar dropdown</li>
+                                    <li>• <strong>Space:</strong> Abrir/cerrar dropdown</li>
+                                    <li>• <strong>Typing:</strong> Filtrar opciones</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Código de Implementación -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Código de Implementación</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mt-1">HTML y Alpine.js para implementar el componente</p>
+                        </div>
+                        <div class="bg-gray-900 p-6 overflow-x-auto">
+                            <pre class="text-green-400 text-sm"><code>&lt;div x-data="{
+    allOptions: [
+        { label: 'Opción 1', value: 'opt1' },
+        { label: 'Opción 2', value: 'opt2' }
+        // ... más opciones
+    ],
+    filteredOptions: [],
+    isOpen: false,
+    selectedOption: null,
+    searchQuery: '',
+    activeIndex: -1,
+    
+    init() {
+        this.filteredOptions = this.allOptions;
+    },
+    
+    selectOption(option) {
+        this.selectedOption = option;
+        this.isOpen = false;
+        this.searchQuery = '';
+        this.$refs.hiddenInput.value = option.value;
+    },
+    
+    filterOptions() {
+        this.filteredOptions = this.allOptions.filter(option =&gt;
+            option.label.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+    }
+}" class="relative"&gt;
+    
+    &lt;!-- Trigger Button --&gt;
+    &lt;button type="button" 
+        @click="isOpen = !isOpen"
+        class="w-full bg-white border rounded-md p-2"&gt;
+        &lt;span x-text="selectedOption ? selectedOption.label : 'Seleccionar'"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+    
+    &lt;!-- Dropdown Panel --&gt;
+    &lt;div x-show="isOpen" class="absolute z-50 mt-1 w-full bg-white shadow-lg rounded-md"&gt;
+        &lt;!-- Search Input --&gt;
+        &lt;input x-model="searchQuery" @input="filterOptions()" 
+               placeholder="Buscar..." class="w-full p-2 border-b"&gt;
+        
+        &lt;!-- Options List --&gt;
+        &lt;ul&gt;
+            &lt;template x-for="option in filteredOptions"&gt;
+                &lt;li @click="selectOption(option)" 
+                    class="p-2 hover:bg-gray-100 cursor-pointer"&gt;
+                    &lt;span x-text="option.label"&gt;&lt;/span&gt;
+                &lt;/li&gt;
+            &lt;/template&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- Hidden Input --&gt;
+    &lt;input x-ref="hiddenInput" type="hidden" name="field_name"&gt;
+&lt;/div&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Drag & Drop PDF -->
+            <section id="drag-drop" class="mb-16">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Drag & Drop PDF con Alpine.js</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Componente para subir archivos PDF con arrastrar y soltar o explorador de archivos</p>
+                </div>
+
+                <div class="space-y-8">
+                    <!-- Componente Básico -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Ejemplo Interactivo</h3>
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                            <div x-data="{
+                                isDragOver: false,
+                                files: [],
+                                isUploading: false,
+                                uploadProgress: 0,
+                                
+                                handleDrop(e) {
+                                    this.isDragOver = false;
+                                    const droppedFiles = Array.from(e.dataTransfer.files);
+                                    this.processFiles(droppedFiles);
+                                },
+                                
+                                handleFileSelect(e) {
+                                    const selectedFiles = Array.from(e.target.files);
+                                    this.processFiles(selectedFiles);
+                                },
+                                
+                                processFiles(fileList) {
+                                    const validFiles = fileList.filter(file => {
+                                        const isValidType = file.type === 'application/pdf';
+                                        const isValidSize = file.size <= 50 * 1024 * 1024; // 50MB
+                                        
+                                        if (!isValidType) {
+                                            this.showToast('error', 'Solo se permiten archivos PDF');
+                                            return false;
+                                        }
+                                        
+                                        if (!isValidSize) {
+                                            this.showToast('error', 'El archivo no debe superar 50MB');
+                                            return false;
+                                        }
+                                        
+                                        return true;
+                                    });
+                                    
+                                    if (validFiles.length > 0) {
+                                        this.files = validFiles;
+                                        this.simulateUpload();
+                                    }
+                                },
+                                
+                                simulateUpload() {
+                                    this.isUploading = true;
+                                    this.uploadProgress = 0;
+                                    
+                                    const interval = setInterval(() => {
+                                        this.uploadProgress += Math.random() * 30;
+                                        
+                                        if (this.uploadProgress >= 100) {
+                                            this.uploadProgress = 100;
+                                            this.isUploading = false;
+                                            clearInterval(interval);
+                                            this.showToast('success', 'Archivo subido correctamente');
+                                        }
+                                    }, 200);
+                                },
+                                
+                                removeFile(index) {
+                                    this.files.splice(index, 1);
+                                    this.uploadProgress = 0;
+                                    this.isUploading = false;
+                                },
+                                
+                                openFileDialog() {
+                                    this.$refs.fileInput.click();
+                                },
+                                
+                                formatFileSize(bytes) {
+                                    if (bytes === 0) return '0 Bytes';
+                                    const k = 1024;
+                                    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                                    const i = Math.floor(Math.log(bytes) / Math.log(k));
+                                    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+                                },
+                                
+                                showToast(type, message) {
+                                    window.dispatchEvent(new CustomEvent('toast:' + type, {
+                                        detail: { message: message }
+                                    }));
+                                }
+                            }" 
+                            class="max-w-lg mx-auto">
+                                
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Subir Archivo PDF
+                                </label>
+                                
+                                <!-- Drop Zone -->
+                                <div 
+                                    @dragover.prevent="isDragOver = true"
+                                    @dragleave.prevent="isDragOver = false"
+                                    @drop.prevent="handleDrop($event)"
+                                    @click="openFileDialog()"
+                                    :class="{
+                                        'border-primary-500 bg-primary-50 dark:bg-primary-900/20': isDragOver,
+                                        'border-gray-300 dark:border-gray-600': !isDragOver
+                                    }"
+                                    class="relative border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200 hover:border-primary-400 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                    
+                                    <div class="space-y-4">
+                                        <div class="flex justify-center">
+                                            <span class="icon-[mdi--file-pdf-box] w-16 h-16 text-primary-500"></span>
+                                        </div>
+                                        
+                                        <div>
+                                            <p class="text-lg font-medium text-gray-900 dark:text-white">
+                                                Arrastra tu archivo PDF aquí
+                                            </p>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                                o <span class="text-primary-600 dark:text-primary-400 font-medium">haz clic para seleccionar</span>
+                                            </p>
+                                        </div>
+                                        
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                                            Archivos PDF de hasta 50MB
+                                        </p>
+                                    </div>
+                                    
+                                    <!-- Overlay when dragging -->
+                                    <div x-show="isDragOver" 
+                                        x-transition:enter="transition ease-out duration-200"
+                                        x-transition:enter-start="opacity-0"
+                                        x-transition:enter-end="opacity-100"
+                                        class="absolute inset-0 bg-primary-500/10 rounded-lg flex items-center justify-center">
+                                        <p class="text-primary-700 dark:text-primary-300 font-medium text-lg">
+                                            Suelta el archivo aquí
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Hidden File Input -->
+                                <input x-ref="fileInput"
+                                    type="file"
+                                    accept=".pdf"
+                                    @change="handleFileSelect($event)"
+                                    class="hidden"
+                                    multiple>
+                                
+                                <!-- Upload Progress -->
+                                <div x-show="isUploading" x-transition class="mt-4">
+                                    <div class="bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                        <div class="bg-primary-600 h-2 rounded-full transition-all duration-300 ease-out"
+                                            :style="`width: ${uploadProgress}%`"></div>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 text-center">
+                                        Subiendo... <span x-text="Math.round(uploadProgress)"></span>%
+                                    </p>
+                                </div>
+                                
+                                <!-- File List -->
+                                <div x-show="files.length > 0" x-transition class="mt-6 space-y-3">
+                                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">Archivos seleccionados:</h4>
+                                    
+                                    <template x-for="(file, index) in files" :key="index">
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                                            <div class="flex items-center space-x-3">
+                                                <span class="icon-[mdi--file-pdf-box] w-8 h-8 text-red-500"></span>
+                                                <div>
+                                                    <p class="text-sm font-medium text-gray-900 dark:text-white" x-text="file.name"></p>
+                                                    <p class="text-xs text-gray-500 dark:text-gray-400" x-text="formatFileSize(file.size)"></p>
+                                                </div>
+                                            </div>
+                                            
+                                            <button @click="removeFile(index)"
+                                                class="text-gray-400 hover:text-red-500 transition-colors p-1">
+                                                <span class="icon-[mdi--close] w-5 h-5"></span>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Características -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Características del Componente</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-medium text-gray-900 dark:text-white mb-2">Funcionalidades</h4>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                    <li>• Drag & Drop funcional</li>
+                                    <li>• Explorador de archivos al hacer clic</li>
+                                    <li>• Validación automática de tipo de archivo</li>
+                                    <li>• Validación de tamaño máximo (50MB)</li>
+                                    <li>• Indicador visual de progreso</li>
+                                    <li>• Vista previa de archivos seleccionados</li>
+                                    <li>• Posibilidad de eliminar archivos</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900 dark:text-white mb-2">Estados Visuales</h4>
+                                <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                    <li>• Overlay durante drag over</li>
+                                    <li>• Cambio de colores en hover</li>
+                                    <li>• Barra de progreso animada</li>
+                                    <li>• Iconos contextuales</li>
+                                    <li>• Transiciones suaves</li>
+                                    <li>• Feedback inmediato con toasts</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Código de Implementación -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Código de Implementación Básico</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mt-1">Implementación simplificada del componente drag & drop</p>
+                        </div>
+                        <div class="bg-gray-900 p-6 overflow-x-auto">
+                            <pre class="text-green-400 text-sm"><code>&lt;div x-data="{
+    isDragOver: false,
+    files: [],
+    
+    handleDrop(e) {
+        this.isDragOver = false;
+        const files = Array.from(e.dataTransfer.files);
+        this.processFiles(files);
+    },
+    
+    handleFileSelect(e) {
+        const files = Array.from(e.target.files);
+        this.processFiles(files);
+    },
+    
+    processFiles(fileList) {
+        const validFiles = fileList.filter(file =&gt; 
+            file.type === 'application/pdf' && 
+            file.size &lt;= 50 * 1024 * 1024
+        );
+        this.files = validFiles;
+    },
+    
+    openFileDialog() {
+        this.$refs.fileInput.click();
+    }
+}"&gt;
+    
+    &lt;!-- Drop Zone --&gt;
+    &lt;div @dragover.prevent="isDragOver = true"
+         @dragleave.prevent="isDragOver = false"
+         @drop.prevent="handleDrop($event)"
+         @click="openFileDialog()"
+         class="border-2 border-dashed rounded-lg p-8 cursor-pointer"
+         :class="isDragOver ? 'border-primary-500 bg-primary-50' : 'border-gray-300'"&gt;
+        
+        &lt;div class="text-center"&gt;
+            &lt;span class="icon-[mdi--file-pdf-box] w-16 h-16 text-primary-500"&gt;&lt;/span&gt;
+            &lt;p&gt;Arrastra tu archivo PDF aquí o haz clic para seleccionar&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- Hidden File Input --&gt;
+    &lt;input x-ref="fileInput" type="file" accept=".pdf" 
+           @change="handleFileSelect($event)" class="hidden"&gt;
+    
+    &lt;!-- File List --&gt;
+    &lt;div x-show="files.length &gt; 0"&gt;
+        &lt;template x-for="file in files"&gt;
+            &lt;div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg"&gt;
+                &lt;span x-text="file.name"&gt;&lt;/span&gt;
+                &lt;button @click="files = files.filter(f =&gt; f !== file)"&gt;
+                    Eliminar
+                &lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/template&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
                         </div>
                     </div>
                 </div>
