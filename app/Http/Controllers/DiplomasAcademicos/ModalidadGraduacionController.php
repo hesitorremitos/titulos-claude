@@ -41,13 +41,11 @@ class ModalidadGraduacionController extends Controller
         $this->authorize('crear-titulos');
 
         $request->validate([
-            'nombre' => 'required|string|max:255',
             'medio_graduacion' => 'required|string|max:255',
         ]);
 
         try {
             GraduacionDa::create([
-                'nombre' => $request->nombre,
                 'medio_graduacion' => $request->medio_graduacion,
             ]);
 

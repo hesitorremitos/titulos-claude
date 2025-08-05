@@ -9,9 +9,17 @@
 <x-diplomas-layout section-title="Modalidades" :breadcrumbs="$breadcrumbs">
     <!-- Lista de modalidades -->
     <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
-        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Modalidades de Graduación</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Gestión de modalidades y medios de graduación académica</p>
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+            <div>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Modalidades de Graduación</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Gestión de modalidades y medios de graduación académica</p>
+            </div>
+            @can('crear-titulos')
+                <x-primary-button onclick="window.location.href='{{ route('diplomas.mod_grad.create') }}'">
+                    <span class="icon-[mdi--plus] w-4 h-4 mr-2"></span>
+                    Añadir Modalidad
+                </x-primary-button>
+            @endcan
         </div>
         
         <div class="p-6">

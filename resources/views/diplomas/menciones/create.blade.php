@@ -17,44 +17,31 @@
                 </p>
             </div>
 
-            <form method="POST" action="{{ route('diplomas.menciones.store') }}">
+            <form method="POST" action="{{ route('diplomas.menciones.store') }}" class="space-y-6">
                 @csrf
+                <x-form-field label="Nombre de la Mención" name="nombre">
+                    <x-form-input-icon 
+                        icon="icon-[mdi--medal]"
+                        id="nombre"
+                        name="nombre"
+                        type="text"
+                        value="{{ old('nombre') }}"
+                        required
+                        autofocus
+                        placeholder="Ej: Mención Honorífica" />
+                </x-form-field>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Nombre -->
-                    <div>
-                        <x-input-label for="nombre" value="Nombre de la Mención" />
-                        <x-text-input 
-                            id="nombre" 
-                            name="nombre" 
-                            type="text" 
-                            class="mt-1 block w-full" 
-                            value="{{ old('nombre') }}" 
-                            required 
-                            autofocus />
-                        <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
-                    </div>
+                <x-form-field label="Carrera" name="carrera_id">
+                    <x-form-select
+                        label="Carrera"
+                        name="carrera_id"
+                        :options="$carreras"
+                        required
+                        :value="old('carrera_id', $)"
+                    />
+                </x-form-field>
 
-                    <!-- Carrera -->
-                    <div>
-                        <x-input-label for="carrera_id" value="Carrera" />
-                        <select 
-                            id="carrera_id" 
-                            name="carrera_id" 
-                            class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" 
-                            required>
-                            <option value="">Seleccione una carrera</option>
-                            @foreach($carreras as $carrera)
-                                <option value="{{ $carrera->id }}" {{ old('carrera_id') == $carrera->id ? 'selected' : '' }}>
-                                    {{ $carrera->programa }} - {{ $carrera->facultad->nombre }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <x-input-error :messages="$errors->get('carrera_id')" class="mt-2" />
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-end mt-6 space-x-3">
+                <div class="flex items-center justify-end space-x-3">
                     <x-secondary-button type="button" onclick="window.location.href='{{ route('diplomas.menciones.index') }}'">
                         Cancelar
                     </x-secondary-button>
