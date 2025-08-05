@@ -121,8 +121,6 @@ resources/views/diplomas/
   <a>Modalidades</a> # Hover effects y transiciones
 </nav>
 
-<!-- Botones de acción dinámicos -->
-<div>{{ $headerExtra }}</div>
 ```
 
 ### Funcionalidades CRUD Implementadas
