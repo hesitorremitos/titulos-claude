@@ -31,8 +31,8 @@ class MencionController extends Controller
     public function create()
     {
         $this->authorize('crear-titulos');
-
-        return view('diplomas.menciones.create');
+        $carreras = Carrera::orderBy('programa')->get();
+        return view('diplomas.menciones.create', compact('carreras'));
     }
 
     /**
