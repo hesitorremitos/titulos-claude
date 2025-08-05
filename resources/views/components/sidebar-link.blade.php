@@ -2,26 +2,30 @@
     'href' => '#',
     'icon' => 'mdi--circle',
     'active' => false,
-    'mobile' => false
+    'routePattern' => null,
+    'exactRoute' => null
 ])
 
 @php
-$baseClasses = $mobile 
-    ? 'group flex items-center px-2 py-2 text-base font-medium rounded-md transition-colors duration-200'
-    : 'group flex items-center px-2 py-2 text-sm font-medium rounded-l-md transition-colors duration-200';
+// Determinar si el enlace está activo
+$isActive = $active;
+if (!$isActive && $routePattern) {
+    $isActive = request()->routeIs($routePattern);
+}
+if (!$isActive && $exactRoute) {
+    $isActive = request()->routeIs($exactRoute);
+}
 
-$activeClasses = $active 
-    ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300' . ($mobile ? '' : ' border-l-2 border-primary-500')
-    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700';
+$baseClasses = 'flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-200';
 
-$iconClasses = $active 
-    ? 'text-primary-500'
-    : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300';
+$activeClasses = $isActive 
+    ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300 font-medium'
+    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800';
 
-$iconSize = $mobile ? 'w-6 h-6 mr-4' : 'w-5 h-5 mr-3';
+$iconClasses = 'w-5 h-5';
 @endphp
 
 <a href="{{ $href }}" class="{{ $baseClasses }} {{ $activeClasses }}">
-    <span class="{{ $iconClasses }} icon-[{{ $icon }}] {{ $iconSize }}" aria-hidden="true"></span>
-    {{ $slot }}
+    <span class="icon-[{{ $icon }}] {{ $iconClasses }}" aria-hidden="true"></span>
+    <span class="{{ $isActive ? 'font-medium' : '' }}">{{ $slot }}</span>
 </a>

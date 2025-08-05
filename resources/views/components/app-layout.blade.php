@@ -1,43 +1,49 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ isset($title) ? $title . ' - ' : '' }}{{ config('app.name', 'Sistema de Títulos UATF') }}</title>
+    
+    @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 font-sans antialiased">
-    <!-- Overlay para móvil -->
-    <div id="mobile-overlay" class="fixed inset-0 z-20 bg-black bg-opacity-50 hidden md:hidden"></div>
-
-    <!-- Contenedor principal -->
-    <div class="min-h-screen flex flex-col">
-        <!-- Navbar -->
-        @include('layouts.partials.navbar')
-        
-        <div class="flex flex-1">
+<body class="bg-gray-50 dark:bg-gray-900 font-sans antialiased min-h-full">
+    <div class="min-h-screen">
+        <div class="flex h-screen">
             <!-- Sidebar -->
             @include('layouts.partials.sidebar')
-            
-            <!-- Main Content -->
-            <main class="flex-1 overflow-x-hidden bg-gray-50 dark:bg-gray-900">
-                <!-- Page Header -->
-                @if(isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-                    <div class="py-6 px-6">
-                        {{ $header }}
-                    </div>
-                </header>
-                @endif
-                
-                <!-- Page Content -->
-                {{ $slot }}
-            </main>
+
+            <!-- Contenido Principal -->
+            <div class="flex-1 flex flex-col overflow-hidden">
+                <!-- Navbar -->
+                @include('layouts.partials.navbar')
+
+                <!-- Main Content -->
+                <main class="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
+                    @if(session('success'))
+                        <div class="mx-6 mt-6">
+                            @include('layouts.partials.alert', ['type' => 'success', 'message' => session('success')])
+                        </div>
+                    @endif
+                    
+                    @if(session('error'))
+                        <div class="mx-6 mt-6">
+                            @include('layouts.partials.alert', ['type' => 'error', 'message' => session('error')])
+                        </div>
+                    @endif
+                    
+                    {{ $slot }}
+                </main>
+            </div>
         </div>
     </div>
     
-    <!-- Scripts -->
+    <!-- Toast Component - Global para toda la aplicación -->
+    <livewire:toast />
+    
     @stack('scripts')
+    @livewireScriptConfig
 </body>
 </html>

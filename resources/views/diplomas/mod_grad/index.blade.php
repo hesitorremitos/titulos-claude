@@ -1,102 +1,139 @@
-<x-diplomas-layout section-title="Modalidades">
+@php
+    $breadcrumbs = [
+        ['label' => 'Dashboard', 'url' => route('dashboard')],
+        ['label' => 'Diplomas Académicos', 'url' => route('diplomas.index')],
+        ['label' => 'Modalidades de Graduación']
+    ];
+@endphp
+
+<x-diplomas-layout section-title="Modalidades" :breadcrumbs="$breadcrumbs">
     <x-slot name="headerExtra">
         @can('crear-titulos')
-            <a href="{{ route('diplomas.modalidades.create') }}" 
-               class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
+            <x-primary-button onclick="window.location.href='{{ route('diplomas.modalidades.create') }}'">
                 <span class="icon-[mdi--plus] w-4 h-4 mr-2"></span>
                 Nueva Modalidad
-            </a>
+            </x-primary-button>
         @endcan
     </x-slot>
 
-            <!-- Lista de modalidades -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    @if($modalidades->count() > 0)
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                <thead class="bg-gray-50 dark:bg-gray-700">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Medio de Graduación
-                                        </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Diplomas
-                                        </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            Acciones
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                    @foreach($modalidades as $modalidad)
-                                        <tr>
-                                            <td class="px-6 py-4">
-                                                <div class="text-sm text-gray-900 dark:text-gray-100">
-                                                    {{ $modalidad->medio_graduacion }}
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-gray-900 dark:text-gray-100">
-                                                    {{ $modalidad->diplomas_count ?? 0 }}
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                                <a href="{{ route('diplomas.modalidades.show', $modalidad) }}" 
-                                                   class="inline-flex items-center px-3 py-1 border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition ease-in-out duration-150">
-                                                    Ver
-                                                </a>
-                                                
-                                                @can('editar-titulos')
-                                                    <a href="{{ route('diplomas.modalidades.edit', $modalidad) }}" 
-                                                       class="inline-flex items-center px-3 py-1 border border-gray-300 text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ease-in-out duration-150 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
-                                                        Editar
-                                                    </a>
-                                                @endcan
-                                                
-                                                @can('eliminar-titulos')
-                                                    @if($modalidad->diplomas_count == 0)
-                                                        <form method="POST" action="{{ route('diplomas.modalidades.destroy', $modalidad) }}" class="inline">
-                                                            @csrf @method('DELETE')
-                                                            <button type="submit" 
-                                                                    onclick="return confirm('¿Estás seguro de eliminar esta modalidad?')"
-                                                                    class="inline-flex items-center px-3 py-1 border border-transparent text-xs leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition ease-in-out duration-150">
-                                                                Eliminar
-                                                            </button>
-                                                        </form>
-                                                    @else
-                                                        <span class="inline-flex items-center px-3 py-1 text-xs leading-4 font-medium rounded-md text-gray-500 bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
-                                                            En uso
-                                                        </span>
-                                                    @endif
-                                                @endcan
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="mt-6">
-                            {{ $modalidades->appends(request()->query())->links() }}
-                        </div>
-                    @else
-                        <div class="text-center py-12">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No hay modalidades registradas</h3>
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Comienza creando tu primera modalidad de graduación.</p>
-                            @can('crear-titulos')
-                                <div class="mt-6">
-                                    <a href="{{ route('diplomas.modalidades.create') }}" 
-                                       class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                        Crear Modalidad
-                                    </a>
+    <!-- Lista de modalidades -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Modalidades de Graduación</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Gestión de modalidades y medios de graduación académica</p>
+        </div>
+        
+        <div class="p-6">
+            @if($modalidades->count() > 0)
+                <x-data-table>
+                    <x-slot name="header">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                Medio de Graduación
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                Diplomas
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                Acciones
+                            </th>
+                        </tr>
+                    </x-slot>
+
+                    <x-slot name="body">
+                        @foreach($modalidades as $modalidad)
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-success-100 dark:bg-success-900 rounded-full flex items-center justify-center mr-4">
+                                        <span class="icon-[mdi--trophy] w-5 h-5 text-success-600 dark:text-success-400"></span>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                            {{ $modalidad->medio_graduacion }}
+                                        </div>
+                                    </div>
                                 </div>
-                            @endcan
-                        </div>
-                    @endif
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    @if($modalidad->diplomas_count > 0)
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-200">
+                                            <span class="icon-[mdi--certificate] w-3 h-3 mr-1"></span>
+                                            {{ $modalidad->diplomas_count }} diplomas
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+                                            <span class="icon-[mdi--certificate-outline] w-3 h-3 mr-1"></span>
+                                            Sin diplomas
+                                        </span>
+                                    @endif
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <div class="inline-flex">
+                                    <x-icon-button 
+                                        icon="icon-[mdi--eye]" 
+                                        variant="outline" 
+                                        size="sm"
+                                        onclick="window.location.href='{{ route('diplomas.modalidades.show', $modalidad) }}'"
+                                        title="Ver modalidad" />
+                                    
+                                    @can('editar-titulos')
+                                        <x-icon-button 
+                                            icon="icon-[mdi--pencil]" 
+                                            variant="secondary" 
+                                            size="sm"
+                                            onclick="window.location.href='{{ route('diplomas.modalidades.edit', $modalidad) }}'"
+                                            title="Editar modalidad" />
+                                    @endcan
+                                    
+                                    @can('eliminar-titulos')
+                                        @if($modalidad->diplomas_count == 0)
+                                            <form method="POST" action="{{ route('diplomas.modalidades.destroy', $modalidad) }}" class="inline">
+                                                @csrf @method('DELETE')
+                                                <x-icon-button 
+                                                    type="submit"
+                                                    icon="icon-[mdi--delete]" 
+                                                    variant="danger" 
+                                                    size="sm"
+                                                    onclick="return confirm('¿Estás seguro de eliminar esta modalidad?')"
+                                                    title="Eliminar modalidad" />
+                                            </form>
+                                        @else
+                                            <x-icon-button 
+                                                icon="icon-[mdi--lock]" 
+                                                variant="ghost" 
+                                                size="sm"
+                                                disabled
+                                                title="No se puede eliminar: en uso" />
+                                        @endif
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </x-slot>
+                </x-data-table>
+                
+                <div class="mt-6">
+                    {{ $modalidades->appends(request()->query())->links() }}
                 </div>
-            </div>
+            @else
+                <div class="text-center py-12">
+                    <div class="mx-auto w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
+                        <span class="icon-[mdi--trophy-outline] w-12 h-12 text-gray-400"></span>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">No hay modalidades registradas</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Comienza creando modalidades de graduación para clasificar los tipos de obtención de diploma.</p>
+                    @can('crear-titulos')
+                        <x-primary-button onclick="window.location.href='{{ route('diplomas.modalidades.create') }}'">
+                            <span class="icon-[mdi--plus] w-4 h-4 mr-2"></span>
+                            Crear Primera Modalidad
+                        </x-primary-button>
+                    @endcan
+                </div>
+            @endif
+        </div>
+    </div>
 </x-diplomas-layout>

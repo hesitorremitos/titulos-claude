@@ -1,22 +1,27 @@
-<x-diplomas-layout section-title="Formulario">
+@php
+    $breadcrumbs = [
+        ['label' => 'Dashboard', 'url' => route('dashboard')],
+        ['label' => 'Diplomas Académicos', 'url' => route('diplomas.index')],
+        ['label' => 'Nuevo Diploma']
+    ];
+@endphp
+
+<x-diplomas-layout section-title="Formulario" :breadcrumbs="$breadcrumbs">
     <x-slot name="headerExtra">
-        <a href="{{ route('diplomas.index') }}" 
-           class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
+        <x-secondary-button onclick="window.location.href='{{ route('diplomas.index') }}'">
             <span class="icon-[mdi--arrow-left] w-4 h-4 mr-2"></span>
             Volver a Lista
-        </a>
+        </x-secondary-button>
     </x-slot>
 
     <!-- Formulario Section -->
-    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Registrar Nuevo Diploma Académico</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Complete la información del diploma académico. Puede buscar los datos personales a través de la API universitaria o registrarlos manualmente.</p>
+        </div>
+        
         <div class="p-6">
-            <div class="mb-6">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Registrar Nuevo Diploma Académico</h3>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Complete la información del diploma académico. Puede buscar los datos personales a través de la API universitaria o registrarlos manualmente.
-                </p>
-            </div>
-            
             <!-- Livewire Component for Form -->
             @livewire('diploma-academico-form-component')
         </div>

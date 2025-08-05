@@ -180,6 +180,14 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - Optimizadas consultas de base de datos
 - Implementado manejo robusto de errores
 
+### Limpieza de Componentes (Arquitectura Optimizada)
+- **Componentes eliminados**: 13 componentes redundantes o innecesarios
+- **Componente unificado**: Creado `x-button` con 4 variantes (primary, secondary, outline, danger)
+- **Actualización de vistas**: 6 archivos de vista actualizados con reemplazos HTML directos
+- **Guía de estilos**: Completamente actualizada para reflejar nueva arquitectura
+- **Navbar mejorada**: Agregado toggle de tema dark/light reemplazando notificaciones
+- **Resultado**: Sistema más limpio, mantenible y consistente
+
 ## Índice de Archivos del Sistema
 
 ### Migraciones Consolidadas
@@ -202,6 +210,19 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 
 ### View Components
 - `app/View/Components/DiplomasLayout.php` - Componente Laravel para layout unificado de diplomas académicos
+
+### Blade Components (Sistema de Diseño)
+- `resources/views/components/breadcrumb.blade.php` - Componente breadcrumb navegacional con iconos
+- `resources/views/components/page-header.blade.php` - Header de página con breadcrumbs, título y acciones
+- `resources/views/components/page-section.blade.php` - Sección de página con título y descripción opcional
+- `resources/views/components/form-field.blade.php` - Campo de formulario con label, error y help text
+- `resources/views/components/form-input-icon.blade.php` - Input con icono interno
+- `resources/views/components/form-textarea.blade.php` - Textarea estilizado con configuración de filas
+- `resources/views/components/button-group.blade.php` - Grupo de botones con variantes de estilo
+- `resources/views/components/icon-button.blade.php` - Botón con solo icono y múltiples variantes
+- `resources/views/components/danger-button.blade.php` - Botón de acción peligrosa (eliminar)
+- `resources/views/components/navigation-tab.blade.php` - Tab de navegación con estado activo
+- `resources/views/components/validation-message.blade.php` - Mensaje de validación con iconos por tipo
 
 ### Livewire Components
 - `app/Livewire/DiplomaAcademicoFormComponent.php` - Componente principal formulario con 2 opciones de registro
@@ -244,12 +265,29 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `resources/views/livewire/pdf-auto-upload-form.blade.php` - Vista componente subida PDF con drag & drop para formulario registro
 - `resources/views/livewire/toast.blade.php` - Vista componente toast optimizada (duración manejada directamente en Alpine.js)
 - `resources/views/livewire/button-test.blade.php` - Vista simple de botón que emite eventos
-- `resources/views/components/primary-button.blade.php` - Botón primario con colores primary actualizados
-- `resources/views/components/secondary-button.blade.php` - Botón secundario con focus ring consistente
-- `resources/views/components/sidebar-section.blade.php` - Componente sidebar collapsible con Alpine.js y persistencia
 - `resources/views/style-guide.blade.php` - Guía de estilos del sistema con componentes UI principales (solo ejemplos visuales y documentación)
+
+### Blade Components (Arquitectura Optimizada)
+- `resources/views/components/button.blade.php` - **Componente unificado** de botones con variantes (primary, secondary, outline, danger), tamaños (sm, md, lg), soporte para iconos y enlaces
+- `resources/views/components/form-field.blade.php` - Wrapper para campos de formulario con etiqueta, validación y mensajes de ayuda
+- `resources/views/components/data-table.blade.php` - Tabla responsiva con estilos consistentes para mostrar datos
+- `resources/views/components/card.blade.php` - Contenedor de tarjeta con header opcional y estilos consistentes
+- `resources/views/components/sidebar-section.blade.php` - Componente sidebar collapsible con Alpine.js y persistencia
 - `resources/views/components/pdf-viewer.blade.php` - Componente reutilizable de visor PDF con drag & drop y viewer nativo
 - `resources/views/components/searchable-select.blade.php` - Componente select buscable con navegación por teclado y accesibilidad completa
+- `resources/views/components/primary-button.blade.php` - **Mantenido por compatibilidad** (se recomienda usar `x-button variant="primary"`)
+- `resources/views/components/secondary-button.blade.php` - **Mantenido por compatibilidad** (se recomienda usar `x-button variant="secondary"`)
+
+### Componentes Eliminados (Arquitectura Limpia)
+**Los siguientes componentes fueron eliminados para simplificar la arquitectura:**
+- `x-stat-card` - Reemplazado por HTML directo en vistas (mismo diseño visual)
+- `x-danger-button` - Consolidado en `x-button` con `variant="danger"`
+- `x-button-group` - Reemplazado por divs con clases Tailwind directas
+- `x-page-section` - Reemplazado por HTML directo en vistas
+- `x-breadcrumb` - Eliminado (no se usaba en el sistema)
+- `x-activity-feed` - Eliminado (no se usaba en el sistema)
+- `x-notification` - Reemplazado por sistema toast de Livewire
+- `x-quick-action` - Eliminado (no se usaba en el sistema)
 
 ### CSV Data
 - `database/csv/graduacion_da.csv` - 32 modalidades graduación

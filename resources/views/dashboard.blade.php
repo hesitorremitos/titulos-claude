@@ -36,44 +36,77 @@
     </div>
 
     <!-- Estadísticas rápidas -->
-    <x-stat-card 
-        icon="mdi--school" 
-        icon-color="text-blue-500"
-        title="Total Facultades"
-        value="12"
-    />
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">
+        <div class="p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <span class="icon-[mdi--school] text-blue-500 w-8 h-8" aria-hidden="true"></span>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Facultades</p>
+                    <p class="text-2xl font-semibold text-gray-900 dark:text-white">12</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <x-stat-card 
-        icon="mdi--book-education" 
-        icon-color="text-green-500"
-        title="Total Carreras"
-        value="45"
-    />
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">
+        <div class="p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <span class="icon-[mdi--book-education] text-green-500 w-8 h-8" aria-hidden="true"></span>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Carreras</p>
+                    <p class="text-2xl font-semibold text-gray-900 dark:text-white">45</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <x-stat-card 
-        icon="mdi--calendar-month" 
-        icon-color="text-purple-500"
-        title="Este Mes"
-        value="3"
-    />
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">
+        <div class="p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <span class="icon-[mdi--calendar-month] text-purple-500 w-8 h-8" aria-hidden="true"></span>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Este Mes</p>
+                    <p class="text-2xl font-semibold text-gray-900 dark:text-white">3</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Acciones rápidas -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <x-quick-action 
-        href="#"
-        icon="mdi--school"
-        icon-color="text-blue-500"
-        title="Gestionar Facultades"
-        description="Ver y administrar facultades"
-    />
+    <a href="#" class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700 group">
+        <div class="flex items-center">
+            <div class="w-12 h-12 rounded-lg text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-4">
+                <span class="icon-[mdi--school] w-6 h-6" aria-hidden="true"></span>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                    Gestionar Facultades
+                </h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Ver y administrar facultades</p>
+            </div>
+        </div>
+    </a>
 
-    <x-quick-action 
-        href="#"
-        icon="mdi--book-education"
-        icon-color="text-green-500"
-        title="Gestionar Carreras"
-        description="Ver y administrar carreras"
-    />
+    <a href="#" class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700 group">
+        <div class="flex items-center">
+            <div class="w-12 h-12 rounded-lg text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900 flex items-center justify-center mr-4">
+                <span class="icon-[mdi--book-education] w-6 h-6" aria-hidden="true"></span>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                    Gestionar Carreras
+                </h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Ver y administrar carreras</p>
+            </div>
+        </div>
+    </a>
 </div>
 @endsection

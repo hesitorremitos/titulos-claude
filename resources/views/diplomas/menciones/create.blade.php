@@ -1,22 +1,19 @@
-<x-diplomas-layout section-title="Crear Mención">
+@php
+    $breadcrumbs = [
+        ['label' => 'Dashboard', 'url' => route('dashboard')],
+        ['label' => 'Diplomas Académicos', 'url' => route('diplomas.index')],
+        ['label' => 'Menciones', 'url' => route('diplomas.menciones.index')],
+        ['label' => 'Nueva Mención']
+    ];
+@endphp
+
+<x-diplomas-layout section-title="Crear Mención" :breadcrumbs="$breadcrumbs">
     <x-slot name="headerExtra">
-        <a href="{{ route('diplomas.menciones.index') }}" 
-           class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
+        <x-secondary-button onclick="window.location.href='{{ route('diplomas.menciones.index') }}'">
             <span class="icon-[mdi--arrow-left] w-4 h-4 mr-2"></span>
             Volver
-        </a>
+        </x-secondary-button>
     </x-slot>
-
-    <!-- Breadcrumb Navigation -->
-    <nav class="mb-6 text-sm">
-        <ol class="flex items-center space-x-2 text-gray-500">
-            <li><a href="{{ route('diplomas.index') }}" class="hover:text-gray-700">Diplomas Académicos</a></li>
-            <li class="flex items-center"><span class="icon-[mdi--chevron-right] w-4 h-4 mx-2"></span></li>
-            <li><a href="{{ route('diplomas.menciones.index') }}" class="hover:text-gray-700">Menciones</a></li>
-            <li class="flex items-center"><span class="icon-[mdi--chevron-right] w-4 h-4 mx-2"></span></li>
-            <li class="text-gray-900 dark:text-gray-100">Crear</li>
-        </ol>
-    </nav>
 
     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6">

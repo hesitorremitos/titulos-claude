@@ -40,15 +40,15 @@
                 <div class="flex items-center justify-between py-3">
                     <div class="flex space-x-6 flex-wrap gap-y-2">
                         <a href="#colors" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Colores</a>
-                    <a href="#typography" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Tipografía</a>
-                    <a href="#buttons" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Botones</a>
-                    <a href="#forms" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Formularios</a>
-                    <a href="#dashboard" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Dashboard</a>
-                    <a href="#complete-form" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Formulario Completo</a>
-                    <a href="#cards" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Cards</a>
-                    <a href="#navigation" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Navegación</a>
-                    <a href="#icons" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Iconos</a>
-                    <a href="#toasts" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Notificaciones Toast</a>
+                        <a href="#typography" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Tipografía</a>
+                        <a href="#buttons" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Botones</a>
+                        <a href="#forms" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Formularios</a>
+                        <a href="#dashboard" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Dashboard</a>
+                        <a href="#complete-form" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Formulario Completo</a>
+                        <a href="#cards" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Cards</a>
+                        <a href="#navigation" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Navegación</a>
+                        <a href="#icons" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Iconos</a>
+                        <a href="#toasts" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Notificaciones Toast</a>
                     <a href="#searchable-select" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Select Buscable</a>
                     <a href="#pdf-viewer" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Visor PDF</a>
                     <a href="#feedback" class="whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">Feedback</a>
@@ -280,37 +280,36 @@
             <section id="buttons" class="mb-16">
                 <div class="mb-8">
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Botones</h2>
-                    <p class="text-gray-600 dark:text-gray-400">Componentes de botones actuales del sistema</p>
+                    <p class="text-gray-600 dark:text-gray-400">Componente unificado de botones con múltiples variantes</p>
                 </div>
 
                 <div class="space-y-8">
-                    <!-- Botones Primarios -->
+                    <!-- Botones por Variante -->
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Botones Primarios</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Variantes de Botones</h3>
                         <div class="flex flex-wrap gap-4">
-                            <x-primary-button>Botón Primario</x-primary-button>
-                            <x-primary-button disabled>Botón Deshabilitado</x-primary-button>
-                            <x-primary-button class="text-xs px-3 py-1.5">Botón Pequeño</x-primary-button>
-                            <x-primary-button class="text-base px-6 py-3">Botón Grande</x-primary-button>
+                            <x-button variant="primary">Botón Primario</x-button>
+                            <x-button variant="secondary">Botón Secundario</x-button>
+                            <x-button variant="outline">Botón Outline</x-button>
+                            <x-button variant="danger">Botón Peligroso</x-button>
                         </div>
                         <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Código:</p>
-                            <code class="text-xs font-mono text-gray-800 dark:text-gray-200">&lt;x-primary-button&gt;Botón Primario&lt;/x-primary-button&gt;</code>
+                            <code class="text-xs font-mono text-gray-800 dark:text-gray-200">&lt;x-button variant="primary"&gt;Botón Primario&lt;/x-button&gt;</code>
                         </div>
                     </div>
 
-                    <!-- Botones Secundarios -->
+                    <!-- Tamaños de Botones -->
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Botones Secundarios</h3>
-                        <div class="flex flex-wrap gap-4">
-                            <x-secondary-button>Botón Secundario</x-secondary-button>
-                            <x-secondary-button disabled>Botón Deshabilitado</x-secondary-button>
-                            <x-secondary-button class="text-xs px-3 py-1.5">Botón Pequeño</x-secondary-button>
-                            <x-secondary-button class="text-base px-6 py-3">Botón Grande</x-secondary-button>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Tamaños de Botones</h3>
+                        <div class="flex flex-wrap items-center gap-4">
+                            <x-button size="sm">Pequeño</x-button>
+                            <x-button size="md">Mediano</x-button>
+                            <x-button size="lg">Grande</x-button>
                         </div>
                         <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Código:</p>
-                            <code class="text-xs font-mono text-gray-800 dark:text-gray-200">&lt;x-secondary-button&gt;Botón Secundario&lt;/x-secondary-button&gt;</code>
+                            <code class="text-xs font-mono text-gray-800 dark:text-gray-200">&lt;x-button size="sm"&gt;Pequeño&lt;/x-button&gt;</code>
                         </div>
                     </div>
 
@@ -318,22 +317,40 @@
                     <div>
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Botones con Iconos</h3>
                         <div class="flex flex-wrap gap-4">
-                            <x-primary-button>
-                                <span class="icon-[mdi--plus] w-4 h-4 mr-2"></span>
-                                Crear Nuevo
-                            </x-primary-button>
-                            <x-secondary-button>
-                                <span class="icon-[mdi--pencil] w-4 h-4 mr-2"></span>
-                                Editar
-                            </x-secondary-button>
-                            <x-secondary-button>
-                                <span class="icon-[mdi--download] w-4 h-4 mr-2"></span>
-                                Descargar
-                            </x-secondary-button>
-                            <button type="button" class="inline-flex items-center px-3 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:bg-red-700 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                <span class="icon-[mdi--delete] w-4 h-4 mr-2"></span>
-                                Eliminar
-                            </button>
+                            <x-button variant="primary" icon="icon-[mdi--plus]">Crear Nuevo</x-button>
+                            <x-button variant="secondary" icon="icon-[mdi--pencil]">Editar</x-button>
+                            <x-button variant="outline" icon="icon-[mdi--download]">Descargar</x-button>
+                            <x-button variant="danger" icon="icon-[mdi--delete]">Eliminar</x-button>
+                        </div>
+                        <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Código:</p>
+                            <code class="text-xs font-mono text-gray-800 dark:text-gray-200">&lt;x-button variant="primary" icon="icon-[mdi--plus]"&gt;Crear Nuevo&lt;/x-button&gt;</code>
+                        </div>
+                    </div>
+
+                    <!-- Estados de Botones -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Estados de Botones</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <x-button variant="primary">Normal</x-button>
+                            <x-button variant="primary" disabled>Deshabilitado</x-button>
+                        </div>
+                        <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Código:</p>
+                            <code class="text-xs font-mono text-gray-800 dark:text-gray-200">&lt;x-button variant="primary" disabled&gt;Deshabilitado&lt;/x-button&gt;</code>
+                        </div>
+                    </div>
+
+                    <!-- Botones como Enlaces -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Botones como Enlaces</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <x-button variant="primary" href="/ejemplo">Enlace Primario</x-button>
+                            <x-button variant="outline" href="/ejemplo">Enlace Outline</x-button>
+                        </div>
+                        <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Código:</p>
+                            <code class="text-xs font-mono text-gray-800 dark:text-gray-200">&lt;x-button variant="primary" href="/ejemplo"&gt;Enlace Primario&lt;/x-button&gt;</code>
                         </div>
                     </div>
                 </div>
@@ -439,6 +456,121 @@
                                 <input type="text" value="Dato incorrecto" class="w-full px-3 py-2 border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white">
                                 <p class="text-red-600 dark:text-red-400 text-sm mt-1">Este campo es requerido</p>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Componente Form Field -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Componente Form Field</h3>
+                        <div class="space-y-6">
+                            <x-form-field label="Nombre Completo" name="nombre" required>
+                                <input type="text" id="nombre" name="nombre" 
+                                       placeholder="Ingrese su nombre completo"
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                            </x-form-field>
+
+                            <x-form-field label="Email" name="email" required help="Introduzca un email válido para recibir notificaciones">
+                                <input type="email" id="email" name="email" 
+                                       placeholder="usuario@ejemplo.com"
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                            </x-form-field>
+
+                            <x-form-field label="Contraseña" name="password" required error="La contraseña debe tener al menos 8 caracteres">
+                                <input type="password" id="password" name="password" 
+                                       class="w-full px-3 py-2 border border-red-300 dark:border-red-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white">
+                            </x-form-field>
+                        </div>
+                        <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Código:</p>
+                            <code class="text-xs font-mono text-gray-800 dark:text-gray-200">
+                                &lt;x-form-field label="Nombre" name="nombre" required&gt;...&lt;/x-form-field&gt;
+                            </code>
+                        </div>
+                    </div>
+
+                    <!-- Componente Data Table -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Componente Data Table</h3>
+                        <x-data-table>
+                            <x-slot name="header">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Nombre
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Email
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Rol
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Estado
+                                    </th>
+                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Acciones
+                                    </th>
+                                </tr>
+                            </x-slot>
+                            <x-slot name="body">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                        Juan Pérez
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        juan.perez@uatf.edu.bo
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        Administrador
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                            Activo
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <div class="flex justify-end space-x-2">
+                                            <x-button variant="outline" size="sm" icon="icon-[mdi--pencil]">
+                                                Editar
+                                            </x-button>
+                                            <x-button variant="danger" size="sm" icon="icon-[mdi--delete]">
+                                                Eliminar
+                                            </x-button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                        María García
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        maria.garcia@uatf.edu.bo
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        Editor
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                            Pendiente
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <div class="flex justify-end space-x-2">
+                                            <x-button variant="outline" size="sm" icon="icon-[mdi--pencil]">
+                                                Editar
+                                            </x-button>
+                                            <x-button variant="danger" size="sm" icon="icon-[mdi--delete]">
+                                                Eliminar
+                                            </x-button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </x-slot>
+                        </x-data-table>
+                        <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Código:</p>
+                            <code class="text-xs font-mono text-gray-800 dark:text-gray-200">
+                                &lt;x-data-table&gt;&lt;x-slot name="header"&gt;...&lt;/x-slot&gt;&lt;x-slot name="body"&gt;...&lt;/x-slot&gt;&lt;/x-data-table&gt;
+                            </code>
                         </div>
                     </div>
                 </div>
@@ -620,7 +752,7 @@
                                 <div class="px-6 py-0 bg-white dark:bg-gray-800">
                                     <nav class="-mb-px flex space-x-8" aria-label="Sub Navigation">
                                         <!-- Lista Activa -->
-                                        <a href="#" class="border-b-2 border-primary-500 text-primary-600 dark:text-primary-400 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm flex items-center">
+                                        <a href="#" class="border-b-2 border-primary-500 text-primary-600 dark:text-primary-400 whitespace-nowrap py-3 px-1 font-medium text-sm flex items-center">
                                             <span class="icon-[mdi--format-list-bulleted] w-4 h-4 mr-2"></span>
                                             Lista Activa
                                         </a>
@@ -969,18 +1101,15 @@
 
                         <!-- Botones de Acción -->
                         <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
-                            <x-secondary-button type="button">
-                                <span class="icon-[mdi--close] w-4 h-4 mr-2"></span>
+                            <x-button variant="outline" type="button" icon="icon-[mdi--close]">
                                 Cancelar
-                            </x-secondary-button>
-                            <x-secondary-button type="button">
-                                <span class="icon-[mdi--content-save] w-4 h-4 mr-2"></span>
+                            </x-button>
+                            <x-button variant="secondary" type="button" icon="icon-[mdi--content-save]">
                                 Guardar Borrador
-                            </x-secondary-button>
-                            <x-primary-button type="submit">
-                                <span class="icon-[mdi--check] w-4 h-4 mr-2"></span>
+                            </x-button>
+                            <x-button variant="primary" type="submit" icon="icon-[mdi--check]">
                                 Registrar Diploma
-                            </x-primary-button>
+                            </x-button>
                         </div>
                     </form>
                 </div>
@@ -1003,8 +1132,8 @@
                                     Contenido de la tarjeta. Este es un ejemplo de cómo se ve el contenido principal dentro de una card básica.
                                 </p>
                                 <div class="flex space-x-2 mt-4">
-                                    <x-primary-button class="text-xs px-3 py-1.5">Acción Principal</x-primary-button>
-                                    <x-secondary-button class="text-xs px-3 py-1.5">Acción Secundaria</x-secondary-button>
+                                    <x-button variant="primary" size="sm">Acción Principal</x-button>
+                                    <x-button variant="secondary" size="sm">Acción Secundaria</x-button>
                                 </div>
                             </x-card>
 
@@ -1022,34 +1151,99 @@
                         </div>
                     </div>
 
-                    <!-- Stat Cards -->
+                    <!-- Tarjetas de Estadísticas -->
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Stat Cards</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Tarjetas de Estadísticas</h3>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <x-stat-card 
-                                title="Total Diplomas"
-                                value="1,234"
-                                icon="mdi--school"
-                                iconColor="text-blue-500"
-                            />
-                            <x-stat-card 
-                                title="Pendientes"
-                                value="45"
-                                icon="mdi--clock-outline"
-                                iconColor="text-yellow-500"
-                            />
-                            <x-stat-card 
-                                title="Digitalizados"
-                                value="1,189"
-                                icon="mdi--check-circle"
-                                iconColor="text-green-500"
-                            />
-                            <x-stat-card 
-                                title="Usuarios Activos"
-                                value="12"
-                                icon="mdi--account-multiple"
-                                iconColor="text-purple-500"
-                            />
+                            <!-- Stat Card 1 -->
+                            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+                                <div class="p-5">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0">
+                                            <span class="icon-[mdi--school] w-8 h-8 text-blue-500"></span>
+                                        </div>
+                                        <div class="ml-5 w-0 flex-1">
+                                            <dl>
+                                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                                                    Total Diplomas
+                                                </dt>
+                                                <dd class="text-lg font-medium text-gray-900 dark:text-white">
+                                                    1,234
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stat Card 2 -->
+                            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+                                <div class="p-5">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0">
+                                            <span class="icon-[mdi--clock-outline] w-8 h-8 text-yellow-500"></span>
+                                        </div>
+                                        <div class="ml-5 w-0 flex-1">
+                                            <dl>
+                                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                                                    Pendientes
+                                                </dt>
+                                                <dd class="text-lg font-medium text-gray-900 dark:text-white">
+                                                    45
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stat Card 3 -->
+                            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+                                <div class="p-5">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0">
+                                            <span class="icon-[mdi--check-circle] w-8 h-8 text-green-500"></span>
+                                        </div>
+                                        <div class="ml-5 w-0 flex-1">
+                                            <dl>
+                                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                                                    Digitalizados
+                                                </dt>
+                                                <dd class="text-lg font-medium text-gray-900 dark:text-white">
+                                                    1,189
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stat Card 4 -->
+                            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+                                <div class="p-5">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0">
+                                            <span class="icon-[mdi--account-multiple] w-8 h-8 text-purple-500"></span>
+                                        </div>
+                                        <div class="ml-5 w-0 flex-1">
+                                            <dl>
+                                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                                                    Usuarios Activos
+                                                </dt>
+                                                <dd class="text-lg font-medium text-gray-900 dark:text-white">
+                                                    12
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Código HTML directo:</p>
+                            <code class="text-xs font-mono text-gray-800 dark:text-gray-200">
+                                &lt;div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg"&gt;...&lt;/div&gt;
+                            </code>
                         </div>
                     </div>
                 </div>
