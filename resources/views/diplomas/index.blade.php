@@ -1,49 +1,39 @@
 <x-diplomas-layout>
 
     <!-- Filtros de búsqueda -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
-        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Filtros de Búsqueda</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Encuentra diplomas académicos específicos usando los criterios de búsqueda</p>
-        </div>
-        
-        <div class="p-6">
-            <form method="GET" action="{{ route('diplomas.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <x-form-field label="Buscar por CI o nombre" name="search">
-                    <x-form-input-icon 
-                        icon="icon-[mdi--magnify]"
-                        name="search" 
-                        type="text" 
-                        value="{{ request('search') }}"
-                        placeholder="CI, nombres o apellidos" />
-                </x-form-field>
-                
-                <x-form-field label="Estado del diploma" name="estado">
-                    <x-form-select name="estado" id="estado">
-                        <option value="">Todos los estados</option>
-                        <option value="digitalizado" {{ request('estado') === 'digitalizado' ? 'selected' : '' }}>
-                            Digitalizado
-                        </option>
-                        <option value="pendiente" {{ request('estado') === 'pendiente' ? 'selected' : '' }}>
-                            Pendiente de digitalización
-                        </option>
-                    </x-form-select>
-                </x-form-field>
-                
-                <div class="flex items-end space-x-3">
-                    <div class="inline-flex rounded-md shadow-sm divide-x divide-gray-300 dark:divide-gray-600">
-                        <x-primary-button type="submit">
-                            <span class="icon-[mdi--magnify] w-4 h-4 mr-2"></span>
-                            Buscar
-                        </x-primary-button>
-                        <x-secondary-button type="button" onclick="window.location.href='{{ route('diplomas.index') }}'">
-                            <span class="icon-[mdi--refresh] w-4 h-4 mr-2"></span>
-                            Limpiar
-                        </x-secondary-button>
-                    </div>
-                </div>
-            </form>
-        </div>
+    <div class="mb-6">
+        <form method="GET" action="{{ route('diplomas.index') }}" class="flex flex-col md:flex-row items-center gap-4">
+            <div class="relative w-full md:flex-1">
+                <x-form-input-icon 
+                    icon="icon-[mdi--magnify]"
+                    name="search" 
+                    type="text" 
+                    value="{{ request('search') }}"
+                    placeholder="Buscar por CI, nombre o apellidos..." />
+            </div>
+            
+            <div class="relative w-full md:w-auto">
+                <x-form-select name="estado" id="estado" onchange="this.form.submit()">
+                    <option value="">Todos los estados</option>
+                    <option value="digitalizado" @selected(request('estado') === 'digitalizado')>
+                        Digitalizado
+                    </option>
+                    <option value="pendiente" @selected(request('estado') === 'pendiente')>
+                        Pendiente de digitalización
+                    </option>
+                </x-form-select>
+            </div>
+
+            <div class="flex items-center space-x-2 w-full md:w-auto">
+                <x-button type="submit" variant="primary" class="w-full justify-center">
+                    <span class="icon-[mdi--magnify] w-5 h-5"></span>
+                    <span class="hidden sm:inline ml-2">Buscar</span>
+                </x-button>
+                <x-button as="a" href="{{ route('diplomas.index') }}" variant="secondary" class="w-full justify-center">
+                    <span class="icon-[mdi--refresh] w-5 h-5"></span>
+                </x-button>
+            </div>
+        </form>
     </div>
 
     <!-- Lista de diplomas -->

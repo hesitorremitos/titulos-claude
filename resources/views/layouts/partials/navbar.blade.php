@@ -1,34 +1,51 @@
 <!-- Header -->
-<header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+<header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 z-30">
     <!-- Top Navigation Bar -->
-    <div class="px-6 py-4">
-        <div class="flex items-center justify-between">
-            <!-- Page Title and Description -->
-            <div class="flex-1 min-w-0">
-                {{ $header ?? '' }}
+    <div class="px-4 sm:px-6">
+        <div class="flex items-center justify-between h-16 -mb-px">
+            <!-- Header: Left side -->
+            <div class="flex items-center space-x-3">
+                <!-- Hamburger button -->
+                <button 
+                    class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 lg:hidden" 
+                    @click.stop="sidebarOpen = !sidebarOpen" 
+                    aria-controls="sidebar" 
+                    :aria-expanded="sidebarOpen"
+                >
+                    <span class="sr-only">Abrir sidebar</span>
+                    <span class="icon-[mdi--menu] w-6 h-6"></span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="hidden lg:block">
+                    {{ $header ?? '' }}
+                </div>
             </div>
 
-            <!-- User Actions -->
-            <div class="flex items-center space-x-4">
+            <!-- Header: Right side -->
+            <div class="flex items-center space-x-3">
                 <!-- Cambio de Tema -->
                 <button id="theme-toggle" 
-                        class="relative p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                        class="relative p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
                         title="Cambiar tema">
                     <span class="icon-[mdi--weather-sunny] dark:hidden w-5 h-5"></span>
                     <span class="icon-[mdi--weather-night] hidden dark:block w-5 h-5"></span>
                 </button>
                 
+                <!-- Separator -->
+                <div class="w-px h-6 bg-gray-200 dark:bg-gray-700" aria-hidden="true"></div>
+
                 <!-- Usuario Profile Dropdown -->
                 <div x-data="{ menuIsOpen: false }" x-on:keydown.esc.window="menuIsOpen = false" class="relative">
-                    <button type="button" class="flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors hover:bg-gray-50 dark:hover:bg-gray-700" :class="menuIsOpen ? 'bg-primary-50 dark:bg-primary-900/20' : ''" aria-haspopup="true" x-on:click="menuIsOpen = ! menuIsOpen" :aria-expanded="menuIsOpen">
+                    <button type="button" class="flex items-center space-x-3 transition-colors" aria-haspopup="true" x-on:click="menuIsOpen = ! menuIsOpen" :aria-expanded="menuIsOpen">
                         <div class="w-8 h-8 bg-secondary-500 rounded-full flex items-center justify-center">
                             <span class="icon-[mdi--account] w-5 h-5 text-white"></span>
                         </div>
-                        <div class="text-sm text-left">
-                            <p class="font-medium text-gray-900 dark:text-white">{{ auth()->user()->name }}</p>
-                            <p class="text-gray-500 dark:text-gray-400">{{ auth()->user()->getRoleNames()->first() }}</p>
+                        <div class="hidden md:block text-sm text-left">
+                            <p class="font-medium text-gray-900 dark:text-white truncate">{{ auth()->user()->name }}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ auth()->user()->getRoleNames()->first() }}</p>
                         </div>
-                        <span class="icon-[mdi--chevron-down] w-4 h-4 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': menuIsOpen }"></span>
+                        <span class="hidden md:block icon-[mdi--chevron-down] w-4 h-4 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': menuIsOpen }"></span>
                     </button>
                     
                     <!-- Dropdown Menu -->
