@@ -1,4 +1,4 @@
-@props(['sectionTitle' => 'Diplomas Académicos', 'headerExtra' => null, 'breadcrumbs' => []])
+@props(['sectionTitle' => 'Diplomas Académicos', 'breadcrumbs' => []])
 
 <x-app-layout>
     <x-slot name="header">

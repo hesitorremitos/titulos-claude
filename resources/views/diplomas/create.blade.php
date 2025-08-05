@@ -7,13 +7,6 @@
 @endphp
 
 <x-diplomas-layout section-title="Formulario" :breadcrumbs="$breadcrumbs">
-    <x-slot name="headerExtra">
-        <x-secondary-button onclick="window.location.href='{{ route('diplomas.index') }}'">
-            <span class="icon-[mdi--arrow-left] w-4 h-4 mr-2"></span>
-            Volver a Lista
-        </x-secondary-button>
-    </x-slot>
-
     <!-- Formulario Section -->
     <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">

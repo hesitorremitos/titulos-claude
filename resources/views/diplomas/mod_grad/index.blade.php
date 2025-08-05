@@ -7,15 +7,6 @@
 @endphp
 
 <x-diplomas-layout section-title="Modalidades" :breadcrumbs="$breadcrumbs">
-    <x-slot name="headerExtra">
-        @can('crear-titulos')
-            <x-primary-button onclick="window.location.href='{{ route('diplomas.modalidades.create') }}'">
-                <span class="icon-[mdi--plus] w-4 h-4 mr-2"></span>
-                Nueva Modalidad
-            </x-primary-button>
-        @endcan
-    </x-slot>
-
     <!-- Lista de modalidades -->
     <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
@@ -76,7 +67,7 @@
                                         icon="icon-[mdi--eye]" 
                                         variant="outline" 
                                         size="sm"
-                                        onclick="window.location.href='{{ route('diplomas.modalidades.show', $modalidad) }}'"
+                                        onclick="window.location.href='{{ route('diplomas.mod_grad.show', $modalidad) }}'"
                                         title="Ver modalidad" />
                                     
                                     @can('editar-titulos')
@@ -84,13 +75,13 @@
                                             icon="icon-[mdi--pencil]" 
                                             variant="secondary" 
                                             size="sm"
-                                            onclick="window.location.href='{{ route('diplomas.modalidades.edit', $modalidad) }}'"
+                                            onclick="window.location.href='{{ route('diplomas.mod_grad.edit', $modalidad) }}'"
                                             title="Editar modalidad" />
                                     @endcan
                                     
                                     @can('eliminar-titulos')
                                         @if($modalidad->diplomas_count == 0)
-                                            <form method="POST" action="{{ route('diplomas.modalidades.destroy', $modalidad) }}" class="inline">
+                                            <form method="POST" action="{{ route('diplomas.mod_grad.destroy', $modalidad) }}" class="inline">
                                                 @csrf @method('DELETE')
                                                 <x-icon-button 
                                                     type="submit"
@@ -127,7 +118,7 @@
                     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">No hay modalidades registradas</h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Comienza creando modalidades de graduación para clasificar los tipos de obtención de diploma.</p>
                     @can('crear-titulos')
-                        <x-primary-button onclick="window.location.href='{{ route('diplomas.modalidades.create') }}'">
+                        <x-primary-button onclick="window.location.href='{{ route('diplomas.mod_grad.create') }}'">
                             <span class="icon-[mdi--plus] w-4 h-4 mr-2"></span>
                             Crear Primera Modalidad
                         </x-primary-button>

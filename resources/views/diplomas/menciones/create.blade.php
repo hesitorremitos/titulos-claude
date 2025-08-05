@@ -8,13 +8,6 @@
 @endphp
 
 <x-diplomas-layout section-title="Crear Mención" :breadcrumbs="$breadcrumbs">
-    <x-slot name="headerExtra">
-        <x-secondary-button onclick="window.location.href='{{ route('diplomas.menciones.index') }}'">
-            <span class="icon-[mdi--arrow-left] w-4 h-4 mr-2"></span>
-            Volver
-        </x-secondary-button>
-    </x-slot>
-
     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6">
             <div class="mb-6">

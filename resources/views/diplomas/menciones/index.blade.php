@@ -7,20 +7,19 @@
 @endphp
 
 <x-diplomas-layout section-title="Menciones" :breadcrumbs="$breadcrumbs">
-    <x-slot name="headerExtra">
-        @can('crear-titulos')
-            <x-primary-button onclick="window.location.href='{{ route('diplomas.menciones.create') }}'">
-                <span class="icon-[mdi--plus] w-4 h-4 mr-2"></span>
-                Nueva Mención
-            </x-primary-button>
-        @endcan
-    </x-slot>
-
     <!-- Lista de menciones -->
     <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
-        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Menciones Académicas</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Gestión de menciones por carrera académica</p>
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+            <div>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Menciones Académicas</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Gestión de menciones por carrera académica</p>
+            </div>
+            @can('crear-titulos')
+                <x-primary-button onclick="window.location.href='{{ route('diplomas.menciones.create') }}'">
+                    <span class="icon-[mdi--plus] w-4 h-4 mr-2"></span>
+                    Añadir Mención
+                </x-primary-button>
+            @endcan
         </div>
         
         <div class="p-6">

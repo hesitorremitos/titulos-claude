@@ -7,21 +7,6 @@
 @endphp
 
 <x-diplomas-layout section-title="Diploma #{{ $diploma->nro_documento }}" :breadcrumbs="$breadcrumbs">
-    <x-slot name="headerExtra">
-        <div class="inline-flex rounded-md shadow-sm divide-x divide-gray-300 dark:divide-gray-600">
-            @if($diploma->file_dir)
-                <x-primary-button onclick="window.location.href='{{ route('diplomas.download', $diploma) }}'">
-                    <span class="icon-[mdi--download] w-4 h-4 mr-2"></span>
-                    Descargar PDF
-                </x-primary-button>
-            @endif
-            <x-secondary-button onclick="window.location.href='{{ route('diplomas.index') }}'">
-                <span class="icon-[mdi--arrow-left] w-4 h-4 mr-2"></span>
-                Volver al listado
-            </x-secondary-button>
-        </div>
-    </x-slot>
-
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Información Personal -->
         <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
