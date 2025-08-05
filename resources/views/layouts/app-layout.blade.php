@@ -6,6 +6,19 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ isset($title) ? $title . ' - ' : '' }}{{ config('app.name', 'Sistema de Títulos UATF') }}</title>
     
+    <!-- Script anti-flash para tema oscuro - Se ejecuta ANTES del renderizado -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+            
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+    
     @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

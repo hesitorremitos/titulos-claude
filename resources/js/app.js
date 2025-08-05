@@ -5,10 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('theme-toggle');
     const html = document.documentElement;
     
-    // Función para aplicar tema
+    // Función para aplicar tema y actualizar UI
     function setTheme(theme) {
-        console.log('Aplicando tema:', theme);
-        
         if (theme === 'dark') {
             html.classList.add('dark');
             if (themeToggle) {
@@ -22,24 +20,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         localStorage.setItem('theme', theme);
-        console.log('Clases HTML después del cambio:', html.className);
-        console.log('Tema guardado en localStorage:', theme);
     }
     
-    // Obtener tema inicial
-    const initialTheme = localStorage.getItem('theme') || 'light';
-    console.log('Tema inicial:', initialTheme);
-    setTheme(initialTheme);
+    // Obtener tema inicial para sincronizar título del botón
+    let currentTheme = localStorage.getItem('theme') || 
+                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     
-    // Manejar click del toggle
+    // Solo actualizar el título del botón (el tema ya fue aplicado por el script inline)
     if (themeToggle) {
+        themeToggle.title = currentTheme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro';
+        
+        // Manejar click del toggle
         themeToggle.addEventListener('click', function(e) {
             e.preventDefault();
-            const currentTheme = localStorage.getItem('theme') || 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            console.log('Toggle clicked - Cambiando de', currentTheme, 'a', newTheme);
             setTheme(newTheme);
+            // Actualizar la variable para el próximo click
+            currentTheme = newTheme;
         });
     }
-    
 });
