@@ -13,6 +13,6 @@ class StyleGuideController extends Controller
      */
     public function index()
     {
-        return view('style-guide');
+        return view('style-guide.index');
     }
 }
