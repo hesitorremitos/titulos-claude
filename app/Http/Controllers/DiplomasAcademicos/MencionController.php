@@ -4,7 +4,6 @@ namespace App\Http\Controllers\DiplomasAcademicos;
 
 use App\Http\Controllers\Controller;
 use App\Models\Carrera;
-use App\Models\DiplomaAcademico;
 use App\Models\MencionDa;
 use Illuminate\Http\Request;
 
@@ -31,12 +30,12 @@ class MencionController extends Controller
     public function create()
     {
         $this->authorize('crear-titulos');
-        
+
         $carrerasCollection = Carrera::with('facultad')->orderBy('programa')->get();
         $carreras = $carrerasCollection->mapWithKeys(function ($carrera) {
-            return [$carrera->id => $carrera->programa . ' - ' . $carrera->facultad->nombre];
+            return [$carrera->id => $carrera->programa.' - '.$carrera->facultad->nombre];
         });
-        
+
         return view('diplomas.menciones.create', compact('carreras'));
     }
 
@@ -88,6 +87,7 @@ class MencionController extends Controller
     {
         $this->authorize('editar-titulos');
         $carreras = Carrera::with('facultad')->orderBy('programa')->get();
+
         return view('diplomas.menciones.edit', compact('mencion', 'carreras'));
     }
 

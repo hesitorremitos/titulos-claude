@@ -15,7 +15,7 @@ class DiplomaAcademicoController extends Controller
     public function index(Request $request)
     {
         $this->authorize('ver-titulos');
-        
+
         $query = DiplomaAcademico::with(['persona', 'mencion.carrera.facultad', 'graduacion', 'createdBy']);
 
         // Filtros de búsqueda
@@ -108,7 +108,7 @@ class DiplomaAcademicoController extends Controller
         $this->authorize('ver-titulos');
         $this->checkDiplomaAccess($diploma);
 
-        if (!$diploma->file_dir || !Storage::disk('public')->exists($diploma->file_dir)) {
+        if (! $diploma->file_dir || ! Storage::disk('public')->exists($diploma->file_dir)) {
             return redirect()->back()->with('error', 'Archivo no encontrado.');
         }
 

@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class Toast extends Component
 {
@@ -15,8 +15,8 @@ class Toast extends Component
 
     /**
      * Escucha el evento 'toast:show' para mostrar un nuevo toast
-     * 
-     * @param array $data Datos del toast con keys: type, message, duration
+     *
+     * @param  array  $data  Datos del toast con keys: type, message, duration
      */
     #[On('toast:show')]
     public function showToast($type = 'info', $message = '', $duration = null)
@@ -30,7 +30,7 @@ class Toast extends Component
         }
 
         $toastId = uniqid();
-        
+
         $toast = [
             'id' => $toastId,
             'type' => $type,
@@ -120,7 +120,7 @@ class Toast extends Component
     public function getToastClasses(string $type): string
     {
         $baseClasses = 'flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow';
-        
+
         $typeClasses = [
             'success' => 'text-green-500 bg-green-50 border border-green-200',
             'error' => 'text-red-500 bg-red-50 border border-red-200',
@@ -128,7 +128,7 @@ class Toast extends Component
             'info' => 'text-blue-500 bg-blue-50 border border-blue-200',
         ];
 
-        return $baseClasses . ' ' . ($typeClasses[$type] ?? $typeClasses['info']);
+        return $baseClasses.' '.($typeClasses[$type] ?? $typeClasses['info']);
     }
 
     /**

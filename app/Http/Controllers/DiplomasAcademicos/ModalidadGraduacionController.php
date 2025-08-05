@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\DiplomasAcademicos;
 
 use App\Http\Controllers\Controller;
-use App\Models\DiplomaAcademico;
 use App\Models\GraduacionDa;
 use Illuminate\Http\Request;
 

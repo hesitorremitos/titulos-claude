@@ -8,8 +8,11 @@ class ButtonTest extends Component
 {
     // Propiedades del botón
     public string $event = 'toast:success';
+
     public string $label = 'Probar Toast';
+
     public string $message = 'Mensaje de prueba';
+
     public array $eventData = [];
 
     /**
