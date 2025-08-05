@@ -1,15 +1,12 @@
-@extends('layouts.app')
+<x-app-layout title="Dashboard">
+    <x-slot name="header">
+        <div class="flex items-center">
+            <span class="icon-[mdi--view-dashboard] text-gray-500 dark:text-gray-400 w-6 h-6 mr-3" aria-hidden="true"></span>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+        </div>
+    </x-slot>
 
-@section('title', 'Dashboard')
-
-@section('header')
-    <div class="flex items-center">
-        <span class="icon-[mdi--view-dashboard] text-gray-500 dark:text-gray-400 w-6 h-6 mr-3" aria-hidden="true"></span>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-    </div>
-@endsection
-
-@section('content')
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
     <!-- Card de Bienvenida -->
     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg col-span-full">
@@ -109,4 +106,5 @@
         </div>
     </a>
 </div>
-@endsection
+    </div>
+</x-app-layout>

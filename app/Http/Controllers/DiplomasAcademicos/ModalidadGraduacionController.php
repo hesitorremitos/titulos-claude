@@ -51,7 +51,7 @@ class ModalidadGraduacionController extends Controller
                 'medio_graduacion' => $request->medio_graduacion,
             ]);
 
-            return redirect()->route('diplomas.modalidades.index')
+            return redirect()->route('diplomas.mod_grad.index')
                 ->with('success', 'Modalidad creada exitosamente.');
 
         } catch (\Exception $e) {
@@ -101,7 +101,7 @@ class ModalidadGraduacionController extends Controller
                 'medio_graduacion' => $request->medio_graduacion,
             ]);
 
-            return redirect()->route('diplomas.modalidades.index')
+            return redirect()->route('diplomas.mod_grad.index')
                 ->with('success', 'Modalidad actualizada exitosamente.');
 
         } catch (\Exception $e) {
@@ -123,17 +123,17 @@ class ModalidadGraduacionController extends Controller
             $diplomasCount = $graduacion_da->diplomas()->count();
 
             if ($diplomasCount > 0) {
-                return redirect()->route('diplomas.modalidades.index')
+                return redirect()->route('diplomas.mod_grad.index')
                     ->with('error', "No se puede eliminar la modalidad '{$graduacion_da->nombre}' porque está siendo utilizada por {$diplomasCount} diploma(s) académico(s).");
             }
 
             $graduacion_da->delete();
 
-            return redirect()->route('diplomas.modalidades.index')
+            return redirect()->route('diplomas.mod_grad.index')
                 ->with('success', 'Modalidad eliminada exitosamente.');
 
         } catch (\Exception $e) {
-            return redirect()->route('diplomas.modalidades.index')
+            return redirect()->route('diplomas.mod_grad.index')
                 ->with('error', 'Error al eliminar la modalidad: '.$e->getMessage());
         }
     }

@@ -11,26 +11,11 @@
             <!-- User Actions -->
             <div class="flex items-center space-x-4">
                 <!-- Cambio de Tema -->
-                <button 
-                    x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches) }"
-                    x-init="
-                        $watch('darkMode', value => {
-                            localStorage.setItem('darkMode', value);
-                            if (value) {
-                                document.documentElement.classList.add('dark');
-                            } else {
-                                document.documentElement.classList.remove('dark');
-                            }
-                        });
-                        if (darkMode) {
-                            document.documentElement.classList.add('dark');
-                        }
-                    "
-                    @click="darkMode = !darkMode"
-                    class="relative p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                    :title="darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'">
-                    <span x-show="!darkMode" class="icon-[mdi--weather-night] w-5 h-5"></span>
-                    <span x-show="darkMode" class="icon-[mdi--weather-sunny] w-5 h-5"></span>
+                <button id="theme-toggle" 
+                        class="relative p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                        title="Cambiar tema">
+                    <span class="icon-[mdi--weather-sunny] dark:hidden w-5 h-5"></span>
+                    <span class="icon-[mdi--weather-night] hidden dark:block w-5 h-5"></span>
                 </button>
                 
                 <!-- Usuario Profile Dropdown -->

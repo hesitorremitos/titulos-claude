@@ -1,8 +1,5 @@
-@extends('layouts.app')
-
-@section('title', 'Configuraciones')
-
-@section('header')
+<x-app-layout title="Configuraciones">
+    <x-slot name="header">
     <div class="flex items-center">
         <span class="icon-[mdi--account-cog] text-primary-600 dark:text-primary-400 w-6 h-6 mr-3"></span>
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -12,9 +9,10 @@
     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
         Gestiona tu información personal y configuraciones de seguridad
     </p>
-@endsection
 
-@section('content')
+    </x-slot>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 <div class="max-w-4xl space-y-6">
     <!-- Información Personal -->
     <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
@@ -282,9 +280,9 @@
         </div>
     </div>
 </div>
-@endsection
+    </div>
 
-@push('scripts')
+    @push('scripts')
 <script>
 function openDeleteModal() {
     document.getElementById('delete-modal').classList.remove('hidden');
@@ -298,3 +296,4 @@ function closeDeleteModal() {
 }
 </script>
 @endpush
+</x-app-layout>

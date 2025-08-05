@@ -123,7 +123,7 @@ Route::middleware('auth')->group(function () {
         });
 
         // Rutas de Modalidades de Graduación
-        Route::prefix('modalidades')->name('modalidades.')->group(function () {
+        Route::prefix('mod_grad')->name('mod_grad.')->group(function () {
             Route::get('/', [ModalidadGraduacionController::class, 'index'])->name('index')->middleware('permission:ver-titulos');
             Route::get('/crear', [ModalidadGraduacionController::class, 'create'])->name('create')->middleware('permission:crear-titulos');
             Route::post('/', [ModalidadGraduacionController::class, 'store'])->name('store')->middleware('permission:crear-titulos');
