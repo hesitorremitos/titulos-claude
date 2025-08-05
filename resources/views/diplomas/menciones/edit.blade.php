@@ -40,20 +40,19 @@
 
                     <!-- Carrera -->
                     <div>
-                        <x-input-label for="carrera_id" value="Carrera" />
-                        <select 
-                            id="carrera_id" 
-                            name="carrera_id" 
-                            class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" 
-                            required>
-                            <option value="">Seleccione una carrera</option>
-                            @foreach($carreras as $carrera)
-                                <option value="{{ $carrera->id }}" {{ old('carrera_id', $mencion->carrera_id) == $carrera->id ? 'selected' : '' }}>
-                                    {{ $carrera->programa }} - {{ $carrera->facultad->nombre }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <x-input-error :messages="$errors->get('carrera_id')" class="mt-2" />
+                        @php
+                            $carrerasOptions = $carreras->mapWithKeys(function ($carrera) {
+                                return [$carrera->id => $carrera->programa . ' - ' . $carrera->facultad->nombre];
+                            });
+                        @endphp
+                        
+                        <x-form-select
+                            label="Carrera"
+                            name="carrera_id"
+                            :options="$carrerasOptions"
+                            required
+                            :value="old('carrera_id', $mencion->carrera_id)"
+                        />
                     </div>
                 </div>
 

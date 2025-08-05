@@ -31,7 +31,12 @@ class MencionController extends Controller
     public function create()
     {
         $this->authorize('crear-titulos');
-        $carreras = Carrera::orderBy('programa')->get();
+        
+        $carrerasCollection = Carrera::with('facultad')->orderBy('programa')->get();
+        $carreras = $carrerasCollection->mapWithKeys(function ($carrera) {
+            return [$carrera->id => $carrera->programa . ' - ' . $carrera->facultad->nombre];
+        });
+        
         return view('diplomas.menciones.create', compact('carreras'));
     }
 
@@ -82,8 +87,8 @@ class MencionController extends Controller
     public function edit(MencionDa $mencion)
     {
         $this->authorize('editar-titulos');
-
-        return view('diplomas.menciones.edit', compact('mencion'));
+        $carreras = Carrera::with('facultad')->orderBy('programa')->get();
+        return view('diplomas.menciones.edit', compact('mencion', 'carreras'));
     }
 
     /**

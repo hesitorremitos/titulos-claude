@@ -37,7 +37,7 @@
                         name="carrera_id"
                         :options="$carreras"
                         required
-                        :value="old('carrera_id', $)"
+                        :value="old('carrera_id')"
                     />
                 </x-form-field>
 
