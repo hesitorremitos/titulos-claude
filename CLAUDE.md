@@ -209,6 +209,7 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `app/Http/Controllers/StyleGuideController.php` - Controlador para la guía de estilos del sistema
 
 ### View Components
+- `app/View/Components/AppLayout.php` - Componente Laravel para layout principal del sistema
 - `app/View/Components/DiplomasLayout.php` - Componente Laravel para layout unificado de diplomas académicos
 
 ### Blade Components (Sistema de Diseño)
@@ -248,7 +249,10 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `database/seeders/UserRoleSeeder.php` - Asignación roles
 
 ### Views
+- `resources/views/layouts/app-layout.blade.php` - Layout principal del sistema con navbar y sidebar
 - `resources/views/layouts/diplomas-layout.blade.php` - Layout unificado para sección diplomas académicos
+- `resources/views/layouts/partials/navbar.blade.php` - Navbar con toggle de tema funcional
+- `resources/views/layouts/partials/sidebar.blade.php` - Sidebar de navegación principal
 - `resources/views/diplomas/index.blade.php` - Vista principal con accesos rápidos a subsecciones
 - `resources/views/diplomas/create.blade.php` - Formulario creación diploma con layout unificado
 - `resources/views/diplomas/show.blade.php` - Ver diploma individual con layout unificado
@@ -278,22 +282,31 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `resources/views/components/primary-button.blade.php` - **Mantenido por compatibilidad** (se recomienda usar `x-button variant="primary"`)
 - `resources/views/components/secondary-button.blade.php` - **Mantenido por compatibilidad** (se recomienda usar `x-button variant="secondary"`)
 
-### Componentes Eliminados (Arquitectura Limpia)
-**Los siguientes componentes fueron eliminados para simplificar la arquitectura:**
-- `x-stat-card` - Reemplazado por HTML directo en vistas (mismo diseño visual)
-- `x-danger-button` - Consolidado en `x-button` con `variant="danger"`
-- `x-button-group` - Reemplazado por divs con clases Tailwind directas
-- `x-page-section` - Reemplazado por HTML directo en vistas
-- `x-breadcrumb` - Eliminado (no se usaba en el sistema)
-- `x-activity-feed` - Eliminado (no se usaba en el sistema)
-- `x-notification` - Reemplazado por sistema toast de Livewire
-- `x-quick-action` - Eliminado (no se usaba en el sistema)
 
-### CSV Data
+### CSV Data  
 - `database/csv/graduacion_da.csv` - 32 modalidades graduación
 - `database/csv/menciones_da.csv` - 73 menciones académicas
 - `database/csv/facultades.csv` - Facultades UATF
 - `database/csv/carreras.csv` - 77 carreras académicas
+
+## Frontend Corrections 2025
+
+### Layout Consolidation Completed
+- **Main Layout**: `resources/views/layouts/app-layout.blade.php` with component `app/View/Components/AppLayout.php`
+- **Diplomas Layout**: `resources/views/layouts/diplomas-layout.blade.php` with component `app/View/Components/DiplomasLayout.php`
+- **Removed**: Duplicate layout `resources/views/layouts/app.blade.php`
+- **Theme Toggle**: Functional in `resources/views/layouts/partials/navbar.blade.php` with `id="theme-toggle"`
+
+### Route Naming Fixed for Modalidades
+- **URL**: `/diplomas/mod_grad` (was `/diplomas/modalidades`)
+- **Routes**: `diplomas.mod_grad.*` in `routes/web.php`
+- **Controller**: `ModalidadGraduacionController.php` updated
+- **Views**: Located in `resources/views/diplomas/mod_grad/`
+
+### JavaScript Optimized
+- **File**: `resources/js/app.js` reduced from 109 to 46 lines
+- **Removed**: Redundant mobile menu and user dropdown code
+- **Handled by**: Alpine.js manages UI interactivity
 
 ## Mantenimiento Automático del Índice
 
