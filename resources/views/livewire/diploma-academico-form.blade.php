@@ -493,12 +493,12 @@
                                 </label>
                                 <input 
                                     type="number" 
-                                    wire:model="diplomaForm.nro_documento"
+                                    wire:model="tituloForm.nro_documento"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                     min="1"
                                     placeholder="123"
                                 >
-                                @error('diplomaForm.nro_documento') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                @error('tituloForm.nro_documento') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
@@ -507,12 +507,12 @@
                                 </label>
                                 <input 
                                     type="number" 
-                                    wire:model="diplomaForm.fojas"
+                                    wire:model="tituloForm.fojas"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                     min="1"
                                     placeholder="45"
                                 >
-                                @error('diplomaForm.fojas') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                @error('tituloForm.fojas') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
@@ -521,12 +521,12 @@
                                 </label>
                                 <input 
                                     type="number" 
-                                    wire:model="diplomaForm.libro"
+                                    wire:model="tituloForm.libro"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                     min="1"
                                     placeholder="7"
                                 >
-                                @error('diplomaForm.libro') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                @error('tituloForm.libro') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                             </div>
                         </div>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
@@ -549,18 +549,18 @@
                                     Mención <span class="text-red-500">*</span>
                                 </label>
                                 <select 
-                                    wire:model="diplomaForm.mencion_da_id"
+                                    wire:model="tituloForm.mencion_da_id"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                 >
                                     <option value="">Seleccionar mención...</option>
-                                    @foreach($diplomaForm->menciones as $mencion)
+                                    @foreach($tituloForm->menciones as $mencion)
                                         <option value="{{ $mencion['id'] }}">
                                             {{ $mencion['nombre'] }}
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('diplomaForm.mencion_da_id') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                @if(empty($diplomaForm->menciones))
+                                @error('tituloForm.mencion_da_id') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                @if(empty($tituloForm->menciones))
                                     <p class="mt-1 text-sm text-yellow-600">
                                         ⚠ No hay menciones disponibles. Selecciona un programa académico en el paso anterior.
                                     </p>
@@ -572,17 +572,17 @@
                                     Modalidad de Graduación <span class="text-red-500">*</span>
                                 </label>
                                 <select 
-                                    wire:model="diplomaForm.graduacion_id"
+                                    wire:model="tituloForm.graduacion_id"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                 >
                                     <option value="">Seleccionar modalidad...</option>
-                                    @foreach($diplomaForm->graduaciones as $graduacion)
+                                    @foreach($tituloForm->graduaciones as $graduacion)
                                         <option value="{{ $graduacion['id'] }}">
                                             {{ $graduacion['medio_graduacion'] }}
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('diplomaForm.graduacion_id') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                @error('tituloForm.graduacion_id') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                             </div>
                         </div>
                     </div>
@@ -602,11 +602,11 @@
                                 </label>
                                 <input 
                                     type="date" 
-                                    wire:model="diplomaForm.fecha_emision"
+                                    wire:model="tituloForm.fecha_emision"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                     max="{{ date('Y-m-d') }}"
                                 >
-                                @error('diplomaForm.fecha_emision') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                @error('tituloForm.fecha_emision') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
@@ -614,12 +614,12 @@
                                     Observaciones
                                 </label>
                                 <textarea 
-                                    wire:model="diplomaForm.observaciones"
+                                    wire:model="tituloForm.observaciones"
                                     rows="3"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                     placeholder="Observaciones adicionales, notas especiales..."
                                 ></textarea>
-                                @error('diplomaForm.observaciones') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                @error('tituloForm.observaciones') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                             </div>
                         </div>
                     </div>
@@ -633,7 +633,7 @@
                             Archivo PDF del Diploma
                         </h5>
 
-                        @if($diplomaForm->tempFilePath && $diplomaForm->originalFileName)
+                        @if($tituloForm->tempFilePath && $tituloForm->originalFileName)
                             <!-- Archivo ya subido desde paso 1 -->
                             <div class="border-2 border-green-300 dark:border-green-600 rounded-lg p-6 bg-green-50 dark:bg-green-900/20">
                                 <div class="flex items-center justify-center space-x-3">
@@ -645,7 +645,7 @@
                                             ✅ Archivo PDF ya subido en paso anterior
                                         </p>
                                         <p class="text-xs text-green-700 dark:text-green-300">
-                                            {{ $diplomaForm->originalFileName }}
+                                            {{ $tituloForm->originalFileName }}
                                         </p>
                                         <p class="text-xs text-green-600 dark:text-green-400 mt-1">
                                             El archivo se asociará automáticamente al diploma al guardar
@@ -653,7 +653,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @elseif($diplomaForm->pdfFile)
+                        @elseif($tituloForm->pdfFile)
                             <!-- Archivo subido manualmente en paso 2 -->
                             <div class="border-2 border-blue-300 dark:border-blue-600 rounded-lg p-6 bg-blue-50 dark:bg-blue-900/20">
                                 <div class="flex items-center justify-center space-x-3">
@@ -665,7 +665,7 @@
                                             📄 Archivo PDF seleccionado
                                         </p>
                                         <p class="text-xs text-blue-700 dark:text-blue-300">
-                                            {{ $diplomaForm->pdfFile->getClientOriginalName() }}
+                                            {{ $tituloForm->pdfFile->getClientOriginalName() }}
                                         </p>
                                     </div>
                                 </div>
@@ -675,7 +675,7 @@
                             <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
                                 <input 
                                     type="file" 
-                                    wire:model="diplomaForm.pdfFile"
+                                    wire:model="tituloForm.pdfFile"
                                     accept=".pdf"
                                     class="hidden"
                                     id="pdfUpload"
@@ -695,7 +695,7 @@
                             </div>
                         @endif
                         
-                        @error('diplomaForm.pdfFile') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        @error('tituloForm.pdfFile') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
