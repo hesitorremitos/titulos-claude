@@ -95,6 +95,12 @@ trait HandlesTituloOperations
 
         $this->personFound = true;
         session()->flash('message', 'Datos cargados automáticamente desde PDF y API universitaria.');
+        
+        // Notify PDF viewer to load the file
+        $this->dispatch('form-file-uploaded', [
+            'tempFilePath' => $data['tempFilePath'],
+            'fileName' => $data['originalFileName']
+        ]);
     }
 
     public function handlePdfUploadedManualEntry($data)
@@ -109,6 +115,12 @@ trait HandlesTituloOperations
 
         $this->personFound = false;
         session()->flash('message', 'CI extraído del PDF. Complete los datos personales manualmente.');
+        
+        // Notify PDF viewer to load the file
+        $this->dispatch('form-file-uploaded', [
+            'tempFilePath' => $data['tempFilePath'],
+            'fileName' => $data['originalFileName']
+        ]);
     }
 
     public function nextStep()
@@ -127,6 +139,9 @@ trait HandlesTituloOperations
 
             $this->currentStep = 2;
         }
+        
+        // Notify PDF viewer of step change
+        $this->dispatch('step-changed', $this->currentStep);
     }
 
     public function previousStep()
@@ -134,6 +149,9 @@ trait HandlesTituloOperations
         if ($this->currentStep > 1) {
             $this->currentStep--;
         }
+        
+        // Notify PDF viewer of step change
+        $this->dispatch('step-changed', $this->currentStep);
     }
 
     public function getPersonDataComplete(): bool

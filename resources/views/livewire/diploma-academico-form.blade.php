@@ -1,4 +1,8 @@
-<div class="max-w-4xl mx-auto">
+<div class="max-w-7xl mx-auto">
+    <!-- Two-Column Layout: Form (2 cols) + PDF Viewer (1 col) on desktop, stacked on mobile -->
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <!-- Form Section (2 columns on large screens) -->
+        <div class="xl:col-span-2 space-y-8">
     <!-- Progress Bar -->
     <div class="mb-8">
         <div class="flex items-center justify-between mb-2">
@@ -63,24 +67,20 @@
             </div>
 
             <div class="p-6 space-y-8">
-                <!-- Sección 1: Búsqueda por CI -->
+                <!-- Búsqueda y Selección -->
+                <div class="space-y-6">
+                    <!-- Búsqueda por CI -->
                 <div class="border border-blue-200 dark:border-blue-600 rounded-lg p-4 bg-blue-50 dark:bg-blue-900/20">
-                    <h4 class="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-4 flex items-center">
+                    <h4 class="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-3 flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
-                        Opción 1: Búsqueda por Cédula de Identidad
+                        Búsqueda por CI
                     </h4>
-                    <p class="text-blue-800 dark:text-blue-200 text-sm mb-4">
-                        Busca automáticamente los datos del estudiante en el sistema universitario
-                    </p>
                     
-                    <div class="mb-6">
-                        <label for="searchCi" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Cédula de Identidad
-                        </label>
-                        <div class="flex space-x-3">
-                            <div class="flex-1 relative">
+                    <div class="flex space-x-3 mb-4">
+                        <x-form-field label="Cédula de Identidad" name="searchCi" class="flex-1">
+                            <div class="relative">
                                 <input 
                                     type="text" 
                                     id="searchCi"
@@ -93,24 +93,22 @@
                                     <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                                         <svg class="animate-spin h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 714 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                         </svg>
                                     </div>
                                 @endif
-                                @error('searchCi') 
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
                             </div>
-                            <button 
-                                type="button"
-                                wire:click="searchPersonInApi"
-                                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center transition-all duration-200"
-                                {{ $isSearching ? 'disabled' : '' }}
-                            >
+                            @error('searchCi') 
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </x-form-field>
+                        
+                        <div class="flex items-end">
+                            <x-button variant="primary" wire:click="searchPersonInApi" :disabled="$isSearching">
                                 @if($isSearching)
-                                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 714 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
                                     Buscando...
                                 @else
@@ -119,9 +117,80 @@
                                     </svg>
                                     Buscar
                                 @endif
-                            </button>
+                            </x-button>
                         </div>
                     </div>
+                    
+                    <!-- Resultado directo debajo del search -->
+                    @if($personFound && !empty($apiData))
+                        <div class="border-2 border-green-200 dark:border-green-600 rounded-lg p-4 bg-green-50 dark:bg-green-900/20 mb-4">
+                            <h5 class="font-medium text-green-800 dark:text-green-200 mb-3 flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                Persona Encontrada
+                            </h5>
+                            
+                            <!-- Datos personales compactos -->
+                            <div class="grid md:grid-cols-2 gap-3 mb-4 text-sm">
+                                <div>
+                                    <p class="font-medium text-gray-900 dark:text-gray-100">
+                                        {{ $personaForm->nombres }} {{ $personaForm->paterno }} {{ $personaForm->materno }}
+                                    </p>
+                                    <p class="text-gray-600 dark:text-gray-400">CI: {{ $personaForm->ci }}</p>
+                                </div>
+                                <div>
+                                    @if($personaForm->fecha_nacimiento)
+                                        <p class="text-gray-600 dark:text-gray-400">
+                                            {{ \Carbon\Carbon::parse($personaForm->fecha_nacimiento)->format('d/m/Y') }}
+                                        </p>
+                                    @endif
+                                    <p class="text-gray-600 dark:text-gray-400">
+                                        {{ $personaForm->genero === 'M' ? 'Masculino' : ($personaForm->genero === 'F' ? 'Femenino' : 'Otro') }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Programas académicos directamente aquí -->
+                            @if(!empty($apiData['programas']))
+                                <div>
+                                    <h6 class="font-medium text-gray-900 dark:text-gray-100 mb-2">
+                                        {{ count($apiData['programas']) }} programa(s) encontrado(s)
+                                        @if(count($apiData['programas']) > 1)
+                                            <span class="text-red-600 font-medium">- Seleccione uno</span>
+                                        @endif
+                                    </h6>
+                                    <div class="space-y-2">
+                                        @foreach($apiData['programas'] as $index => $programa)
+                                            <div 
+                                                class="border rounded-lg p-3 cursor-pointer transition-all duration-200 {{ $selectedProgramIndex === $index ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 ring-1 ring-blue-200 dark:ring-blue-800' : 'border-gray-200 dark:border-gray-600 hover:border-blue-300' }}"
+                                                wire:click="selectProgram({{ $index }})"
+                                            >
+                                                <div class="flex items-center justify-between">
+                                                    <div class="flex-1">
+                                                        <p class="font-medium text-gray-900 dark:text-gray-100 text-sm">{{ $programa['programa'] }}</p>
+                                                        <p class="text-xs text-gray-600 dark:text-gray-400">{{ $programa['facultad'] }}</p>
+                                                        @if($programa['modalidad_graduacion'] !== 'SIN DATOS')
+                                                            <p class="text-xs text-gray-500 dark:text-gray-500">{{ $programa['modalidad_graduacion'] }}</p>
+                                                        @endif
+                                                    </div>
+                                                    @if($selectedProgramIndex === $index)
+                                                        <svg class="w-4 h-4 text-blue-600 ml-3" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                        </svg>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    
+                                    @error('selectedProgramIndex')
+                                        <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            @endif
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Divisor -->
@@ -136,20 +205,17 @@
                     </div>
                 </div>
 
-                <!-- Sección 2: Subida de PDF -->
+                <!-- Subida de PDF -->
                 <div class="border border-green-200 dark:border-green-600 rounded-lg p-4 bg-green-50 dark:bg-green-900/20">
-                    <h4 class="text-lg font-semibold text-green-900 dark:text-green-100 mb-4 flex items-center">
+                    <h4 class="text-lg font-semibold text-green-900 dark:text-green-100 mb-3 flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                         </svg>
-                        Opción 2: Subida Automática de PDF
+                        Subida Automática PDF
                     </h4>
-                    <p class="text-green-800 dark:text-green-200 text-sm mb-4">
-                        Sube un archivo PDF con formato: <code class="bg-green-100 dark:bg-green-800 px-2 py-1 rounded text-xs">[CI]-[nombre completo].pdf</code>
-                        <br>El sistema extraerá automáticamente el CI y buscará los datos del estudiante
-                    </p>
                     
                     @livewire('pdf-auto-upload-form')
+                </div>
                 </div>
 
                 <!-- Indicador de carga visible -->
@@ -726,4 +792,15 @@
             </div>
         </div>
     @endif
+        </div> <!-- End Form Section -->
+        
+        <!-- PDF Viewer Section (1 column on large screens, full width on mobile) -->
+        <div class="xl:col-span-1">
+            <div class="xl:sticky xl:top-8" style="height: calc(100vh - 2rem); min-height: 850px;">
+                @livewire('pdf-viewer-form', [
+                    'currentStep' => $currentStep
+                ], key('pdf-viewer'))
+            </div>
+        </div>
+    </div> <!-- End Two-Column Layout -->
 </div>

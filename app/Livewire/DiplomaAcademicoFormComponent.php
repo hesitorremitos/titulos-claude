@@ -20,7 +20,64 @@ class DiplomaAcademicoFormComponent extends BaseTituloFormComponent
 
     protected function getSpecificListeners(): array
     {
-        return []; // No hay listeners específicos adicionales para diploma académico
+        return [
+            'pdf-file-selected' => 'handlePdfFileSelected',
+            'pdf-file-removed' => 'handlePdfFileRemoved',
+            'pdf-viewer-loaded' => 'handlePdfViewerLoaded'
+        ];
+    }
+
+    public function handlePdfFileSelected($data)
+    {
+        // Update form with PDF file information if needed
+        if (isset($data['file'])) {
+            $this->tituloForm->pdfFile = $data['file'];
+            $this->tituloForm->originalFileName = $data['fileName'];
+            
+            // Notify PDF viewer about manual upload in step 2
+            $this->dispatch('form-file-uploaded', [
+                'tempFilePath' => null, // Will use the actual file
+                'fileName' => $data['fileName'],
+                'file' => $data['file']
+            ]);
+        }
+    }
+
+    public function handlePdfFileRemoved()
+    {
+        // Clear PDF file from form
+        $this->tituloForm->pdfFile = null;
+        $this->tituloForm->originalFileName = null;
+        $this->tituloForm->tempFilePath = null;
+        
+        // Notify PDF viewer to clear
+        $this->dispatch('pdf-file-removed');
+    }
+
+    public function handlePdfViewerLoaded($data)
+    {
+        // PDF viewer has loaded a file, optionally show notification
+        session()->flash('message', 'PDF cargado en el visor: ' . $data['fileName']);
+    }
+
+
+
+    // Handle manual PDF file upload in step 2
+    public function updatedTituloFormPdfFile()
+    {
+        if ($this->tituloForm->pdfFile) {
+            // Validate the file
+            $this->validate([
+                'tituloForm.pdfFile' => 'file|mimes:pdf|max:51200'
+            ]);
+            
+            // Notify PDF viewer with the actual file
+            $this->dispatch('pdf-file-selected', [
+                'fileName' => $this->tituloForm->pdfFile->getClientOriginalName(),
+                'fileSize' => $this->tituloForm->pdfFile->getSize(),
+                'file' => $this->tituloForm->pdfFile
+            ]);
+        }
     }
 
     protected function getSuccessMessage(): string

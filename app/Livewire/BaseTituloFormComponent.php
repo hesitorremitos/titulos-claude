@@ -19,13 +19,13 @@ abstract class BaseTituloFormComponent extends Component
     // Esta propiedad será sobrescrita por las clases hijas
     // Ejemplo: public DiplomaAcademicoForm $tituloForm;
 
-    protected $listeners = [];
+    protected function getListeners()
+    {
+        return array_merge($this->commonListeners, $this->getSpecificListeners());
+    }
 
     public function mount()
     {
-        // Combinar listeners comunes con específicos
-        $this->listeners = array_merge($this->commonListeners, $this->getSpecificListeners());
-        
         $this->tituloForm->loadGraduaciones();
         $this->personaForm->pais = 'Bolivia'; // Valor por defecto
         

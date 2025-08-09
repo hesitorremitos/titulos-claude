@@ -144,10 +144,19 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - Sistema de usuarios y permisos completamente funcional
 - Base de datos con facultades, carreras y datos maestros implementados
 
-### Sistema de Diplomas Académicos (Paso 08)
+### Sistema de Diplomas Académicos (Paso 08) - UI Mejorada
 - **Modelo principal**: DiplomaAcademico con relaciones a Persona, MencionDa, GraduacionDa, User
 - **API Externa**: https://apititulos.uatf.edu.bo/api/datos?ru='{ci}' (método POST, CI debe ir entre comillas simples)
 - **Componente Livewire**: DiplomaAcademicoFormComponent (renombrado para evitar colisión de nombres)
+- **Mejoras UI Implementadas** (2025-08-09):
+  - Opciones de selección de programa aparecen directamente debajo del buscador
+  - Visor PDF con altura optimizada para documentos tamaño oficio (min-height: 850px)
+  - Componente PDF upload mejorado siguiendo guía de estilos:
+    - Input con diseño consistente (border, iconos, colores primary)
+    - Texto reducido y conciso
+    - Iconos apropiados de Iconify (mdi--file-pdf-box, mdi--card-account-details)
+    - Estados de carga y error mejorados
+    - Instrucciones con iconos visuales mejoradas
 - **Archivos implementados**:
   - Controllers: DiplomaAcademicoController
   - Models: DiplomaAcademico, Persona (CI como PK)
@@ -233,6 +242,7 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `app/Livewire/TituloAcademicoFormComponent.php` - **NUEVO** Componente formulario título académico con campo nro_diploma_academico
 - `app/Livewire/PdfAutoUpload.php` - Componente subida automática PDF con extracción CI (index)
 - `app/Livewire/PdfAutoUploadForm.php` - Componente subida PDF para formulario registro con búsqueda API automática
+- `app/Livewire/PdfViewerForm.php` - Componente visor PDF (solo display - funcionalidad de upload removida para evitar duplicación)
 - `app/Livewire/Toast.php` - Sistema de notificaciones toast optimizado (eventos como arrays)
 - `app/Livewire/ButtonTest.php` - Botón simple que emite eventos con parámetros configurables
 - `app/Livewire/Traits/HandlesTituloOperations.php` - **NUEVO** Trait con funcionalidad común para manejo de títulos (API, PDF, pasos)
@@ -271,8 +281,9 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `resources/views/diplomas/mod_grad/create.blade.php` - Crear modalidad con layout unificado
 - `resources/views/diplomas/mod_grad/edit.blade.php` - Editar modalidad con layout unificado
 - `resources/views/diplomas/mod_grad/show.blade.php` - Ver modalidad con layout unificado
-- `resources/views/livewire/diploma-academico-form.blade.php` - Formulario registro diploma académico (refactorizado para usar tituloForm)
+- `resources/views/livewire/diploma-academico-form.blade.php` - Formulario registro diploma académico con visor PDF integrado (layout 2 columnas)
 - `resources/views/livewire/titulo-academico-form.blade.php` - **NUEVO** Formulario registro título académico con campo nro_diploma_academico
+- `resources/views/livewire/pdf-viewer-form.blade.php` - **NUEVO** Vista componente visor PDF con drag & drop y estados (vacío, cargando, cargado, error)
 - `resources/views/livewire/pdf-auto-upload.blade.php` - Vista componente subida automática PDF (index)
 - `resources/views/livewire/pdf-auto-upload-form.blade.php` - Vista componente subida PDF con drag & drop para formulario registro
 - `resources/views/livewire/toast.blade.php` - Vista componente toast optimizada (duración manejada directamente en Alpine.js)
@@ -298,6 +309,31 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `database/csv/menciones_da.csv` - 73 menciones académicas
 - `database/csv/facultades.csv` - Facultades UATF
 - `database/csv/carreras.csv` - 77 carreras académicas
+
+## PDF Upload System Consolidation (2025-08-09)
+
+### Problem Fixed: Multiple PDF Upload Inputs
+**Issue:** The system had multiple PDF upload inputs causing confusion and duplicate functionality:
+- `PdfViewerForm` had its own file upload input (redundant)
+- `PdfAutoUploadForm` handled uploads in step 1
+- Manual upload existed in step 2 in the main form
+- Missing event handlers between components
+
+### Solution Implemented: Single PDF Upload System
+**Consolidated Architecture:**
+1. **Step 1 Upload:** `PdfAutoUploadForm` component handles automatic CI extraction and API lookup
+2. **Step 2 Upload:** Manual file upload in main diploma form (fallback option)
+3. **PDF Viewer:** `PdfViewerForm` is now display-only, no upload functionality
+4. **Event Flow:** Proper event handling between all components
+
+**Key Changes Made:**
+- **`PdfViewerForm.php`:** Removed `WithFileUploads` trait and upload methods, kept only display functionality
+- **`pdf-viewer-form.blade.php`:** Removed drag & drop upload UI, kept only viewer and empty state
+- **`DiplomaAcademicoFormComponent.php`:** Added missing event handlers (`pdf-uploaded-with-success`, `pdf-uploaded-manual-entry`) 
+- **`BaseTituloFormComponent.php`:** Fixed listener merging with `getListeners()` method
+- **Event Flow:** `PdfAutoUploadForm` → `DiplomaAcademicoFormComponent` → `PdfViewerForm` (display only)
+
+**Result:** Clean, single-responsibility PDF upload system with proper event handling and no duplicate functionality.
 
 ## Frontend Corrections 2025
 
