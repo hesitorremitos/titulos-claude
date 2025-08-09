@@ -277,7 +277,9 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `resources/views/livewire/pdf-auto-upload-form.blade.php` - Vista componente subida PDF con drag & drop para formulario registro
 - `resources/views/livewire/toast.blade.php` - Vista componente toast optimizada (duración manejada directamente en Alpine.js)
 - `resources/views/livewire/button-test.blade.php` - Vista simple de botón que emite eventos
-- `resources/views/style-guide.blade.php` - Guía de estilos del sistema con componentes UI principales (solo ejemplos visuales y documentación)
+- `resources/views/style-guide/index.blade.php` - Página principal guía de estilos modular
+- `resources/views/style-guide/partials/` - Componentes de layout compartidos (header, navigation, footer, scripts)
+- `resources/views/style-guide/sections/` - Secciones individuales de componentes (buttons, cards, colors, forms, etc.)
 
 ### Blade Components (Arquitectura Optimizada)
 - `resources/views/components/button.blade.php` - **Componente unificado** de botones con variantes (primary, secondary, outline, danger), tamaños (sm, md, lg), soporte para iconos y enlaces
