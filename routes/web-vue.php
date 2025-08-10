@@ -8,7 +8,6 @@ use App\Http\Controllers\ProfileController;
 //Definicion de rutas version 2
 Route::group(['prefix' => 'v2'], function () {
 
-    Route::get('/counter', [InertiaTestController::class, 'counter'])->name('counter');
     
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('v2.dashboard')
