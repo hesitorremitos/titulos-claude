@@ -1,12 +1,18 @@
 <?php
 use App\Http\Controllers\InertiaTestController;
 use App\Http\Controllers\Auth\InertiaLoginController;
+use App\Http\Controllers\DashboardController;
 
 // Ruta de prueba para Inertia.js
 //Definicion de rutas version 2
 Route::group(['prefix' => 'v2'], function () {
 
     Route::get('/counter', [InertiaTestController::class, 'counter'])->name('counter');
+    
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('v2.dashboard')
+        ->middleware('auth');
+    
     // Auth
     Route::get('/login', [InertiaLoginController::class, 'create'])->name('login')
         ->middleware('guest');
