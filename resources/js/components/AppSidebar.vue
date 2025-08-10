@@ -23,6 +23,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
+import { Icon } from '@iconify/vue'
 import { usePage, router } from '@inertiajs/vue3'
 import { computed } from 'vue'
 
@@ -34,25 +35,25 @@ const user = computed(() => page.props.auth?.user)
 const menuItems = [
   {
     title: 'Dashboard',
-    icon: '🏠',
+    icon: 'material-symbols:dashboard',
     href: '/v2/dashboard',
     active: true
   },
   {
     title: 'Diplomas Académicos',
-    icon: '🎓',
+    icon: 'material-symbols:school',
     href: '#',
     active: false
   },
   {
     title: 'Títulos Profesionales',
-    icon: '📜',
+    icon: 'material-symbols:workspace-premium',
     href: '#',
     active: false
   },
   {
     title: 'Bachiller',
-    icon: '🎒',
+    icon: 'material-symbols:backpack',
     href: '#',
     active: false
   }
@@ -62,13 +63,13 @@ const menuItems = [
 const adminItems = [
   {
     title: 'Usuarios',
-    icon: '👥',
+    icon: 'material-symbols:group',
     href: '#',
     active: false
   },
   {
     title: 'Configuración',
-    icon: '⚙️',
+    icon: 'material-symbols:settings',
     href: '#',
     active: false
   }
@@ -109,7 +110,7 @@ const logout = () => {
                 :is-active="item.active"
                 class="w-full"
               >
-                <span class="mr-2">{{ item.icon }}</span>
+                <Icon :icon="item.icon" class="w-4 h-4 mr-2" />
                 {{ item.title }}
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -129,7 +130,7 @@ const logout = () => {
                 :is-active="item.active"
                 class="w-full"
               >
-                <span class="mr-2">{{ item.icon }}</span>
+                <Icon :icon="item.icon" class="w-4 h-4 mr-2" />
                 {{ item.title }}
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -163,20 +164,20 @@ const logout = () => {
           
           <DropdownMenuContent class="w-56" align="end">
             <DropdownMenuItem @click="router.visit(route('v2.profile.show'))">
-              <span class="mr-2">👤</span>
+              <Icon icon="material-symbols:person" class="w-4 h-4 mr-2" />
               Mi Perfil
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <span class="mr-2">⚙️</span>
+              <Icon icon="material-symbols:settings" class="w-4 h-4 mr-2" />
               Configuración
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <span class="mr-2">❓</span>
+              <Icon icon="material-symbols:help" class="w-4 h-4 mr-2" />
               Ayuda
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem @click="logout" class="text-red-600 focus:text-red-600">
-              <span class="mr-2">🚪</span>
+              <Icon icon="material-symbols:logout" class="w-4 h-4 mr-2" />
               Cerrar Sesión
             </DropdownMenuItem>
           </DropdownMenuContent>

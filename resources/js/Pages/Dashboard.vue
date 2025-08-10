@@ -7,6 +7,7 @@ import {
   CardHeader, 
   CardTitle 
 } from '@/components/ui/card'
+import { Icon } from '@iconify/vue'
 
 interface Props {
   stats: {
@@ -32,7 +33,7 @@ defineProps<Props>()
           <div class="flex items-center space-x-4">
             <div class="flex-shrink-0">
               <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                <span class="text-2xl">👤</span>
+                <Icon icon="material-symbols:person" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
             <div>
@@ -60,7 +61,7 @@ defineProps<Props>()
             <div class="flex items-center space-x-4">
               <div class="flex-shrink-0">
                 <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                  <span class="text-blue-600 dark:text-blue-400">🏛️</span>
+                  <Icon icon="material-symbols:account-balance" class="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 </div>
               </div>
               <div class="flex-1">
@@ -77,7 +78,7 @@ defineProps<Props>()
             <div class="flex items-center space-x-4">
               <div class="flex-shrink-0">
                 <div class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                  <span class="text-green-600 dark:text-green-400">📚</span>
+                  <Icon icon="material-symbols:school" class="w-4 h-4 text-green-600 dark:text-green-400" />
                 </div>
               </div>
               <div class="flex-1">
@@ -94,7 +95,7 @@ defineProps<Props>()
             <div class="flex items-center space-x-4">
               <div class="flex-shrink-0">
                 <div class="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
-                  <span class="text-purple-600 dark:text-purple-400">📅</span>
+                  <Icon icon="material-symbols:calendar-month" class="w-4 h-4 text-purple-600 dark:text-purple-400" />
                 </div>
               </div>
               <div class="flex-1">
@@ -112,7 +113,7 @@ defineProps<Props>()
           <CardContent class="p-6">
             <div class="flex items-center space-x-4">
               <div class="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
-                <span class="text-blue-600 dark:text-blue-400 text-xl">🏛️</span>
+                <Icon icon="material-symbols:account-balance" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
               </div>
               <div class="flex-1">
                 <CardTitle class="text-sm font-medium">
@@ -130,7 +131,7 @@ defineProps<Props>()
           <CardContent class="p-6">
             <div class="flex items-center space-x-4">
               <div class="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900 flex items-center justify-center">
-                <span class="text-green-600 dark:text-green-400 text-xl">📚</span>
+                <Icon icon="material-symbols:school" class="w-6 h-6 text-green-600 dark:text-green-400" />
               </div>
               <div class="flex-1">
                 <CardTitle class="text-sm font-medium">
