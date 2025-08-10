@@ -13,6 +13,8 @@ export type AppPageProps<T extends Record<string, unknown> = Record<string, unkn
 
 export interface User {
     id: number;
+
+    role: string;
     name: string;
     email: string;
     avatar?: string;
