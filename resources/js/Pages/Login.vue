@@ -25,11 +25,11 @@ const submit = () => {
 <template>
     <Head title="Login" />
     <div class="mb-8 text-center">
-            <a href="/" class="inline-block rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none">
-                <h1 class="text-2xl font-bold tracking-tight text-primary">Sistema de Títulos UATF</h1>
-            </a>
+        <a href="/" class="inline-block rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none">
+            <h1 class="text-2xl font-bold tracking-tight text-primary">Sistema de Títulos UATF</h1>
+        </a>
     </div>
-    <Card class="w-full max-w-sm border border-gray-300 shadow-xl bg-card/50">
+    <Card class="w-full max-w-sm border border-gray-300 bg-card/50 shadow-xl">
         <CardHeader class="space-y-1">
             <CardTitle class="text-2xl font-bold">Acceder</CardTitle>
             <CardDescription>Ingresa tus credenciales</CardDescription>

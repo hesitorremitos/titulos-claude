@@ -1,16 +1,15 @@
-import '../css/app.css';
 import 'vue-sonner/style.css';
+import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { createPinia } from 'pinia';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
-import { createPinia } from 'pinia'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-const pinia = createPinia()
-
+const pinia = createPinia();
 
 createInertiaApp({
     title: (title) => `${title || appName}`,
