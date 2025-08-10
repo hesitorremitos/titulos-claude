@@ -154,6 +154,38 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - **Convivencia**: Ambos stacks coexisten durante migración gradual
 - **EN PROCESO**: Sistema de gestión de perfil y sesiones
 
+### Sistema de Navegación Centralizado (Breadcrumbs)
+**Fecha de implementación**: 2025-08-10
+
+**Problema resuelto**: Eliminación de breadcrumbs locales duplicados en favor de sistema centralizado en AppLayout.
+
+**Arquitectura implementada**:
+- **AppLayout centralizado**: Todos los breadcrumbs se manejan mediante props `title` y `breadcrumbs`
+- **Patrón consistente**: Estructura jerárquica uniforme en todas las vistas CRUD
+- **Navegación limpia**: Eliminación de imports y componentes Breadcrumb locales
+
+**Patrón de implementación**:
+```vue
+<AppLayout 
+  :title="Dynamic or Static Title"
+  :breadcrumbs="[
+    { label: 'Section', href: route('section.index') },
+    { label: 'Item Name', href: route('section.show', id) }, 
+    { label: 'Current Page' }
+  ]"
+>
+```
+
+**Vistas refactorizadas**:
+- **Carreras**: Index.vue, Show.vue, Create.vue, Edit.vue
+- **Facultades**: Index.vue, Show.vue, Create.vue, Edit.vue
+
+**Beneficios logrados**:
+- ✅ Navegación consistente en toda la aplicación
+- ✅ Reducción de código duplicado (~8-12 líneas por vista)
+- ✅ Mantenimiento centralizado de breadcrumbs
+- ✅ UX mejorada con jerarquía clara de navegación
+
 ### Sistema de Diplomas Académicos (Paso 08) - UI Mejorada
 - **Modelo principal**: DiplomaAcademico con relaciones a Persona, MencionDa, GraduacionDa, User
 - **API Externa**: https://apititulos.uatf.edu.bo/api/datos?ru='{ci}' (método POST, CI debe ir entre comillas simples)
