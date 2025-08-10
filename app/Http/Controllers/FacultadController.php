@@ -10,14 +10,26 @@ class FacultadController extends Controller
     /**
      * Mostrar lista de facultades
      */
-    public function index()
+    public function index(Request $request)
     {
-        $facultades = Facultad::with('carreras')
-            ->withCount('carreras')
-            ->orderBy('nombre')
-            ->paginate(10);
+        $query = Facultad::query()->with('carreras')->withCount('carreras');
 
-        return view('facultades.index', compact('facultades'));
+        // Búsqueda
+        if ($request->has('search') && $request->search) {
+            $query->where('nombre', 'like', '%'.$request->search.'%')
+                ->orWhere('direccion', 'like', '%'.$request->search.'%');
+        }
+
+        $facultades = $query->orderBy('nombre')
+            ->paginate(10)
+            ->withQueryString();
+
+        return inertia('Facultades/Index', [
+            'facultades' => $facultades,
+            'filters' => [
+                'search' => $request->search,
+            ],
+        ]);
     }
 
     /**
@@ -25,7 +37,7 @@ class FacultadController extends Controller
      */
     public function create()
     {
-        return view('facultades.create');
+        return inertia('Facultades/Create');
     }
 
     /**
@@ -43,10 +55,14 @@ class FacultadController extends Controller
             'direccion.max' => 'La dirección no puede exceder 255 caracteres.',
         ]);
 
-        $facultad = Facultad::create($request->all());
-
-        return redirect()->route('facultades.index')
-            ->with('success', 'Facultad creada exitosamente.');
+        try {
+            $facultad = Facultad::create($request->all());
+            return redirect()->route('v2.facultades.index');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['facultad' => 'Error al crear la facultad. Por favor, inténtelo nuevamente.']);
+        }
     }
 
     /**
@@ -58,7 +74,9 @@ class FacultadController extends Controller
             $query->orderBy('programa');
         }]);
 
-        return view('facultades.show', compact('facultad'));
+        return inertia('Facultades/Show', [
+            'facultad' => $facultad,
+        ]);
     }
 
     /**
@@ -66,7 +84,9 @@ class FacultadController extends Controller
      */
     public function edit(Facultad $facultad)
     {
-        return view('facultades.edit', compact('facultad'));
+        return inertia('Facultades/Edit', [
+            'facultad' => $facultad,
+        ]);
     }
 
     /**
@@ -84,10 +104,16 @@ class FacultadController extends Controller
             'direccion.max' => 'La dirección no puede exceder 255 caracteres.',
         ]);
 
-        $facultad->update($request->all());
+        try {
+            $facultad->update($request->all());
 
-        return redirect()->route('facultades.index')
-            ->with('success', 'Facultad actualizada exitosamente.');
+            return redirect()->route('v2.facultades.index')
+                ->with('success', 'Facultad actualizada exitosamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Error al actualizar la facultad. Por favor, inténtelo nuevamente.');
+        }
     }
 
     /**
@@ -95,15 +121,26 @@ class FacultadController extends Controller
      */
     public function destroy(Facultad $facultad)
     {
-        // Verificar si tiene carreras asociadas
-        if ($facultad->carreras()->count() > 0) {
-            return redirect()->route('facultades.index')
-                ->with('error', 'No se puede eliminar la facultad porque tiene carreras asociadas.');
+        try {
+            // Verificar si tiene carreras asociadas
+            $carrerasCount = $facultad->carreras()->count();
+            
+            if ($carrerasCount > 0) {
+                return response()->json([
+                    'message' => "No se puede eliminar la facultad '{$facultad->nombre}' porque tiene {$carrerasCount} carrera(s) asociada(s)."
+                ], 422);
+            }
+
+            $facultad->delete();
+
+            return response()->json([
+                'message' => 'Facultad eliminada exitosamente.'
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al eliminar la facultad. Por favor, inténtelo nuevamente.'
+            ], 500);
         }
-
-        $facultad->delete();
-
-        return redirect()->route('facultades.index')
-            ->with('success', 'Facultad eliminada exitosamente.');
     }
 }

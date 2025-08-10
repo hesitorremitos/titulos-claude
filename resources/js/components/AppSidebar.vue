@@ -31,47 +31,58 @@ import { computed } from 'vue'
 const page = usePage()
 const user = computed(() => page.props.auth?.user)
 
+// Function to check if a route is active
+const isRouteActive = (href: string) => {
+  if (href === '#') return false
+  const currentPath = page.url
+  return currentPath.startsWith(href)
+}
+
 // Items del menú principal
 const menuItems = [
   {
     title: 'Dashboard',
     icon: 'material-symbols:dashboard',
-    href: '/v2/dashboard',
-    active: true
+    href: '/v2/dashboard'
   },
   {
     title: 'Diplomas Académicos',
     icon: 'material-symbols:school',
-    href: '#',
-    active: false
+    href: '#'
   },
   {
     title: 'Títulos Profesionales',
     icon: 'material-symbols:workspace-premium',
-    href: '#',
-    active: false
+    href: '#'
   },
   {
     title: 'Bachiller',
     icon: 'material-symbols:backpack',
-    href: '#',
-    active: false
+    href: '#'
   }
 ]
 
 // Items de administración
 const adminItems = [
   {
+    title: 'Facultades',
+    icon: 'material-symbols:school',
+    href: '/v2/facultades'
+  },
+  {
+    title: 'Carreras',
+    icon: 'material-symbols:book',
+    href: '/v2/carreras'
+  },
+  {
     title: 'Usuarios',
     icon: 'material-symbols:group',
-    href: '#',
-    active: false
+    href: '#'
   },
   {
     title: 'Configuración',
     icon: 'material-symbols:settings',
-    href: '#',
-    active: false
+    href: '#'
   }
 ]
 
@@ -107,7 +118,7 @@ const logout = () => {
               <SidebarMenuButton 
                 :as="item.href.startsWith('#') ? 'button' : 'a'"
                 :href="item.href.startsWith('#') ? undefined : item.href"
-                :is-active="item.active"
+                :is-active="isRouteActive(item.href)"
                 class="w-full"
               >
                 <Icon :icon="item.icon" class="w-4 h-4 mr-2" />
@@ -127,7 +138,7 @@ const logout = () => {
               <SidebarMenuButton 
                 :as="item.href.startsWith('#') ? 'button' : 'a'"
                 :href="item.href.startsWith('#') ? undefined : item.href"
-                :is-active="item.active"
+                :is-active="isRouteActive(item.href)"
                 class="w-full"
               >
                 <Icon :icon="item.icon" class="w-4 h-4 mr-2" />
