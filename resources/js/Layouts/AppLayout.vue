@@ -16,10 +16,17 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { Head } from '@inertiajs/vue3'
+import { Icon } from '@iconify/vue'
 import { Toaster } from '@/components/ui/sonner'
+
+interface BreadcrumbItem {
+  label: string
+  href?: string
+}
 
 interface Props {
   title?: string
+  breadcrumbs?: BreadcrumbItem[]
 }
 
 defineProps<Props>()
@@ -36,14 +43,39 @@ defineProps<Props>()
         <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger class="-ml-1" />
           <Separator orientation="vertical" class="mr-2 h-4" />
-          <Breadcrumb>
+          <Breadcrumb v-if="breadcrumbs && breadcrumbs.length > 0">
             <BreadcrumbList>
-              <BreadcrumbItem class="hidden md:block">
-                <BreadcrumbLink href="/v2/dashboard">
-                  Sistema de Títulos UATF
+              <!-- Icono Home como primer elemento -->
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/v2/dashboard" class="flex items-center">
+                  <Icon icon="material-symbols:home" class="w-4 h-4" />
                 </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator class="hidden md:block" />
+              
+              <!-- Breadcrumbs dinámicos -->
+              <template v-for="(item, index) in breadcrumbs" :key="index">
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink v-if="item.href" :href="item.href">
+                    {{ item.label }}
+                  </BreadcrumbLink>
+                  <BreadcrumbPage v-else>
+                    {{ item.label }}
+                  </BreadcrumbPage>
+                </BreadcrumbItem>
+              </template>
+            </BreadcrumbList>
+          </Breadcrumb>
+          
+          <!-- Breadcrumb por defecto (Dashboard) -->
+          <Breadcrumb v-else>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/v2/dashboard" class="flex items-center">
+                  <Icon icon="material-symbols:home" class="w-4 h-4" />
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbPage>Dashboard</BreadcrumbPage>
               </BreadcrumbItem>
@@ -64,6 +96,11 @@ defineProps<Props>()
     </SidebarProvider>
     
     <!-- Toast notifications -->
-    <Toaster />
+    <Toaster 
+      position="bottom-right" 
+      :duration="4000"
+      :close-button="true"
+      :rich-colors="true"
+    />
   </div>
 </template>
