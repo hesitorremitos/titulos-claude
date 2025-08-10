@@ -128,7 +128,7 @@
     --destructive: #b91c1c;
     --destructive-foreground: #ffffff;
     /* Bordes / inputs ligeramente neutros para no saturar la UI */
-    --border: #e5e7eb; /* gray-200 */
+    --border: hsl(214.3 31.8% 91.4%); /* más sutil */
     --input: #e5e7eb;
     /* Ring accesible basado en primario con algo más de luminosidad */
     --ring: #f87171; /* primary-400 */
@@ -166,7 +166,7 @@
     --accent-foreground: #f1f5f9;
     --destructive: #dc2626; /* rojo 600 */
     --destructive-foreground: #f1f5f9;
-    --border: #7a7a7a; /* slate-700 */
+    --border: hsl(215 27.9% 16.9%); /* mucho más sutil en dark */
     --input: #334155;
     --ring: #f87171;
     --chart-1: oklch(0.488 0.243 264.376);
