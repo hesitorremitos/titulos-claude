@@ -23,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { usePage } from '@inertiajs/vue3'
+import { usePage, router } from '@inertiajs/vue3'
 import { computed } from 'vue'
 
 // Props del usuario desde Inertia
@@ -76,8 +76,7 @@ const adminItems = [
 
 // Logout function
 const logout = () => {
-  // Implementar logout con Inertia
-  // router.post(route('logout'))
+  router.post(route('logout'))
 }
 </script>
 
@@ -163,7 +162,7 @@ const logout = () => {
           </DropdownMenuTrigger>
           
           <DropdownMenuContent class="w-56" align="end">
-            <DropdownMenuItem>
+            <DropdownMenuItem @click="router.visit(route('v2.profile.show'))">
               <span class="mr-2">👤</span>
               Mi Perfil
             </DropdownMenuItem>

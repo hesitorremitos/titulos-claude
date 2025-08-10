@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { Head } from '@inertiajs/vue3'
+import { Toaster } from '@/components/ui/sonner'
 
 interface Props {
   title?: string
@@ -61,5 +62,8 @@ defineProps<Props>()
         </div>
       </SidebarInset>
     </SidebarProvider>
+    
+    <!-- Toast notifications -->
+    <Toaster />
   </div>
 </template>

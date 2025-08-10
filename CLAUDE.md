@@ -22,7 +22,9 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 
 ### Technology Stack
 - **Backend:** Laravel 12 with PHP 8.2+
-- **Frontend:** Blade templates with Livewire v3, Tailwind CSS v4, Alpine.js
+- **Frontend:** ⚡ **MIGRACIÓN EN PROCESO**: Transición gradual de Blade/Livewire a Vue 3 + Inertia.js
+  - **Legacy Stack**: Blade templates with Livewire v3, Tailwind CSS v4, Alpine.js
+  - **New Stack**: Vue 3 + Composition API + Inertia.js + Shadcn/vue + TypeScript
 - **Database:** SQLite (development), designed for PostgreSQL/MySQL (production)
 - **Testing:** Pest PHP testing framework
 - **Authentication:** Laravel's built-in authentication with Spatie Laravel Permission for roles
@@ -141,8 +143,16 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - **Paso 08 COMPLETADO**: Sistema CRUD de Diplomas Académicos implementado con integración API universitaria (specs/08-sistema-diplomas-academicos.md)
 - **Paso 09 COMPLETADO**: Mejoras UI - Sidebar Collapsible con Alpine.js y Persistencia (specs/09-mejoras-ui-sidebar-collapsible.md)
 - **Paso 10 COMPLETADO**: Subsecciones para Diplomas Académicos con arquitectura MVC limpia y layout unificado (specs/10-subsecciones-diplomas-academicos.md)
+- **⚡ MIGRACIÓN ACTIVA**: Transición gradual a Vue 3 + Inertia.js con sistema de gestión de sesiones
 - Sistema de usuarios y permisos completamente funcional
 - Base de datos con facultades, carreras y datos maestros implementados
+
+### Estado Actual de Migración Vue/Inertia (2025-08-10)
+- **Dashboard Vue**: Completamente migrado con Shadcn/vue components
+- **Sistema de Rutas**: Patrón `/v2/*` para nuevas rutas Vue + Inertia
+- **Componentes Shadcn/vue**: Sidebar, Breadcrumb, Card, Avatar, Switch, DropdownMenu, Button
+- **Convivencia**: Ambos stacks coexisten durante migración gradual
+- **EN PROCESO**: Sistema de gestión de perfil y sesiones
 
 ### Sistema de Diplomas Académicos (Paso 08) - UI Mejorada
 - **Modelo principal**: DiplomaAcademico con relaciones a Persona, MencionDa, GraduacionDa, User
@@ -218,6 +228,9 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `app/Http/Controllers/DiplomasAcademicos/MencionController.php` - CRUD completo menciones académicas (sin filtros)
 - `app/Http/Controllers/DiplomasAcademicos/ModalidadGraduacionController.php` - CRUD completo modalidades graduación (sin filtros)
 - `app/Http/Controllers/StyleGuideController.php` - Controlador para la guía de estilos del sistema
+- `app/Http/Controllers/ProfileController.php` - **ACTUALIZADO** Gestión de perfil con métodos legacy (Blade) y Vue/Inertia
+- `app/Http/Controllers/DashboardController.php` - **NUEVO** Dashboard para Vue + Inertia
+- `app/Http/Controllers/Auth/InertiaLoginController.php` - **NUEVO** Autenticación para Vue + Inertia
 
 ### View Components
 - `app/View/Components/AppLayout.php` - Componente Laravel para layout principal del sistema
@@ -265,11 +278,24 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `database/seeders/RoleSeeder.php` - Roles y permisos
 - `database/seeders/UserRoleSeeder.php` - Asignación roles
 
-### Views
+### Views (Blade - Legacy)
 - `resources/views/layouts/app-layout.blade.php` - Layout principal del sistema con navbar y sidebar
 - `resources/views/layouts/diplomas-layout.blade.php` - Layout unificado para sección diplomas académicos
 - `resources/views/layouts/partials/navbar.blade.php` - Navbar con toggle de tema funcional
 - `resources/views/layouts/partials/sidebar.blade.php` - Sidebar de navegación principal
+
+### Vue Pages & Components (Inertia)
+- `resources/js/Layouts/AppLayout.vue` - **ACTUALIZADO** Layout principal Vue con Shadcn/vue y Toaster
+- `resources/js/components/AppSidebar.vue` - **ACTUALIZADO** Sidebar Vue con logout funcional y navegación a perfil
+- `resources/js/Pages/Dashboard.vue` - Dashboard principal Vue + Inertia
+- `resources/js/Pages/Login.vue` - Página de login Vue + Inertia
+- `resources/js/Pages/Profile/Index.vue` - **NUEVO** Página principal de gestión de perfil
+- `resources/js/Pages/Profile/partials/UpdateProfileForm.vue` - **NUEVO** Formulario actualización datos personales
+- `resources/js/Pages/Profile/partials/UpdatePasswordForm.vue` - **NUEVO** Formulario cambio de contraseña
+- `resources/js/Pages/Profile/partials/DeleteAccountSection.vue` - **NUEVO** Sección eliminación de cuenta con modal
+
+### Routes (Vue + Inertia)
+- `routes/web-vue.php` - **ACTUALIZADO** Rutas Vue + Inertia con sistema completo de autenticación y gestión de perfil
 - `resources/views/diplomas/index.blade.php` - Vista principal con accesos rápidos a subsecciones
 - `resources/views/diplomas/create.blade.php` - Formulario creación diploma con layout unificado
 - `resources/views/diplomas/show.blade.php` - Ver diploma individual con layout unificado
