@@ -1,5 +1,8 @@
 import type { Config } from 'ziggy-js';
 
+// Importar declaraciones de componentes Vue
+/// <reference path="./vue-shims.d.ts" />
+
 export interface Auth {
     user: User;
 }
@@ -17,6 +20,7 @@ export interface User {
     role: string;
     name: string;
     email: string;
+    ci: string;
     avatar?: string;
     email_verified_at: string | null;
     created_at: string;
