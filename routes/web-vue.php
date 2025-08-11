@@ -5,6 +5,8 @@ use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FacultadController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\V2\DiplomaAcademicoController;
+use App\Http\Controllers\V2\UserController;
 
 // Ruta de prueba para Inertia.js
 // Definicion de rutas version 2
@@ -55,6 +57,36 @@ Route::group(['prefix' => 'v2'], function () {
             'edit' => 'v2.carreras.edit',
             'update' => 'v2.carreras.update',
             'destroy' => 'v2.carreras.destroy',
+        ]);
+    });
+
+    // Usuarios CRUD
+    Route::middleware('auth')->group(function () {
+        Route::resource('/usuarios', UserController::class)->names([
+            'index' => 'v2.usuarios.index',
+            'create' => 'v2.usuarios.create',
+            'store' => 'v2.usuarios.store',
+            'show' => 'v2.usuarios.show',
+            'edit' => 'v2.usuarios.edit',
+            'update' => 'v2.usuarios.update',
+            'destroy' => 'v2.usuarios.destroy',
+        ])->parameters([
+            'usuarios' => 'usuario'
+        ]);
+    });
+
+    // Diplomas Académicos CRUD
+    Route::middleware('auth')->group(function () {
+        Route::resource('/diplomas-academicos', DiplomaAcademicoController::class)->names([
+            'index' => 'v2.diplomas-academicos.index',
+            'create' => 'v2.diplomas-academicos.create',
+            'store' => 'v2.diplomas-academicos.store',
+            'show' => 'v2.diplomas-academicos.show',
+            'edit' => 'v2.diplomas-academicos.edit',
+            'update' => 'v2.diplomas-academicos.update',
+            'destroy' => 'v2.diplomas-academicos.destroy',
+        ])->parameters([
+            'diplomas-academicos' => 'diploma'
         ]);
     });
 });
