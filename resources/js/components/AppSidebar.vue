@@ -39,7 +39,7 @@ const menuItems = [
     {
         title: 'Diplomas Académicos',
         icon: 'material-symbols:school',
-        href: '#',
+        href: '/v2/diplomas-academicos',
     },
     {
         title: 'Títulos Profesionales',
@@ -68,7 +68,7 @@ const adminItems = [
     {
         title: 'Usuarios',
         icon: 'material-symbols:group',
-        href: '#',
+        href: '/v2/usuarios',
     },
     {
         title: 'Configuración',
@@ -86,13 +86,13 @@ const logout = () => {
 <template>
     <Sidebar>
         <!-- Header del Sidebar -->
-        <SidebarHeader class="border-b border-sidebar-border">
-            <div class="flex items-center gap-3 px-2 py-2">
-                <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-red-600 text-white">
+        <SidebarHeader>
+            <div class="flex items-center gap-3 px-4 py-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                     <span class="text-sm font-bold">U</span>
                 </div>
                 <div>
-                    <p class="text-sm font-semibold">UATF Títulos</p>
+                    <p class="text-sm font-semibold text-sidebar-foreground">UATF Títulos</p>
                     <p class="text-xs text-muted-foreground">Universidad</p>
                 </div>
             </div>
@@ -102,7 +102,9 @@ const logout = () => {
         <SidebarContent>
             <!-- Menú Principal -->
             <SidebarGroup>
-                <SidebarGroupLabel>Menú Principal</SidebarGroupLabel>
+                <SidebarGroupLabel class="px-3 py-2 text-xs font-semibold uppercase tracking-wide">
+                    MENÚ PRINCIPAL
+                </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>
                         <SidebarMenuItem v-for="item in menuItems" :key="item.title">
@@ -110,9 +112,8 @@ const logout = () => {
                                 :as="item.href.startsWith('#') ? 'button' : 'a'"
                                 :href="item.href.startsWith('#') ? undefined : item.href"
                                 :is-active="isRouteActive(item.href)"
-                                class="w-full"
                             >
-                                <Icon :icon="item.icon" class="mr-2 h-4 w-4" />
+                                <Icon :icon="item.icon" class="mr-3 h-4 w-4" />
                                 {{ item.title }}
                             </SidebarMenuButton>
                         </SidebarMenuItem>
@@ -122,7 +123,9 @@ const logout = () => {
 
             <!-- Administración -->
             <SidebarGroup>
-                <SidebarGroupLabel>Administración</SidebarGroupLabel>
+                <SidebarGroupLabel class="px-3 py-2 text-xs font-semibold uppercase tracking-wide">
+                    ADMINISTRACIÓN
+                </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>
                         <SidebarMenuItem v-for="item in adminItems" :key="item.title">
@@ -130,9 +133,8 @@ const logout = () => {
                                 :as="item.href.startsWith('#') ? 'button' : 'a'"
                                 :href="item.href.startsWith('#') ? undefined : item.href"
                                 :is-active="isRouteActive(item.href)"
-                                class="w-full"
                             >
-                                <Icon :icon="item.icon" class="mr-2 h-4 w-4" />
+                                <Icon :icon="item.icon" class="mr-3 h-4 w-4" />
                                 {{ item.title }}
                             </SidebarMenuButton>
                         </SidebarMenuItem>
@@ -142,22 +144,22 @@ const logout = () => {
         </SidebarContent>
 
         <!-- Footer del Sidebar -->
-        <SidebarFooter class="border-t border-sidebar-border">
-            <div class="px-2 py-2">
+        <SidebarFooter>
+            <div class="px-3 py-3">
                 <DropdownMenu>
                     <DropdownMenuTrigger as-child>
-                        <Button variant="ghost" class="h-auto w-full justify-start px-2 py-2">
-                            <Avatar class="mr-2 h-8 w-8">
-                                <AvatarFallback class="bg-blue-600 text-sm text-white">
-                                    {{ user?.name?.charAt(0)?.toUpperCase() || 'U' }}
+                        <Button variant="ghost" class="h-auto w-full justify-start px-3 py-3">
+                            <Avatar class="mr-3 h-8 w-8">
+                                <AvatarFallback class="bg-secondary text-sm text-secondary-foreground">
+                                    {{ user?.name?.charAt(0)?.toUpperCase() || 'A' }}
                                 </AvatarFallback>
                             </Avatar>
                             <div class="flex min-w-0 flex-1 flex-col items-start text-left">
-                                <p class="w-full truncate text-sm font-medium">
-                                    {{ user?.name || 'Usuario' }}
+                                <p class="w-full truncate text-sm font-medium text-sidebar-foreground">
+                                    {{ user?.name || 'Administrador' }}
                                 </p>
                                 <p class="w-full truncate text-xs text-muted-foreground">
-                                    {{ user?.role || 'Rol' }}
+                                    {{ user?.role || 'Administrador' }}
                                 </p>
                             </div>
                         </Button>
@@ -177,7 +179,7 @@ const logout = () => {
                             Ayuda
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem @click="logout" class="text-red-600 focus:text-red-600">
+                        <DropdownMenuItem @click="logout" class="text-destructive">
                             <Icon icon="material-symbols:logout" class="mr-2 h-4 w-4" />
                             Cerrar Sesión
                         </DropdownMenuItem>

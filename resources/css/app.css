@@ -149,39 +149,58 @@
 }
 
 .dark {
-    --background: #0f172a; /* slate-900 para mayor contraste */
-    --foreground: #f1f5f9; /* slate-100 */
-    --card: #1e293b; /* slate-800 */
-    --card-foreground: #f1f5f9;
+    /* Background más oscuro para coincidir con la referencia */
+    --background: #020617; /* slate-950 fondo principal */
+    --foreground: #f8fafc; /* slate-50 texto principal */
+    
+    /* Cards y popover con el color intermedio del diseño */
+    --card: #1e293b; /* slate-800 ligeramente más claro que el background */ 
+    --card-foreground: #f8fafc;
     --popover: #1e293b;
-    --popover-foreground: #f1f5f9;
-    /* En dark elevamos el rojo a un tono claro para mantener AA sobre fondo oscuro */
-    --primary: #f87171; /* primary-400 */
-    --primary-foreground: #1e293b;
-    --secondary: #3b82f6; /* azul medio para no deslumbrar */
-    --secondary-foreground: #f1f5f9;
-    --muted: #1e3a8a; /* azul profundo como surface muted */
-    --muted-foreground: #93c5fd; /* secondary-300 */
-    --accent: #2563eb; /* azul 600 para hovers */
-    --accent-foreground: #f1f5f9;
-    --destructive: #dc2626; /* rojo 600 */
-    --destructive-foreground: #f1f5f9;
-    --border: hsl(215 27.9% 16.9%); /* mucho más sutil en dark */
-    --input: #334155;
-    --ring: #60a5fa; /* secondary-400 azul claro para dark mode */
+    --popover-foreground: #f8fafc;
+    
+    /* Primary usando el rojo UATF */
+    --primary: #dc2626; /* primary-600 rojo UATF */
+    --primary-foreground: #ffffff;
+    
+    /* Secondary usando azul UATF */
+    --secondary: #2563eb; /* secondary-600 azul UATF */
+    --secondary-foreground: #ffffff;
+    
+    /* Muted usando tonos slate para áreas menos importantes */
+    --muted: #334155; /* slate-700 para áreas muted */
+    --muted-foreground: #cbd5e1; /* slate-300 texto muted */
+    
+    /* Accent usando azul más claro para interacciones */
+    --accent: #3b82f6; /* secondary-500 para hover states */
+    --accent-foreground: #ffffff;
+    
+    /* Destructive manteniendo rojo más oscuro */
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    
+    /* Bordes usando slate más sutil */
+    --border: #475569; /* slate-600 bordes visibles pero sutiles */
+    --input: #475569; /* slate-600 para inputs */
+    
+    /* Ring usando azul para focus states */
+    --ring: #60a5fa; /* secondary-400 para focus */
+    
     --chart-1: oklch(0.488 0.243 264.376);
     --chart-2: oklch(0.696 0.17 162.48);
     --chart-3: oklch(0.769 0.188 70.08);
     --chart-4: oklch(0.627 0.265 303.9);
     --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: oklch(0.21 0.034 264.665);
-    --sidebar-foreground: oklch(0.985 0.002 247.839);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0.002 247.839);
-    --sidebar-accent: oklch(0.278 0.033 256.848);
-    --sidebar-accent-foreground: oklch(0.985 0.002 247.839);
-    --sidebar-border: oklch(0.278 0.033 256.848);
-    --sidebar-ring: oklch(0.446 0.03 256.802);
+    
+    /* Sidebar usando el slate-900 más oscuro */
+    --sidebar: #0f172a; /* slate-900 para sidebar */
+    --sidebar-foreground: #f8fafc; /* slate-50 */
+    --sidebar-primary: #dc2626; /* rojo UATF para elementos activos */
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #1e293b; /* slate-800 para hover */
+    --sidebar-accent-foreground: #f8fafc;
+    --sidebar-border: #475569; /* slate-600 bordes sidebar */
+    --sidebar-ring: #60a5fa; /* secondary-400 para focus */
 }
 
 @layer base {

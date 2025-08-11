@@ -26,8 +26,8 @@ defineProps<Props>();
                 <CardHeader class="border-b">
                     <div class="flex items-center space-x-4">
                         <div class="flex-shrink-0">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">
-                                <Icon icon="material-symbols:person" class="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-secondary">
+                                <Icon icon="material-symbols:person" class="h-6 w-6 text-secondary-foreground" />
                             </div>
                         </div>
                         <div>
@@ -50,13 +50,13 @@ defineProps<Props>();
                     <CardContent class="p-6">
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0">
-                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">
-                                    <Icon icon="material-symbols:account-balance" class="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-secondary">
+                                    <Icon icon="material-symbols:account-balance" class="h-4 w-4 text-secondary-foreground" />
                                 </div>
                             </div>
                             <div class="flex-1">
                                 <p class="text-sm font-medium text-muted-foreground">Total Facultades</p>
-                                <p class="text-2xl font-semibold">{{ stats.facultades }}</p>
+                                <p class="text-2xl font-semibold text-foreground">{{ stats.facultades }}</p>
                             </div>
                         </div>
                     </CardContent>
@@ -67,13 +67,13 @@ defineProps<Props>();
                     <CardContent class="p-6">
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0">
-                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
-                                    <Icon icon="material-symbols:school" class="h-4 w-4 text-green-600 dark:text-green-400" />
+                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-accent">
+                                    <Icon icon="material-symbols:school" class="h-4 w-4 text-accent-foreground" />
                                 </div>
                             </div>
                             <div class="flex-1">
                                 <p class="text-sm font-medium text-muted-foreground">Total Carreras</p>
-                                <p class="text-2xl font-semibold">{{ stats.carreras }}</p>
+                                <p class="text-2xl font-semibold text-foreground">{{ stats.carreras }}</p>
                             </div>
                         </div>
                     </CardContent>
@@ -84,13 +84,13 @@ defineProps<Props>();
                     <CardContent class="p-6">
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0">
-                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900">
-                                    <Icon icon="material-symbols:calendar-month" class="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
+                                    <Icon icon="material-symbols:calendar-month" class="h-4 w-4 text-primary-foreground" />
                                 </div>
                             </div>
                             <div class="flex-1">
                                 <p class="text-sm font-medium text-muted-foreground">Este Mes</p>
-                                <p class="text-2xl font-semibold">{{ stats.diplomasEsteMes }}</p>
+                                <p class="text-2xl font-semibold text-foreground">{{ stats.diplomasEsteMes }}</p>
                             </div>
                         </div>
                     </CardContent>
@@ -98,12 +98,26 @@ defineProps<Props>();
             </div>
 
             <!-- Acciones Rápidas -->
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <Card class="group cursor-pointer transition-shadow hover:shadow-lg">
                     <CardContent class="p-6">
                         <div class="flex items-center space-x-4">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900">
-                                <Icon icon="material-symbols:account-balance" class="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary">
+                                <Icon icon="material-symbols:school" class="h-6 w-6 text-primary-foreground" />
+                            </div>
+                            <div class="flex-1">
+                                <CardTitle class="text-sm font-medium"> Diplomas Académicos </CardTitle>
+                                <CardDescription class="text-xs"> Gestionar títulos académicos </CardDescription>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Card class="group cursor-pointer transition-shadow hover:shadow-lg">
+                    <CardContent class="p-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-secondary">
+                                <Icon icon="material-symbols:account-balance" class="h-6 w-6 text-secondary-foreground" />
                             </div>
                             <div class="flex-1">
                                 <CardTitle class="text-sm font-medium"> Gestionar Facultades </CardTitle>
@@ -116,8 +130,8 @@ defineProps<Props>();
                 <Card class="group cursor-pointer transition-shadow hover:shadow-lg">
                     <CardContent class="p-6">
                         <div class="flex items-center space-x-4">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900">
-                                <Icon icon="material-symbols:school" class="h-6 w-6 text-green-600 dark:text-green-400" />
+                            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-accent">
+                                <Icon icon="material-symbols:school" class="h-6 w-6 text-accent-foreground" />
                             </div>
                             <div class="flex-1">
                                 <CardTitle class="text-sm font-medium"> Gestionar Carreras </CardTitle>
