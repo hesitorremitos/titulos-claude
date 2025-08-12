@@ -31,8 +31,18 @@ class UserController extends Controller
             ->paginate(10)
             ->withQueryString();
 
+        // Calcular estadísticas de usuarios
+        $stats = [
+            'administradores' => User::role('Administrador')->count(),
+            'jefes' => User::role('Jefe')->count(), 
+            'personal' => User::role('Personal')->count(),
+            'activos' => User::whereNotNull('email_verified_at')->count(),
+            'inactivos' => User::whereNull('email_verified_at')->count(),
+        ];
+
         return inertia('Usuarios/Index', [
             'usuarios' => $usuarios,
+            'stats' => $stats,
             'filters' => [
                 'search' => $request->search,
             ],

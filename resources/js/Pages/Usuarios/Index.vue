@@ -1,56 +1,87 @@
 <template>
-    <AppLayout title="Usuarios" :breadcrumbs="[{ label: 'Usuarios' }]">
+    <AppLayout 
+        title="Usuarios" 
+        page-title="Usuarios"
+        :nav-tabs="navTabs"
+        active-tab="lista"
+    >
         <div class="space-y-6">
-            <!-- Header -->
-            <div class="border-b border-border pb-4">
-                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                        <h1 class="text-2xl font-bold tracking-tight">Usuarios</h1>
-                        <p class="text-muted-foreground">Gestiona los usuarios del sistema y sus roles</p>
-                    </div>
-                    <Button as-child>
-                        <Link :href="route('v2.usuarios.create')">
-                            <Icon icon="mdi:plus" class="mr-2 h-4 w-4" />
-                            Nuevo Usuario
-                        </Link>
-                    </Button>
-                </div>
-            </div>
-
-            <!-- Search and Filters -->
-            <Card>
-                <CardContent class="p-6">
-                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-                        <div class="flex-1">
-                            <div class="flex gap-2">
-                                <div class="relative flex-1">
-                                    <Input v-model="searchTerm" placeholder="Buscar por CI, nombre o email..." @keyup.enter="handleSearch" />
-                                </div>
-                                <Button @click="handleSearch" variant="outline">
-                                    <Icon icon="mdi:magnify" class="h-4 w-4" />
-                                </Button>
-                                <Button v-if="searchTerm" @click="clearSearch" variant="ghost" size="sm">
-                                    <Icon icon="mdi:close" class="h-4 w-4" />
-                                </Button>
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Administradores -->
+                <Card>
+                    <CardContent class="p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="h-10 w-10 rounded-lg bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
+                                <Icon icon="lucide:shield-check" class="h-5 w-5 text-red-600 dark:text-red-400" />
+                            </div>
+                            <div>
+                                <p class="text-xs text-muted-foreground uppercase tracking-wider">Administradores</p>
+                                <p class="text-lg font-semibold text-foreground">{{ stats.administradores || 0 }}</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-sm text-muted-foreground"> {{ usuarios.total }} usuarios </span>
+                    </CardContent>
+                </Card>
+
+                <!-- Jefes -->
+                <Card>
+                    <CardContent class="p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center">
+                                <Icon icon="lucide:user-cog" class="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <div>
+                                <p class="text-xs text-muted-foreground uppercase tracking-wider">Jefes</p>
+                                <p class="text-lg font-semibold text-foreground">{{ stats.jefes || 0 }}</p>
+                            </div>
                         </div>
-                    </div>
-                </CardContent>
-            </Card>
+                    </CardContent>
+                </Card>
+
+                <!-- Personal -->
+                <Card>
+                    <CardContent class="p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="h-10 w-10 rounded-lg bg-green-100 dark:bg-green-900/20 flex items-center justify-center">
+                                <Icon icon="lucide:users" class="h-5 w-5 text-green-600 dark:text-green-400" />
+                            </div>
+                            <div>
+                                <p class="text-xs text-muted-foreground uppercase tracking-wider">Personal</p>
+                                <p class="text-lg font-semibold text-foreground">{{ stats.personal || 0 }}</p>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <!-- Estado: Activos/Inactivos -->
+                <Card>
+                    <CardContent class="p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="h-10 w-10 rounded-lg bg-amber-100 dark:bg-amber-900/20 flex items-center justify-center">
+                                <Icon icon="lucide:activity" class="h-5 w-5 text-amber-600 dark:text-amber-400" />
+                            </div>
+                            <div>
+                                <p class="text-xs text-muted-foreground uppercase tracking-wider">Activos/Inactivos</p>
+                                <p class="text-lg font-semibold text-foreground">
+                                    <span class="text-green-600">{{ stats.activos || 0 }}</span>
+                                    <span class="text-muted-foreground mx-1">/</span>
+                                    <span class="text-red-500">{{ stats.inactivos || 0 }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
 
             <!-- Table -->
-            <Card>
+            <Card class="overflow-hidden">
                 <Table>
                     <TableHeader>
-                        <TableRow>
-                            <TableHead>CI</TableHead>
-                            <TableHead>Nombre</TableHead>
-                            <TableHead>Email</TableHead>
-                            <TableHead class="text-center">Roles</TableHead>
-                            <TableHead class="text-right">Acciones</TableHead>
+                        <TableRow class="border-b border-border/50">
+                            <TableHead class="w-1/6 pl-4">CI</TableHead>
+                            <TableHead class="w-2/5">Nombre</TableHead>
+                            <TableHead class="w-1/4">Email</TableHead>
+                            <TableHead class="w-1/6 text-center pr-4">Roles</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -216,6 +247,13 @@ interface PaginatedUsuarios {
 
 interface Props {
     usuarios: PaginatedUsuarios;
+    stats: {
+        administradores: number;
+        jefes: number;
+        personal: number;
+        activos: number;
+        inactivos: number;
+    };
     filters: {
         search?: string;
     };
@@ -223,33 +261,16 @@ interface Props {
 
 const props = defineProps<Props>();
 
+// Navigation tabs - Solo Lista y Registrar
+const navTabs = [
+    { label: 'Lista', href: '/v2/usuarios', icon: 'lucide:users', value: 'lista' },
+    { label: 'Registrar', href: '/v2/usuarios/create', icon: 'lucide:user-plus', value: 'registrar' },
+];
+
+
 const searchTerm = ref(props.filters.search || '');
 
 // Methods
-const handleSearch = () => {
-    const params = new URLSearchParams(window.location.search);
-
-    if (searchTerm.value) {
-        params.set('search', searchTerm.value);
-    } else {
-        params.delete('search');
-    }
-
-    // Reset to page 1 when searching
-    params.delete('page');
-
-    const url = `${window.location.pathname}?${params.toString()}`;
-
-    router.get(
-        url,
-        {},
-        {
-            preserveState: true,
-            preserveScroll: true,
-        },
-    );
-};
-
 const goToPage = (page: number) => {
     const params = new URLSearchParams(window.location.search);
     params.set('page', page.toString());
@@ -264,11 +285,6 @@ const goToPage = (page: number) => {
             preserveScroll: true,
         },
     );
-};
-
-const clearSearch = () => {
-    searchTerm.value = '';
-    handleSearch();
 };
 
 const getRoleColor = (roleName: string) => {

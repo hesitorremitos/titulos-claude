@@ -1,11 +1,11 @@
 <template>
-    <AppLayout title="Nuevo Usuario" :breadcrumbs="[{ label: 'Usuarios', href: route('v2.usuarios.index') }, { label: 'Nuevo Usuario' }]">
+    <AppLayout 
+        title="Usuarios" 
+        page-title="Usuarios"
+        :nav-tabs="navTabs"
+        active-tab="registrar"
+    >
         <div class="space-y-6">
-            <!-- Header -->
-            <div class="border-b border-border pb-4">
-                <h1 class="text-2xl font-bold tracking-tight">Nuevo Usuario</h1>
-                <p class="text-muted-foreground">Registra un nuevo usuario en el sistema</p>
-            </div>
 
             <!-- Form -->
             <div class="max-w-2xl">
@@ -177,6 +177,13 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+// Navigation tabs - Solo Lista y Registrar
+const navTabs = [
+    { label: 'Lista', href: '/v2/usuarios', icon: 'lucide:users', value: 'lista' },
+    { label: 'Registrar', href: '/v2/usuarios/create', icon: 'lucide:user-plus', value: 'registrar' },
+];
+
 
 // Form usando useForm
 const form = useForm({
