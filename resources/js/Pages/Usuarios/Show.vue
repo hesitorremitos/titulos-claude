@@ -26,7 +26,7 @@
             </div>
 
             <!-- User Information -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <!-- Información Personal -->
                 <Card>
                     <CardHeader>
@@ -80,7 +80,7 @@
                     </CardHeader>
                     <CardContent>
                         <div v-if="usuario.roles && usuario.roles.length > 0" class="space-y-3">
-                            <div v-for="role in usuario.roles" :key="role.id" class="flex items-center space-x-3 p-3 rounded-lg border">
+                            <div v-for="role in usuario.roles" :key="role.id" class="flex items-center space-x-3 rounded-lg border p-3">
                                 <Icon :icon="getRoleIcon(role.name)" class="h-6 w-6" :class="getRoleIconColor(role.name)" />
                                 <div class="flex-1">
                                     <p class="font-medium">{{ role.name }}</p>
@@ -91,8 +91,8 @@
                                 </Badge>
                             </div>
                         </div>
-                        <div v-else class="text-center py-6">
-                            <Icon icon="mdi:shield-off" class="mx-auto h-12 w-12 text-muted-foreground mb-3" />
+                        <div v-else class="py-6 text-center">
+                            <Icon icon="mdi:shield-off" class="mx-auto mb-3 h-12 w-12 text-muted-foreground" />
                             <h3 class="text-lg font-medium">Sin roles asignados</h3>
                             <p class="text-muted-foreground">Este usuario no tiene roles asignados actualmente.</p>
                             <Button class="mt-4" variant="outline" as-child>
@@ -115,17 +115,17 @@
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
                         <div class="space-y-2">
                             <p class="text-sm font-medium text-muted-foreground">ID del Usuario</p>
                             <p class="text-lg font-semibold">{{ usuario.id }}</p>
                         </div>
-                        
+
                         <div class="space-y-2">
                             <p class="text-sm font-medium text-muted-foreground">Fecha de Registro</p>
                             <p class="text-lg font-semibold">{{ formatDate(usuario.created_at) }}</p>
                         </div>
-                        
+
                         <div class="space-y-2">
                             <p class="text-sm font-medium text-muted-foreground">Estado</p>
                             <div class="flex items-center space-x-2">
@@ -153,12 +153,12 @@
                                 Editar Usuario
                             </Link>
                         </Button>
-                        
+
                         <Button variant="outline">
                             <Icon icon="mdi:lock-reset" class="mr-2 h-4 w-4" />
                             Restablecer Contraseña
                         </Button>
-                        
+
                         <Button variant="destructive" v-if="usuario.id !== $page.props.auth?.user?.id" @click="confirmDelete">
                             <Icon icon="mdi:delete" class="mr-2 h-4 w-4" />
                             Eliminar Usuario
@@ -202,41 +202,41 @@ const props = defineProps<Props>();
 // Methods
 const getRoleIcon = (roleName: string) => {
     const icons = {
-        'Administrador': 'mdi:shield-crown',
-        'Jefe': 'mdi:shield-star',
-        'Personal': 'mdi:shield-account',
+        Administrador: 'mdi:shield-crown',
+        Jefe: 'mdi:shield-star',
+        Personal: 'mdi:shield-account',
     };
-    
+
     return icons[roleName as keyof typeof icons] || 'mdi:shield';
 };
 
 const getRoleIconColor = (roleName: string) => {
     const colors = {
-        'Administrador': 'text-red-500',
-        'Jefe': 'text-blue-500',
-        'Personal': 'text-green-500',
+        Administrador: 'text-red-500',
+        Jefe: 'text-blue-500',
+        Personal: 'text-green-500',
     };
-    
+
     return colors[roleName as keyof typeof colors] || 'text-gray-500';
 };
 
 const getRoleColor = (roleName: string) => {
     const colors = {
-        'Administrador': 'bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-900 dark:text-red-200',
-        'Jefe': 'bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200',
-        'Personal': 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200',
+        Administrador: 'bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-900 dark:text-red-200',
+        Jefe: 'bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200',
+        Personal: 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200',
     };
-    
+
     return colors[roleName as keyof typeof colors] || 'bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200';
 };
 
 const getRoleDescription = (roleName: string) => {
     const descriptions = {
-        'Administrador': 'Acceso completo al sistema, gestión de usuarios y configuraciones',
-        'Jefe': 'Visualización de todos los títulos y reportes del sistema',
-        'Personal': 'Gestión de títulos propios y operaciones básicas',
+        Administrador: 'Acceso completo al sistema, gestión de usuarios y configuraciones',
+        Jefe: 'Visualización de todos los títulos y reportes del sistema',
+        Personal: 'Gestión de títulos propios y operaciones básicas',
     };
-    
+
     return descriptions[roleName as keyof typeof descriptions] || 'Rol del sistema';
 };
 
@@ -246,7 +246,7 @@ const formatDate = (dateString: string) => {
         month: 'long',
         day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
     });
 };
 

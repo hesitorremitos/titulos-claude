@@ -1,22 +1,17 @@
 <template>
-    <AppLayout 
-        title="Usuarios" 
-        page-title="Usuarios"
-        :nav-tabs="navTabs"
-        active-tab="lista"
-    >
+    <AppLayout title="Usuarios" page-title="Usuarios" :nav-tabs="navTabs" active-tab="lista">
         <div class="space-y-6">
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <!-- Administradores -->
                 <Card>
                     <CardContent class="p-4">
                         <div class="flex items-center gap-3">
-                            <div class="h-10 w-10 rounded-lg bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900/20">
                                 <Icon icon="lucide:shield-check" class="h-5 w-5 text-red-600 dark:text-red-400" />
                             </div>
                             <div>
-                                <p class="text-xs text-muted-foreground uppercase tracking-wider">Administradores</p>
+                                <p class="text-xs tracking-wider text-muted-foreground uppercase">Administradores</p>
                                 <p class="text-lg font-semibold text-foreground">{{ stats.administradores || 0 }}</p>
                             </div>
                         </div>
@@ -27,11 +22,11 @@
                 <Card>
                     <CardContent class="p-4">
                         <div class="flex items-center gap-3">
-                            <div class="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/20">
                                 <Icon icon="lucide:user-cog" class="h-5 w-5 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
-                                <p class="text-xs text-muted-foreground uppercase tracking-wider">Jefes</p>
+                                <p class="text-xs tracking-wider text-muted-foreground uppercase">Jefes</p>
                                 <p class="text-lg font-semibold text-foreground">{{ stats.jefes || 0 }}</p>
                             </div>
                         </div>
@@ -42,11 +37,11 @@
                 <Card>
                     <CardContent class="p-4">
                         <div class="flex items-center gap-3">
-                            <div class="h-10 w-10 rounded-lg bg-green-100 dark:bg-green-900/20 flex items-center justify-center">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900/20">
                                 <Icon icon="lucide:users" class="h-5 w-5 text-green-600 dark:text-green-400" />
                             </div>
                             <div>
-                                <p class="text-xs text-muted-foreground uppercase tracking-wider">Personal</p>
+                                <p class="text-xs tracking-wider text-muted-foreground uppercase">Personal</p>
                                 <p class="text-lg font-semibold text-foreground">{{ stats.personal || 0 }}</p>
                             </div>
                         </div>
@@ -57,14 +52,14 @@
                 <Card>
                     <CardContent class="p-4">
                         <div class="flex items-center gap-3">
-                            <div class="h-10 w-10 rounded-lg bg-amber-100 dark:bg-amber-900/20 flex items-center justify-center">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/20">
                                 <Icon icon="lucide:activity" class="h-5 w-5 text-amber-600 dark:text-amber-400" />
                             </div>
                             <div>
-                                <p class="text-xs text-muted-foreground uppercase tracking-wider">Activos/Inactivos</p>
+                                <p class="text-xs tracking-wider text-muted-foreground uppercase">Activos/Inactivos</p>
                                 <p class="text-lg font-semibold text-foreground">
                                     <span class="text-green-600">{{ stats.activos || 0 }}</span>
-                                    <span class="text-muted-foreground mx-1">/</span>
+                                    <span class="mx-1 text-muted-foreground">/</span>
                                     <span class="text-red-500">{{ stats.inactivos || 0 }}</span>
                                 </p>
                             </div>
@@ -81,7 +76,7 @@
                             <TableHead class="w-1/6 pl-4">CI</TableHead>
                             <TableHead class="w-2/5">Nombre</TableHead>
                             <TableHead class="w-1/4">Email</TableHead>
-                            <TableHead class="w-1/6 text-center pr-4">Roles</TableHead>
+                            <TableHead class="w-1/6 pr-4 text-center">Roles</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -103,17 +98,11 @@
                             </TableCell>
                             <TableCell class="text-center">
                                 <div v-if="usuario.roles && usuario.roles.length > 0" class="flex flex-wrap justify-center gap-1">
-                                    <Badge 
-                                        v-for="role in usuario.roles" 
-                                        :key="role.id"
-                                        :class="getRoleColor(role.name)"
-                                    >
+                                    <Badge v-for="role in usuario.roles" :key="role.id" :class="getRoleColor(role.name)">
                                         {{ role.name }}
                                     </Badge>
                                 </div>
-                                <Badge v-else variant="secondary">
-                                    Sin rol
-                                </Badge>
+                                <Badge v-else variant="secondary"> Sin rol </Badge>
                             </TableCell>
                             <TableCell class="text-right">
                                 <div class="opacity-0 transition-opacity group-hover:opacity-100">
@@ -189,12 +178,7 @@
                     Mostrando {{ usuarios.from || 0 }} a {{ usuarios.to || 0 }} de {{ usuarios.total }} resultados
                 </div>
 
-                <Pagination
-                    :total="usuarios.total"
-                    :items-per-page="usuarios.per_page"
-                    :default-page="usuarios.current_page"
-                    @update:page="goToPage"
-                >
+                <Pagination :total="usuarios.total" :items-per-page="usuarios.per_page" :default-page="usuarios.current_page" @update:page="goToPage">
                     <PaginationContent>
                         <PaginationPrevious />
                         <PaginationNext />
@@ -210,7 +194,6 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Pagination, PaginationContent, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -267,7 +250,6 @@ const navTabs = [
     { label: 'Registrar', href: '/v2/usuarios/create', icon: 'lucide:user-plus', value: 'registrar' },
 ];
 
-
 const searchTerm = ref(props.filters.search || '');
 
 // Methods
@@ -289,11 +271,11 @@ const goToPage = (page: number) => {
 
 const getRoleColor = (roleName: string) => {
     const colors = {
-        'Administrador': 'bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-900 dark:text-red-200',
-        'Jefe': 'bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200',
-        'Personal': 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200',
+        Administrador: 'bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-900 dark:text-red-200',
+        Jefe: 'bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200',
+        Personal: 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200',
     };
-    
+
     return colors[roleName as keyof typeof colors] || 'bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200';
 };
 

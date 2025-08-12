@@ -11,11 +11,11 @@ use Livewire\WithFileUploads;
 
 abstract class BaseTituloFormComponent extends Component
 {
-    use WithFileUploads, HandlesTituloOperations;
+    use HandlesTituloOperations, WithFileUploads;
 
     // Forms
     public PersonaForm $personaForm;
-    
+
     // Esta propiedad será sobrescrita por las clases hijas
     // Ejemplo: public DiplomaAcademicoForm $tituloForm;
 
@@ -28,7 +28,7 @@ abstract class BaseTituloFormComponent extends Component
     {
         $this->tituloForm->loadGraduaciones();
         $this->personaForm->pais = 'Bolivia'; // Valor por defecto
-        
+
         // Llamar inicialización específica si existe
         $this->mountSpecific();
     }
@@ -41,6 +41,7 @@ abstract class BaseTituloFormComponent extends Component
 
             if (empty($this->personaForm->ci)) {
                 session()->flash('error', 'No se han completado los datos de la persona.');
+
                 return;
             }
 
@@ -66,11 +67,13 @@ abstract class BaseTituloFormComponent extends Component
 
     // Métodos abstractos que deben implementar las clases hijas
     abstract protected function getSpecificListeners(): array;
+
     abstract protected function getSuccessMessage(): string;
+
     abstract public function render();
-    
+
     // Métodos opcionales que pueden ser sobrescritos
-    protected function mountSpecific(): void 
+    protected function mountSpecific(): void
     {
         // Implementación vacía por defecto
     }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Carrera;
 use App\Models\Facultad;
-use App\Models\MencionDa;
 use Illuminate\Http\Request;
 
 class CarreraController extends Controller
@@ -160,10 +159,10 @@ class CarreraController extends Controller
         try {
             // Verificar si tiene menciones asociadas
             $mencionesCount = \App\Models\MencionDa::where('carrera_id', $carrera->id)->count();
-            
+
             if ($mencionesCount > 0) {
                 return redirect()->back()->withErrors([
-                    'carrera' => "No se puede eliminar la carrera '{$carrera->programa}' porque tiene {$mencionesCount} mención(es) académica(s) asociada(s)."
+                    'carrera' => "No se puede eliminar la carrera '{$carrera->programa}' porque tiene {$mencionesCount} mención(es) académica(s) asociada(s).",
                 ]);
             }
 
@@ -173,7 +172,7 @@ class CarreraController extends Controller
 
         } catch (\Exception $e) {
             return redirect()->back()->withErrors([
-                'carrera' => 'Error al eliminar la carrera. Por favor, inténtelo nuevamente.'
+                'carrera' => 'Error al eliminar la carrera. Por favor, inténtelo nuevamente.',
             ]);
         }
     }

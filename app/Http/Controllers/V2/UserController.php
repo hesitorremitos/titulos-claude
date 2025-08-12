@@ -22,8 +22,8 @@ class UserController extends Controller
         if ($request->has('search') && $request->search) {
             $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', '%'.$request->search.'%')
-                  ->orWhere('ci', 'like', '%'.$request->search.'%')
-                  ->orWhere('email', 'like', '%'.$request->search.'%');
+                    ->orWhere('ci', 'like', '%'.$request->search.'%')
+                    ->orWhere('email', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -34,7 +34,7 @@ class UserController extends Controller
         // Calcular estadísticas de usuarios
         $stats = [
             'administradores' => User::role('Administrador')->count(),
-            'jefes' => User::role('Jefe')->count(), 
+            'jefes' => User::role('Jefe')->count(),
             'personal' => User::role('Personal')->count(),
             'activos' => User::whereNotNull('email_verified_at')->count(),
             'inactivos' => User::whereNull('email_verified_at')->count(),
@@ -187,7 +187,7 @@ class UserController extends Controller
             // Evitar que el usuario se elimine a sí mismo
             if ($usuario->id == auth()->id()) {
                 return redirect()->route('v2.usuarios.index')->withErrors([
-                    'delete' => 'No puedes eliminar tu propio usuario.'
+                    'delete' => 'No puedes eliminar tu propio usuario.',
                 ]);
             }
 
@@ -197,7 +197,7 @@ class UserController extends Controller
                 $adminCount = User::role('Administrador')->count();
                 if ($adminCount <= 1) {
                     return redirect()->route('v2.usuarios.index')->withErrors([
-                        'delete' => 'No se puede eliminar el último administrador del sistema.'
+                        'delete' => 'No se puede eliminar el último administrador del sistema.',
                     ]);
                 }
             }
@@ -210,7 +210,7 @@ class UserController extends Controller
 
         } catch (\Exception $e) {
             return redirect()->route('v2.usuarios.index')->withErrors([
-                'delete' => 'Error al eliminar el usuario. Por favor, inténtelo nuevamente.'
+                'delete' => 'Error al eliminar el usuario. Por favor, inténtelo nuevamente.',
             ]);
         }
     }

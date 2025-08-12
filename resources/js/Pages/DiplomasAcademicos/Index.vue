@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Icon } from '@iconify/vue';
 import { Head } from '@inertiajs/vue3';
@@ -12,9 +12,7 @@ const navTabs = [
 ];
 
 // Breadcrumbs for navigation
-const breadcrumbs = [
-    { label: 'Diplomas Académicos' }
-];
+const breadcrumbs = [{ label: 'Diplomas Académicos' }];
 </script>
 
 <template>
@@ -31,22 +29,16 @@ const breadcrumbs = [
     >
         <!-- Contenido principal -->
         <div class="space-y-6">
-
             <!-- Estado vacío -->
             <Card>
                 <CardContent class="flex flex-col items-center justify-center py-16">
                     <div class="mb-6">
-                        <Icon 
-                            icon="material-symbols:school" 
-                            class="h-16 w-16 text-muted-foreground"
-                        />
+                        <Icon icon="material-symbols:school" class="h-16 w-16 text-muted-foreground" />
                     </div>
-                    
-                    <CardTitle class="text-xl mb-2">
-                        No hay diplomas académicos
-                    </CardTitle>
-                    
-                    <CardDescription class="text-center max-w-md">
+
+                    <CardTitle class="mb-2 text-xl"> No hay diplomas académicos </CardTitle>
+
+                    <CardDescription class="max-w-md text-center">
                         Comienza creando tu primer diploma académico para gestionar los títulos universitarios.
                     </CardDescription>
 

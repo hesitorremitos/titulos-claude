@@ -40,7 +40,7 @@ class DiplomaAcademicoController extends Controller
     public function show(string $id)
     {
         return Inertia::render('DiplomasAcademicos/Show', [
-            'diploma' => $id // TODO: Load actual diploma data
+            'diploma' => $id, // TODO: Load actual diploma data
         ]);
     }
 
@@ -50,7 +50,7 @@ class DiplomaAcademicoController extends Controller
     public function edit(string $id)
     {
         return Inertia::render('DiplomasAcademicos/Edit', [
-            'diploma' => $id // TODO: Load actual diploma data
+            'diploma' => $id, // TODO: Load actual diploma data
         ]);
     }
 

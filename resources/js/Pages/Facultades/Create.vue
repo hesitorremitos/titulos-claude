@@ -1,12 +1,6 @@
 <template>
-    <AppLayout 
-        title="Facultades" 
-        page-title="Facultades"
-        :nav-tabs="navTabs"
-        active-tab="registrar"
-    >
+    <AppLayout title="Facultades" page-title="Facultades" :nav-tabs="navTabs" active-tab="registrar">
         <div class="space-y-6">
-
             <!-- Form -->
             <div class="max-w-2xl">
                 <Card>
@@ -80,7 +74,6 @@ const navTabs = [
     { label: 'Lista', href: '/v2/facultades', icon: 'lucide:building-2', value: 'lista' },
     { label: 'Registrar', href: '/v2/facultades/create', icon: 'lucide:plus-circle', value: 'registrar' },
 ];
-
 
 // Form usando useForm
 const form = useForm({

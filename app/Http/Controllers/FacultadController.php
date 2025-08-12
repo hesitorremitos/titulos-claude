@@ -57,6 +57,7 @@ class FacultadController extends Controller
 
         try {
             $facultad = Facultad::create($request->all());
+
             return redirect()->route('v2.facultades.index');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -124,22 +125,22 @@ class FacultadController extends Controller
         try {
             // Verificar si tiene carreras asociadas
             $carrerasCount = $facultad->carreras()->count();
-            
+
             if ($carrerasCount > 0) {
                 return response()->json([
-                    'message' => "No se puede eliminar la facultad '{$facultad->nombre}' porque tiene {$carrerasCount} carrera(s) asociada(s)."
+                    'message' => "No se puede eliminar la facultad '{$facultad->nombre}' porque tiene {$carrerasCount} carrera(s) asociada(s).",
                 ], 422);
             }
 
             $facultad->delete();
 
             return response()->json([
-                'message' => 'Facultad eliminada exitosamente.'
+                'message' => 'Facultad eliminada exitosamente.',
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Error al eliminar la facultad. Por favor, inténtelo nuevamente.'
+                'message' => 'Error al eliminar la facultad. Por favor, inténtelo nuevamente.',
             ], 500);
         }
     }

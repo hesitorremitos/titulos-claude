@@ -102,9 +102,7 @@ const logout = () => {
         <SidebarContent>
             <!-- Menú Principal -->
             <SidebarGroup>
-                <SidebarGroupLabel class="px-3 py-2 text-xs font-semibold uppercase tracking-wide">
-                    MENÚ PRINCIPAL
-                </SidebarGroupLabel>
+                <SidebarGroupLabel class="px-3 py-2 text-xs font-semibold tracking-wide uppercase"> MENÚ PRINCIPAL </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>
                         <SidebarMenuItem v-for="item in menuItems" :key="item.title">
@@ -123,9 +121,7 @@ const logout = () => {
 
             <!-- Administración -->
             <SidebarGroup>
-                <SidebarGroupLabel class="px-3 py-2 text-xs font-semibold uppercase tracking-wide">
-                    ADMINISTRACIÓN
-                </SidebarGroupLabel>
+                <SidebarGroupLabel class="px-3 py-2 text-xs font-semibold tracking-wide uppercase"> ADMINISTRACIÓN </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>
                         <SidebarMenuItem v-for="item in adminItems" :key="item.title">

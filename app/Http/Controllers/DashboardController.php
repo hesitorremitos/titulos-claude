@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Models\Carrera;
 use App\Models\DiplomaAcademico;
 use App\Models\Facultad;
-use App\Models\Carrera;
+use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
@@ -18,10 +17,10 @@ class DashboardController extends Controller
         // Obtener estadísticas básicas
         $totalFacultades = Facultad::count();
         $totalCarreras = Carrera::count();
-        
+
         // Conteo de diplomas del mes actual (solo los que puede ver el usuario según su rol)
         $diplomasEsteMes = DiplomaAcademico::query()
-            ->when(auth()->user()->hasRole('Personal'), function($query) {
+            ->when(auth()->user()->hasRole('Personal'), function ($query) {
                 return $query->where('created_by', auth()->id());
             })
             ->whereYear('created_at', now()->year)

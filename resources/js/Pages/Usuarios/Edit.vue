@@ -12,10 +12,10 @@
                 <Card>
                     <CardContent class="pt-6">
                         <form @submit.prevent="submit" class="space-y-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                                 <!-- Información Personal -->
                                 <div class="space-y-4">
-                                    <div class="flex items-center mb-4">
+                                    <div class="mb-4 flex items-center">
                                         <Icon icon="mdi:account-details" class="mr-2 h-5 w-5 text-primary" />
                                         <h3 class="text-lg font-medium">Información Personal</h3>
                                     </div>
@@ -72,7 +72,7 @@
 
                                 <!-- Roles y Opciones -->
                                 <div class="space-y-4">
-                                    <div class="flex items-center mb-4">
+                                    <div class="mb-4 flex items-center">
                                         <Icon icon="mdi:shield-account" class="mr-2 h-5 w-5 text-primary" />
                                         <h3 class="text-lg font-medium">Roles y Permisos</h3>
                                     </div>
@@ -80,7 +80,7 @@
                                     <!-- Roles -->
                                     <div class="space-y-2">
                                         <Label>Roles del Usuario</Label>
-                                        <div class="space-y-3 bg-muted/30 p-4 rounded-lg">
+                                        <div class="space-y-3 rounded-lg bg-muted/30 p-4">
                                             <div v-for="role in roles" :key="role.id" class="flex items-center space-x-3">
                                                 <input
                                                     :id="`role-${role.id}`"
@@ -103,7 +103,7 @@
                                     <!-- Información adicional -->
                                     <div class="space-y-2">
                                         <Label class="text-sm font-medium text-muted-foreground">Información del Usuario</Label>
-                                        <div class="text-sm text-muted-foreground space-y-1">
+                                        <div class="space-y-1 text-sm text-muted-foreground">
                                             <p><strong>Creado:</strong> {{ formatDate(usuario.created_at) }}</p>
                                             <p><strong>ID:</strong> {{ usuario.id }}</p>
                                         </div>
@@ -116,21 +116,15 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <h3 class="text-lg font-medium">Restablecer Contraseña</h3>
-                                        <p class="text-sm text-muted-foreground">
-                                            La contraseña actual se mantendrá si no se especifica una nueva
-                                        </p>
+                                        <p class="text-sm text-muted-foreground">La contraseña actual se mantendrá si no se especifica una nueva</p>
                                     </div>
-                                    <Button 
-                                        type="button" 
-                                        variant="outline" 
-                                        @click="showPasswordReset = !showPasswordReset"
-                                    >
+                                    <Button type="button" variant="outline" @click="showPasswordReset = !showPasswordReset">
                                         <Icon icon="mdi:lock-reset" class="mr-2 h-4 w-4" />
                                         {{ showPasswordReset ? 'Cancelar' : 'Cambiar Contraseña' }}
                                     </Button>
                                 </div>
 
-                                <div v-if="showPasswordReset" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div v-if="showPasswordReset" class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <!-- Nueva Contraseña -->
                                     <div class="space-y-2">
                                         <Label for="password">Nueva Contraseña</Label>
@@ -164,7 +158,7 @@
                             </div>
 
                             <!-- Actions -->
-                            <div class="flex items-center gap-3 pt-4 border-t border-border">
+                            <div class="flex items-center gap-3 border-t border-border pt-4">
                                 <Button type="submit" :disabled="processing">
                                     <Icon v-if="processing" icon="mdi:loading" class="mr-2 h-4 w-4 animate-spin" />
                                     <Icon v-else icon="mdi:content-save" class="mr-2 h-4 w-4" />
@@ -227,7 +221,7 @@ const form = useForm({
     email: props.usuario.email,
     password: '',
     password_confirmation: '',
-    roles: props.usuario.roles.map(role => role.name),
+    roles: props.usuario.roles.map((role) => role.name),
 });
 
 const { processing } = form;
@@ -249,21 +243,21 @@ const submit = () => {
 
 const getRoleIcon = (roleName: string) => {
     const icons = {
-        'Administrador': 'mdi:shield-crown',
-        'Jefe': 'mdi:shield-star',
-        'Personal': 'mdi:shield-account',
+        Administrador: 'mdi:shield-crown',
+        Jefe: 'mdi:shield-star',
+        Personal: 'mdi:shield-account',
     };
-    
+
     return icons[roleName as keyof typeof icons] || 'mdi:shield';
 };
 
 const getRoleIconColor = (roleName: string) => {
     const colors = {
-        'Administrador': 'text-red-500',
-        'Jefe': 'text-blue-500',
-        'Personal': 'text-green-500',
+        Administrador: 'text-red-500',
+        Jefe: 'text-blue-500',
+        Personal: 'text-green-500',
     };
-    
+
     return colors[roleName as keyof typeof colors] || 'text-gray-500';
 };
 
@@ -273,7 +267,7 @@ const formatDate = (dateString: string) => {
         month: 'long',
         day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
     });
 };
 </script>

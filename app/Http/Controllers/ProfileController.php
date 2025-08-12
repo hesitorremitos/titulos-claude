@@ -70,7 +70,7 @@ class ProfileController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $user = $request->user();
-        
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
@@ -137,7 +137,7 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
-        
+
         $user->update([
             'password' => Hash::make($validated['password']),
         ]);
@@ -185,7 +185,7 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        if (!Hash::check($request->password, $user->password)) {
+        if (! Hash::check($request->password, $user->password)) {
             return back()->withErrors([
                 'password' => 'La contraseña ingresada es incorrecta.',
             ]);

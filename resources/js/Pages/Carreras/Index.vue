@@ -1,10 +1,5 @@
 <template>
-    <AppLayout 
-        title="Carreras" 
-        page-title="Carreras"
-        :nav-tabs="navTabs"
-        active-tab="lista"
-    >
+    <AppLayout title="Carreras" page-title="Carreras" :nav-tabs="navTabs" active-tab="lista">
         <div class="space-y-6">
             <!-- Table -->
             <Card class="overflow-hidden">
@@ -18,10 +13,10 @@
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow 
-                            v-for="carrera in carreras.data" 
-                            :key="carrera.id" 
-                            class="group cursor-pointer transition-colors duration-150 hover:bg-accent/30 active:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring border-b border-border/30 last:border-0"
+                        <TableRow
+                            v-for="carrera in carreras.data"
+                            :key="carrera.id"
+                            class="group cursor-pointer border-b border-border/30 transition-colors duration-150 last:border-0 hover:bg-accent/30 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none active:bg-accent/40"
                             @click="router.visit(route('v2.carreras.show', carrera.id))"
                             @keydown.enter="router.visit(route('v2.carreras.show', carrera.id))"
                             @keydown.space.prevent="router.visit(route('v2.carreras.show', carrera.id))"
@@ -35,17 +30,17 @@
                                 </code>
                             </TableCell>
                             <TableCell class="px-3 py-3">
-                                <div class="font-medium text-foreground text-sm">
+                                <div class="text-sm font-medium text-foreground">
                                     {{ carrera.programa }}
                                 </div>
                             </TableCell>
                             <TableCell class="px-3 py-3">
-                                <span class="text-sm text-muted-foreground truncate">
+                                <span class="truncate text-sm text-muted-foreground">
                                     {{ carrera.facultad.nombre }}
                                 </span>
                             </TableCell>
                             <TableCell class="px-3 py-3 pr-4">
-                                <span class="text-sm text-muted-foreground truncate">
+                                <span class="truncate text-sm text-muted-foreground">
                                     {{ carrera.direccion || 'No especificada' }}
                                 </span>
                             </TableCell>
@@ -55,9 +50,7 @@
                         <div class="flex flex-col items-center justify-center py-12">
                             <Icon icon="lucide:list-checks" class="mb-4 h-12 w-12 text-muted-foreground" />
                             <h3 class="text-lg font-medium">No se encontraron carreras</h3>
-                            <p class="mb-4 text-muted-foreground text-center max-w-md">
-                                Comienza creando tu primera carrera académica.
-                            </p>
+                            <p class="mb-4 max-w-md text-center text-muted-foreground">Comienza creando tu primera carrera académica.</p>
                             <Button as-child>
                                 <Link :href="route('v2.carreras.create')">
                                     <Icon icon="lucide:plus-circle" class="mr-2 h-4 w-4" />
@@ -75,12 +68,7 @@
                     Mostrando {{ carreras.from || 0 }} a {{ carreras.to || 0 }} de {{ carreras.total }} resultados
                 </div>
 
-                <Pagination
-                    :total="carreras.total"
-                    :items-per-page="carreras.per_page"
-                    :default-page="carreras.current_page"
-                    @update:page="goToPage"
-                >
+                <Pagination :total="carreras.total" :items-per-page="carreras.per_page" :default-page="carreras.current_page" @update:page="goToPage">
                     <PaginationContent>
                         <PaginationPrevious />
                         <PaginationNext />
@@ -94,15 +82,11 @@
 <script setup lang="ts">
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { Card } from '@/components/ui/card';
 import { Pagination, PaginationContent, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Icon } from '@iconify/vue';
 import { Link, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
 
 interface Facultad {
     id: number;
@@ -137,14 +121,13 @@ interface Props {
     };
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
 // Navigation tabs - Solo Lista y Registrar
 const navTabs = [
     { label: 'Lista', href: '/v2/carreras', icon: 'lucide:list-checks', value: 'lista' },
     { label: 'Registrar', href: '/v2/carreras/create', icon: 'lucide:plus-circle', value: 'registrar' },
 ];
-
 
 // Navigation and pagination methods
 

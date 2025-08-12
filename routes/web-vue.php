@@ -43,7 +43,7 @@ Route::group(['prefix' => 'v2'], function () {
             'update' => 'v2.facultades.update',
             'destroy' => 'v2.facultades.destroy',
         ])->parameters([
-            'facultades' => 'facultad'
+            'facultades' => 'facultad',
         ]);
     });
 
@@ -71,7 +71,7 @@ Route::group(['prefix' => 'v2'], function () {
             'update' => 'v2.usuarios.update',
             'destroy' => 'v2.usuarios.destroy',
         ])->parameters([
-            'usuarios' => 'usuario'
+            'usuarios' => 'usuario',
         ]);
     });
 
@@ -86,7 +86,7 @@ Route::group(['prefix' => 'v2'], function () {
             'update' => 'v2.diplomas-academicos.update',
             'destroy' => 'v2.diplomas-academicos.destroy',
         ])->parameters([
-            'diplomas-academicos' => 'diploma'
+            'diplomas-academicos' => 'diploma',
         ]);
     });
 });

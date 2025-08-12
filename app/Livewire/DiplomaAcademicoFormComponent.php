@@ -23,7 +23,7 @@ class DiplomaAcademicoFormComponent extends BaseTituloFormComponent
         return [
             'pdf-file-selected' => 'handlePdfFileSelected',
             'pdf-file-removed' => 'handlePdfFileRemoved',
-            'pdf-viewer-loaded' => 'handlePdfViewerLoaded'
+            'pdf-viewer-loaded' => 'handlePdfViewerLoaded',
         ];
     }
 
@@ -33,12 +33,12 @@ class DiplomaAcademicoFormComponent extends BaseTituloFormComponent
         if (isset($data['file'])) {
             $this->tituloForm->pdfFile = $data['file'];
             $this->tituloForm->originalFileName = $data['fileName'];
-            
+
             // Notify PDF viewer about manual upload in step 2
             $this->dispatch('form-file-uploaded', [
                 'tempFilePath' => null, // Will use the actual file
                 'fileName' => $data['fileName'],
-                'file' => $data['file']
+                'file' => $data['file'],
             ]);
         }
     }
@@ -49,7 +49,7 @@ class DiplomaAcademicoFormComponent extends BaseTituloFormComponent
         $this->tituloForm->pdfFile = null;
         $this->tituloForm->originalFileName = null;
         $this->tituloForm->tempFilePath = null;
-        
+
         // Notify PDF viewer to clear
         $this->dispatch('pdf-file-removed');
     }
@@ -57,10 +57,8 @@ class DiplomaAcademicoFormComponent extends BaseTituloFormComponent
     public function handlePdfViewerLoaded($data)
     {
         // PDF viewer has loaded a file, optionally show notification
-        session()->flash('message', 'PDF cargado en el visor: ' . $data['fileName']);
+        session()->flash('message', 'PDF cargado en el visor: '.$data['fileName']);
     }
-
-
 
     // Handle manual PDF file upload in step 2
     public function updatedTituloFormPdfFile()
@@ -68,14 +66,14 @@ class DiplomaAcademicoFormComponent extends BaseTituloFormComponent
         if ($this->tituloForm->pdfFile) {
             // Validate the file
             $this->validate([
-                'tituloForm.pdfFile' => 'file|mimes:pdf|max:51200'
+                'tituloForm.pdfFile' => 'file|mimes:pdf|max:51200',
             ]);
-            
+
             // Notify PDF viewer with the actual file
             $this->dispatch('pdf-file-selected', [
                 'fileName' => $this->tituloForm->pdfFile->getClientOriginalName(),
                 'fileSize' => $this->tituloForm->pdfFile->getSize(),
-                'file' => $this->tituloForm->pdfFile
+                'file' => $this->tituloForm->pdfFile,
             ]);
         }
     }

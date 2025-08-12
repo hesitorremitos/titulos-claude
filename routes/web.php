@@ -141,6 +141,5 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-
-# Incluir las rutas de Inertia.js definidas en routes/web-vue.php
+// Incluir las rutas de Inertia.js definidas en routes/web-vue.php
 require base_path('routes/web-vue.php');
