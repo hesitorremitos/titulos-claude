@@ -1,54 +1,33 @@
 <script setup lang="ts">
 import AppSidebar from '@/components/AppSidebar.vue';
 import ThemeToggle from '@/components/ThemeToggle.vue';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Toaster } from '@/components/ui/sonner';
 import { Icon } from '@iconify/vue';
 import { Head, router } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
+
 
 interface NavTab {
     label: string;
     href: string;
     icon: string;
-    active?: boolean;
+    value: string;
 }
 
 interface Props {
     title?: string;
     pageTitle?: string;
     navTabs?: NavTab[];
-    showSearch?: boolean;
-    searchPlaceholder?: string;
+    activeTab?: string;
 }
 
 const props = defineProps<Props>();
 
-// Search functionality
-const searchQuery = ref('');
-const selectedFilter = ref('');
-
-// Default nav tabs for the main sections
-const defaultNavTabs: NavTab[] = [
-    { label: 'Lista', href: '#', icon: 'material-symbols:list', active: true },
-    { label: 'Formulario', href: '#', icon: 'material-symbols:edit-document' },
-    { label: 'Menciones', href: '#', icon: 'material-symbols:school' },
-    { label: 'Modalidades', href: '#', icon: 'material-symbols:category' },
-];
-
-const currentNavTabs = computed(() => props.navTabs || defaultNavTabs);
-
-const handleSearch = () => {
-    console.log('Searching for:', searchQuery.value, 'with filter:', selectedFilter.value);
-};
-
-const handleRefresh = () => {
-    router.reload();
-};
+const currentNavTabs = computed(() => props.navTabs || []);
+const currentActiveTab = computed(() => props.activeTab || (currentNavTabs.value.length > 0 ? currentNavTabs.value[0].value : ''));
 </script>
 
 <template>
@@ -58,16 +37,16 @@ const handleRefresh = () => {
         <SidebarProvider>
             <AppSidebar />
             <SidebarInset>
-                <!-- Header superior con título de página -->
-                <header class="border-b border-border bg-card">
+                <!-- Header superior unificado con diseño cohesivo -->
+                <header class="border-b border-border/40 bg-card shadow-sm backdrop-blur-sm">
                     <!-- Primera fila: Trigger, título y user profile -->
-                    <div class="flex h-16 items-center gap-4 px-6">
-                        <SidebarTrigger class="-ml-1 text-muted-foreground hover:text-foreground" />
+                    <div class="flex h-16 items-center gap-4 px-6 border-b border-border/20 bg-card">
+                        <SidebarTrigger class="-ml-1 text-muted-foreground hover:text-foreground transition-colors duration-200" />
                         <Separator orientation="vertical" class="h-4" />
                         
                         <!-- Título de la página -->
                         <div class="flex items-center gap-2">
-                            <h1 class="text-xl font-semibold text-foreground">
+                            <h1 class="text-lg font-semibold text-foreground">
                                 {{ pageTitle || title || 'UATF Títulos' }}
                             </h1>
                         </div>
@@ -88,82 +67,30 @@ const handleRefresh = () => {
                             </div>
                         </div>
                     </div>
-
-                    <!-- Segunda fila: Navegación por tabs -->
-                    <div v-if="navTabs" class="border-t border-border">
-                        <nav class="flex px-6">
-                            <div class="flex space-x-8">
-                                <button
-                                    v-for="tab in currentNavTabs"
-                                    :key="tab.label"
-                                    :class="[
-                                        'flex items-center gap-2 border-b-2 px-1 py-3 text-sm font-medium transition-colors',
-                                        tab.active
-                                            ? 'border-primary text-primary'
-                                            : 'border-transparent text-muted-foreground hover:border-accent hover:text-foreground'
-                                    ]"
-                                    @click="router.visit(tab.href)"
-                                >
-                                    <Icon :icon="tab.icon" class="h-4 w-4" />
-                                    {{ tab.label }}
-                                </button>
-                            </div>
-                        </nav>
-                    </div>
-
-                    <!-- Tercera fila: Búsqueda y filtros (opcional) -->
-                    <div v-if="showSearch" class="border-t border-border px-6 py-4">
-                        <div class="flex items-center gap-4">
-                            <!-- Barra de búsqueda -->
-                            <div class="relative flex-1 max-w-lg">
-                                <Icon 
-                                    icon="material-symbols:search" 
-                                    class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" 
-                                />
-                                <Input
-                                    v-model="searchQuery"
-                                    :placeholder="searchPlaceholder || 'Buscar por CI, nombre o apellidos...'"
-                                    class="pl-10 h-10"
-                                    @keyup.enter="handleSearch"
-                                />
-                            </div>
-
-                            <!-- Filtro de selección -->
-                            <Select v-model="selectedFilter">
-                                <SelectTrigger class="w-56 h-10">
-                                    <SelectValue placeholder="Seleccione una opción..." />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">
-                                        Todas las opciones
-                                    </SelectItem>
-                                    <SelectItem value="active">
-                                        Activos
-                                    </SelectItem>
-                                    <SelectItem value="inactive">
-                                        Inactivos
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-
-                            <!-- Botones de acción -->
-                            <Button 
-                                @click="handleSearch"
-                                class="h-10 px-4"
-                            >
-                                <Icon icon="material-symbols:search" class="mr-2 h-4 w-4" />
-                                Buscar
-                            </Button>
-                            
-                            <Button 
-                                @click="handleRefresh"
-                                variant="outline"
-                                class="h-10"
-                            >
-                                <Icon icon="material-symbols:refresh" class="h-4 w-4" />
-                            </Button>
+                    
+                    <!-- Navegación por tabs usando shadcn -->
+                    <div v-if="navTabs && navTabs.length > 0" class="border-b border-border/30 bg-gradient-to-r from-card via-card/90 to-card/80">
+                        <div class="px-6 py-4">
+                            <Tabs :model-value="currentActiveTab" class="w-full">
+                                <TabsList class="bg-muted/50 h-11 p-1 w-fit">
+                                    <TabsTrigger 
+                                        v-for="tab in currentNavTabs"
+                                        :key="tab.value"
+                                        :value="tab.value"
+                                        class="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-200 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-muted/80"
+                                        @click="router.visit(tab.href)"
+                                    >
+                                        <Icon 
+                                            :icon="tab.icon" 
+                                            class="h-4 w-4 transition-colors" 
+                                        />
+                                        <span class="font-medium">{{ tab.label }}</span>
+                                    </TabsTrigger>
+                                </TabsList>
+                            </Tabs>
                         </div>
                     </div>
+
                 </header>
 
                 <!-- Contenido principal -->

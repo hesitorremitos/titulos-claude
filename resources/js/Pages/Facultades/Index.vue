@@ -1,105 +1,60 @@
 <template>
-    <AppLayout title="Facultades" :breadcrumbs="[{ label: 'Facultades' }]">
+    <AppLayout 
+        title="Facultades" 
+        page-title="Facultades"
+        :nav-tabs="navTabs"
+        active-tab="lista"
+    >
         <div class="space-y-6">
-            <!-- Header -->
-            <div class="border-b border-border pb-4">
-                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                        <h1 class="text-2xl font-bold tracking-tight">Facultades</h1>
-                        <p class="text-muted-foreground">Gestiona las facultades de la Universidad</p>
-                    </div>
-                    <Button as-child>
-                        <Link :href="route('v2.facultades.create')">
-                            <Icon icon="mdi:plus" class="mr-2 h-4 w-4" />
-                            Nueva Facultad
-                        </Link>
-                    </Button>
-                </div>
-            </div>
-
-            <!-- Search and Filters -->
-            <Card>
-                <CardContent class="p-6">
-                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-                        <div class="flex-1">
-                            <div class="flex gap-2">
-                                <div class="relative flex-1">
-                                    <Input v-model="searchTerm" placeholder="Buscar facultades..." @keyup.enter="handleSearch" />
-                                </div>
-                                <Button @click="handleSearch" variant="outline">
-                                    <Icon icon="mdi:magnify" class="h-4 w-4" />
-                                </Button>
-                                <Button v-if="searchTerm" @click="clearSearch" variant="ghost" size="sm">
-                                    <Icon icon="mdi:close" class="h-4 w-4" />
-                                </Button>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-sm text-muted-foreground"> {{ facultades.total }} facultades </span>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-
             <!-- Table -->
-            <Card>
+            <Card class="overflow-hidden">
                 <Table>
                     <TableHeader>
-                        <TableRow>
-                            <TableHead>Nombre</TableHead>
-                            <TableHead>Dirección</TableHead>
-                            <TableHead class="text-center">Carreras</TableHead>
-                            <TableHead class="text-right">Acciones</TableHead>
+                        <TableRow class="border-b border-border/50">
+                            <TableHead class="w-2/5 pl-4">Nombre</TableHead>
+                            <TableHead class="w-2/5">Dirección</TableHead>
+                            <TableHead class="w-1/5 text-center pr-4">Carreras</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow v-for="facultad in facultades.data" :key="facultad.id" class="group">
-                            <TableCell>
-                                <div class="font-medium">
+                        <TableRow 
+                            v-for="facultad in facultades.data" 
+                            :key="facultad.id" 
+                            class="group cursor-pointer transition-colors duration-150 hover:bg-accent/30 active:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring border-b border-border/30 last:border-0"
+                            @click="router.visit(route('v2.facultades.show', facultad.id))"
+                            @keydown.enter="router.visit(route('v2.facultades.show', facultad.id))"
+                            @keydown.space.prevent="router.visit(route('v2.facultades.show', facultad.id))"
+                            tabindex="0"
+                            :aria-label="`Ver detalles de ${facultad.nombre}`"
+                            role="button"
+                        >
+                            <TableCell class="px-4 py-3">
+                                <div class="font-medium text-foreground text-sm">
                                     {{ facultad.nombre }}
                                 </div>
                             </TableCell>
-                            <TableCell>
-                                <span class="text-muted-foreground">
+                            <TableCell class="px-3 py-3">
+                                <span class="text-sm text-muted-foreground truncate">
                                     {{ facultad.direccion || 'No especificada' }}
                                 </span>
                             </TableCell>
-                            <TableCell class="text-center">
-                                <Badge variant="secondary">
+                            <TableCell class="px-3 py-3 text-center pr-4">
+                                <Badge variant="secondary" class="text-xs px-2 py-1">
                                     {{ facultad.carreras_count }}
                                 </Badge>
-                            </TableCell>
-                            <TableCell class="text-right">
-                                <div class="opacity-0 transition-opacity group-hover:opacity-100">
-                                    <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger as-child>
-                                                <Button variant="ghost" size="sm" as-child>
-                                                    <Link :href="route('v2.facultades.show', facultad.id)">
-                                                        <p>VER</p>
-                                                        <Icon icon="mdi:eye" class="h-4 w-4" />
-                                                    </Link>
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent>
-                                                <p>Ver detalles</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider>
-                                </div>
                             </TableCell>
                         </TableRow>
                     </TableBody>
                     <TableEmpty v-if="facultades.data.length === 0">
-                        <div class="flex flex-col items-center justify-center py-8">
-                            <Icon icon="mdi:school" class="mb-4 h-12 w-12 text-muted-foreground" />
+                        <div class="flex flex-col items-center justify-center py-12">
+                            <Icon icon="lucide:building-2" class="mb-4 h-12 w-12 text-muted-foreground" />
                             <h3 class="text-lg font-medium">No se encontraron facultades</h3>
-                            <p class="mb-4 text-muted-foreground">
-                                {{ searchTerm ? 'Intenta con otros términos de búsqueda.' : 'Comienza creando tu primera facultad.' }}
+                            <p class="mb-4 text-muted-foreground text-center max-w-md">
+                                Comienza creando tu primera facultad para organizar las carreras académicas.
                             </p>
-                            <Button as-child v-if="!searchTerm">
+                            <Button as-child>
                                 <Link :href="route('v2.facultades.create')">
-                                    <Icon icon="mdi:plus" class="mr-2 h-4 w-4" />
+                                    <Icon icon="lucide:plus-circle" class="mr-2 h-4 w-4" />
                                     Nueva Facultad
                                 </Link>
                             </Button>
@@ -171,33 +126,16 @@ interface Props {
 
 const props = defineProps<Props>();
 
+// Navigation tabs - Solo Lista y Registrar
+const navTabs = [
+    { label: 'Lista', href: '/v2/facultades', icon: 'lucide:building-2', value: 'lista' },
+    { label: 'Registrar', href: '/v2/facultades/create', icon: 'lucide:plus-circle', value: 'registrar' },
+];
+
+
 const searchTerm = ref(props.filters.search || '');
 
 // Methods
-const handleSearch = () => {
-    const params = new URLSearchParams(window.location.search);
-
-    if (searchTerm.value) {
-        params.set('search', searchTerm.value);
-    } else {
-        params.delete('search');
-    }
-
-    // Reset to page 1 when searching
-    params.delete('page');
-
-    const url = `${window.location.pathname}?${params.toString()}`;
-
-    router.get(
-        url,
-        {},
-        {
-            preserveState: true,
-            preserveScroll: true,
-        },
-    );
-};
-
 const goToPage = (page: number) => {
     const params = new URLSearchParams(window.location.search);
     params.set('page', page.toString());
@@ -212,10 +150,5 @@ const goToPage = (page: number) => {
             preserveScroll: true,
         },
     );
-};
-
-const clearSearch = () => {
-    searchTerm.value = '';
-    handleSearch();
 };
 </script>

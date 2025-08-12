@@ -1,10 +1,11 @@
 <template>
-    <AppLayout title="Nueva Facultad" :breadcrumbs="[{ label: 'Facultades', href: route('v2.facultades.index') }, { label: 'Nueva Facultad' }]">
+    <AppLayout 
+        title="Facultades" 
+        page-title="Facultades"
+        :nav-tabs="navTabs"
+        active-tab="registrar"
+    >
         <div class="space-y-6">
-            <!-- Header -->
-            <div class="border-b border-border pb-4">
-                <h1 class="text-2xl font-bold tracking-tight">Nueva Facultad</h1>
-            </div>
 
             <!-- Form -->
             <div class="max-w-2xl">
@@ -73,6 +74,13 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+// Navigation tabs - Solo Lista y Registrar
+const navTabs = [
+    { label: 'Lista', href: '/v2/facultades', icon: 'lucide:building-2', value: 'lista' },
+    { label: 'Registrar', href: '/v2/facultades/create', icon: 'lucide:plus-circle', value: 'registrar' },
+];
+
 
 // Form usando useForm
 const form = useForm({

@@ -1,135 +1,66 @@
 <template>
-    <AppLayout title="Carreras" :breadcrumbs="[{ label: 'Carreras' }]">
+    <AppLayout 
+        title="Carreras" 
+        page-title="Carreras"
+        :nav-tabs="navTabs"
+        active-tab="lista"
+    >
         <div class="space-y-6">
-            <!-- Header -->
-            <div class="border-b border-border pb-4">
-                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                        <h1 class="text-2xl font-bold tracking-tight">Carreras</h1>
-                        <p class="text-muted-foreground">Gestiona las carreras académicas por facultad</p>
-                    </div>
-                    <Button as-child>
-                        <Link :href="route('v2.carreras.create')">
-                            <Icon icon="mdi:plus" class="mr-2 h-4 w-4" />
-                            Nueva Carrera
-                        </Link>
-                    </Button>
-                </div>
-            </div>
-
-            <!-- Search and Filters -->
-            <Card>
-                <CardContent class="p-6">
-                    <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
-                        <div class="flex-1">
-                            <div class="flex gap-2">
-                                <div class="relative flex-1">
-                                    <Icon icon="mdi:magnify" class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                                    <Input
-                                        v-model="searchTerm"
-                                        placeholder="Buscar carreras por código, nombre o dirección..."
-                                        class="pl-10"
-                                        @keyup.enter="handleSearch"
-                                    />
-                                </div>
-                                <Button @click="handleSearch" variant="outline">
-                                    <Icon icon="mdi:magnify" class="h-4 w-4" />
-                                </Button>
-                                <Button v-if="searchTerm" @click="clearSearch" variant="ghost" size="sm">
-                                    <Icon icon="mdi:close" class="h-4 w-4" />
-                                </Button>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="min-w-[200px]">
-                                <Select v-model="selectedFacultad" @update:modelValue="handleFacultadFilter">
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Filtrar por facultad" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all">Todas las facultades</SelectItem>
-                                        <SelectItem v-for="facultad in facultades" :key="facultad.id" :value="facultad.id.toString()">
-                                            {{ facultad.nombre }}
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-sm text-muted-foreground"> {{ carreras.total }} carreras </span>
-                            </div>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-
             <!-- Table -->
-            <Card>
+            <Card class="overflow-hidden">
                 <Table>
                     <TableHeader>
-                        <TableRow>
-                            <TableHead>Código</TableHead>
-                            <TableHead>Programa</TableHead>
-                            <TableHead>Facultad</TableHead>
-                            <TableHead>Dirección</TableHead>
-                            <TableHead class="text-right">Acciones</TableHead>
+                        <TableRow class="border-b border-border/50">
+                            <TableHead class="w-1/6 pl-4">Código</TableHead>
+                            <TableHead class="w-2/5">Programa</TableHead>
+                            <TableHead class="w-1/4">Facultad</TableHead>
+                            <TableHead class="w-1/4 pr-4">Dirección</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow v-for="carrera in carreras.data" :key="carrera.id" class="group">
-                            <TableCell>
-                                <code class="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium">
+                        <TableRow 
+                            v-for="carrera in carreras.data" 
+                            :key="carrera.id" 
+                            class="group cursor-pointer transition-colors duration-150 hover:bg-accent/30 active:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring border-b border-border/30 last:border-0"
+                            @click="router.visit(route('v2.carreras.show', carrera.id))"
+                            @keydown.enter="router.visit(route('v2.carreras.show', carrera.id))"
+                            @keydown.space.prevent="router.visit(route('v2.carreras.show', carrera.id))"
+                            tabindex="0"
+                            :aria-label="`Ver detalles de ${carrera.programa}`"
+                            role="button"
+                        >
+                            <TableCell class="px-4 py-3">
+                                <code class="relative rounded bg-muted/60 px-2 py-1 font-mono text-xs font-medium text-foreground">
                                     {{ carrera.id }}
                                 </code>
                             </TableCell>
-                            <TableCell>
-                                <div class="font-medium">
+                            <TableCell class="px-3 py-3">
+                                <div class="font-medium text-foreground text-sm">
                                     {{ carrera.programa }}
                                 </div>
                             </TableCell>
-                            <TableCell>
-                                <span class="text-muted-foreground">
+                            <TableCell class="px-3 py-3">
+                                <span class="text-sm text-muted-foreground truncate">
                                     {{ carrera.facultad.nombre }}
                                 </span>
                             </TableCell>
-                            <TableCell>
-                                <span class="text-muted-foreground">
+                            <TableCell class="px-3 py-3 pr-4">
+                                <span class="text-sm text-muted-foreground truncate">
                                     {{ carrera.direccion || 'No especificada' }}
                                 </span>
-                            </TableCell>
-                            <TableCell class="text-right">
-                                <div class="opacity-0 transition-opacity group-hover:opacity-100">
-                                    <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger as-child>
-                                                <Button variant="ghost" size="sm" as-child>
-                                                    <Link :href="route('v2.carreras.show', carrera.id)">
-                                                        <Icon icon="mdi:eye" class="h-4 w-4" />
-                                                    </Link>
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent>
-                                                <p>Ver detalles</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider>
-                                </div>
                             </TableCell>
                         </TableRow>
                     </TableBody>
                     <TableEmpty v-if="carreras.data.length === 0">
-                        <div class="flex flex-col items-center justify-center py-8">
-                            <Icon icon="mdi:book-education" class="mb-4 h-12 w-12 text-muted-foreground" />
+                        <div class="flex flex-col items-center justify-center py-12">
+                            <Icon icon="lucide:list-checks" class="mb-4 h-12 w-12 text-muted-foreground" />
                             <h3 class="text-lg font-medium">No se encontraron carreras</h3>
-                            <p class="mb-4 text-muted-foreground">
-                                {{
-                                    searchTerm || (selectedFacultad && selectedFacultad !== 'all')
-                                        ? 'Intenta con otros términos de búsqueda o filtros.'
-                                        : 'Comienza creando tu primera carrera.'
-                                }}
+                            <p class="mb-4 text-muted-foreground text-center max-w-md">
+                                Comienza creando tu primera carrera académica.
                             </p>
-                            <Button as-child v-if="!searchTerm && (!selectedFacultad || selectedFacultad === 'all')">
+                            <Button as-child>
                                 <Link :href="route('v2.carreras.create')">
-                                    <Icon icon="mdi:plus" class="mr-2 h-4 w-4" />
+                                    <Icon icon="lucide:plus-circle" class="mr-2 h-4 w-4" />
                                     Nueva Carrera
                                 </Link>
                             </Button>
@@ -208,58 +139,17 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const searchTerm = ref(props.filters.search || '');
-const selectedFacultad = ref(props.filters.facultad_id || 'all');
+// Navigation tabs - Solo Lista y Registrar
+const navTabs = [
+    { label: 'Lista', href: '/v2/carreras', icon: 'lucide:list-checks', value: 'lista' },
+    { label: 'Registrar', href: '/v2/carreras/create', icon: 'lucide:plus-circle', value: 'registrar' },
+];
 
-// Methods
-const buildQueryParams = () => {
-    const params = new URLSearchParams();
 
-    if (searchTerm.value) {
-        params.set('search', searchTerm.value);
-    }
-
-    if (selectedFacultad.value && selectedFacultad.value !== 'all') {
-        params.set('facultad_id', selectedFacultad.value);
-    }
-
-    return params;
-};
-
-const handleSearch = () => {
-    const params = buildQueryParams();
-    params.delete('page'); // Reset to page 1 when searching
-
-    const url = `${window.location.pathname}?${params.toString()}`;
-
-    router.get(
-        url,
-        {},
-        {
-            preserveState: true,
-            preserveScroll: true,
-        },
-    );
-};
-
-const handleFacultadFilter = () => {
-    const params = buildQueryParams();
-    params.delete('page'); // Reset to page 1 when filtering
-
-    const url = `${window.location.pathname}?${params.toString()}`;
-
-    router.get(
-        url,
-        {},
-        {
-            preserveState: true,
-            preserveScroll: true,
-        },
-    );
-};
+// Navigation and pagination methods
 
 const goToPage = (page: number) => {
-    const params = buildQueryParams();
+    const params = new URLSearchParams();
     params.set('page', page.toString());
 
     const url = `${window.location.pathname}?${params.toString()}`;
@@ -272,10 +162,5 @@ const goToPage = (page: number) => {
             preserveScroll: true,
         },
     );
-};
-
-const clearSearch = () => {
-    searchTerm.value = '';
-    handleSearch();
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <AppLayout title="Crear Carrera" :breadcrumbs="[{ label: 'Carreras', href: route('v2.carreras.index') }, { label: 'Crear Carrera' }]">
+    <AppLayout title="Crear Carrera" page-title="Carreras" :nav-tabs="navTabs" active-tab="registrar">
         <div class="space-y-6">
             <!-- Header -->
             <div class="border-b border-border pb-4">
@@ -118,6 +118,12 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+// Navigation tabs - Solo Lista y Registrar
+const navTabs = [
+    { label: 'Lista', href: '/v2/carreras', icon: 'lucide:list-checks', value: 'lista' },
+    { label: 'Registrar', href: '/v2/carreras/create', icon: 'lucide:plus-circle', value: 'registrar' },
+];
 
 // Form usando useForm
 const form = useForm({
