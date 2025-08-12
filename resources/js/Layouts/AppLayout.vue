@@ -7,6 +7,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Toaster } from '@/components/ui/sonner';
 import { Icon } from '@iconify/vue';
 import { Head, router } from '@inertiajs/vue3';
+import { useColorMode } from '@vueuse/core';
 import { computed } from 'vue';
 
 
@@ -26,12 +27,15 @@ interface Props {
 
 const props = defineProps<Props>();
 
+// Color mode management
+const mode = useColorMode();
+
 const currentNavTabs = computed(() => props.navTabs || []);
 const currentActiveTab = computed(() => props.activeTab || (currentNavTabs.value.length > 0 ? currentNavTabs.value[0].value : ''));
 </script>
 
 <template>
-    <div class="dark min-h-screen bg-background">
+    <div :class="[mode === 'dark' ? 'dark' : '', 'min-h-screen bg-background transition-colors duration-200']">
         <Head :title="title" />
 
         <SidebarProvider>
@@ -54,17 +58,6 @@ const currentActiveTab = computed(() => props.activeTab || (currentNavTabs.value
                         <!-- User Profile y Theme Toggle al final -->
                         <div class="ml-auto flex items-center gap-3">
                             <ThemeToggle />
-                            <!-- User Profile Button -->
-                            <div class="flex items-center gap-2">
-                                <div class="h-8 w-8 rounded-full bg-secondary flex items-center justify-center">
-                                    <Icon icon="material-symbols:person" class="h-4 w-4 text-secondary-foreground" />
-                                </div>
-                                <div class="hidden sm:block">
-                                    <p class="text-sm font-medium text-foreground">Administrador</p>
-                                    <p class="text-xs text-muted-foreground">Administrador</p>
-                                </div>
-                                <Icon icon="material-symbols:keyboard-arrow-down" class="h-4 w-4 text-muted-foreground" />
-                            </div>
                         </div>
                     </div>
                     
