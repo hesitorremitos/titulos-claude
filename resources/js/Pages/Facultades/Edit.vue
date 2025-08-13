@@ -4,7 +4,7 @@
         :breadcrumbs="[
             { label: 'Facultades', href: route('v2.facultades.index') },
             { label: facultad.nombre, href: route('v2.facultades.show', facultad.id) },
-            { label: 'Editar' },
+            { label: 'Editar', href: null },
         ]"
     >
         <div class="space-y-6">

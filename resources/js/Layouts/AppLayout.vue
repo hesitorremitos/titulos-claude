@@ -1,27 +1,21 @@
 <script setup lang="ts">
 import AppSidebar from '@/components/AppSidebar.vue';
-import ThemeToggle from '@/components/ThemeToggle.vue';
-import { Separator } from '@/components/ui/separator';
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import TopBar from '@/components/TopBar.vue';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Icon } from '@iconify/vue';
 import { Head, router } from '@inertiajs/vue3';
 import { useColorMode } from '@vueuse/core';
 import { computed } from 'vue';
-
-interface NavTab {
-    label: string;
-    href: string;
-    icon: string;
-    value: string;
-}
+import type { NavTab, BreadcrumbItem as BreadcrumbItemType } from '@/types';
 
 interface Props {
     title?: string;
     pageTitle?: string;
     navTabs?: NavTab[];
     activeTab?: string;
+    breadcrumbs?: BreadcrumbItemType[];
 }
 
 const props = defineProps<Props>();
@@ -31,6 +25,11 @@ const mode = useColorMode();
 
 const currentNavTabs = computed(() => props.navTabs || []);
 const currentActiveTab = computed(() => props.activeTab || (currentNavTabs.value.length > 0 ? currentNavTabs.value[0].value : ''));
+
+// Default breadcrumbs if none provided
+const breadcrumbsToShow = computed(() => 
+    props.breadcrumbs || [{ label: 'Dashboard', href: null }]
+);
 </script>
 
 <template>
@@ -40,46 +39,28 @@ const currentActiveTab = computed(() => props.activeTab || (currentNavTabs.value
         <SidebarProvider>
             <AppSidebar />
             <SidebarInset>
-                <!-- Header superior unificado con diseño cohesivo -->
-                <header class="border-b border-border/40 bg-card shadow-sm backdrop-blur-sm">
-                    <!-- Primera fila: Trigger, título y user profile -->
-                    <div class="flex h-16 items-center gap-4 border-b border-border/20 bg-card px-6">
-                        <SidebarTrigger class="-ml-1 text-muted-foreground transition-colors duration-200 hover:text-foreground" />
-                        <Separator orientation="vertical" class="h-4" />
+                <!-- Nuevo TopBar con breadcrumb dinámico -->
+                <TopBar :breadcrumbs="breadcrumbsToShow" />
 
-                        <!-- Título de la página -->
-                        <div class="flex items-center gap-2">
-                            <h1 class="text-lg font-semibold text-foreground">
-                                {{ pageTitle || title || 'UATF Títulos' }}
-                            </h1>
-                        </div>
-
-                        <!-- User Profile y Theme Toggle al final -->
-                        <div class="ml-auto flex items-center gap-3">
-                            <ThemeToggle />
-                        </div>
+                <!-- Navegación por tabs (opcional) -->
+                <div v-if="navTabs && navTabs.length > 0" class="border-b border-border/30 bg-gradient-to-r from-card via-card/90 to-card/80">
+                    <div class="px-6 py-4">
+                        <Tabs :model-value="currentActiveTab" class="w-full">
+                            <TabsList class="h-11 w-fit bg-muted/50 p-1">
+                                <TabsTrigger
+                                    v-for="tab in currentNavTabs"
+                                    :key="tab.value"
+                                    :value="tab.value"
+                                    class="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-200 hover:bg-muted/80 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                                    @click="router.visit(tab.href)"
+                                >
+                                    <Icon :icon="tab.icon" class="h-4 w-4 transition-colors" />
+                                    <span class="font-medium">{{ tab.label }}</span>
+                                </TabsTrigger>
+                            </TabsList>
+                        </Tabs>
                     </div>
-
-                    <!-- Navegación por tabs usando shadcn -->
-                    <div v-if="navTabs && navTabs.length > 0" class="border-b border-border/30 bg-gradient-to-r from-card via-card/90 to-card/80">
-                        <div class="px-6 py-4">
-                            <Tabs :model-value="currentActiveTab" class="w-full">
-                                <TabsList class="h-11 w-fit bg-muted/50 p-1">
-                                    <TabsTrigger
-                                        v-for="tab in currentNavTabs"
-                                        :key="tab.value"
-                                        :value="tab.value"
-                                        class="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-200 hover:bg-muted/80 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
-                                        @click="router.visit(tab.href)"
-                                    >
-                                        <Icon :icon="tab.icon" class="h-4 w-4 transition-colors" />
-                                        <span class="font-medium">{{ tab.label }}</span>
-                                    </TabsTrigger>
-                                </TabsList>
-                            </Tabs>
-                        </div>
-                    </div>
-                </header>
+                </div>
 
                 <!-- Contenido principal -->
                 <main class="flex-1 bg-background">

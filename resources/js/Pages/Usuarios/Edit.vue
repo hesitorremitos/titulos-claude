@@ -1,5 +1,5 @@
 <template>
-    <AppLayout title="Editar Usuario" :breadcrumbs="[{ label: 'Usuarios', href: route('v2.usuarios.index') }, { label: 'Editar Usuario' }]">
+    <AppLayout title="Editar Usuario" :breadcrumbs="[{ label: 'Usuarios', href: route('v2.usuarios.index') }, { label: 'Editar Usuario', href: null }]">
         <div class="space-y-6">
             <!-- Header -->
             <div class="border-b border-border pb-4">

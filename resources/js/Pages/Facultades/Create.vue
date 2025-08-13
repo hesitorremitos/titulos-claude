@@ -1,5 +1,16 @@
 <template>
-    <AppLayout title="Facultades" page-title="Facultades" :nav-tabs="navTabs" active-tab="registrar">
+    <AppLayout 
+        title="Facultades" 
+        page-title="Facultades" 
+        :nav-tabs="navTabs" 
+        active-tab="registrar"
+        :breadcrumbs="[
+            { label: 'Dashboard', href: '/v2/dashboard' },
+            { label: 'Gestión Administrativa', href: null },
+            { label: 'Facultades', href: '/v2/facultades' },
+            { label: 'Registrar', href: null }
+        ]"
+    >
         <div class="space-y-6">
             <!-- Form -->
             <div class="max-w-2xl">

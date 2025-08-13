@@ -19,7 +19,10 @@ defineProps<Props>();
 </script>
 
 <template>
-    <AppLayout title="Dashboard">
+    <AppLayout 
+        title="Dashboard"
+        :breadcrumbs="[{ label: 'Dashboard', href: null }]"
+    >
         <div class="mx-auto max-w-7xl space-y-8">
             <!-- Card de Bienvenida -->
             <Card class="col-span-full">

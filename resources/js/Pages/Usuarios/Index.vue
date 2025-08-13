@@ -1,5 +1,15 @@
 <template>
-    <AppLayout title="Usuarios" page-title="Usuarios" :nav-tabs="navTabs" active-tab="lista">
+    <AppLayout 
+        title="Usuarios" 
+        page-title="Usuarios" 
+        :nav-tabs="navTabs" 
+        active-tab="lista"
+        :breadcrumbs="[
+            { label: 'Dashboard', href: '/v2/dashboard' },
+            { label: 'Gestión Administrativa', href: null },
+            { label: 'Usuarios', href: null }
+        ]"
+    >
         <div class="space-y-6">
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">

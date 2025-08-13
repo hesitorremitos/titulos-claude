@@ -1,5 +1,16 @@
 <template>
-    <AppLayout title="Usuarios" page-title="Usuarios" :nav-tabs="navTabs" active-tab="registrar">
+    <AppLayout 
+        title="Usuarios" 
+        page-title="Usuarios" 
+        :nav-tabs="navTabs" 
+        active-tab="registrar"
+        :breadcrumbs="[
+            { label: 'Dashboard', href: '/v2/dashboard' },
+            { label: 'Gestión Administrativa', href: null },
+            { label: 'Usuarios', href: '/v2/usuarios' },
+            { label: 'Registrar', href: null }
+        ]"
+    >
         <div class="space-y-6">
             <!-- Form -->
             <div class="max-w-2xl">

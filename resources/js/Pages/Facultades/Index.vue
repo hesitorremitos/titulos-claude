@@ -1,5 +1,15 @@
 <template>
-    <AppLayout title="Facultades" page-title="Facultades" :nav-tabs="navTabs" active-tab="lista">
+    <AppLayout 
+        title="Facultades" 
+        page-title="Facultades" 
+        :nav-tabs="navTabs" 
+        active-tab="lista"
+        :breadcrumbs="[
+            { label: 'Dashboard', href: '/v2/dashboard' },
+            { label: 'Gestión Administrativa', href: null },
+            { label: 'Facultades', href: null }
+        ]"
+    >
         <div class="space-y-6">
             <!-- Table -->
             <Card class="overflow-hidden">

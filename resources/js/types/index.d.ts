@@ -16,7 +16,6 @@ export type AppPageProps<T extends Record<string, unknown> = Record<string, unkn
 
 export interface User {
     id: number;
-
     role: string;
     name: string;
     email: string;
@@ -25,4 +24,26 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    roles?: string[]; // Array of role names from Spatie
+    permissions?: string[]; // Array of permission names from Spatie
+}
+
+export interface Role {
+    id: number;
+    name: string;
+    guard_name: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface NavTab {
+    label: string;
+    href?: string;
+    icon: string;
+    value: string;
+}
+
+export interface BreadcrumbItem {
+    label: string;
+    href: string | null;
 }
