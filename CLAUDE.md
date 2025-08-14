@@ -148,7 +148,7 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - No testing environment configured - manual verification used
 - Development environment uses SQLite database
 
-## Estado Actual del Proyecto (2025-08-12)
+## Estado Actual del Proyecto (2025-08-14)
 
 ### Migración Vue + Inertia.js COMPLETADA
 - **✅ Dashboard**: Completamente migrado con Shadcn/vue components
@@ -162,6 +162,7 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - **✅ Layout System**: AppLayout centralizado con tabs de navegación optimizados
 - **✅ Theme System**: Dark/Light mode con persistencia
 - **✅ TypeScript**: Configuración completa y tipado de componentes
+- **✅ Formularios Diplomas**: Componentes Vue para búsqueda API y registro de diplomas (Fase 1)
 
 ### Funcionalidades Migradas
 1. **Dashboard Principal**: Estadísticas, accesos rápidos, navegación
@@ -172,6 +173,9 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 6. **Usuarios CRUD**: Operaciones completas con validación, tablas clickeables y estadísticas por rol
 7. **Navegación Centralizada**: Tabs optimizados con componentes shadcn/vue nativos
 8. **Sistema de Temas**: Toggle dark/light persistente
+9. **Búsqueda API Personas**: Integración con API universitaria para auto-fill datos
+10. **Formularios Reactivos**: Componentes Vue 3 con Pinia state management
+11. **Visor PDF**: Componente drag & drop con iframe nativo para documentos académicos
 
 ### Arquitectura Implementada
 - **Frontend**: Vue 3 + Composition API + TypeScript
@@ -184,16 +188,20 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 
 ### Próximas Fases de Migración
 
+**En progreso (Vue + Inertia)**:
+1. **✅ Fase 1 - Base Diplomas**: Búsqueda API, formulario datos personales, visor PDF
+2. **🔄 Fase 2 - Formulario Completo**: Campos específicos diploma, validaciones, guardado
+3. **⏳ Fase 3 - Lista y Gestión**: Index, edición, eliminación diplomas
+
 **Pendiente de migración (Legacy Blade + Livewire)**:
-1. **Sistema de Diplomas Académicos**: Formularios complejos con PDF upload
-2. **Títulos Académicos**: CRUD de títulos con validaciones especiales
-3. **Menciones y Modalidades**: Gestión de catálogos especializados
-4. **Reportes y Estadísticas**: Visualización avanzada de datos
+1. **Títulos Académicos**: CRUD de títulos con validaciones especiales  
+2. **Menciones y Modalidades**: Gestión de catálogos especializados
+3. **Reportes y Estadísticas**: Visualización avanzada de datos
 
 **Prioridades de migración**:
-1. **Alta**: Formularios de diplomas (alta interactividad)
+1. **Alta**: Completar formulario diplomas Vue (Fase 2-3)
 2. **Media**: Catálogos y reportes
-3. **Completado**: ✅ Páginas administrativas (Facultades, Carreras, Usuarios)
+3. **Completado**: ✅ Páginas administrativas + Base formularios diplomas
 
 ### Sistema de Diplomas Académicos (Paso 08) - UI Mejorada
 - **Modelo principal**: DiplomaAcademico con relaciones a Persona, MencionDa, GraduacionDa, User
@@ -355,9 +363,17 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `resources/js/Pages/Carreras/Create.vue` - **OPTIMIZADO** Con tabs de navegación shadcn/vue
 - `resources/js/Pages/Usuarios/Index.vue` - **OPTIMIZADO** Tabla clickeable + stats cards específicas por rol
 - `resources/js/Pages/Usuarios/Create.vue` - **OPTIMIZADO** Con tabs de navegación shadcn/vue
+- `resources/js/Pages/DiplomasAcademicos/Create.vue` - **NUEVO** Formulario 2 pasos para registro diplomas con API search + visor PDF
+
+### Vue Components (Formularios y Utilidades)
+- `resources/js/components/forms/ApiPersonSearch.vue` - **NUEVO** Componente búsqueda de personas por CI con API universitaria
+- `resources/js/components/forms/PersonalDataForm.vue` - **NUEVO** Formulario datos personales con auto-fill desde API
+- `resources/js/components/forms/PdfViewer.vue` - **NUEVO** Visor PDF con drag & drop, iframe nativo y controles de descarga
+- `resources/js/stores/usePersonalDataStore.ts` - **NUEVO** Store Pinia para manejo de búsqueda API y datos personales
 
 ### Routes (Vue + Inertia)
 - `routes/web-vue.php` - **ACTUALIZADO** Rutas Vue + Inertia con sistema completo de autenticación y gestión de perfil
+- `app/Http/Controllers/V2/DiplomaAcademicoController.php` - **NUEVO** Controlador con endpoint de búsqueda de personas
 - `resources/views/diplomas/index.blade.php` - Vista principal con accesos rápidos a subsecciones
 - `resources/views/diplomas/create.blade.php` - Formulario creación diploma con layout unificado
 - `resources/views/diplomas/show.blade.php` - Ver diploma individual con layout unificado
