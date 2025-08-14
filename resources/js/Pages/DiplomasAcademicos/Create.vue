@@ -27,48 +27,36 @@
         </Card>
       </div>
 
-      <!-- Formulario de datos personales -->
-      <div class="max-w-2xl">
-        <PersonalDataForm />
-      </div>
-
-      <!-- Próximo paso placeholder -->
-      <div v-if="selectedPersonData" class="max-w-2xl">
-        <Card class="border-dashed">
-          <CardHeader>
-            <CardTitle class="flex items-center text-muted-foreground">
-              <FileText class="h-5 w-5 mr-2" />
-              Paso 2: Datos del Diploma
-            </CardTitle>
-            <CardDescription>
-              El formulario de datos del diploma se implementará próximamente
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div class="text-center py-8 text-muted-foreground">
-              <FileText class="h-12 w-12 mx-auto mb-3 opacity-50" />
-              <p>Próximamente: Formulario de datos del diploma académico</p>
-            </div>
-          </CardContent>
-        </Card>
+      <!-- Formulario de datos personales y visor PDF - Layout de 2 columnas -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div>
+          <PersonalDataForm />
+        </div>
+        <div>
+          <PdfViewer v-model="pdfFile" />
+        </div>
       </div>
     </div>
   </AppLayout>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref } from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import ApiPersonSearch from '@/components/forms/ApiPersonSearch.vue'
 import PersonalDataForm from '@/components/forms/PersonalDataForm.vue'
+import PdfViewer from '@/components/forms/PdfViewer.vue'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Search, FileText } from 'lucide-vue-next'
+import { Search } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { storeToRefs } from 'pinia'
 
 // Store setup
 const personalDataStore = usePersonalDataStore()
 const { selectedPersonData } = storeToRefs(personalDataStore)
+
+// PDF handling
+const pdfFile = ref<File | null>(null)
 
 // Page title for browser tab
 defineOptions({
