@@ -88,5 +88,18 @@ Route::group(['prefix' => 'v2'], function () {
         ])->parameters([
             'diplomas-academicos' => 'diploma',
         ]);
+        
+        // API endpoint for person search
+        Route::get('/api/{ci}', [DiplomaAcademicoController::class, 'searchPerson'])->name('v2.api.search-person');
+    });
+
+    // Títulos Académicos - Vista temporal sin controlador
+    Route::middleware('auth')->group(function () {
+        Route::get('/titulos-academicos/create3', function () {
+            return \Inertia\Inertia::render('TitulosAcademicos/Create3');
+        })->name('v2.titulos-academicos.create3');
+        Route::get('/titulos-academicos/create2', function () {
+            return \Inertia\Inertia::render('TitulosAcademicos/Create2');
+        })->name('v2.titulos-academicos.create2');
     });
 });

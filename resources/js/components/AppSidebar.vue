@@ -101,10 +101,10 @@ const navigationSections = computed((): NavigationSection[] => [
                 disabled: false,
             },
             {
-                label: 'Títulos Profesionales',
+                label: 'Títulos Académicos',
                 icon: Award,
-                route: '/v2/titulos-profesionales',
-                disabled: true,
+                route: '/v2/titulos-academicos',
+                disabled: false,
             },
             {
                 label: 'Diplomas Bachiller',
