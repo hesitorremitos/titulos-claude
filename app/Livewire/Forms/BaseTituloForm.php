@@ -10,17 +10,24 @@ abstract class BaseTituloForm extends Form
 {
     // Campos comunes a todos los títulos
     public int $nro_documento = 0;
+
     public int $fojas = 0;
+
     public int $libro = 0;
+
     public string $fecha_emision = '';
+
     public ?int $graduacion_id = null;
+
     public string $observaciones = '';
-    
+
     // Campos para manejo de archivos
     public $pdfFile = null;
+
     public ?string $tempFilePath = null;
+
     public ?string $originalFileName = null;
-    
+
     // Cache para opciones
     public array $graduaciones = [];
 
@@ -83,6 +90,7 @@ abstract class BaseTituloForm extends Form
         if ($this->pdfFile) {
             $filename = $folderName.'_'.$ci.'_'.time().'.pdf';
             $path = $this->pdfFile->storeAs('diplomas/'.$folderName, $filename, 'public');
+
             return $path;
         } elseif ($this->tempFilePath) {
             // Mover archivo temporal al directorio final
@@ -90,6 +98,7 @@ abstract class BaseTituloForm extends Form
             $finalPath = 'diplomas/'.$folderName.'/'.$filename;
 
             \Storage::disk('public')->move($this->tempFilePath, $finalPath);
+
             return $finalPath;
         }
 
@@ -107,15 +116,19 @@ abstract class BaseTituloForm extends Form
         $this->pdfFile = null;
         $this->tempFilePath = null;
         $this->originalFileName = null;
-        
+
         // Permitir reset de campos específicos
         $this->resetSpecificFields();
     }
 
     // Métodos abstractos que deben implementar las clases hijas
     abstract protected function rules(): array;
+
     abstract protected function messages(): array;
+
     abstract public function checkDuplicates(string $ci): bool;
+
     abstract public function store(string $ci, int $userId);
+
     abstract protected function resetSpecificFields(): void;
 }

@@ -27,7 +27,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Crear tabla principal de diplomas académicos
+        // tabla principal
         Schema::create('diploma_academicos', function (Blueprint $table) {
             $table->id();
             $table->string('ci');
@@ -41,13 +41,11 @@ return new class extends Migration
             $table->string('file_dir', 500)->nullable();
             $table->boolean('verificado')->default(false);
 
-            // Campos de trazabilidad
             $table->foreignId('created_by')->constrained('users', 'id');
             $table->foreignId('updated_by')->nullable()->constrained('users', 'id');
 
             $table->timestamps();
 
-            // Llave foránea para ci con la tabla personas
             $table->foreign('ci')->references('ci')->on('personas');
             $table->unique(['libro', 'fojas', 'nro_documento']);
         });

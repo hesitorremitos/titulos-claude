@@ -43,7 +43,6 @@ class DiplomaAcademicoForm extends BaseTituloForm
         $this->mencion_da_id = null;
     }
 
-
     public function checkDuplicates(string $ci): bool
     {
         $exists = DiplomaAcademico::where(function ($query) {

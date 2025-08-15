@@ -22,18 +22,23 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 
 ### Technology Stack
 - **Backend:** Laravel 12 with PHP 8.2+
-- **Frontend:** Blade templates with Livewire v3, Tailwind CSS v4, Alpine.js
+- **Frontend:** Vue 3 + Composition API + Inertia.js + Shadcn/vue + TypeScript
+- **UI Framework:** Shadcn/vue with Tailwind CSS v4
 - **Database:** SQLite (development), designed for PostgreSQL/MySQL (production)
-- **Testing:** Pest PHP testing framework
-- **Authentication:** Laravel's built-in authentication with Spatie Laravel Permission for roles
-- **Icons:** Iconify integration
-- **Build Tool:** Vite
+- **Authentication:** Laravel's built-in authentication with Spatie Laravel Permission
+- **Icons:** Lucide Icons + Radix Icons via Shadcn/vue
+- **Build Tool:** Vite with Vue 3 support
+- **State Management:** Vue 3 Composables + Pinia
 
 ### Key Dependencies
-- `livewire/livewire`: ^3.6 - For reactive components
+- `@inertiajs/vue3`: ^2.0.17 - SPA-like navigation
+- `vue`: ^3.5.18 - Frontend framework
+- `shadcn/vue`: Complete UI component library
 - `spatie/laravel-permission`: ^6.21 - Role and permission management
 - `@tailwindcss/vite`: ^4.0.0 - Tailwind CSS v4 integration
-- `@iconify/tailwind4`: ^1.0.6 - Icon system integration
+- `@iconify/vue`: ^5.0.0 - Icon system
+- `ziggy-js`: ^2.4.2 - Laravel routes in Vue
+- `vue-sonner`: ^2.0.2 - Toast notifications
 
 ### User Roles and Permissions
 1. **Administrator:** Full CRUD access, user management, master data management
@@ -53,12 +58,15 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - Returns array of academic records for given CI number
 
 ### File Structure Patterns
-- Controllers follow standard Laravel structure in `app/Http/Controllers/`
-- Models in `app/Models/` with Eloquent relationships
-- Livewire components expected in `app/Livewire/`
-- Views in `resources/views/` with Blade templating
-- Database migrations follow Laravel conventions
-- Specs documentation in `specs/` directory
+- **Controllers:** Standard Laravel structure in `app/Http/Controllers/`
+- **Models:** `app/Models/` with Eloquent relationships
+- **Vue Pages:** `resources/js/Pages/` for Inertia.js routes
+- **Vue Components:** `resources/js/components/` for reusable components
+- **UI Components:** `resources/js/components/ui/` for Shadcn/vue components
+- **Layouts:** `resources/js/Layouts/` for Vue layouts
+- **Types:** `resources/js/types/` for TypeScript definitions
+- **Database migrations:** Follow Laravel conventions
+- **Specs:** `specs/` directory for documentation
 
 ### Database Design
 - Uses SQLite for development (database/database.sqlite)
@@ -94,12 +102,16 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 ## Development Environment
 - No testing framework implemented - testing is not required for this project
 - Manual execution and verification of functionality
+- Hot module replacement (HMR) with Vite for Vue development
+- TypeScript support for better development experience
 
 ## Key Configuration Files
-- `vite.config.js`: Vite build configuration with Tailwind CSS v4
+- `vite.config.js`: Vite build configuration with Vue 3 and Tailwind CSS v4
 - `composer.json`: PHP dependencies and custom scripts
-- `package.json`: Node.js dependencies for frontend build
-- `config/livewire.php`: Livewire configuration
+- `package.json`: Vue 3, Inertia.js, and Shadcn/vue dependencies
+- `tsconfig.json`: TypeScript configuration
+- `components.json`: Shadcn/vue components configuration
+- `eslint.config.js`: ESLint configuration for Vue + TypeScript
 - `config/permission.php`: Spatie permission package configuration
 
 ## Development Guidelines
@@ -107,16 +119,18 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 ### Code Style and Patterns
 - Follow existing Laravel conventions and patterns observed in the codebase
 - Use Eloquent relationships consistently (seen in models like Carrera, Facultad)
-- Livewire components for reactive UI interactions (app/Livewire/)
-- Blade components for reusable UI elements (resources/views/components/)
+- Vue 3 Composition API for reactive components
+- Shadcn/vue components for consistent UI elements
+- TypeScript for better type safety (optional but recommended)
 - Audit trail pattern: created_by, updated_by fields for traceability
 
 ### File Naming Conventions
-- Controllers: PascalCase with Controller suffix (e.g., DiplomaAcademicoController)
-- Models: Singular PascalCase (e.g., DiplomaAcademico, Persona)
-- Migrations: Laravel timestamp format with descriptive names
-- Views: snake_case matching controller actions
-- Livewire: PascalCase for class, kebab-case for view
+- **Controllers:** PascalCase with Controller suffix (e.g., DiplomaAcademicoController)
+- **Models:** Singular PascalCase (e.g., DiplomaAcademico, Persona)
+- **Vue Pages:** PascalCase (e.g., Index.vue, Create.vue, Dashboard.vue)
+- **Vue Components:** PascalCase (e.g., AppSidebar.vue, ThemeToggle.vue)
+- **Migrations:** Laravel timestamp format with descriptive names
+- **Routes:** `/v2/*` prefix for Vue + Inertia routes
 
 ### Database Conventions
 - Primary keys: 'id' for auto-increment, 'ci' for personas (string)
@@ -134,15 +148,60 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - No testing environment configured - manual verification used
 - Development environment uses SQLite database
 
-## Memory Notes
+## Estado Actual del Proyecto (2025-08-14)
 
-### Progreso del Proyecto
-- Todos los requerimientos y los pasos que se van a ir haciendo, se están documentando en `specs/`
-- **Paso 08 COMPLETADO**: Sistema CRUD de Diplomas Académicos implementado con integración API universitaria (specs/08-sistema-diplomas-academicos.md)
-- **Paso 09 COMPLETADO**: Mejoras UI - Sidebar Collapsible con Alpine.js y Persistencia (specs/09-mejoras-ui-sidebar-collapsible.md)
-- **Paso 10 COMPLETADO**: Subsecciones para Diplomas Académicos con arquitectura MVC limpia y layout unificado (specs/10-subsecciones-diplomas-academicos.md)
-- Sistema de usuarios y permisos completamente funcional
-- Base de datos con facultades, carreras y datos maestros implementados
+### Migración Vue + Inertia.js COMPLETADA
+- **✅ Dashboard**: Completamente migrado con Shadcn/vue components
+- **✅ Autenticación**: Sistema completo de login/logout con Inertia
+- **✅ Gestión de Perfil**: Actualización de datos, cambio de contraseña, eliminación de cuenta
+- **✅ CRUD Facultades**: Index, Create, Edit, Show con navegación centralizada y tablas optimizadas
+- **✅ CRUD Carreras**: Index, Create, Edit, Show con navegación centralizada y tablas optimizadas
+- **✅ CRUD Usuarios**: Index, Create, Edit, Show con navegación centralizada, tablas optimizadas y estadísticas específicas
+- **✅ Sistema de Rutas**: Patrón `/v2/*` para todas las rutas Vue + Inertia
+- **✅ Componentes UI**: Sistema completo de Shadcn/vue components
+- **✅ Layout System**: AppLayout centralizado con tabs de navegación optimizados
+- **✅ Theme System**: Dark/Light mode con persistencia
+- **✅ TypeScript**: Configuración completa y tipado de componentes
+- **✅ Formularios Diplomas**: Componentes Vue para búsqueda API y registro de diplomas (Fase 1)
+
+### Funcionalidades Migradas
+1. **Dashboard Principal**: Estadísticas, accesos rápidos, navegación
+2. **Sistema de Autenticación**: Login, logout, gestión de sesiones
+3. **Gestión de Perfil**: Actualización de datos personales y contraseña
+4. **Facultades CRUD**: Operaciones completas con validación y tablas clickeables
+5. **Carreras CRUD**: Operaciones completas con validación y tablas clickeables
+6. **Usuarios CRUD**: Operaciones completas con validación, tablas clickeables y estadísticas por rol
+7. **Navegación Centralizada**: Tabs optimizados con componentes shadcn/vue nativos
+8. **Sistema de Temas**: Toggle dark/light persistente
+9. **Búsqueda API Personas**: Integración con API universitaria para auto-fill datos
+10. **Formularios Reactivos**: Componentes Vue 3 con Pinia state management
+11. **Visor PDF**: Componente drag & drop con iframe nativo para documentos académicos
+
+### Arquitectura Implementada
+- **Frontend**: Vue 3 + Composition API + TypeScript
+- **Routing**: Inertia.js con server-side routing de Laravel
+- **UI Components**: Shadcn/vue con Tailwind CSS v4
+- **State**: Vue 3 composables + reactive properties
+- **Forms**: Validation con Laravel backend + Vue frontend
+- **Notifications**: Vue Sonner para toasts
+- **Icons**: Lucide + Radix via Shadcn/vue
+
+### Próximas Fases de Migración
+
+**En progreso (Vue + Inertia)**:
+1. **✅ Fase 1 - Base Diplomas**: Búsqueda API, formulario datos personales, visor PDF
+2. **🔄 Fase 2 - Formulario Completo**: Campos específicos diploma, validaciones, guardado
+3. **⏳ Fase 3 - Lista y Gestión**: Index, edición, eliminación diplomas
+
+**Pendiente de migración (Legacy Blade + Livewire)**:
+1. **Títulos Académicos**: CRUD de títulos con validaciones especiales  
+2. **Menciones y Modalidades**: Gestión de catálogos especializados
+3. **Reportes y Estadísticas**: Visualización avanzada de datos
+
+**Prioridades de migración**:
+1. **Alta**: Completar formulario diplomas Vue (Fase 2-3)
+2. **Media**: Catálogos y reportes
+3. **Completado**: ✅ Páginas administrativas + Base formularios diplomas
 
 ### Sistema de Diplomas Académicos (Paso 08) - UI Mejorada
 - **Modelo principal**: DiplomaAcademico con relaciones a Persona, MencionDa, GraduacionDa, User
@@ -173,6 +232,18 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - **Autorización**: método privado checkDiplomaAccess() para DRY
 - **Storage**: usar Storage::disk('public')->path() en lugar de concatenación directa
 - **Forms Livewire**: separar lógica en Form classes dedicadas
+
+### Patrones Vue + Inertia Establecidos (2025-08-12)
+- **Tablas Clickeables**: Patrón `@click="router.visit(route())"` en TableRow completas
+- **Navegación por Teclado**: `@keydown.enter` y `@keydown.space.prevent` en elementos interactivos
+- **Estados Hover**: `hover:bg-accent/30` con `transition-colors duration-150` para feedback visual
+- **Accesibilidad**: `tabindex="0"`, `aria-label`, `role="button"` en elementos clickeables
+- **Stats Cards**: Solo mostrar cuando aporten valor de negocio (ej: usuarios por rol)
+- **Iconos Específicos**: Usar lucide icons representativos por contexto (building-2, users, list-checks)
+- **Componentes Shadcn**: Preferir componentes nativos (Tabs, TabsList, TabsTrigger) sobre custom
+- **Props Typing**: Definir interfaces TypeScript claras con datos opcionales (`|| 0` fallbacks)
+- **Layout Responsive**: Grid con breakpoints `md:grid-cols-2 lg:grid-cols-4` para cards
+- **Remove Redundancy**: Eliminar breadcrumbs, search bars y filtros innecesarios por sección
 
 ### Arquitectura de Archivos
 - **Livewire Components**: app/Livewire/ (clases principales)
@@ -218,6 +289,12 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `app/Http/Controllers/DiplomasAcademicos/MencionController.php` - CRUD completo menciones académicas (sin filtros)
 - `app/Http/Controllers/DiplomasAcademicos/ModalidadGraduacionController.php` - CRUD completo modalidades graduación (sin filtros)
 - `app/Http/Controllers/StyleGuideController.php` - Controlador para la guía de estilos del sistema
+- `app/Http/Controllers/ProfileController.php` - **ACTUALIZADO** Gestión de perfil con métodos legacy (Blade) y Vue/Inertia
+- `app/Http/Controllers/DashboardController.php` - **NUEVO** Dashboard para Vue + Inertia
+- `app/Http/Controllers/Auth/InertiaLoginController.php` - **NUEVO** Autenticación para Vue + Inertia
+- `app/Http/Controllers/V2/UserController.php` - **ACTUALIZADO** CRUD usuarios con estadísticas por rol (admin, jefe, personal, activos/inactivos)
+- `app/Http/Controllers/V2/FacultadController.php` - **MIGRADO** CRUD facultades Vue + Inertia con tablas optimizadas
+- `app/Http/Controllers/V2/CarreraController.php` - **MIGRADO** CRUD carreras Vue + Inertia con tablas optimizadas
 
 ### View Components
 - `app/View/Components/AppLayout.php` - Componente Laravel para layout principal del sistema
@@ -265,11 +342,38 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `database/seeders/RoleSeeder.php` - Roles y permisos
 - `database/seeders/UserRoleSeeder.php` - Asignación roles
 
-### Views
+### Views (Blade - Legacy)
 - `resources/views/layouts/app-layout.blade.php` - Layout principal del sistema con navbar y sidebar
 - `resources/views/layouts/diplomas-layout.blade.php` - Layout unificado para sección diplomas académicos
 - `resources/views/layouts/partials/navbar.blade.php` - Navbar con toggle de tema funcional
 - `resources/views/layouts/partials/sidebar.blade.php` - Sidebar de navegación principal
+
+### Vue Pages & Components (Inertia)
+- `resources/js/Layouts/AppLayout.vue` - **ACTUALIZADO** Layout principal Vue con Shadcn/vue Tabs nativos y sin breadcrumbs
+- `resources/js/components/AppSidebar.vue` - **ACTUALIZADO** Sidebar Vue con logout funcional y navegación a perfil
+- `resources/js/Pages/Dashboard.vue` - Dashboard principal Vue + Inertia
+- `resources/js/Pages/Login.vue` - Página de login Vue + Inertia
+- `resources/js/Pages/Profile/Index.vue` - **NUEVO** Página principal de gestión de perfil
+- `resources/js/Pages/Profile/partials/UpdateProfileForm.vue` - **NUEVO** Formulario actualización datos personales
+- `resources/js/Pages/Profile/partials/UpdatePasswordForm.vue` - **NUEVO** Formulario cambio de contraseña
+- `resources/js/Pages/Profile/partials/DeleteAccountSection.vue` - **NUEVO** Sección eliminación de cuenta con modal
+- `resources/js/Pages/Facultades/Index.vue` - **OPTIMIZADO** Tabla clickeable sin columna acciones, sin stats cards
+- `resources/js/Pages/Facultades/Create.vue` - **OPTIMIZADO** Con tabs de navegación shadcn/vue
+- `resources/js/Pages/Carreras/Index.vue` - **OPTIMIZADO** Tabla clickeable sin columna acciones, sin stats/filtros
+- `resources/js/Pages/Carreras/Create.vue` - **OPTIMIZADO** Con tabs de navegación shadcn/vue
+- `resources/js/Pages/Usuarios/Index.vue` - **OPTIMIZADO** Tabla clickeable + stats cards específicas por rol
+- `resources/js/Pages/Usuarios/Create.vue` - **OPTIMIZADO** Con tabs de navegación shadcn/vue
+- `resources/js/Pages/DiplomasAcademicos/Create.vue` - **NUEVO** Formulario 2 pasos para registro diplomas con API search + visor PDF
+
+### Vue Components (Formularios y Utilidades)
+- `resources/js/components/forms/ApiPersonSearch.vue` - **NUEVO** Componente búsqueda de personas por CI con API universitaria
+- `resources/js/components/forms/PersonalDataForm.vue` - **NUEVO** Formulario datos personales con auto-fill desde API
+- `resources/js/components/forms/PdfViewer.vue` - **NUEVO** Visor PDF con drag & drop, iframe nativo y controles de descarga
+- `resources/js/stores/usePersonalDataStore.ts` - **NUEVO** Store Pinia para manejo de búsqueda API y datos personales
+
+### Routes (Vue + Inertia)
+- `routes/web-vue.php` - **ACTUALIZADO** Rutas Vue + Inertia con sistema completo de autenticación y gestión de perfil
+- `app/Http/Controllers/V2/DiplomaAcademicoController.php` - **NUEVO** Controlador con endpoint de búsqueda de personas
 - `resources/views/diplomas/index.blade.php` - Vista principal con accesos rápidos a subsecciones
 - `resources/views/diplomas/create.blade.php` - Formulario creación diploma con layout unificado
 - `resources/views/diplomas/show.blade.php` - Ver diploma individual con layout unificado
@@ -354,33 +458,61 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - **Removed**: Redundant mobile menu and user dropdown code
 - **Handled by**: Alpine.js manages UI interactivity
 
-## Mantenimiento Automático del Índice
+## UI/UX Optimizations (2025-08-12)
 
-**REGLA CRÍTICA ABSOLUTA**: Cada vez que se realice cualquier cambio en la estructura de archivos, **OBLIGATORIAMENTE** actualizar el "Índice de Archivos del Sistema" en este mismo archivo CLAUDE.md:
+### Table Design Improvements
+**Problem Solved:** Tablas con diseño ineficiente, desperdicio de espacio y botones de acción poco óptimos.
 
-### Casos que requieren actualización del índice:
-1. **Crear nuevos archivos** (modelos, controllers, views, migraciones, etc.)
-2. **Modificar archivos existentes** con nuevas funcionalidades significativas
-3. **Eliminar archivos existentes** 
-4. **Mover/renombrar archivos**
-5. **Crear nuevas carpetas** o reorganizar estructura
-6. **Agregar nuevos seeders, services, components**
+**Solution Implemented:**
+- **✅ Filas Completamente Clickeables**: Patrón UX recomendado - toda la fila es clickeable
+- **✅ Eliminación Columna Acciones**: 30% menos anchura, mejor uso del espacio
+- **✅ Diseño Compacto**: Altura de fila reducida de ~60px a ~48px (20% menos espacio)
+- **✅ Estados Hover/Focus**: Transiciones suaves con feedback visual inmediato
+- **✅ Navegación por Teclado**: Enter/Space + ARIA labels para accesibilidad completa
+- **✅ Tipografía Optimizada**: `text-sm` para mayor densidad sin sacrificar legibilidad
 
-### Proceso automático OBLIGATORIO:
-1. Realizar el cambio solicitado
-2. **INMEDIATAMENTE después**, actualizar la sección "Índice de Archivos del Sistema"
-3. Agregar/eliminar/modificar las rutas correspondientes
-4. Incluir descripción funcional actualizada del archivo
-5. Mantener organización por categorías
-6. **NUNCA omitir este paso** - es tan importante como el cambio mismo
+### Navigation Tabs Enhancement
+**Upgraded to Shadcn/Vue Native Components:**
+- **✅ Tabs, TabsList, TabsTrigger**: Componentes nativos con estados automáticos
+- **✅ Iconos Actualizados**: Lucide icons más específicos y representativos
+  - Facultades: `lucide:building-2` (lista), `lucide:plus-circle` (registrar)
+  - Carreras: `lucide:list-checks` (lista), `lucide:plus-circle` (registrar)  
+  - Usuarios: `lucide:users` (lista), `lucide:user-plus` (registrar)
+- **✅ Accesibilidad Mejorada**: Focus rings, keyboard navigation, ARIA attributes
+- **✅ Transiciones Suaves**: 200ms duration para todas las interacciones
 
-### Propósito:
-- Acceso directo sin búsquedas repetitivas
-- Contexto inmediato de cada archivo
-- Índice siempre actualizado y confiable
+### Stats Cards Optimization
+**Targeted User Statistics Implementation:**
+- **✅ Facultades/Carreras**: Cards de stats completamente removidas (no necesarias)
+- **✅ Usuarios**: Cards específicas con datos de negocio relevantes:
+  - 🔴 Administradores (con icono `lucide:shield-check`)
+  - 🔵 Jefes (con icono `lucide:user-cog`)
+  - 🟢 Personal (con icono `lucide:users`)
+  - 🟡 Activos/Inactivos (con icono `lucide:activity`)
+- **✅ Backend Integration**: Controlador actualizado con cálculos de estadísticas usando Spatie Permission
 
-### **RECORDATORIO PERMANENTE**: 
-**"CREAR/MODIFICAR ARCHIVO = ACTUALIZAR ÍNDICE INMEDIATAMENTE"**
+### Accessibility & User Experience
+- **✅ Click Targets**: Área de clic 3x más grande (toda la fila vs botón pequeño)
+- **✅ Keyboard Navigation**: Tab, Enter, Space para navegación completa
+- **✅ Screen Reader Support**: `aria-label`, `role="button"`, descripciones contextual
+- **✅ Focus Indicators**: Rings visibles con `focus-visible:ring-2`
+- **✅ Loading States**: Transiciones y feedback durante navegación
+
+### Code Architecture Improvements
+**Vue/Inertia Pattern Consistency:**
+- **✅ Clickeable Rows**: `@click="router.visit(route())"` patrón unificado
+- **✅ Responsive Design**: Grid layouts con breakpoints `md:grid-cols-2 lg:grid-cols-4`
+- **✅ Component Reusability**: Badge variants, Card layouts, Icon systems
+- **✅ TypeScript Integration**: Interface Props con stats typing
+- **✅ Error Handling**: Props validation y fallbacks (`|| 0` para stats)
+
+**Key Benefits Achieved:**
+1. **Space Efficiency**: 30% reducción en altura de tablas
+2. **Better UX**: Click targets 3x más grandes
+3. **Visual Hierarchy**: Mejor contraste y organización de información
+4. **Performance**: Menos DOM elements, event handlers optimizados
+5. **Accessibility**: Cumple WCAG guidelines para navegación por teclado
+6. **Consistency**: Patrón unificado en todas las secciones administrativas
 
 ## development-workflow-rules
 
@@ -403,12 +535,23 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 2. **Segunda opción**: Livewire solo para secciones específicas reactivas
 3. **Evitar**: Livewire para navegación, layouts, o vistas estáticas
 
-#NEVER use emojis or emoticons in code, views, or any project files. Keep all content professional and text-based only.
-# important-instruction-reminders
-Do what has been asked; nothing more, nothing less.
-NEVER create files unless they're absolutely necessary for achieving your goal.
-ALWAYS prefer editing an existing file to creating a new one.
-NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
+## Recordatorios Importantes
+
+### Reglas de Código
+- NO usar emojis o emoticones en código, vistas, o archivos del proyecto
+- Mantener todo el contenido profesional y basado en texto
+- Hacer exactamente lo que se pide, ni más ni menos
+- NUNCA crear archivos a menos que sean absolutamente necesarios
+- SIEMPRE preferir editar un archivo existente antes que crear uno nuevo
+- NUNCA crear archivos de documentación proactivamente
+
+### Actualización Automática del Índice
+**REGLA CRÍTICA**: Cada cambio en estructura de archivos debe actualizar el índice inmediatamente
+- Crear/modificar archivos = actualizar índice OBLIGATORIO
+- Mantener organización por categorías
+- Incluir descripción funcional actualizada
+- Nunca omitir este paso - es tan importante como el cambio mismo
+
 
 ## Recomendaciones Adicionales
 

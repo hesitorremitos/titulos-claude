@@ -18,7 +18,12 @@
       "mcp__serena__find_file",
       "mcp__serena__think_about_task_adherence",
       "mcp__serena__find_symbol",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "WebFetch(domain:www.shadcn-vue.com)",
+      "Bash(pnpm dlx:*)",
+      "Bash(npx shadcn-vue:*)",
+      "mcp__serena__write_memory",
+      "WebFetch(domain:vueuse.org)"
     ]
   },
   "enableAllProjectMcpServers": true,

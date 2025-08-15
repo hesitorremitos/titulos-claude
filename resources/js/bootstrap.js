@@ -4,7 +4,7 @@ window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 // Livewire v3 + Alpine.js integration
-import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
+import { Alpine, Livewire } from '../../vendor/livewire/livewire/dist/livewire.esm';
 
 // Import only the Alpine.js plugins that are NOT included in Livewire by default
 // Note: Livewire v3 already includes: persist, intersect, morph, navigate, etc.

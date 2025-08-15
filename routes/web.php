@@ -140,3 +140,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{diploma}', [DiplomaAcademicoController::class, 'destroy'])->name('destroy')->middleware('permission:eliminar-titulos');
     });
 });
+
+// Incluir las rutas de Inertia.js definidas en routes/web-vue.php
+require base_path('routes/web-vue.php');

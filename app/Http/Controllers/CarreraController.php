@@ -11,13 +11,39 @@ class CarreraController extends Controller
     /**
      * Mostrar lista de carreras
      */
-    public function index()
+    public function index(Request $request)
     {
-        $carreras = Carrera::with('facultad')
-            ->orderBy('programa')
-            ->paginate(10);
+        $query = Carrera::query()->with('facultad');
 
-        return view('carreras.index', compact('carreras'));
+        // Búsqueda
+        if ($request->has('search') && $request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('programa', 'like', '%'.$request->search.'%')
+                    ->orWhere('id', 'like', '%'.$request->search.'%')
+                    ->orWhere('direccion', 'like', '%'.$request->search.'%');
+            });
+        }
+
+        // Filtro por facultad
+        if ($request->has('facultad_id') && $request->facultad_id) {
+            $query->where('facultad_id', $request->facultad_id);
+        }
+
+        $carreras = $query->orderBy('programa')
+            ->paginate(10)
+            ->withQueryString();
+
+        // Obtener facultades para el filtro
+        $facultades = Facultad::orderBy('nombre')->get();
+
+        return inertia('Carreras/Index', [
+            'carreras' => $carreras,
+            'facultades' => $facultades,
+            'filters' => [
+                'search' => $request->search,
+                'facultad_id' => $request->facultad_id,
+            ],
+        ]);
     }
 
     /**
@@ -28,7 +54,10 @@ class CarreraController extends Controller
         $facultades = Facultad::orderBy('nombre')->get();
         $facultadSeleccionada = $request->get('facultad_id');
 
-        return view('carreras.create', compact('facultades', 'facultadSeleccionada'));
+        return inertia('Carreras/Create', [
+            'facultades' => $facultades,
+            'facultadSeleccionada' => $facultadSeleccionada,
+        ]);
     }
 
     /**
@@ -37,7 +66,7 @@ class CarreraController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id' => 'required|string|size:5|unique:carreras,id|regex:/^[A-Z0-9]+$/',
+            'id' => 'required|string|min:1|max:5|unique:carreras,id|regex:/^[A-Z0-9]+$/',
             'programa' => 'required|string|max:255',
             'direccion' => 'nullable|string|max:255',
             'facultad_id' => 'required|exists:facultades,id',
@@ -53,10 +82,15 @@ class CarreraController extends Controller
             'facultad_id.exists' => 'La facultad seleccionada no es válida.',
         ]);
 
-        $carrera = Carrera::create($request->all());
+        try {
+            $carrera = Carrera::create($request->all());
 
-        return redirect()->route('carreras.index')
-            ->with('success', 'Carrera creada exitosamente.');
+            return redirect()->route('v2.carreras.index');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['carrera' => 'Error al crear la carrera. Por favor, inténtelo nuevamente.']);
+        }
     }
 
     /**
@@ -66,7 +100,9 @@ class CarreraController extends Controller
     {
         $carrera->load('facultad');
 
-        return view('carreras.show', compact('carrera'));
+        return inertia('Carreras/Show', [
+            'carrera' => $carrera,
+        ]);
     }
 
     /**
@@ -76,7 +112,10 @@ class CarreraController extends Controller
     {
         $facultades = Facultad::orderBy('nombre')->get();
 
-        return view('carreras.edit', compact('carrera', 'facultades'));
+        return inertia('Carreras/Edit', [
+            'carrera' => $carrera,
+            'facultades' => $facultades,
+        ]);
     }
 
     /**
@@ -85,7 +124,7 @@ class CarreraController extends Controller
     public function update(Request $request, Carrera $carrera)
     {
         $request->validate([
-            'id' => 'required|string|size:5|unique:carreras,id,'.$carrera->id.',id|regex:/^[A-Z0-9]+$/',
+            'id' => 'required|string|min:1|max:5|unique:carreras,id,'.$carrera->id.',id|regex:/^[A-Z0-9]+$/',
             'programa' => 'required|string|max:255',
             'direccion' => 'nullable|string|max:255',
             'facultad_id' => 'required|exists:facultades,id',
@@ -101,10 +140,15 @@ class CarreraController extends Controller
             'facultad_id.exists' => 'La facultad seleccionada no es válida.',
         ]);
 
-        $carrera->update($request->all());
+        try {
+            $carrera->update($request->all());
 
-        return redirect()->route('carreras.index')
-            ->with('success', 'Carrera actualizada exitosamente.');
+            return redirect()->route('v2.carreras.index');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['carrera' => 'Error al actualizar la carrera. Por favor, inténtelo nuevamente.']);
+        }
     }
 
     /**
@@ -112,12 +156,24 @@ class CarreraController extends Controller
      */
     public function destroy(Carrera $carrera)
     {
-        // Aquí podrías verificar si tiene títulos asociados cuando implementes esas tablas
-        // Por ahora, permitimos eliminar directamente
+        try {
+            // Verificar si tiene menciones asociadas
+            $mencionesCount = \App\Models\MencionDa::where('carrera_id', $carrera->id)->count();
 
-        $carrera->delete();
+            if ($mencionesCount > 0) {
+                return redirect()->back()->withErrors([
+                    'carrera' => "No se puede eliminar la carrera '{$carrera->programa}' porque tiene {$mencionesCount} mención(es) académica(s) asociada(s).",
+                ]);
+            }
 
-        return redirect()->route('carreras.index')
-            ->with('success', 'Carrera eliminada exitosamente.');
+            $carrera->delete();
+
+            return redirect()->route('v2.carreras.index');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors([
+                'carrera' => 'Error al eliminar la carrera. Por favor, inténtelo nuevamente.',
+            ]);
+        }
     }
 }

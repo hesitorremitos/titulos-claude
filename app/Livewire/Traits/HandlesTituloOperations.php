@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Traits;
 
-use App\Services\UniversityApiService;
 use App\Models\Carrera;
+use App\Services\UniversityApiService;
 
 trait HandlesTituloOperations
 {
@@ -12,11 +12,17 @@ trait HandlesTituloOperations
 
     // Búsqueda de persona
     public string $searchCi = '';
+
     public bool $isSearching = false;
+
     public array $apiData = [];
+
     public bool $personFound = false;
+
     public ?int $selectedProgramIndex = null;
+
     public ?string $selectedProgramName = null;
+
     public ?string $selectedCarreraId = null;
 
     protected $commonListeners = [
@@ -95,11 +101,11 @@ trait HandlesTituloOperations
 
         $this->personFound = true;
         session()->flash('message', 'Datos cargados automáticamente desde PDF y API universitaria.');
-        
+
         // Notify PDF viewer to load the file
         $this->dispatch('form-file-uploaded', [
             'tempFilePath' => $data['tempFilePath'],
-            'fileName' => $data['originalFileName']
+            'fileName' => $data['originalFileName'],
         ]);
     }
 
@@ -115,11 +121,11 @@ trait HandlesTituloOperations
 
         $this->personFound = false;
         session()->flash('message', 'CI extraído del PDF. Complete los datos personales manualmente.');
-        
+
         // Notify PDF viewer to load the file
         $this->dispatch('form-file-uploaded', [
             'tempFilePath' => $data['tempFilePath'],
-            'fileName' => $data['originalFileName']
+            'fileName' => $data['originalFileName'],
         ]);
     }
 
@@ -128,18 +134,20 @@ trait HandlesTituloOperations
         if ($this->currentStep === 1) {
             if (! $this->personaForm->isComplete()) {
                 session()->flash('error', 'Complete los datos personales obligatorios.');
+
                 return;
             }
 
             // Si encontró persona en API, debe seleccionar un programa
             if ($this->personFound && ! empty($this->apiData['programas']) && $this->selectedProgramIndex === null) {
                 session()->flash('error', 'Debe seleccionar un programa académico para continuar.');
+
                 return;
             }
 
             $this->currentStep = 2;
         }
-        
+
         // Notify PDF viewer of step change
         $this->dispatch('step-changed', $this->currentStep);
     }
@@ -149,7 +157,7 @@ trait HandlesTituloOperations
         if ($this->currentStep > 1) {
             $this->currentStep--;
         }
-        
+
         // Notify PDF viewer of step change
         $this->dispatch('step-changed', $this->currentStep);
     }
@@ -186,7 +194,7 @@ trait HandlesTituloOperations
         $this->selectedProgramName = null;
         $this->selectedCarreraId = null;
         $this->personaForm->reset();
-        
+
         // Llamar método específico para resetear datos del título
         $this->resetTituloSpecificData();
     }
@@ -201,5 +209,6 @@ trait HandlesTituloOperations
 
     // Métodos abstractos que deben implementar las clases hijas
     abstract protected function handleCarreraSelection(string $carreraId): void;
+
     abstract protected function resetTituloSpecificData(): void;
 }
