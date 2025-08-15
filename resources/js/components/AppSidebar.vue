@@ -47,7 +47,7 @@ const userRole = computed(() => {
     
     // Try to get role from Spatie roles array first (now it's an array of strings)
     if (user.value?.roles && Array.isArray(user.value.roles) && user.value.roles.length > 0) {
-        return user.value.roles[0];
+        return user.value.roles[0].name;
     }
     
     // Fallback to direct role field
