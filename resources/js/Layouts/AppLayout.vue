@@ -21,7 +21,14 @@ interface Props {
 const props = defineProps<Props>();
 
 // Color mode management
-const mode = useColorMode();
+const mode = useColorMode({
+  selector: 'html',
+  attribute: 'class',
+  modes: {
+    dark: 'dark',
+    light: '',
+  },
+});
 
 const currentNavTabs = computed(() => props.navTabs || []);
 const currentActiveTab = computed(() => props.activeTab || (currentNavTabs.value.length > 0 ? currentNavTabs.value[0].value : ''));
@@ -33,7 +40,7 @@ const breadcrumbsToShow = computed(() =>
 </script>
 
 <template>
-    <div :class="[mode === 'dark' ? 'dark' : '', 'min-h-screen bg-background transition-colors duration-200']">
+    <div class="min-h-screen bg-background transition-colors duration-200">
         <Head :title="title" />
 
         <SidebarProvider>

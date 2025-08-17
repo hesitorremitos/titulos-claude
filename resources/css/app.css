@@ -61,7 +61,12 @@
     --color-info-700: #0369a1;
 }
 
-@custom-variant dark (&:where(.dark, .dark *));
+@theme {
+    --default-transition-duration: 150ms;
+}
+
+/* Dark mode configuration for Tailwind CSS v4 */
+@variant dark (:is(.dark) &);
 
 @theme inline {
     --color-background: var(--background);
