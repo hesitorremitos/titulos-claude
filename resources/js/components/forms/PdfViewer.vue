@@ -1,5 +1,5 @@
 <template>
-  <Card class="w-full">
+  <Card :class="cardClasses">
     <CardHeader class="pb-3">
       <CardTitle class="flex items-center justify-between">
         <div class="flex items-center space-x-2">
@@ -15,16 +15,9 @@
       <!-- Drag & Drop Zone -->
       <div
         v-if="!pdfFile"
-        @drop.prevent="handleDrop"
-        @dragover.prevent="isDragOver = true"
-        @dragleave="isDragOver = false"
-        :class="[
-          'border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200 cursor-pointer',
-          isDragOver 
-            ? 'border-primary bg-primary/5' 
-            : 'border-border hover:border-primary/50 hover:bg-accent/30'
-        ]"
-        @click="fileInput?.click()"
+        ref="dropZoneRef"
+        :class="dropZoneClasses"
+        @click="() => openFileDialog()"
       >
         <div class="flex flex-col items-center space-y-4">
           <Upload class="h-8 w-8 text-muted-foreground" />
@@ -44,16 +37,10 @@
             <FileText class="h-4 w-4 text-muted-foreground" />
             <span class="text-sm font-medium truncate max-w-xs">{{ pdfFile.name }}</span>
           </div>
-          <div class="flex items-center space-x-2">
-            <Button variant="outline" size="sm" @click="downloadFile">
-              <Download class="h-3 w-3 mr-1" />
-              Descargar
-            </Button>
-            <Button variant="outline" size="sm" @click="replaceFile">
-              <RefreshCw class="h-3 w-3 mr-1" />
-              Cambiar
-            </Button>
-          </div>
+          <Button variant="outline" size="sm" @click="replaceFile">
+            <RefreshCw class="h-3 w-3 mr-1" />
+            Cambiar
+          </Button>
         </div>
 
         <!-- PDF Viewer nativo -->
@@ -61,7 +48,7 @@
           <iframe
             v-if="pdfUrl"
             :src="pdfUrl"
-            class="w-full h-[600px]"
+            :class="viewerClasses"
             frameborder="0"
             title="Visor de PDF"
           ></iframe>
@@ -79,21 +66,13 @@
         <AlertCircle class="h-4 w-4" />
         <AlertDescription>{{ error }}</AlertDescription>
       </Alert>
-
-      <!-- Hidden File Input -->
-      <input
-        ref="fileInput"
-        type="file"
-        accept=".pdf"
-        @change="handleFileSelect"
-        class="hidden"
-      />
     </CardContent>
   </Card>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onUnmounted } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
+import { useDropZone, useFileDialog, useObjectUrl } from '@vueuse/core'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -101,29 +80,48 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { 
   FileText, 
   Upload, 
-  Download, 
   RefreshCw, 
   AlertCircle 
 } from 'lucide-vue-next'
 
-// Props
-interface Props {
-  modelValue?: File | null
-}
+// Props - simplified without variants
+interface Props {}
 
 const props = defineProps<Props>()
 
-// Emits
-const emit = defineEmits<{
-  'update:modelValue': [file: File | null]
-}>()
+// Define model for v-model
+const pdfFile = defineModel<File | null>({ default: null })
 
-// Refs
-const fileInput = ref<HTMLInputElement>()
-const isDragOver = ref(false)
-const pdfFile = ref<File | null>(props.modelValue || null)
+// State
 const error = ref('')
-const pdfUrl = ref('')
+
+// VueUse composables
+const dropZoneRef = ref<HTMLElement>()
+const { isOverDropZone } = useDropZone(dropZoneRef, {
+  onDrop: (files) => {
+    const file = files?.[0]
+    if (file) processFile(file)
+  }
+})
+
+const { files, open: openFileDialog } = useFileDialog({
+  accept: '.pdf',
+  multiple: false
+})
+
+const pdfUrl = useObjectUrl(pdfFile)
+
+// Computed classes - fixed sizes
+const cardClasses = computed(() => 'w-full')
+const viewerClasses = computed(() => 'w-full h-[600px]')
+
+const dropZoneClasses = computed(() => {
+  const baseClasses = 'border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200 cursor-pointer'
+  const stateClasses = isOverDropZone.value 
+    ? 'border-primary bg-primary/5' 
+    : 'border-border hover:border-primary/50 hover:bg-accent/30'
+  return `${baseClasses} ${stateClasses}`
+})
 
 // File size display
 const fileSize = computed(() => {
@@ -141,17 +139,6 @@ const validateFile = (file: File): string => {
   return ''
 }
 
-const handleFileSelect = (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0]
-  if (file) processFile(file)
-}
-
-const handleDrop = (event: DragEvent) => {
-  isDragOver.value = false
-  const file = event.dataTransfer?.files[0]
-  if (file) processFile(file)
-}
-
 const processFile = (file: File) => {
   const validationError = validateFile(file)
   if (validationError) {
@@ -160,63 +147,22 @@ const processFile = (file: File) => {
   }
   
   error.value = ''
-  
-  // Cleanup old URL if exists
-  if (pdfUrl.value) {
-    URL.revokeObjectURL(pdfUrl.value)
-  }
-  
-  // Create new URL
-  pdfUrl.value = URL.createObjectURL(file)
   pdfFile.value = file
-  emit('update:modelValue', file)
 }
 
 const replaceFile = () => {
-  // Cleanup old URL
-  if (pdfUrl.value) {
-    URL.revokeObjectURL(pdfUrl.value)
-    pdfUrl.value = ''
-  }
-  
   pdfFile.value = null
   error.value = ''
-  emit('update:modelValue', null)
 }
 
-const downloadFile = () => {
-  if (pdfFile.value && pdfUrl.value) {
-    const a = document.createElement('a')
-    a.href = pdfUrl.value
-    a.download = pdfFile.value.name
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-  }
-}
 
-// Watch for external changes
-watch(() => props.modelValue, (newFile) => {
-  if (newFile !== pdfFile.value) {
-    // Cleanup old URL if exists
-    if (pdfUrl.value) {
-      URL.revokeObjectURL(pdfUrl.value)
-      pdfUrl.value = ''
-    }
-    
-    if (newFile) {
-      pdfUrl.value = URL.createObjectURL(newFile)
-      pdfFile.value = newFile
-    } else {
-      pdfFile.value = null
-    }
-  }
-})
-
-// Cleanup on unmount
-onUnmounted(() => {
-  if (pdfUrl.value) {
-    URL.revokeObjectURL(pdfUrl.value)
+// Watch file dialog changes with watchEffect
+watchEffect(() => {
+  const file = files.value?.[0]
+  if (file) {
+    processFile(file)
+    // Clear files to allow selecting the same file again
+    files.value = null
   }
 })
 </script>
