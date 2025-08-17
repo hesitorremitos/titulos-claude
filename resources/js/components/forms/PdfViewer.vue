@@ -11,12 +11,12 @@
         </Badge>
       </CardTitle>
     </CardHeader>
-    <CardContent>
+    <CardContent class="flex-1 flex flex-col">
       <!-- Drag & Drop Zone -->
       <div
         v-if="!pdfFile"
         ref="dropZoneRef"
-        :class="dropZoneClasses"
+        :class="[dropZoneClasses, 'flex-1 flex items-center justify-center min-h-[400px]']"
         @click="() => openFileDialog()"
       >
         <div class="flex flex-col items-center space-y-4">
@@ -30,7 +30,7 @@
       </div>
 
       <!-- PDF Viewer con iframe nativo -->
-      <div v-if="pdfFile" class="space-y-4">
+      <div v-if="pdfFile" class="flex-1 flex flex-col space-y-4">
         <!-- Toolbar -->
         <div class="flex items-center justify-between p-3 bg-accent/30 rounded-lg">
           <div class="flex items-center space-x-2">
@@ -44,7 +44,7 @@
         </div>
 
         <!-- PDF Viewer nativo -->
-        <div class="border rounded-lg overflow-hidden bg-white">
+        <div class="flex-1 border rounded-lg overflow-hidden bg-white">
           <iframe
             v-if="pdfUrl"
             :src="pdfUrl"
@@ -52,7 +52,7 @@
             frameborder="0"
             title="Visor de PDF"
           ></iframe>
-          <div v-else class="flex items-center justify-center h-96 bg-accent/20">
+          <div v-else class="flex items-center justify-center h-full bg-accent/20">
             <div class="text-center space-y-2">
               <AlertCircle class="h-8 w-8 mx-auto text-muted-foreground" />
               <p class="text-sm text-muted-foreground">Error al cargar el PDF</p>
@@ -118,9 +118,9 @@ const { files, open: openFileDialog } = useFileDialog({
 
 const pdfUrl = useObjectUrl(pdfFile)
 
-// Computed classes - fixed sizes
-const cardClasses = computed(() => 'w-full')
-const viewerClasses = computed(() => 'w-full h-[600px]')
+// Computed classes - responsive sizes
+const cardClasses = computed(() => 'w-full h-full flex flex-col')
+const viewerClasses = computed(() => 'w-full h-full min-h-[400px]')
 
 const dropZoneClasses = computed(() => {
   const baseClasses = 'border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200 cursor-pointer'

@@ -9,35 +9,38 @@
         </p>
       </div>
 
-      <!-- Formulario de búsqueda de persona -->
-      <div class="max-w-2xl">
-        <Card>
-          <CardHeader>
-            <CardTitle class="flex items-center">
-              <Search class="h-5 w-5 mr-2" />
-              Paso 1: Buscar Persona
-            </CardTitle>
-            <CardDescription>
-              Ingrese el CI para buscar automáticamente los datos de la persona en el sistema universitario
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ApiPersonSearch />
-          </CardContent>
-        </Card>
-      </div>
-
-      <!-- Formulario de datos personales y visor PDF - Layout de 2 columnas -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div>
+      <!-- Layout de 2 columnas: Formularios | PDF Viewer -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-200px)]">
+        <!-- Columna izquierda: Buscador + Formulario de persona -->
+        <div class="space-y-6">
+          <!-- Formulario de búsqueda de persona -->
+          <Card>
+            <CardHeader>
+              <CardTitle class="flex items-center">
+                <Search class="h-5 w-5 mr-2" />
+                Paso 1: Buscar Persona
+              </CardTitle>
+              <CardDescription>
+                Ingrese el CI para buscar automáticamente los datos de la persona en el sistema universitario
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ApiPersonSearch />
+            </CardContent>
+          </Card>
+          
+          <!-- Formulario de datos personales -->
           <PersonalDataForm />
         </div>
-        <div>
+        
+        <!-- Columna derecha: PDF Viewer -->
+        <div class="h-full">
           <PdfViewer 
             v-model="pdfFile" 
             @filename-changed="handleFilenameChanged"
             @file-selected="handleFileSelected"
             @file-removed="handleFileRemoved"
+            class="h-full"
           />
         </div>
       </div>
