@@ -92,6 +92,13 @@ const props = defineProps<Props>()
 // Define model for v-model
 const pdfFile = defineModel<File | null>({ default: null })
 
+// Emits agnósticos - sin lógica de negocio específica
+const emit = defineEmits<{
+  'file-selected': [file: File]
+  'file-removed': []
+  'filename-changed': [filename: string]
+}>()
+
 // State
 const error = ref('')
 
@@ -148,11 +155,18 @@ const processFile = (file: File) => {
   
   error.value = ''
   pdfFile.value = file
+  
+  // Emit events for external handling
+  emit('file-selected', file)
+  emit('filename-changed', file.name)
 }
 
 const replaceFile = () => {
   pdfFile.value = null
   error.value = ''
+  
+  // Emit file removal event
+  emit('file-removed')
 }
 
 

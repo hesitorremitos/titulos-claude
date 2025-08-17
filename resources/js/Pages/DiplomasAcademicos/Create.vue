@@ -33,7 +33,12 @@
           <PersonalDataForm />
         </div>
         <div>
-          <PdfViewer v-model="pdfFile" />
+          <PdfViewer 
+            v-model="pdfFile" 
+            @filename-changed="handleFilenameChanged"
+            @file-selected="handleFileSelected"
+            @file-removed="handleFileRemoved"
+          />
         </div>
       </div>
     </div>
@@ -50,6 +55,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Search } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { storeToRefs } from 'pinia'
+import { extractCIFromFilename, isValidBolivianCI } from '@/lib/documents'
 
 // Store setup
 const personalDataStore = usePersonalDataStore()
@@ -57,6 +63,33 @@ const { selectedPersonData } = storeToRefs(personalDataStore)
 
 // PDF handling
 const pdfFile = ref<File | null>(null)
+
+// Event handlers for PdfViewer
+const handleFilenameChanged = (filename: string) => {
+  console.log('Filename changed:', filename)
+  
+  // Extract CI from filename
+  const ci = extractCIFromFilename(filename)
+  console.log('Extracted CI:', ci)
+  
+  if (ci && isValidBolivianCI(ci)) {
+    console.log('Valid CI found, searching person...')
+    // Trigger automatic person search
+    personalDataStore.searchPersonInApi(ci)
+  } else {
+    console.log('No valid CI found in filename')
+  }
+}
+
+const handleFileSelected = (file: File) => {
+  console.log('File selected:', file.name, file.size)
+}
+
+const handleFileRemoved = () => {
+  console.log('File removed')
+  // Optionally clear person data when PDF is removed
+  // personalDataStore.clearData()
+}
 
 // Page title for browser tab
 defineOptions({
