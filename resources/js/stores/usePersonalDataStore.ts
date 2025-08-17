@@ -90,6 +90,13 @@ export const usePersonalDataStore = defineStore('personalData', () => {
     }
   }
 
+  const setCiAndSearch = async (ci: string) => {
+    if (!ci || ci.length < 3) return
+    
+    searchCi.value = ci
+    await searchPersonInApi(ci)
+  }
+
   return {
     // State
     searchCi,
@@ -105,6 +112,7 @@ export const usePersonalDataStore = defineStore('personalData', () => {
     searchPersonInApi,
     selectPerson,
     resetSearchResults,
-    retrySearch
+    retrySearch,
+    setCiAndSearch
   }
 })

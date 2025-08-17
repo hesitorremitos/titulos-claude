@@ -58,7 +58,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Search } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { storeToRefs } from 'pinia'
-import { extractCIFromFilename, isValidBolivianCI } from '@/lib/documents'
 
 // Store setup
 const personalDataStore = usePersonalDataStore()
@@ -69,18 +68,12 @@ const pdfFile = ref<File | null>(null)
 
 // Event handlers for PdfViewer
 const handleFilenameChanged = (filename: string) => {
-  console.log('Filename changed:', filename)
+  // Extract CI from filename using regex pattern
+  const ciMatch = filename.match(/\b(\d{6,10})\b/)
+  const extractedCi = ciMatch ? ciMatch[1] : null
   
-  // Extract CI from filename
-  const ci = extractCIFromFilename(filename)
-  console.log('Extracted CI:', ci)
-  
-  if (ci && isValidBolivianCI(ci)) {
-    console.log('Valid CI found, searching person...')
-    // Trigger automatic person search
-    personalDataStore.searchPersonInApi(ci)
-  } else {
-    console.log('No valid CI found in filename')
+  if (extractedCi && extractedCi.length >= 6) {
+    personalDataStore.setCiAndSearch(extractedCi)
   }
 }
 
