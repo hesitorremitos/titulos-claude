@@ -18,6 +18,11 @@
         "C:\\laragon\\www\\titulos-claude"
       ],
       "env": {}
-    }
+    },
+    "memory": {
+          "type": "stdio",
+          "command": "cmd",
+          "args": ["/c", "npx", "@modelcontextprotocol/servers", "memory"]
+        }
   }
 }
