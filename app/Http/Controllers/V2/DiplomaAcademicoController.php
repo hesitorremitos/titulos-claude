@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\V2;
 
 use App\Http\Controllers\Controller;
+use App\Models\DiplomaAcademico;
+use App\Models\GraduacionDa;
+use App\Models\MencionDa;
+use App\Models\Persona;
 use App\Services\UniversityApiService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class DiplomaAcademicoController extends Controller
@@ -31,7 +37,13 @@ class DiplomaAcademicoController extends Controller
      */
     public function create()
     {
-        return Inertia::render('DiplomasAcademicos/Create');
+        $menciones = MencionDa::all();
+        $graduaciones = GraduacionDa::all();
+
+        return Inertia::render('DiplomasAcademicos/Create', [
+            'menciones' => $menciones,
+            'graduaciones' => $graduaciones,
+        ]);
     }
 
     /**
@@ -39,7 +51,47 @@ class DiplomaAcademicoController extends Controller
      */
     public function store(Request $request)
     {
-        // TODO: Implement diploma creation logic
+        $request->validate([
+            'ci' => 'required|string|max:255',
+            'nro_documento' => 'required|string|max:255',
+            'fojas' => 'required|string|max:255',
+            'libro' => 'required|string|max:255',
+            'fecha_emision' => 'required|date',
+            'mencion_da_id' => 'required|exists:menciones_da,id',
+            'graduacion_id' => 'required|exists:graduacion_da,id',
+            'file' => 'required|file|mimes:pdf|max:2048',
+        ]);
+
+        // Create or update persona
+        $persona = Persona::updateOrCreate(
+            ['ci' => $request->ci],
+            [
+                'nombres' => $request->nombres,
+                'paterno' => $request->paterno,
+                'materno' => $request->materno,
+            ]
+        );
+
+        // Handle file upload
+        $filePath = null;
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('diplomas', 'public');
+        }
+
+        // Create diploma academico
+        DiplomaAcademico::create([
+            'ci' => $persona->ci,
+            'nro_documento' => $request->nro_documento,
+            'fojas' => $request->fojas,
+            'libro' => $request->libro,
+            'fecha_emision' => $request->fecha_emision,
+            'mencion_da_id' => $request->mencion_da_id,
+            'observaciones' => $request->observaciones,
+            'graduacion_id' => $request->graduacion_id,
+            'file_dir' => $filePath,
+            'created_by' => Auth::id(),
+        ]);
+
         return redirect()->route('v2.diplomas-academicos.index')
             ->with('success', 'Diploma académico creado exitosamente.');
     }

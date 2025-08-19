@@ -74,9 +74,63 @@
                     Complete los datos específicos del diploma académico
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <!-- TODO: Agregar campos del diploma académico -->
-                  <p class="text-muted-foreground">Formulario de datos del diploma pendiente...</p>
+                <CardContent class="space-y-4">
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label for="nro_documento">Nro. Documento</Label>
+                      <Input id="nro_documento" v-model="diplomaStore.nro_documento" type="number" />
+                    </div>
+                    <div>
+                      <Label for="libro">Libro</Label>
+                      <Input id="libro" v-model="diplomaStore.libro" type="number" />
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label for="fojas">Fojas</Label>
+                      <Input id="fojas" v-model="diplomaStore.fojas" type="number" />
+                    </div>
+                    <div>
+                      <Label for="fecha_emision">Fecha Emisión</Label>
+                      <Input id="fecha_emision" v-model="diplomaStore.fecha_emision" type="date" />
+                    </div>
+                  </div>
+                  <div>
+                    <Label for="mencion_da_id">Mención</Label>
+                    <Select v-model="diplomaStore.mencion_da_id">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Seleccione una mención" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Menciones</SelectLabel>
+                          <SelectItem v-for="mencion in props.menciones" :key="mencion.id" :value="mencion.id">
+                            {{ mencion.nombre }}
+                          </SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label for="graduacion_id">Modalidad de Graduación</Label>
+                    <Select v-model="diplomaStore.graduacion_id">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Seleccione una modalidad" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Modalidades</SelectLabel>
+                          <SelectItem v-for="graduacion in props.graduaciones" :key="graduacion.id" :value="graduacion.id">
+                            {{ graduacion.medio_graduacion }}
+                          </SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label for="observaciones">Observaciones</Label>
+                    <Input id="observaciones" v-model="diplomaStore.observaciones" type="text" />
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -103,6 +157,7 @@
               v-else
               type="submit"
               class="bg-primary"
+              @click="submitForm"
             >
               Registrar Diploma
             </Button>
@@ -111,13 +166,7 @@
         
         <!-- Columna derecha: PDF Viewer (siempre visible) -->
         <div class="h-full">
-          <PdfViewer 
-            v-model="pdfFile" 
-            @filename-changed="handleFilenameChanged"
-            @file-selected="handleFileSelected"
-            @file-removed="handleFileRemoved"
-            class="h-full"
-          />
+          <PdfViewer class="h-full" />
         </div>
       </div>
     </div>
@@ -125,7 +174,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useForm } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import ApiPersonSearch from '@/components/forms/ApiPersonSearch.vue'
 import PersonalDataForm from '@/components/forms/PersonalDataForm.vue'
@@ -144,10 +194,33 @@ import {
 import { Search, GraduationCap, User } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { storeToRefs } from 'pinia'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
-// Store setup
+import type { DiplomaPageProps } from '@/types/models'
+import { useDiplomaAcademicoStore } from '@/stores/titulos/useDiplomaAcademicoStore'
+
+// Props tipadas
+const props = defineProps<DiplomaPageProps>()
+
+// Stores
 const personalDataStore = usePersonalDataStore()
-const { selectedPersonData } = storeToRefs(personalDataStore)
+const diplomaStore = useDiplomaAcademicoStore()
+
+// Función para enviar con datos combinados
+const submitForm = () => {
+  const form = useForm(diplomaStore.formData)
+  form.post(route('v2.diplomas-academicos.store'))
+}
 
 // Stepper state
 const currentStep = ref(1)
@@ -168,29 +241,7 @@ const steps = [
   }
 ]
 
-// PDF handling
-const pdfFile = ref<File | null>(null)
-
-// Event handlers for PdfViewer
-const handleFilenameChanged = (filename: string) => {
-  // Extract CI from filename using regex pattern
-  const ciMatch = filename.match(/\b(\d{6,10})\b/)
-  const extractedCi = ciMatch ? ciMatch[1] : null
-  
-  if (extractedCi && extractedCi.length >= 6) {
-    personalDataStore.setCiAndSearch(extractedCi)
-  }
-}
-
-const handleFileSelected = (file: File) => {
-  console.log('File selected:', file.name, file.size)
-}
-
-const handleFileRemoved = () => {
-  console.log('File removed')
-  // Optionally clear person data when PDF is removed
-  // personalDataStore.clearData()
-}
+// PDF handling - simplificado ya que PdfViewer maneja todo internamente
 
 // Stepper navigation
 const nextStep = () => {
