@@ -83,23 +83,15 @@ import {
   RefreshCw, 
   AlertCircle 
 } from 'lucide-vue-next'
+import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
+import { useDiplomaAcademicoStore } from '@/stores/titulos/useDiplomaAcademicoStore'
 
-// Props - simplified without variants
-interface Props {}
-
-const props = defineProps<Props>()
-
-// Define model for v-model
-const pdfFile = defineModel<File | null>({ default: null })
-
-// Emits agnósticos - sin lógica de negocio específica
-const emit = defineEmits<{
-  'file-selected': [file: File]
-  'file-removed': []
-  'filename-changed': [filename: string]
-}>()
+// Stores
+const personalDataStore = usePersonalDataStore()
+const diplomaStore = useDiplomaAcademicoStore()
 
 // State
+const pdfFile = ref<File | null>(null)
 const error = ref('')
 
 // VueUse composables
@@ -146,6 +138,16 @@ const validateFile = (file: File): string => {
   return ''
 }
 
+// Extract CI from filename and trigger search
+const extractCiAndSearch = (filename: string) => {
+  const ciMatch = filename.match(/\b(\d{6,10})\b/)
+  const extractedCi = ciMatch ? ciMatch[1] : null
+  
+  if (extractedCi && extractedCi.length >= 6) {
+    personalDataStore.search(extractedCi)
+  }
+}
+
 const processFile = (file: File) => {
   const validationError = validateFile(file)
   if (validationError) {
@@ -156,19 +158,20 @@ const processFile = (file: File) => {
   error.value = ''
   pdfFile.value = file
   
-  // Emit events for external handling
-  emit('file-selected', file)
-  emit('filename-changed', file.name)
+  // Asignar archivo al store de diploma
+  diplomaStore.file = file
+  
+  // Extraer CI del nombre y buscar automáticamente
+  extractCiAndSearch(file.name)
 }
 
 const replaceFile = () => {
   pdfFile.value = null
   error.value = ''
   
-  // Emit file removal event
-  emit('file-removed')
+  // Limpiar archivo del store
+  diplomaStore.file = null
 }
-
 
 // Watch file dialog changes with watchEffect
 watchEffect(() => {

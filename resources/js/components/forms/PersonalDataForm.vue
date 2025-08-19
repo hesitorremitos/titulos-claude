@@ -22,7 +22,7 @@
           <Label for="ci">Carnet de Identidad *</Label>
           <Input
             id="ci"
-            v-model="formData.ci"
+            v-model="ci"
             placeholder="Ingrese CI"
             :disabled="hasApiData"
             class="mt-1"
@@ -34,7 +34,7 @@
           <Label for="nombres">Nombres *</Label>
           <Input
             id="nombres"
-            v-model="formData.nombres"
+            v-model="nombres"
             placeholder="Ingrese nombres completos"
             class="mt-1"
           />
@@ -45,7 +45,7 @@
           <Label for="paterno">Apellido Paterno *</Label>
           <Input
             id="paterno"
-            v-model="formData.paterno"
+            v-model="paterno"
             placeholder="Apellido paterno"
             class="mt-1"
           />
@@ -55,7 +55,7 @@
           <Label for="materno">Apellido Materno</Label>
           <Input
             id="materno"
-            v-model="formData.materno"
+            v-model="materno"
             placeholder="Apellido materno"
             class="mt-1"
           />
@@ -66,7 +66,7 @@
           <Label for="fecha-nacimiento">Fecha de Nacimiento</Label>
           <Input
             id="fecha-nacimiento"
-            v-model="formData.fecha_nacimiento"
+            v-model="fecha_nacimiento"
             type="date"
             :max="new Date().toISOString().split('T')[0]"
             class="mt-1"
@@ -76,7 +76,7 @@
         <!-- País -->
         <div>
           <Label for="pais">País</Label>
-          <Select v-model="formData.pais">
+          <Select v-model="pais">
             <SelectTrigger class="mt-1">
               <SelectValue placeholder="Seleccione país" />
             </SelectTrigger>
@@ -96,7 +96,7 @@
         <!-- Género - Radio Group -->
         <div class="md:col-span-2">
           <Label>Género</Label>
-          <RadioGroup v-model="formData.genero" class="flex space-x-6 mt-2">
+          <RadioGroup v-model="genero" class="flex space-x-6 mt-2">
             <div class="flex items-center space-x-2">
               <RadioGroupItem value="M" id="masculino" />
               <Label for="masculino" class="cursor-pointer">Masculino</Label>
@@ -117,7 +117,7 @@
           <Label for="departamento">Departamento</Label>
           <Input
             id="departamento"
-            v-model="formData.departamento"
+            v-model="departamento"
             placeholder="Departamento"
             class="mt-1"
           />
@@ -127,7 +127,7 @@
           <Label for="provincia">Provincia</Label>
           <Input
             id="provincia"
-            v-model="formData.provincia"
+            v-model="provincia"
             placeholder="Provincia"
             class="mt-1"
           />
@@ -137,7 +137,7 @@
           <Label for="localidad">Localidad</Label>
           <Input
             id="localidad"
-            v-model="formData.localidad"
+            v-model="localidad"
             placeholder="Localidad"
             class="mt-1"
           />
@@ -148,7 +148,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, watch } from 'vue'
+import { computed } from 'vue'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -159,61 +159,23 @@ import { CheckCircle } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { storeToRefs } from 'pinia'
 
-// Store
+// Store - usando directamente
 const personalDataStore = usePersonalDataStore()
-const { selectedPersonData } = storeToRefs(personalDataStore)
-
-// Form data
-const formData = reactive({
-  ci: '',
-  nombres: '',
-  paterno: '',
-  materno: '',
-  fecha_nacimiento: '',
-  genero: '',
-  pais: 'BOLIVIA',
-  departamento: '',
-  provincia: '',
-  localidad: ''
-})
+const {
+  ci,
+  nombres,
+  paterno,
+  materno,
+  fecha_nacimiento,
+  genero,
+  pais,
+  departamento,
+  provincia,
+  localidad,
+  results,
+  selectedIndex
+} = storeToRefs(personalDataStore)
 
 // Computed
-const hasApiData = computed(() => !!selectedPersonData.value)
-
-// Fill form data from API
-const fillFromApiData = (apiData: any) => {
-  formData.ci = apiData.nro_dip || ''
-  formData.nombres = apiData.nombres || ''
-  formData.paterno = apiData.paterno || ''
-  formData.materno = apiData.materno || ''
-  formData.fecha_nacimiento = apiData.fec_nacimiento || ''
-  formData.genero = apiData.genero || ''
-  formData.pais = apiData.pais || 'BOLIVIA'
-  formData.departamento = apiData.departamento || ''
-  formData.provincia = apiData.provincia || ''
-  formData.localidad = apiData.localidad || ''
-}
-
-// Reset form data
-const resetFormData = () => {
-  formData.ci = ''
-  formData.nombres = ''
-  formData.paterno = ''
-  formData.materno = ''
-  formData.fecha_nacimiento = ''
-  formData.genero = ''
-  formData.pais = 'BOLIVIA'
-  formData.departamento = ''
-  formData.provincia = ''
-  formData.localidad = ''
-}
-
-// Watch for API data changes
-watch(selectedPersonData, (newData) => {
-  if (newData) {
-    fillFromApiData(newData)
-  } else {
-    resetFormData()
-  }
-}, { immediate: true })
+const hasApiData = computed(() => selectedIndex.value !== null && results.value.length > 0)
 </script>
