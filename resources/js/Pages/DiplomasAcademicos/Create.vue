@@ -1,13 +1,14 @@
 <template>
-  <AppLayout>
+  <Head title="Registrar Diploma Académico" />
+  
+  <AppLayout
+    title="Registrar Diploma Académico"
+    page-title="Registrar Diploma Académico"
+    :breadcrumbs="breadcrumbs"
+    :nav-tabs="navTabs"
+    active-tab="registrar"
+  >
     <div class="space-y-6">
-      <!-- Header -->
-      <div class="border-b pb-4">
-        <h1 class="text-2xl font-semibold text-foreground">Registrar Diploma Académico</h1>
-        <p class="text-muted-foreground mt-1">
-          Complete el formulario para registrar un nuevo diploma académico
-        </p>
-      </div>
 
       <!-- Layout de 2 columnas: Stepper Form | PDF Viewer -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-200px)]">
@@ -226,7 +227,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useForm } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import ApiPersonSearch from '@/components/forms/ApiPersonSearch.vue'
 import PersonalDataForm from '@/components/forms/PersonalDataForm.vue'
@@ -262,6 +263,15 @@ import { useDiplomaAcademicoStore } from '@/stores/titulos/useDiplomaAcademicoSt
 
 // Props tipadas
 const props = defineProps<DiplomaPageProps>()
+
+// Navigation tabs
+const navTabs = [
+    { label: 'Lista', href: route('v2.diplomas-academicos.index'), icon: 'material-symbols:list', value: 'lista' },
+    { label: 'Registrar', href: route('v2.diplomas-academicos.create'), icon: 'material-symbols:add', value: 'registrar' },
+];
+
+// Breadcrumbs
+const breadcrumbs = [{ label: 'Diplomas Académicos', href: null }];
 
 // Stores
 const personalDataStore = usePersonalDataStore()

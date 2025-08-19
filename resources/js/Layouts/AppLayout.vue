@@ -51,17 +51,17 @@ const breadcrumbsToShow = computed(() =>
 
                 <!-- Navegación por tabs (opcional) -->
                 <div v-if="navTabs && navTabs.length > 0" class="border-b border-border/30 bg-gradient-to-r from-card via-card/90 to-card/80">
-                    <div class="px-6 py-4">
+                    <div class="px-4 py-1">
                         <Tabs :model-value="currentActiveTab" class="w-full">
-                            <TabsList class="h-11 w-fit bg-muted/50 p-1">
+                            <TabsList class="h-9 w-fit bg-muted/50 p-1">
                                 <TabsTrigger
                                     v-for="tab in currentNavTabs"
                                     :key="tab.value"
                                     :value="tab.value"
-                                    class="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-200 hover:bg-muted/80 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                                    class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-all duration-200 hover:bg-muted/80 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
                                     @click="router.visit(tab.href)"
                                 >
-                                    <Icon :icon="tab.icon" class="h-4 w-4 transition-colors" />
+                                    <Icon :icon="tab.icon" class="h-3.5 w-3.5 transition-colors" />
                                     <span class="font-medium">{{ tab.label }}</span>
                                 </TabsTrigger>
                             </TabsList>
@@ -71,7 +71,7 @@ const breadcrumbsToShow = computed(() =>
 
                 <!-- Contenido principal -->
                 <main class="flex-1 bg-background">
-                    <div class="p-6">
+                    <div class="p-4">
                         <slot />
                     </div>
                 </main>

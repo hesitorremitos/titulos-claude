@@ -48,14 +48,14 @@ const toggleTheme = () => {
 </script>
 
 <template>
-    <header class="sticky top-0 z-50 flex h-16 items-center justify-between border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-6">
+    <header class="sticky top-0 z-50 flex h-12 items-center justify-between border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
         <!-- Left section: Sidebar trigger + Breadcrumb -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
             <!-- Sidebar trigger -->
-            <SidebarTrigger class="h-8 w-8" />
+            <SidebarTrigger class="h-7 w-7" />
             
             <!-- Separator -->
-            <Separator orientation="vertical" class="h-4" />
+            <Separator orientation="vertical" class="h-3" />
             
             <!-- Breadcrumb navigation -->
             <BreadcrumbNavigation :items="props.breadcrumbs" />
@@ -67,17 +67,17 @@ const toggleTheme = () => {
             <Button
                 variant="ghost"
                 size="icon"
-                class="h-8 w-8 rounded-md transition-colors duration-200 hover:bg-accent hover:text-accent-foreground"
+                class="h-7 w-7 rounded-md transition-colors duration-200 hover:bg-accent hover:text-accent-foreground"
                 @click="toggleTheme"
                 :aria-label="isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'"
             >
                 <Sun 
                     v-if="isDark" 
-                    class="h-4 w-4 transition-all duration-200 rotate-0 scale-100 dark:-rotate-90 dark:scale-0" 
+                    class="h-3.5 w-3.5 transition-all duration-200 rotate-0 scale-100 dark:-rotate-90 dark:scale-0" 
                 />
                 <Moon 
                     v-else 
-                    class="h-4 w-4 transition-all duration-200 rotate-90 scale-0 dark:rotate-0 dark:scale-100" 
+                    class="h-3.5 w-3.5 transition-all duration-200 rotate-90 scale-0 dark:rotate-0 dark:scale-100" 
                 />
             </Button>
         </div>

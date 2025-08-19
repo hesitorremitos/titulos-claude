@@ -23,7 +23,7 @@ const breadcrumbItems = props.items;
                     <BreadcrumbLink 
                         v-if="item.href && index < breadcrumbItems.length - 1"
                         :href="item.href"
-                        class="transition-colors duration-150 hover:text-foreground text-muted-foreground text-sm"
+                        class="transition-colors duration-150 hover:text-foreground text-muted-foreground text-xs"
                     >
                         {{ item.label }}
                     </BreadcrumbLink>
@@ -31,7 +31,7 @@ const breadcrumbItems = props.items;
                     <!-- Current page (non-clickeable) -->
                     <BreadcrumbPage 
                         v-else
-                        class="text-foreground font-medium text-sm"
+                        class="text-foreground font-medium text-xs"
                     >
                         {{ item.label }}
                     </BreadcrumbPage>
@@ -39,7 +39,7 @@ const breadcrumbItems = props.items;
                 
                 <!-- Separator (not shown after last item) -->
                 <BreadcrumbSeparator v-if="index < breadcrumbItems.length - 1">
-                    <ChevronRight class="h-4 w-4" />
+                    <ChevronRight class="h-3 w-3" />
                 </BreadcrumbSeparator>
             </template>
         </BreadcrumbList>
