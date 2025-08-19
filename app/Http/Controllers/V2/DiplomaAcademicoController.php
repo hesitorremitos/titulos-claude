@@ -53,47 +53,58 @@ class DiplomaAcademicoController extends Controller
     {
         $request->validate([
             'ci' => 'required|string|max:255',
-            'nro_documento' => 'required|string|max:255',
-            'fojas' => 'required|string|max:255',
-            'libro' => 'required|string|max:255',
+            'nombres' => 'required|string|max:255',
+            'paterno' => 'required|string|max:255',
+            'materno' => 'nullable|string|max:255',
+            'nro_documento' => 'required|integer|min:1',
+            'fojas' => 'required|integer|min:1',
+            'libro' => 'required|integer|min:1',
             'fecha_emision' => 'required|date',
             'mencion_da_id' => 'required|exists:menciones_da,id',
-            'graduacion_id' => 'required|exists:graduacion_da,id',
-            'file' => 'required|file|mimes:pdf|max:2048',
+            'graduacion_id' => 'nullable|exists:graduacion_da,id',
+            'observaciones' => 'nullable|string|max:500',
+            'file' => 'required|file|mimes:pdf|max:51200', // 50MB
         ]);
 
-        // Create or update persona
-        $persona = Persona::updateOrCreate(
-            ['ci' => $request->ci],
-            [
-                'nombres' => $request->nombres,
-                'paterno' => $request->paterno,
-                'materno' => $request->materno,
-            ]
-        );
+        try {
+            // Create or update persona FIRST
+            $persona = Persona::updateOrCreate(
+                ['ci' => $request->ci],
+                [
+                    'nombres' => $request->nombres,
+                    'paterno' => $request->paterno,
+                    'materno' => $request->materno,
+                ]
+            );
 
-        // Handle file upload
-        $filePath = null;
-        if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('diplomas', 'public');
+            // Handle file upload using Storage
+            $filePath = null;
+            if ($request->hasFile('file')) {
+                $filePath = $request->file('file')->store('diplomas', 'public');
+            }
+
+            // Create diploma academico
+            DiplomaAcademico::create([
+                'ci' => $persona->ci,
+                'nro_documento' => $request->nro_documento,
+                'fojas' => $request->fojas,
+                'libro' => $request->libro,
+                'fecha_emision' => $request->fecha_emision,
+                'mencion_da_id' => $request->mencion_da_id,
+                'observaciones' => $request->observaciones,
+                'graduacion_id' => $request->graduacion_id,
+                'file_dir' => $filePath,
+                'created_by' => Auth::id(),
+            ]);
+
+            return redirect()->route('v2.diplomas-academicos.index')
+                ->with('success', 'Diploma académico creado exitosamente.');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Error al crear el diploma: ' . $e->getMessage()]);
         }
-
-        // Create diploma academico
-        DiplomaAcademico::create([
-            'ci' => $persona->ci,
-            'nro_documento' => $request->nro_documento,
-            'fojas' => $request->fojas,
-            'libro' => $request->libro,
-            'fecha_emision' => $request->fecha_emision,
-            'mencion_da_id' => $request->mencion_da_id,
-            'observaciones' => $request->observaciones,
-            'graduacion_id' => $request->graduacion_id,
-            'file_dir' => $filePath,
-            'created_by' => Auth::id(),
-        ]);
-
-        return redirect()->route('v2.diplomas-academicos.index')
-            ->with('success', 'Diploma académico creado exitosamente.');
     }
 
     /**
