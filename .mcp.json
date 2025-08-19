@@ -27,7 +27,7 @@
         "@modelcontextprotocol/server-memory"
       ],
       "env": {
-        "MEMORY_FILE_PATH": ".claude/memory.json"
+        "MEMORY_FILE_PATH": "C:\\laragon\\www\\titulos-claude\\.claude\\memory.json"
       }
     }
   }
