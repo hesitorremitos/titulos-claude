@@ -6,6 +6,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FacultadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\V2\DiplomaAcademicoController;
+use App\Http\Controllers\V2\MencionController;
+use App\Http\Controllers\V2\ModalidadController;
 use App\Http\Controllers\V2\UserController;
 
 // Ruta de prueba para Inertia.js
@@ -91,6 +93,22 @@ Route::group(['prefix' => 'v2'], function () {
         
         // API endpoint for person search
         Route::get('/api/{ci}', [DiplomaAcademicoController::class, 'searchPerson'])->name('v2.api.search-person');
+    });
+
+    // Menciones CRUD
+    Route::middleware('auth')->group(function () {
+        Route::get('/menciones', [MencionController::class, 'index'])->name('v2.menciones.index');
+        Route::post('/menciones', [MencionController::class, 'store'])->name('v2.menciones.store');
+        Route::put('/menciones/{mencion}', [MencionController::class, 'update'])->name('v2.menciones.update');
+        Route::delete('/menciones/{mencion}', [MencionController::class, 'destroy'])->name('v2.menciones.destroy');
+    });
+
+    // Modalidades CRUD
+    Route::middleware('auth')->group(function () {
+        Route::get('/modalidades', [ModalidadController::class, 'index'])->name('v2.modalidades.index');
+        Route::post('/modalidades', [ModalidadController::class, 'store'])->name('v2.modalidades.store');
+        Route::put('/modalidades/{modalidad}', [ModalidadController::class, 'update'])->name('v2.modalidades.update');
+        Route::delete('/modalidades/{modalidad}', [ModalidadController::class, 'destroy'])->name('v2.modalidades.destroy');
     });
 
     // Títulos Académicos - Vista temporal sin controlador

@@ -258,7 +258,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-import type { DiplomaPageProps } from '@/types/models'
+import type { DiplomaPageProps } from '@/types/ui'
 import { useDiplomaAcademicoStore } from '@/stores/titulos/useDiplomaAcademicoStore'
 
 // Props tipadas
@@ -268,6 +268,8 @@ const props = defineProps<DiplomaPageProps>()
 const navTabs = [
     { label: 'Lista', href: route('v2.diplomas-academicos.index'), icon: 'material-symbols:list', value: 'lista' },
     { label: 'Registrar', href: route('v2.diplomas-academicos.create'), icon: 'material-symbols:add', value: 'registrar' },
+    { label: 'Menciones', href: route('v2.menciones.index'), icon: 'material-symbols:category', value: 'menciones' },
+    { label: 'Modalidades', href: route('v2.modalidades.index'), icon: 'material-symbols:school', value: 'modalidades' },
 ];
 
 // Breadcrumbs
