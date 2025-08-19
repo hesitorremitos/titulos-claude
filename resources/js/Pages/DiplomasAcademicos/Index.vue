@@ -96,19 +96,9 @@ const formatDate = (dateString: string | undefined) => {
                   <TableCell>{{ diploma.mencion?.nombre }}</TableCell>
                   <TableCell>{{ formatDate(diploma.fecha_emision) }}</TableCell>
                   <TableCell class="text-right">
-                    <div class="flex justify-end space-x-2">
-                      <Button variant="ghost" size="icon" as="a" :href="route('v2.diplomas-academicos.show', diploma.id)">
-                        <Eye class="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon" as="a" :href="route('v2.diplomas-academicos.edit', diploma.id)">
-                        <Pencil class="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon" as-child>
-                        <Link :href="route('v2.diplomas-academicos.destroy', diploma.id)" method="delete" as="button">
-                          <Trash2 class="h-4 w-4 text-red-500" />
-                        </Link>
-                      </Button>
-                    </div>
+                    <Button variant="ghost" size="icon" as="a" :href="route('v2.diplomas-academicos.show', diploma.id)">
+                      <Eye class="h-4 w-4" />
+                    </Button>
                   </TableCell>
                 </TableRow>
               </TableBody>

@@ -118,8 +118,19 @@ class DiplomaAcademicoController extends Controller
      */
     public function show(string $id)
     {
+        $diploma = DiplomaAcademico::with([
+            'persona', 
+            'mencion.carrera.facultad', 
+            'graduacion',
+            'createdBy',
+            'updatedBy'
+        ])->findOrFail($id);
+
+        // Check access permissions
+        $this->checkDiplomaAccess($diploma);
+
         return Inertia::render('DiplomasAcademicos/Show', [
-            'diploma' => $id, // TODO: Load actual diploma data
+            'diploma' => $diploma,
         ]);
     }
 
@@ -128,8 +139,22 @@ class DiplomaAcademicoController extends Controller
      */
     public function edit(string $id)
     {
+        $diploma = DiplomaAcademico::with([
+            'persona', 
+            'mencion.carrera.facultad', 
+            'graduacion'
+        ])->findOrFail($id);
+
+        // Check access permissions
+        $this->checkDiplomaAccess($diploma);
+
+        $menciones = MencionDa::all();
+        $graduaciones = GraduacionDa::all();
+
         return Inertia::render('DiplomasAcademicos/Edit', [
-            'diploma' => $id, // TODO: Load actual diploma data
+            'diploma' => $diploma,
+            'menciones' => $menciones,
+            'graduaciones' => $graduaciones,
         ]);
     }
 
@@ -138,9 +163,69 @@ class DiplomaAcademicoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // TODO: Implement diploma update logic
-        return redirect()->route('v2.diplomas-academicos.index')
-            ->with('success', 'Diploma académico actualizado exitosamente.');
+        $diploma = DiplomaAcademico::findOrFail($id);
+        
+        // Check access permissions
+        $this->checkDiplomaAccess($diploma);
+        $request->validate([
+            'ci' => 'required|string|max:255',
+            'nombres' => 'required|string|max:255',
+            'paterno' => 'required|string|max:255',
+            'materno' => 'nullable|string|max:255',
+            'nro_documento' => 'required|integer|min:1',
+            'fojas' => 'required|integer|min:1',
+            'libro' => 'required|integer|min:1',
+            'fecha_emision' => 'required|date',
+            'mencion_da_id' => 'required|exists:menciones_da,id',
+            'graduacion_id' => 'nullable|exists:graduacion_da,id',
+            'observaciones' => 'nullable|string|max:500',
+            'file' => 'nullable|file|mimes:pdf|max:51200', // 50MB
+        ]);
+
+        try {
+            // Update persona data first
+            $persona = Persona::updateOrCreate(
+                ['ci' => $request->ci],
+                [
+                    'nombres' => $request->nombres,
+                    'paterno' => $request->paterno,
+                    'materno' => $request->materno,
+                ]
+            );
+
+            // Handle file upload if provided
+            $filePath = $diploma->file_dir;
+            if ($request->hasFile('file')) {
+                // Delete old file if exists
+                if ($diploma->file_dir && Storage::disk('public')->exists($diploma->file_dir)) {
+                    Storage::disk('public')->delete($diploma->file_dir);
+                }
+                // Store new file
+                $filePath = $request->file('file')->store('diplomas', 'public');
+            }
+
+            // Update diploma
+            $diploma->update([
+                'ci' => $persona->ci, // Update CI in case it changed
+                'nro_documento' => $request->nro_documento,
+                'fojas' => $request->fojas,
+                'libro' => $request->libro,
+                'fecha_emision' => $request->fecha_emision,
+                'mencion_da_id' => $request->mencion_da_id,
+                'observaciones' => $request->observaciones,
+                'graduacion_id' => $request->graduacion_id,
+                'file_dir' => $filePath,
+                'updated_by' => Auth::id(),
+            ]);
+
+            return redirect()->route('v2.diplomas-academicos.show', $diploma->id)
+                ->with('success', 'Diploma académico actualizado exitosamente.');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Error al actualizar el diploma: ' . $e->getMessage()]);
+        }
     }
 
     /**
@@ -148,9 +233,59 @@ class DiplomaAcademicoController extends Controller
      */
     public function destroy(string $id)
     {
-        // TODO: Implement diploma deletion logic
-        return redirect()->route('v2.diplomas-academicos.index')
-            ->with('success', 'Diploma académico eliminado exitosamente.');
+        $diploma = DiplomaAcademico::findOrFail($id);
+        
+        // Check access permissions
+        $this->checkDiplomaAccess($diploma);
+
+        try {
+            // Delete PDF file if exists
+            if ($diploma->file_dir && Storage::disk('public')->exists($diploma->file_dir)) {
+                Storage::disk('public')->delete($diploma->file_dir);
+            }
+
+            // Delete diploma
+            $diploma->delete();
+
+            return redirect()->route('v2.diplomas-academicos.index')
+                ->with('success', 'Diploma académico eliminado exitosamente.');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withErrors(['error' => 'Error al eliminar el diploma: ' . $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Check if current user has access to diploma
+     */
+    private function checkDiplomaAccess(DiplomaAcademico $diploma): void
+    {
+        $user = Auth::user();
+        
+        // Administrators have full access
+        if ($user->hasRole('Administrador')) {
+            return;
+        }
+        
+        // Jefes can view all but not modify - only allow for show method
+        if ($user->hasRole('Jefe')) {
+            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+            $callingMethod = $trace[1]['function'] ?? '';
+            
+            if (in_array($callingMethod, ['show'])) {
+                return;
+            }
+            
+            abort(403, 'No tiene permisos para realizar esta acción.');
+        }
+        
+        // Personal can only access their own diplomas
+        if ($user->hasRole('Personal') && $diploma->created_by === $user->id) {
+            return;
+        }
+        
+        abort(403, 'No tiene permisos para acceder a este diploma.');
     }
 
     /**
