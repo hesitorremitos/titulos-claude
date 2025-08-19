@@ -1,15 +1,19 @@
-// Tipos de modelos para Inertia.js
+// Tipos de modelos Laravel para Inertia.js
 export interface Facultad {
-  id: string
+  id: number
   nombre: string
+  direccion?: string
   created_at?: string
   updated_at?: string
+  carreras?: Carrera[]
+  carreras_count?: number
 }
 
 export interface Carrera {
-  id: string
-  nombre: string
-  facultad_id: string
+  id: string // char(5) primary key
+  programa: string
+  direccion?: string
+  facultad_id: number
   facultad?: Facultad
   created_at?: string
   updated_at?: string
@@ -22,6 +26,7 @@ export interface MencionDa {
   carrera?: Carrera
   created_at?: string
   updated_at?: string
+  diplomas?: DiplomaAcademico[]
 }
 
 export interface GraduacionDa {
@@ -29,6 +34,8 @@ export interface GraduacionDa {
   medio_graduacion: string
   created_at?: string
   updated_at?: string
+  diplomas?: DiplomaAcademico[]
+  diplomas_count?: number
 }
 
 export interface User {
@@ -41,12 +48,12 @@ export interface User {
 }
 
 export interface Persona {
-  ci: string
-  nombres?: string
+  ci: string // Primary key
+  nombres: string
   paterno?: string
   materno?: string
   fecha_nacimiento?: string
-  genero?: string
+  genero?: 'M' | 'F' | 'O' // enum
   pais?: string
   departamento?: string
   provincia?: string
@@ -57,7 +64,7 @@ export interface Persona {
 
 export interface DiplomaAcademico {
   id: number
-  ci: string
+  ci: string // Foreign key to personas.ci
   nro_documento: number
   fojas: number
   libro: number
@@ -76,19 +83,22 @@ export interface DiplomaAcademico {
   persona?: Persona
   mencion?: MencionDa
   graduacion?: GraduacionDa
-  creator?: User
-  updater?: User
+  createdBy?: User
+  updatedBy?: User
+  // Computed attributes
+  estado?: string
 }
 
 export interface TituloAcademico {
   id: number
-  ci: string
+  ci: string // Foreign key to personas.ci
   nro_documento: number
   fojas: number
   libro: number
   fecha_emision?: string
-  nro_diploma_academico?: string
+  nro_diploma_academico: string // Campo específico para este tipo de título
   observaciones?: string
+  graduacion_id?: number
   file_dir?: string
   verificado: boolean
   created_by: number
@@ -98,25 +108,9 @@ export interface TituloAcademico {
   
   // Relaciones
   persona?: Persona
-  creator?: User
-  updater?: User
-}
-
-// Props específicas para páginas de diplomas
-export interface DiplomaPageProps {
-  auth?: {
-    user: User
-  }
-  flash?: {
-    success?: string
-    error?: string
-    warning?: string
-    info?: string
-  }
-  menciones?: MencionDa[]
-  graduaciones?: GraduacionDa[]
-  facultades?: Facultad[]
-  carreras?: Carrera[]
+  graduacion?: GraduacionDa
+  createdBy?: User
+  updatedBy?: User
 }
 
 export interface PaginatedResponse<T> {
