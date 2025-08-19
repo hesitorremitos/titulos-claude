@@ -1,118 +1,115 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
-import axios from 'axios'
+import { searchPersonByCi, type ApiPersonResponse } from '@/lib/api'
 
-export interface ApiResponse {
+interface PersonalDataState {
+  // Datos personales - estado directo
+  ci: string
+  nombres: string
   paterno: string
   materno: string
-  nombres: string
-  nro_dip: string
+  fecha_nacimiento: string
   genero: string
-  fec_nacimiento: string
   pais: string
   departamento: string
   provincia: string
   localidad: string
   programa: string
   facultad: string
-  decano_nombres: string
-  modalidad_graduacion: string
-  nota_graduacion: string
-  modalidad: string | null
-  nota: string | null
-  titulo: string | null
-  titulo_graduacion: string | null
-  grado_academico: string | null
+  
+  // API auxiliar
+  results: ApiPersonResponse[]
+  selectedIndex: number | null
+  loading: boolean
 }
 
-export const usePersonalDataStore = defineStore('personalData', () => {
-  // State
-  const searchCi = ref('')
-  const isSearching = ref(false)
-  const apiData = ref<ApiResponse[]>([])
-  const personFound = ref(false)
-  const hasError = ref(false)
-  const errorMessage = ref('')
-  const selectedPersonIndex = ref<number | null>(null)
-  const selectedPersonData = ref<ApiResponse | null>(null)
+export const usePersonalDataStore = defineStore('personalData', {
+  state: (): PersonalDataState => ({
+    // Datos personales principales
+    ci: '',
+    nombres: '',
+    paterno: '',
+    materno: '',
+    fecha_nacimiento: '',
+    genero: '',
+    pais: 'BOLIVIA',
+    departamento: '',
+    provincia: '',
+    localidad: '',
+    programa: '',
+    facultad: '',
+    
+    // API auxiliar
+    results: [],
+    selectedIndex: null,
+    loading: false
+  }),
 
-  // Actions
-  const searchPersonInApi = async (ci: string) => {
-    if (!ci || ci.length < 3) {
-      resetSearchResults()
-      return
-    }
+  getters: {
+    hasResults: (state) => state.results.length > 0,
+    isPersonDataComplete: (state) => 
+      state.ci.length >= 6 && state.nombres.trim() && state.paterno.trim()
+  },
 
-    try {
-      isSearching.value = true
-      hasError.value = false
-      errorMessage.value = ''
-
-      const response = await axios.get(`/v2/api/${ci}`)
+  actions: {
+    async search(ci: string) {
+      this.ci = ci // Actualiza CI principal
+      this.loading = true
       
-      if (response.data && Array.isArray(response.data) && response.data.length > 0) {
-        apiData.value = response.data
-        personFound.value = true
+      const result = await searchPersonByCi(ci)
+      
+      if (result.success && result.data) {
+        this.results = result.data
         // Auto-select first result if only one
-        if (response.data.length === 1) {
-          selectPerson(0)
+        if (result.data.length === 1) {
+          this.select(0)
         }
       } else {
-        resetSearchResults()
+        // Si no encuentra, resetea resultados pero mantiene CI para entrada manual
+        this.results = []
+        this.selectedIndex = null
       }
-    } catch (error) {
-      console.error('Error searching person:', error)
-      hasError.value = true
-      errorMessage.value = 'Error al buscar en la API universitaria'
-      resetSearchResults()
-    } finally {
-      isSearching.value = false
+      
+      this.loading = false
+      return result
+    },
+
+    select(index: number) {
+      if (index >= 0 && index < this.results.length) {
+        this.selectedIndex = index
+        const person = this.results[index]
+        
+        // Actualiza todos los campos personales
+        this.ci = person.nro_dip
+        this.nombres = person.nombres
+        this.paterno = person.paterno
+        this.materno = person.materno
+        this.fecha_nacimiento = person.fec_nacimiento
+        this.genero = person.genero
+        this.pais = person.pais
+        this.departamento = person.departamento
+        this.provincia = person.provincia
+        this.localidad = person.localidad
+        this.programa = person.programa
+        this.facultad = person.facultad
+      }
+    },
+
+
+    reset() {
+      this.ci = ''
+      this.nombres = ''
+      this.paterno = ''
+      this.materno = ''
+      this.fecha_nacimiento = ''
+      this.genero = ''
+      this.pais = 'BOLIVIA'
+      this.departamento = ''
+      this.provincia = ''
+      this.localidad = ''
+      this.programa = ''
+      this.facultad = ''
+      this.results = []
+      this.selectedIndex = null
     }
-  }
-
-  const selectPerson = (index: number) => {
-    if (index >= 0 && index < apiData.value.length) {
-      selectedPersonIndex.value = index
-      selectedPersonData.value = apiData.value[index]
-    }
-  }
-
-  const resetSearchResults = () => {
-    apiData.value = []
-    personFound.value = false
-    selectedPersonIndex.value = null
-    selectedPersonData.value = null
-  }
-
-  const retrySearch = () => {
-    if (searchCi.value) {
-      searchPersonInApi(searchCi.value)
-    }
-  }
-
-  const setCiAndSearch = async (ci: string) => {
-    if (!ci || ci.length < 3) return
-    
-    searchCi.value = ci
-    await searchPersonInApi(ci)
-  }
-
-  return {
-    // State
-    searchCi,
-    isSearching,
-    apiData,
-    personFound,
-    hasError,
-    errorMessage,
-    selectedPersonIndex,
-    selectedPersonData,
-    
-    // Actions
-    searchPersonInApi,
-    selectPerson,
-    resetSearchResults,
-    retrySearch,
-    setCiAndSearch
   }
 })
