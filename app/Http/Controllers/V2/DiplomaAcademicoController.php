@@ -29,7 +29,13 @@ class DiplomaAcademicoController extends Controller
      */
     public function index()
     {
-        return Inertia::render('DiplomasAcademicos/Index');
+        $diplomas = DiplomaAcademico::with(['persona', 'mencion'])
+            ->latest()
+            ->paginate(10);
+
+        return Inertia::render('DiplomasAcademicos/Index', [
+            'diplomas' => $diplomas,
+        ]);
     }
 
     /**
