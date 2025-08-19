@@ -25,8 +25,14 @@
             v-model="ci"
             placeholder="Ingrese CI"
             :disabled="hasApiData"
-            class="mt-1"
+            :class="[
+              'mt-1',
+              props.errors.ci ? 'border-red-500' : ''
+            ]"
           />
+          <p v-if="props.errors.ci" class="text-sm text-red-500 mt-1">
+            {{ props.errors.ci }}
+          </p>
         </div>
 
         <!-- Nombres - Campo completo -->
@@ -36,8 +42,14 @@
             id="nombres"
             v-model="nombres"
             placeholder="Ingrese nombres completos"
-            class="mt-1"
+            :class="[
+              'mt-1',
+              props.errors.nombres ? 'border-red-500' : ''
+            ]"
           />
+          <p v-if="props.errors.nombres" class="text-sm text-red-500 mt-1">
+            {{ props.errors.nombres }}
+          </p>
         </div>
 
         <!-- Apellidos - Lado a lado -->
@@ -47,8 +59,14 @@
             id="paterno"
             v-model="paterno"
             placeholder="Apellido paterno"
-            class="mt-1"
+            :class="[
+              'mt-1',
+              props.errors.paterno ? 'border-red-500' : ''
+            ]"
           />
+          <p v-if="props.errors.paterno" class="text-sm text-red-500 mt-1">
+            {{ props.errors.paterno }}
+          </p>
         </div>
 
         <div>
@@ -57,8 +75,14 @@
             id="materno"
             v-model="materno"
             placeholder="Apellido materno"
-            class="mt-1"
+            :class="[
+              'mt-1',
+              props.errors.materno ? 'border-red-500' : ''
+            ]"
           />
+          <p v-if="props.errors.materno" class="text-sm text-red-500 mt-1">
+            {{ props.errors.materno }}
+          </p>
         </div>
 
         <!-- Fecha de Nacimiento -->
@@ -158,6 +182,15 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { CheckCircle } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { storeToRefs } from 'pinia'
+
+// Props para errores de validación
+interface Props {
+  errors?: Record<string, string>
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  errors: () => ({})
+})
 
 // Store - usando directamente
 const personalDataStore = usePersonalDataStore()

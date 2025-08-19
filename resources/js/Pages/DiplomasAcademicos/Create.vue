@@ -59,7 +59,7 @@
               </Card>
               
               <!-- Formulario de datos personales -->
-              <PersonalDataForm />
+              <PersonalDataForm :errors="form.errors" />
             </div>
 
             <!-- Paso 2: Datos del Diploma -->
@@ -78,27 +78,59 @@
                   <div class="grid grid-cols-2 gap-4">
                     <div>
                       <Label for="nro_documento">Nro. Documento</Label>
-                      <Input id="nro_documento" v-model="diplomaStore.nro_documento" type="number" />
+                      <Input 
+                        id="nro_documento" 
+                        v-model="diplomaStore.nro_documento" 
+                        type="number"
+                        :class="form.errors.nro_documento ? 'border-red-500' : ''"
+                      />
+                      <p v-if="form.errors.nro_documento" class="text-sm text-red-500 mt-1">
+                        {{ form.errors.nro_documento }}
+                      </p>
                     </div>
                     <div>
                       <Label for="libro">Libro</Label>
-                      <Input id="libro" v-model="diplomaStore.libro" type="number" />
+                      <Input 
+                        id="libro" 
+                        v-model="diplomaStore.libro" 
+                        type="number"
+                        :class="form.errors.libro ? 'border-red-500' : ''"
+                      />
+                      <p v-if="form.errors.libro" class="text-sm text-red-500 mt-1">
+                        {{ form.errors.libro }}
+                      </p>
                     </div>
                   </div>
                   <div class="grid grid-cols-2 gap-4">
                     <div>
                       <Label for="fojas">Fojas</Label>
-                      <Input id="fojas" v-model="diplomaStore.fojas" type="number" />
+                      <Input 
+                        id="fojas" 
+                        v-model="diplomaStore.fojas" 
+                        type="number"
+                        :class="form.errors.fojas ? 'border-red-500' : ''"
+                      />
+                      <p v-if="form.errors.fojas" class="text-sm text-red-500 mt-1">
+                        {{ form.errors.fojas }}
+                      </p>
                     </div>
                     <div>
                       <Label for="fecha_emision">Fecha Emisión</Label>
-                      <Input id="fecha_emision" v-model="diplomaStore.fecha_emision" type="date" />
+                      <Input 
+                        id="fecha_emision" 
+                        v-model="diplomaStore.fecha_emision" 
+                        type="date"
+                        :class="form.errors.fecha_emision ? 'border-red-500' : ''"
+                      />
+                      <p v-if="form.errors.fecha_emision" class="text-sm text-red-500 mt-1">
+                        {{ form.errors.fecha_emision }}
+                      </p>
                     </div>
                   </div>
                   <div>
                     <Label for="mencion_da_id">Mención</Label>
                     <Select v-model="diplomaStore.mencion_da_id">
-                      <SelectTrigger>
+                      <SelectTrigger :class="form.errors.mencion_da_id ? 'border-red-500' : ''">
                         <SelectValue placeholder="Seleccione una mención" />
                       </SelectTrigger>
                       <SelectContent>
@@ -110,11 +142,14 @@
                         </SelectGroup>
                       </SelectContent>
                     </Select>
+                    <p v-if="form.errors.mencion_da_id" class="text-sm text-red-500 mt-1">
+                      {{ form.errors.mencion_da_id }}
+                    </p>
                   </div>
                   <div>
-                    <Label for="graduacion_id">Modalidad de Graduación</Label>
+                    <Label for="graduacion_id">Modalidad de Graduación (Opcional)</Label>
                     <Select v-model="diplomaStore.graduacion_id">
-                      <SelectTrigger>
+                      <SelectTrigger :class="form.errors.graduacion_id ? 'border-red-500' : ''">
                         <SelectValue placeholder="Seleccione una modalidad" />
                       </SelectTrigger>
                       <SelectContent>
@@ -126,10 +161,21 @@
                         </SelectGroup>
                       </SelectContent>
                     </Select>
+                    <p v-if="form.errors.graduacion_id" class="text-sm text-red-500 mt-1">
+                      {{ form.errors.graduacion_id }}
+                    </p>
                   </div>
                   <div>
-                    <Label for="observaciones">Observaciones</Label>
-                    <Input id="observaciones" v-model="diplomaStore.observaciones" type="text" />
+                    <Label for="observaciones">Observaciones (Opcional)</Label>
+                    <Input 
+                      id="observaciones" 
+                      v-model="diplomaStore.observaciones" 
+                      type="text"
+                      :class="form.errors.observaciones ? 'border-red-500' : ''"
+                    />
+                    <p v-if="form.errors.observaciones" class="text-sm text-red-500 mt-1">
+                      {{ form.errors.observaciones }}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
@@ -157,9 +203,11 @@
               v-else
               type="submit"
               class="bg-primary"
+              :disabled="form.processing"
               @click="submitForm"
             >
-              Registrar Diploma
+              <span v-if="form.processing">Guardando...</span>
+              <span v-else>Registrar Diploma</span>
             </Button>
           </div>
         </div>
@@ -167,6 +215,9 @@
         <!-- Columna derecha: PDF Viewer (siempre visible) -->
         <div class="h-full">
           <PdfViewer class="h-full" />
+          <p v-if="form.errors.file" class="text-sm text-red-500 mt-2">
+            {{ form.errors.file }}
+          </p>
         </div>
       </div>
     </div>
@@ -174,7 +225,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import ApiPersonSearch from '@/components/forms/ApiPersonSearch.vue'
@@ -216,10 +267,30 @@ const props = defineProps<DiplomaPageProps>()
 const personalDataStore = usePersonalDataStore()
 const diplomaStore = useDiplomaAcademicoStore()
 
+// Form con Inertia
+const form = useForm(diplomaStore.formData)
+
+// Actualizar form data cuando cambien los stores
+const updateFormData = () => {
+  form.clearErrors()
+  Object.assign(form, diplomaStore.formData)
+}
+
 // Función para enviar con datos combinados
 const submitForm = () => {
-  const form = useForm(diplomaStore.formData)
-  form.post(route('v2.diplomas-academicos.store'))
+  updateFormData()
+  
+  form.post(route('v2.diplomas-academicos.store'), {
+    forceFormData: true,
+    onSuccess: () => {
+      // Limpiar stores después del éxito
+      personalDataStore.$reset()
+      diplomaStore.$reset()
+    },
+    onError: (errors: any) => {
+      console.log('Errores de validación:', errors)
+    }
+  })
 }
 
 // Stepper state
