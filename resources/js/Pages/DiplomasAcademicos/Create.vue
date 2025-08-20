@@ -218,7 +218,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { Head, useForm } from '@inertiajs/vue3'
+import { Head, useForm, usePage } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import ApiPersonSearch from '@/components/forms/ApiPersonSearch.vue'
 import PersonalDataForm from '@/components/forms/PersonalDataForm.vue'
@@ -252,6 +252,7 @@ import {
 import type { DiplomaPageProps } from '@/types/ui'
 import { useDiplomaAcademicoStore } from '@/stores/titulos/useDiplomaAcademicoStore'
 import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
+import { toast } from 'vue-sonner'
 
 // Configurar layout persistente
 defineOptions({ 
@@ -277,6 +278,9 @@ const updateFormData = () => {
   Object.assign(form, diplomaStore.formData)
 }
 
+const page = usePage()
+
+
 // Función para enviar con datos combinados
 const submitForm = () => {
   updateFormData()
@@ -286,10 +290,12 @@ const submitForm = () => {
     onSuccess: () => {
       // Limpiar stores después del éxito
       personalDataStore.$reset()
+      toast.success((page.props as any).flash.success)
       diplomaStore.$reset()
     },
     onError: (errors: any) => {
       console.log('Errores de validación:', errors)
+      toast.error((errors.error))
     }
   })
 }

@@ -222,6 +222,7 @@ import {
   Download 
 } from 'lucide-vue-next'
 import type { DiplomaAcademico } from '@/types/models.d'
+import { toast } from 'vue-sonner'
 
 // Configurar layout persistente
 defineOptions({ 
@@ -255,6 +256,7 @@ const deleteDiploma = () => {
   router.delete(route('v2.diplomas-academicos.destroy', props.diploma.id), {
     onSuccess: () => {
       router.visit(route('v2.diplomas-academicos.index'))
+      toast.success('Diploma eliminado con éxito')
     }
   })
 }
