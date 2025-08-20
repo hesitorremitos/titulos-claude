@@ -207,7 +207,7 @@ onMounted(() => {
 
 // Logout function
 const logout = () => {
-    router.post('/logout');
+    router.post(route('logout'));
 };
 </script>
 

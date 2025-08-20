@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\InertiaLoginController;
-use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\FacultadController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\V2\CarreraController;
 use App\Http\Controllers\V2\DiplomaAcademicoController;
+use App\Http\Controllers\V2\FacultadController;
 use App\Http\Controllers\V2\MencionController;
 use App\Http\Controllers\V2\ModalidadController;
 use App\Http\Controllers\V2\UserController;

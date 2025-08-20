@@ -34,7 +34,7 @@ class InertiaLoginController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard');
+            return redirect()->intended(route('v2.dashboard'));
         }
 
         throw ValidationException::withMessages([
@@ -48,6 +48,6 @@ class InertiaLoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('login');
     }
 }
