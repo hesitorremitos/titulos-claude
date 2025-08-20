@@ -278,7 +278,7 @@
 </template>
 
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3'
+import { Head, useForm, usePage } from '@inertiajs/vue3'
 import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -301,6 +301,7 @@ import {
   Save 
 } from 'lucide-vue-next'
 import type { DiplomaAcademico, MencionDa, GraduacionDa } from '@/types/models.d'
+import { toast } from 'vue-sonner'
 
 // Configurar layout persistente
 defineOptions({ 
@@ -316,6 +317,9 @@ const props = defineProps<{
   menciones: MencionDa[]
   graduaciones: GraduacionDa[]
 }>()
+
+// Page
+const page = usePage()
 
 // Breadcrumbs
 const breadcrumbs = [{ label: 'Diplomas Académicos', href: null }]
@@ -350,9 +354,12 @@ const updateDiploma = () => {
   form.patch(route('v2.diplomas-academicos.update', props.diploma.id), {
     onSuccess: () => {
       // Redirect to show page on success
+      toast.success((page.props as any).flash.success)
+
     },
     onError: (errors) => {
       console.log('Validation errors:', errors)
+      toast.error((errors as any).error)
     }
   })
 }

@@ -26,7 +26,6 @@
               />
               <div class="flex flex-col items-center">
                 <StepperTitle>{{ step.title }}</StepperTitle>
-                <StepperDescription>{{ step.description }}</StepperDescription>
               </div>
             </StepperItem>
           </Stepper>
@@ -308,13 +307,11 @@ const steps = [
   {
     step: 1,
     title: 'Datos Personales',
-    description: 'Buscar y completar información personal',
     icon: User,
   },
   {
     step: 2,
     title: 'Datos del Diploma',
-    description: 'Información específica del diploma académico',
     icon: GraduationCap,
   }
 ]
