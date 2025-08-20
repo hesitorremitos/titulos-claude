@@ -1,13 +1,5 @@
 <template>
   <Head :title="`Editar Diploma - ${diploma.persona?.nombres} ${diploma.persona?.paterno}`" />
-  
-  <AppLayout
-    title="Editar Diploma Académico"
-    page-title="Editar Diploma Académico"
-    :breadcrumbs="breadcrumbs"
-    :nav-tabs="navTabs"
-    active-tab="lista"
-  >
     <div class="space-y-6">
       <!-- Header -->
       <div class="border-b pb-4">
@@ -283,12 +275,11 @@
         </Button>
       </div>
     </div>
-  </AppLayout>
 </template>
 
 <script setup lang="ts">
 import { Head, useForm } from '@inertiajs/vue3'
-import AppLayout from '@/Layouts/AppLayout.vue'
+import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -309,7 +300,15 @@ import {
   X, 
   Save 
 } from 'lucide-vue-next'
-import type { DiplomaAcademico, MencionDa, GraduacionDa } from '@/types/models'
+import type { DiplomaAcademico, MencionDa, GraduacionDa } from '@/types/models.d'
+
+// Configurar layout persistente
+defineOptions({ 
+  layout: (h: any, page: any) => h(SubLayout, { 
+    title: 'Editar Diploma Académico',
+    activeTab: 'lista'
+  }, () => page) 
+})
 
 // Props
 const props = defineProps<{
@@ -317,14 +316,6 @@ const props = defineProps<{
   menciones: MencionDa[]
   graduaciones: GraduacionDa[]
 }>()
-
-// Navigation tabs
-const navTabs = [
-    { label: 'Lista', href: route('v2.diplomas-academicos.index'), icon: 'material-symbols:list', value: 'lista' },
-    { label: 'Registrar', href: route('v2.diplomas-academicos.create'), icon: 'material-symbols:add', value: 'registrar' },
-    { label: 'Menciones', href: route('v2.menciones.index'), icon: 'material-symbols:category', value: 'menciones' },
-    { label: 'Modalidades', href: route('v2.modalidades.index'), icon: 'material-symbols:school', value: 'modalidades' },
-]
 
 // Breadcrumbs
 const breadcrumbs = [{ label: 'Diplomas Académicos', href: null }]

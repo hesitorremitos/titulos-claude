@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
-import AppLayout from '@/Layouts/AppLayout.vue'
+import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
 import { Icon } from '@iconify/vue'
 import {
   Table,
@@ -15,23 +15,20 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Eye, Pencil, Trash2, PlusCircle } from 'lucide-vue-next'
-import type { DiplomaAcademico, PaginatedResponse } from '@/types/models'
+import type { DiplomaAcademico, PaginatedResponse } from '@/types/models.d'
+
+// Configurar layout persistente
+defineOptions({ 
+  layout: (h: any, page: any) => h(SubLayout, { 
+    title: 'Diplomas Académicos',
+    activeTab: 'lista'
+  }, () => page) 
+})
 
 // Props
 const props = defineProps<{
   diplomas: PaginatedResponse<DiplomaAcademico>
 }>()
-
-// Navigation tabs
-const navTabs = [
-    { label: 'Lista', href: route('v2.diplomas-academicos.index'), icon: 'material-symbols:list', value: 'lista' },
-    { label: 'Registrar', href: route('v2.diplomas-academicos.create'), icon: 'material-symbols:add', value: 'registrar' },
-    { label: 'Menciones', href: route('v2.menciones.index'), icon: 'material-symbols:category', value: 'menciones' },
-    { label: 'Modalidades', href: route('v2.modalidades.index'), icon: 'material-symbols:school', value: 'modalidades' },
-];
-
-// Breadcrumbs
-const breadcrumbs = [{ label: 'Diplomas Académicos', href: null }];
 
 // Computed property to check if there are diplomas
 const hasDiplomas = computed(() => props.diplomas.data.length > 0)
@@ -50,14 +47,6 @@ const formatDate = (dateString: string | undefined) => {
 
 <template>
   <Head title="Diplomas Académicos" />
-
-  <AppLayout
-    title="Diplomas Académicos"
-    page-title="Diplomas Académicos"
-    :breadcrumbs="breadcrumbs"
-    :nav-tabs="navTabs"
-    active-tab="lista"
-  >
     <!-- Content -->
     <div class="space-y-6">
       <Card>
@@ -141,5 +130,4 @@ const formatDate = (dateString: string | undefined) => {
         </CardContent>
       </Card>
     </div>
-  </AppLayout>
 </template>

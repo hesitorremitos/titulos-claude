@@ -1,13 +1,5 @@
 <template>
   <Head title="Menciones Académicas" />
-  
-  <AppLayout
-    title="Menciones Académicas"
-    page-title="Menciones Académicas"
-    :breadcrumbs="breadcrumbs"
-    :nav-tabs="navTabs"
-    active-tab="menciones"
-  >
     <div class="space-y-6">
       <!-- Header con botón crear -->
       <div class="flex justify-between items-center">
@@ -157,13 +149,12 @@
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  </AppLayout>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Head, useForm, router, usePage } from '@inertiajs/vue3'
-import AppLayout from '@/Layouts/AppLayout.vue'
+import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -205,8 +196,16 @@ import {
 } from '@/components/ui/select'
 import { Plus, Edit, Trash2 } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
-import type { MencionDa, Facultad, Carrera, PaginatedResponse } from '@/types/models'
+import type { MencionDa, Facultad, Carrera, PaginatedResponse } from '@/types/models.d'
 import type { PageProps } from '@/types/ui'
+
+// Configurar layout persistente
+defineOptions({ 
+  layout: (h: any, page: any) => h(SubLayout, { 
+    title: 'Menciones Académicas',
+    activeTab: 'menciones'
+  }, () => page) 
+})
 
 // Props
 interface Props extends PageProps {
@@ -216,17 +215,6 @@ interface Props extends PageProps {
 
 const props = defineProps<Props>()
 const page = usePage()
-
-// Navigation tabs
-const navTabs = [
-  { label: 'Lista', href: route('v2.diplomas-academicos.index'), icon: 'material-symbols:list', value: 'lista' },
-  { label: 'Registrar', href: route('v2.diplomas-academicos.create'), icon: 'material-symbols:add', value: 'registrar' },
-  { label: 'Menciones', href: route('v2.menciones.index'), icon: 'material-symbols:category', value: 'menciones' },
-  { label: 'Modalidades', href: route('v2.modalidades.index'), icon: 'material-symbols:school', value: 'modalidades' },
-]
-
-// Breadcrumbs
-const breadcrumbs = [{ label: 'Diplomas Académicos', href: null }]
 
 // State
 const showFormDialog = ref(false)
@@ -276,7 +264,7 @@ const submitForm = () => {
     form.put(route('v2.menciones.update', editingMencion.value.id), {
       onSuccess: () => {
         closeFormDialog()
-        toast.success(page.props.flash.success)
+        toast.success((page.props.flash as any).success)
       },
       onError: (errors) => {
         toast.error(errors.error)
@@ -287,7 +275,7 @@ const submitForm = () => {
     form.post(route('v2.menciones.store'), {
       onSuccess: () => {
         closeFormDialog()
-        toast.success(page.props.flash.success)
+        toast.success((page.props.flash as any).success)
       },
       onError: (errors) => {
         toast.error(errors.error)
@@ -302,7 +290,7 @@ const deleteMencion = () => {
       onSuccess: () => {
         showDeleteDialog.value = false
         deletingMencion.value = null
-        toast.success(page.props.flash.success)
+        toast.success((page.props.flash as any).success)
       },
       onError: (errors) => {
         showDeleteDialog.value = false

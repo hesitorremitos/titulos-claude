@@ -1,13 +1,5 @@
 <template>
   <Head :title="`Diploma Académico - ${diploma.persona?.nombres} ${diploma.persona?.paterno}`" />
-  
-  <AppLayout
-    title="Ver Diploma Académico"
-    page-title="Ver Diploma Académico"
-    :breadcrumbs="breadcrumbs"
-    :nav-tabs="navTabs"
-    active-tab="lista"
-  >
     <div class="space-y-6">
       <!-- Header con acciones -->
       <div class="flex justify-between items-start">
@@ -125,7 +117,7 @@
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <Label class="text-xs font-medium text-muted-foreground">Registrado por</Label>
-                  <p class="text-sm font-medium">{{ diploma.created_by?.name || 'Sistema' }}</p>
+                  <p class="text-sm font-medium">{{ diploma.createdBy?.name || 'Sistema' }}</p>
                 </div>
                 <div>
                   <Label class="text-xs font-medium text-muted-foreground">Fecha de registro</Label>
@@ -135,7 +127,7 @@
               <div v-if="diploma.updated_at !== diploma.created_at" class="grid grid-cols-2 gap-4">
                 <div>
                   <Label class="text-xs font-medium text-muted-foreground">Última modificación</Label>
-                  <p class="text-sm font-medium">{{ diploma.updated_by?.name || 'Sistema' }}</p>
+                  <p class="text-sm font-medium">{{ diploma.updatedBy?.name || 'Sistema' }}</p>
                 </div>
                 <div>
                   <Label class="text-xs font-medium text-muted-foreground">Fecha modificación</Label>
@@ -201,13 +193,12 @@
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  </AppLayout>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
-import AppLayout from '@/Layouts/AppLayout.vue'
+import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -230,23 +221,20 @@ import {
   Trash2, 
   Download 
 } from 'lucide-vue-next'
-import type { DiplomaAcademico } from '@/types/models'
+import type { DiplomaAcademico } from '@/types/models.d'
+
+// Configurar layout persistente
+defineOptions({ 
+  layout: (h: any, page: any) => h(SubLayout, { 
+    title: 'Ver Diploma Académico',
+    activeTab: 'lista'
+  }, () => page) 
+})
 
 // Props
 const props = defineProps<{
   diploma: DiplomaAcademico
 }>()
-
-// Navigation tabs
-const navTabs = [
-    { label: 'Lista', href: route('v2.diplomas-academicos.index'), icon: 'material-symbols:list', value: 'lista' },
-    { label: 'Registrar', href: route('v2.diplomas-academicos.create'), icon: 'material-symbols:add', value: 'registrar' },
-    { label: 'Menciones', href: route('v2.menciones.index'), icon: 'material-symbols:category', value: 'menciones' },
-    { label: 'Modalidades', href: route('v2.modalidades.index'), icon: 'material-symbols:school', value: 'modalidades' },
-]
-
-// Breadcrumbs
-const breadcrumbs = [{ label: 'Diplomas Académicos', href: null }]
 
 // State
 const showDeleteDialog = ref(false)

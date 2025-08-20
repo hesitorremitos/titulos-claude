@@ -1,13 +1,5 @@
 <template>
   <Head title="Registrar Diploma Académico" />
-  
-  <AppLayout
-    title="Registrar Diploma Académico"
-    page-title="Registrar Diploma Académico"
-    :breadcrumbs="breadcrumbs"
-    :nav-tabs="navTabs"
-    active-tab="registrar"
-  >
     <div class="space-y-6">
 
       <!-- Layout de 2 columnas: Stepper Form | PDF Viewer -->
@@ -222,7 +214,6 @@
         </div>
       </div>
     </div>
-  </AppLayout>
 </template>
 
 <script setup lang="ts">
@@ -260,20 +251,18 @@ import {
 
 import type { DiplomaPageProps } from '@/types/ui'
 import { useDiplomaAcademicoStore } from '@/stores/titulos/useDiplomaAcademicoStore'
+import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
+
+// Configurar layout persistente
+defineOptions({ 
+  layout: (h: any, page: any) => h(SubLayout, { 
+    title: 'Registrar Diploma Académico',
+    activeTab: 'registrar'
+  }, () => page) 
+})
 
 // Props tipadas
 const props = defineProps<DiplomaPageProps>()
-
-// Navigation tabs
-const navTabs = [
-    { label: 'Lista', href: route('v2.diplomas-academicos.index'), icon: 'material-symbols:list', value: 'lista' },
-    { label: 'Registrar', href: route('v2.diplomas-academicos.create'), icon: 'material-symbols:add', value: 'registrar' },
-    { label: 'Menciones', href: route('v2.menciones.index'), icon: 'material-symbols:category', value: 'menciones' },
-    { label: 'Modalidades', href: route('v2.modalidades.index'), icon: 'material-symbols:school', value: 'modalidades' },
-];
-
-// Breadcrumbs
-const breadcrumbs = [{ label: 'Diplomas Académicos', href: null }];
 
 // Stores
 const personalDataStore = usePersonalDataStore()
@@ -339,8 +328,4 @@ const previousStep = () => {
   }
 }
 
-// Page title for browser tab
-defineOptions({
-  title: 'Registrar Diploma Académico'
-})
 </script>
