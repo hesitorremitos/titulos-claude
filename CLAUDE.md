@@ -284,49 +284,17 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `app/Models/Facultad.php` - Modelo facultades
 - `app/Models/User.php` - Modelo usuarios del sistema
 
-### Controllers
-- `app/Http/Controllers/DiplomasAcademicos/DiplomaAcademicoController.php` - CRUD principal diplomas académicos
-- `app/Http/Controllers/DiplomasAcademicos/MencionController.php` - CRUD completo menciones académicas (sin filtros)
-- `app/Http/Controllers/DiplomasAcademicos/ModalidadGraduacionController.php` - CRUD completo modalidades graduación (sin filtros)
+### Controllers (Vue + Inertia)
 - `app/Http/Controllers/StyleGuideController.php` - Controlador para la guía de estilos del sistema
-- `app/Http/Controllers/ProfileController.php` - **ACTUALIZADO** Gestión de perfil con métodos legacy (Blade) y Vue/Inertia
-- `app/Http/Controllers/DashboardController.php` - **NUEVO** Dashboard para Vue + Inertia
-- `app/Http/Controllers/Auth/InertiaLoginController.php` - **NUEVO** Autenticación para Vue + Inertia
-- `app/Http/Controllers/V2/UserController.php` - **ACTUALIZADO** CRUD usuarios con estadísticas por rol (admin, jefe, personal, activos/inactivos)
-- `app/Http/Controllers/V2/FacultadController.php` - **MIGRADO** CRUD facultades Vue + Inertia con tablas optimizadas
-- `app/Http/Controllers/V2/CarreraController.php` - **MIGRADO** CRUD carreras Vue + Inertia con tablas optimizadas
-
-### View Components
-- `app/View/Components/AppLayout.php` - Componente Laravel para layout principal del sistema
-- `app/View/Components/DiplomasLayout.php` - Componente Laravel para layout unificado de diplomas académicos
-
-### Blade Components (Sistema de Diseño)
-- `resources/views/components/breadcrumb.blade.php` - Componente breadcrumb navegacional con iconos
-- `resources/views/components/page-header.blade.php` - Header de página con breadcrumbs, título y acciones
-- `resources/views/components/page-section.blade.php` - Sección de página con título y descripción opcional
-- `resources/views/components/form-field.blade.php` - Campo de formulario con label, error y help text
-- `resources/views/components/form-input-icon.blade.php` - Input con icono interno
-- `resources/views/components/form-textarea.blade.php` - Textarea estilizado con configuración de filas
-- `resources/views/components/button-group.blade.php` - Grupo de botones con variantes de estilo
-- `resources/views/components/icon-button.blade.php` - Botón con solo icono y múltiples variantes
-- `resources/views/components/danger-button.blade.php` - Botón de acción peligrosa (eliminar)
-- `resources/views/components/navigation-tab.blade.php` - Tab de navegación con estado activo
-- `resources/views/components/validation-message.blade.php` - Mensaje de validación con iconos por tipo
-
-### Livewire Components
-- `app/Livewire/BaseTituloFormComponent.php` - **NUEVO** Componente base abstracto reutilizable para todos los tipos de títulos
-- `app/Livewire/DiplomaAcademicoFormComponent.php` - Componente formulario diploma académico (refactorizado para heredar de base)
-- `app/Livewire/TituloAcademicoFormComponent.php` - **NUEVO** Componente formulario título académico con campo nro_diploma_academico
-- `app/Livewire/PdfAutoUpload.php` - Componente subida automática PDF con extracción CI (index)
-- `app/Livewire/PdfAutoUploadForm.php` - Componente subida PDF para formulario registro con búsqueda API automática
-- `app/Livewire/PdfViewerForm.php` - Componente visor PDF (solo display - funcionalidad de upload removida para evitar duplicación)
-- `app/Livewire/Toast.php` - Sistema de notificaciones toast optimizado (eventos como arrays)
-- `app/Livewire/ButtonTest.php` - Botón simple que emite eventos con parámetros configurables
-- `app/Livewire/Traits/HandlesTituloOperations.php` - **NUEVO** Trait con funcionalidad común para manejo de títulos (API, PDF, pasos)
-- `app/Livewire/Forms/BaseTituloForm.php` - **NUEVO** Form class base abstracta para todos los tipos de títulos
-- `app/Livewire/Forms/DiplomaAcademicoForm.php` - Form class diploma académico (refactorizada para heredar de base)
-- `app/Livewire/Forms/TituloAcademicoForm.php` - **NUEVO** Form class título académico con campo nro_diploma_academico
-- `app/Livewire/Forms/PersonaForm.php` - Form class validación personas
+- `app/Http/Controllers/ProfileController.php` - Gestión de perfil con métodos Vue/Inertia
+- `app/Http/Controllers/DashboardController.php` - Dashboard para Vue + Inertia
+- `app/Http/Controllers/Auth/InertiaLoginController.php` - Autenticación para Vue + Inertia
+- `app/Http/Controllers/V2/UserController.php` - CRUD usuarios con estadísticas por rol
+- `app/Http/Controllers/V2/FacultadController.php` - CRUD facultades Vue + Inertia con tablas optimizadas
+- `app/Http/Controllers/V2/CarreraController.php` - CRUD carreras Vue + Inertia con tablas optimizadas
+- `app/Http/Controllers/V2/DiplomaAcademicoController.php` - CRUD diplomas académicos Vue + Inertia
+- `app/Http/Controllers/V2/MencionController.php` - CRUD menciones académicas Vue + Inertia
+- `app/Http/Controllers/V2/ModalidadController.php` - CRUD modalidades graduación Vue + Inertia
 
 ### Services
 - `app/Services/UniversityApiService.php` - Integración API universitaria
@@ -341,12 +309,6 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `database/seeders/UserSeeder.php` - Usuarios sistema
 - `database/seeders/RoleSeeder.php` - Roles y permisos
 - `database/seeders/UserRoleSeeder.php` - Asignación roles
-
-### Views (Blade - Legacy)
-- `resources/views/layouts/app-layout.blade.php` - Layout principal del sistema con navbar y sidebar
-- `resources/views/layouts/diplomas-layout.blade.php` - Layout unificado para sección diplomas académicos
-- `resources/views/layouts/partials/navbar.blade.php` - Navbar con toggle de tema funcional
-- `resources/views/layouts/partials/sidebar.blade.php` - Sidebar de navegación principal
 
 ### Vue Pages & Components (Inertia)
 - `resources/js/Layouts/AppLayout.vue` - **ACTUALIZADO** Layout principal Vue con Shadcn/vue Tabs nativos y sin breadcrumbs
@@ -372,40 +334,13 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 - `resources/js/stores/usePersonalDataStore.ts` - **NUEVO** Store Pinia para manejo de búsqueda API y datos personales
 
 ### Routes (Vue + Inertia)
-- `routes/web-vue.php` - **ACTUALIZADO** Rutas Vue + Inertia con sistema completo de autenticación y gestión de perfil
-- `app/Http/Controllers/V2/DiplomaAcademicoController.php` - **NUEVO** Controlador con endpoint de búsqueda de personas
-- `resources/views/diplomas/index.blade.php` - Vista principal con accesos rápidos a subsecciones
-- `resources/views/diplomas/create.blade.php` - Formulario creación diploma con layout unificado
-- `resources/views/diplomas/show.blade.php` - Ver diploma individual con layout unificado
-- `resources/views/diplomas/menciones/index.blade.php` - Lista menciones (sin filtros de búsqueda)
-- `resources/views/diplomas/menciones/create.blade.php` - Crear mención con layout unificado
-- `resources/views/diplomas/menciones/edit.blade.php` - Editar mención con layout unificado
-- `resources/views/diplomas/menciones/show.blade.php` - Ver mención con layout unificado
-- `resources/views/diplomas/mod_grad/index.blade.php` - Lista modalidades (sin filtros de búsqueda)
-- `resources/views/diplomas/mod_grad/create.blade.php` - Crear modalidad con layout unificado
-- `resources/views/diplomas/mod_grad/edit.blade.php` - Editar modalidad con layout unificado
-- `resources/views/diplomas/mod_grad/show.blade.php` - Ver modalidad con layout unificado
-- `resources/views/livewire/diploma-academico-form.blade.php` - Formulario registro diploma académico con visor PDF integrado (layout 2 columnas)
-- `resources/views/livewire/titulo-academico-form.blade.php` - **NUEVO** Formulario registro título académico con campo nro_diploma_academico
-- `resources/views/livewire/pdf-viewer-form.blade.php` - **NUEVO** Vista componente visor PDF con drag & drop y estados (vacío, cargando, cargado, error)
-- `resources/views/livewire/pdf-auto-upload.blade.php` - Vista componente subida automática PDF (index)
-- `resources/views/livewire/pdf-auto-upload-form.blade.php` - Vista componente subida PDF con drag & drop para formulario registro
-- `resources/views/livewire/toast.blade.php` - Vista componente toast optimizada (duración manejada directamente en Alpine.js)
-- `resources/views/livewire/button-test.blade.php` - Vista simple de botón que emite eventos
+- `routes/web-vue.php` - Rutas Vue + Inertia con sistema completo de autenticación y gestión de perfil
+- `routes/web.php` - Rutas legacy mínimas (solo style guide y redirección)
+
+### Style Guide (Solo para documentación)
 - `resources/views/style-guide/index.blade.php` - Página principal guía de estilos modular
 - `resources/views/style-guide/partials/` - Componentes de layout compartidos (header, navigation, footer, scripts)
 - `resources/views/style-guide/sections/` - Secciones individuales de componentes (buttons, cards, colors, forms, etc.)
-
-### Blade Components (Arquitectura Optimizada)
-- `resources/views/components/button.blade.php` - **Componente unificado** de botones con variantes (primary, secondary, outline, danger), tamaños (sm, md, lg), soporte para iconos y enlaces
-- `resources/views/components/form-field.blade.php` - Wrapper para campos de formulario con etiqueta, validación y mensajes de ayuda
-- `resources/views/components/data-table.blade.php` - Tabla responsiva con estilos consistentes para mostrar datos
-- `resources/views/components/card.blade.php` - Contenedor de tarjeta con header opcional y estilos consistentes
-- `resources/views/components/sidebar-section.blade.php` - Componente sidebar collapsible con Alpine.js y persistencia
-- `resources/views/components/pdf-viewer.blade.php` - Componente reutilizable de visor PDF con drag & drop y viewer nativo
-- `resources/views/components/searchable-select.blade.php` - Componente select buscable con navegación por teclado y accesibilidad completa
-- `resources/views/components/primary-button.blade.php` - **Mantenido por compatibilidad** (se recomienda usar `x-button variant="primary"`)
-- `resources/views/components/secondary-button.blade.php` - **Mantenido por compatibilidad** (se recomienda usar `x-button variant="secondary"`)
 
 
 ### CSV Data  
@@ -516,24 +451,22 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 
 ## development-workflow-rules
 
-### Uso Restringido de Componentes Livewire
-**REGLA CRÍTICA**: Minimizar el uso de componentes Livewire y usar plantillas Blade normales siempre que sea posible.
+### Arquitectura Vue + Inertia.js (Post-Migración)
+**REGLA CRÍTICA**: Sistema completamente migrado de Livewire + Blade a Vue 3 + Inertia.js
 
-**Usar Livewire SOLO cuando:**
-- La sección requiere alta reactividad en tiempo real
-- Se necesita interactividad compleja sin recarga de página
-- Manejo de estados complejos que requieren sincronización servidor-cliente
+**Stack Tecnológico Actual:**
+- **Frontend**: Vue 3 + Composition API + TypeScript
+- **Routing**: Inertia.js con server-side routing de Laravel
+- **UI Components**: Shadcn/vue con Tailwind CSS v4
+- **State Management**: Vue 3 composables + Pinia stores
+- **Backend**: Laravel 12 con controladores en `/V2/`
 
-**Preferir Blade Templates para:**
-- Navegación estática y layouts
-- Listas y vistas de solo lectura
-- Formularios simples que pueden usar submit tradicional
-- Cualquier interfaz que no requiera reactividad inmediata
-
-**Patrón recomendado:**
-1. **Primera opción**: Controller + Blade templates
-2. **Segunda opción**: Livewire solo para secciones específicas reactivas
-3. **Evitar**: Livewire para navegación, layouts, o vistas estáticas
+**Patrón Establecido:**
+1. **Frontend**: Vue 3 pages en `resources/js/Pages/`
+2. **Componentes**: Shadcn/vue + componentes personalizados
+3. **Backend**: Controladores en `app/Http/Controllers/V2/`
+4. **Rutas**: Definidas en `routes/web-vue.php`
+5. **Legacy**: Eliminado completamente (Livewire + Blade legacy)
 
 ## Recordatorios Importantes
 
