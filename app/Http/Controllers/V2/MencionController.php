@@ -97,7 +97,7 @@ class MencionController extends Controller
             $mencion->delete();
 
             return redirect()->back()
-                ->with('success', 'Mención académica eliminada exitosamente.');
+                ->with('success', 'La mencion ' . $mencion->nombre . ' fue eliminada exitosamente.');
 
         } catch (\Exception $e) {
             return redirect()->back()

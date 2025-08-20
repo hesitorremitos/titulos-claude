@@ -88,7 +88,7 @@ class ModalidadController extends Controller
             $modalidad->delete();
 
             return redirect()->back()
-                ->with('success', 'Modalidad de graduación eliminada exitosamente.');
+                ->with('success', 'Modalidad de graduación '. $modalidad->medio_graduacion . ' eliminada exitosamente.');
 
         } catch (\Exception $e) {
             return redirect()->back()
