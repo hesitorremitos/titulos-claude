@@ -29,6 +29,16 @@
       "env": {
         "MEMORY_FILE_PATH": "C:\\laragon\\www\\titulos-claude\\.claude\\memory.json"
       }
+    },
+    "repomix": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "repomix",
+        "--mcp"
+      ],
+      "env": {}
     }
   }
 }
