@@ -326,18 +326,19 @@ const breadcrumbs = [{ label: 'Diplomas Académicos', href: null }]
 
 // Form
 const form = useForm({
-  ci: props.diploma.ci,
+  ci: props.diploma.ci || '',
   nombres: props.diploma.persona?.nombres || '',
   paterno: props.diploma.persona?.paterno || '',
   materno: props.diploma.persona?.materno || '',
-  nro_documento: props.diploma.nro_documento,
-  libro: props.diploma.libro,
-  fojas: props.diploma.fojas,
-  fecha_emision: props.diploma.fecha_emision,
+  nro_documento: props.diploma.nro_documento || 0,
+  libro: props.diploma.libro || 0,
+  fojas: props.diploma.fojas || 0,
+  fecha_emision: props.diploma.fecha_emision || '',
   mencion_da_id: props.diploma.mencion_da_id?.toString() || '',
-  graduacion_id: props.diploma.graduacion_id?.toString() || '',
+  graduacion_id: props.diploma.graduacion_id?.toString() || null,
   observaciones: props.diploma.observaciones || '',
   file: null as File | null,
+  _method: 'patch',
 })
 
 // Handle file change
@@ -350,16 +351,25 @@ const handleFileChange = (event: Event) => {
 
 // Update diploma
 const updateDiploma = () => {
+  // Debug: mostrar todos los datos que se van a enviar
   console.log('Form data being sent:', form.data())
-  form.patch(route('v2.diplomas-academicos.update', props.diploma.id), {
+  console.log('Original diploma data:', props.diploma)
+  
+  // Usar POST con _method=PATCH para manejar archivos correctamente
+  form.post(route('v2.diplomas-academicos.update', props.diploma.id), {
+    forceFormData: true,
     onSuccess: () => {
-      // Redirect to show page on success
-      toast.success((page.props as any).flash.success)
-
+      toast.success('Diploma actualizado exitosamente')
     },
     onError: (errors) => {
       console.log('Validation errors:', errors)
-      toast.error((errors as any).error)
+      
+      // Mostrar cada error específico
+      Object.keys(errors).forEach(field => {
+        console.log(`Error in ${field}:`, errors[field])
+      })
+      
+      toast.error('Error al actualizar el diploma. Revise los campos marcados.')
     }
   })
 }

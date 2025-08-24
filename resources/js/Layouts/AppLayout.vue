@@ -49,7 +49,7 @@ const breadcrumbsToShow = computed(() =>
                 <!-- Nuevo TopBar con breadcrumb dinámico -->
                 <TopBar :breadcrumbs="breadcrumbsToShow" />
 
-                <!-- Navegación por tabs (opcional) -->
+                <!-s- Navegación por tabs (opcional) -->
                 <div v-if="navTabs && navTabs.length > 0" class="border-b border-border/30 bg-gradient-to-r from-card via-card/90 to-card/80">
                     <div class="px-4 py-1">
                         <Tabs :model-value="currentActiveTab" class="w-full">
@@ -59,7 +59,7 @@ const breadcrumbsToShow = computed(() =>
                                     :key="tab.value"
                                     :value="tab.value"
                                     class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-all duration-200 hover:bg-muted/80 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
-                                    @click="router.visit(tab.href)"
+                                    @click="tab.href && router.visit(tab.href)"
                                 >
                                     <Icon :icon="tab.icon" class="h-3.5 w-3.5 transition-colors" />
                                     <span class="font-medium">{{ tab.label }}</span>
