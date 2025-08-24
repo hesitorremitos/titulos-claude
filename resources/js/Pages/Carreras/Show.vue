@@ -1,7 +1,6 @@
 <template>
     <AppLayout
         :title="`${carrera.programa} - ${carrera.id}`"
-        :breadcrumbs="[{ label: 'Carreras', href: route('v2.carreras.index') }, { label: carrera.programa, href: null }]"
     >
         <div class="space-y-6">
             <!-- Header -->

@@ -4,11 +4,6 @@
         page-title="Usuarios" 
         :nav-tabs="navTabs" 
         active-tab="lista"
-        :breadcrumbs="[
-            { label: 'Dashboard', href: '/v2/dashboard' },
-            { label: 'Gestión Administrativa', href: null },
-            { label: 'Usuarios', href: null }
-        ]"
     >
         <div class="space-y-6">
             <!-- Stats Cards -->

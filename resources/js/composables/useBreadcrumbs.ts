@@ -105,13 +105,19 @@ const breadcrumbRegistry: Record<string, BreadcrumbConfig> = {
   'v2.usuarios.show': {
     label: 'Ver',
     parent: 'usuarios',
-    dynamic: (props) => `Ver: ${props.user?.name || 'Usuario'}`,
-    href: (props) => props.user ? route('v2.usuarios.show', props.user.id) : null
+    dynamic: (props) => `Ver: ${props.usuario?.name || 'Usuario'}`,
+    href: (props) => props.usuario ? route('v2.usuarios.show', props.usuario.id) : null
   },
   'v2.usuarios.edit': {
     label: 'Editar',
     parent: 'v2.usuarios.show',
-    dynamic: (props) => `Editar: ${props.user?.name || 'Usuario'}`,
+    dynamic: (props) => `Editar: ${props.usuario?.name || 'Usuario'}`,
+  },
+
+  // Profile
+  'profile.index': {
+    label: 'Mi Perfil',
+    parent: 'v2.dashboard'
   },
 
   // Parent categories (virtual breadcrumb levels)

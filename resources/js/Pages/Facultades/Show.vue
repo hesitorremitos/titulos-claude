@@ -1,5 +1,5 @@
 <template>
-    <AppLayout :title="facultad.nombre" :breadcrumbs="[{ label: 'Facultades', href: route('v2.facultades.index') }, { label: facultad.nombre, href: null }]">
+    <AppLayout :title="facultad.nombre">
         <div class="space-y-6">
             <!-- Header -->
             <div class="border-b border-border pb-4">

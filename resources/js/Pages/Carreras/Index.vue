@@ -4,11 +4,6 @@
         page-title="Carreras" 
         :nav-tabs="navTabs" 
         active-tab="lista"
-        :breadcrumbs="[
-            { label: 'Dashboard', href: '/v2/dashboard' },
-            { label: 'Gestión Administrativa', href: null },
-            { label: 'Carreras', href: null }
-        ]"
     >
         <div class="space-y-6">
             <!-- Table -->

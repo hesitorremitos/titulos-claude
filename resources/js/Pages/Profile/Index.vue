@@ -24,7 +24,7 @@ defineProps<Props>();
 <template>
     <Head title="Mi Perfil" />
 
-    <AppLayout :breadcrumbs="[{ label: 'Mi Perfil' }]">
+    <AppLayout>
         <div class="flex-1 space-y-4 p-4 pt-6 md:p-8">
             <div class="space-y-0.5">
                 <h2 class="flex items-center text-2xl font-bold tracking-tight">
