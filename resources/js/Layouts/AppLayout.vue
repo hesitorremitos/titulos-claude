@@ -8,14 +8,13 @@ import { Icon } from '@iconify/vue';
 import { Head, router } from '@inertiajs/vue3';
 import { useColorMode } from '@vueuse/core';
 import { computed } from 'vue';
-import type { NavTab, BreadcrumbItem as BreadcrumbItemType } from '@/types';
+import type { NavTab } from '@/types';
 
 interface Props {
     title?: string;
     pageTitle?: string;
     navTabs?: NavTab[];
     activeTab?: string;
-    breadcrumbs?: BreadcrumbItemType[];
 }
 
 const props = defineProps<Props>();
@@ -32,11 +31,6 @@ const mode = useColorMode({
 
 const currentNavTabs = computed(() => props.navTabs || []);
 const currentActiveTab = computed(() => props.activeTab || (currentNavTabs.value.length > 0 ? currentNavTabs.value[0].value : ''));
-
-// Default breadcrumbs if none provided
-const breadcrumbsToShow = computed(() => 
-    props.breadcrumbs || [{ label: 'Dashboard', href: null }]
-);
 </script>
 
 <template>
@@ -46,8 +40,8 @@ const breadcrumbsToShow = computed(() =>
         <SidebarProvider>
             <AppSidebar />
             <SidebarInset>
-                <!-- Nuevo TopBar con breadcrumb dinámico -->
-                <TopBar :breadcrumbs="breadcrumbsToShow" />
+                <!-- TopBar sin props de breadcrumbs -->
+                <TopBar />
 
                 <!-s- Navegación por tabs (opcional) -->
                 <div v-if="navTabs && navTabs.length > 0" class="border-b border-border/30 bg-gradient-to-r from-card via-card/90 to-card/80">

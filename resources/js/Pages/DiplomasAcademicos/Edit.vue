@@ -321,9 +321,6 @@ const props = defineProps<{
 // Page
 const page = usePage()
 
-// Breadcrumbs
-const breadcrumbs = [{ label: 'Diplomas Académicos', href: null }]
-
 // Form
 const form = useForm({
   ci: props.diploma.ci || '',

@@ -2,17 +2,9 @@
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import BreadcrumbNavigation from '@/components/BreadcrumbNavigation.vue';
+import BreadcrumbManager from '@/components/BreadcrumbManager.vue';
 import { Moon, Sun } from 'lucide-vue-next';
 import { onMounted, ref } from 'vue';
-import type { BreadcrumbItem as BreadcrumbItemType } from '@/types';
-
-// Props
-interface Props {
-    breadcrumbs: BreadcrumbItemType[];
-}
-
-const props = defineProps<Props>();
 
 // Theme management
 const isDark = ref(false);
@@ -57,8 +49,8 @@ const toggleTheme = () => {
             <!-- Separator -->
             <Separator orientation="vertical" class="h-3" />
             
-            <!-- Breadcrumb navigation -->
-            <BreadcrumbNavigation :items="props.breadcrumbs" />
+            <!-- Breadcrumb navigation automática -->
+            <BreadcrumbManager />
         </div>
 
         <!-- Right section: Theme toggle -->

@@ -2,7 +2,6 @@
   <AppLayout 
     :title="pageTitle"
     :page-title="pageTitle"
-    :breadcrumbs="breadcrumbs"
     :nav-tabs="navTabs"
     :active-tab="activeTab"
   >
@@ -58,10 +57,7 @@ const navTabs = computed(() => [
   },
 ])
 
-// Breadcrumbs unificados
-const breadcrumbs = computed(() => [
-  { label: 'Diplomas Académicos', href: null }
-])
+// Breadcrumbs ahora son automáticos via BreadcrumbManager
 
 // Función global para mostrar toasts de éxito
 const showSuccessToast = () => {
