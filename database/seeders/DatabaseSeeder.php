@@ -32,5 +32,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserRoleSeeder::class,
         ]);
+
+        // Migración de datos desde CSV (ejecutar solo cuando sea necesario)
+        // $this->call([
+        //     DiplomaAcademicoSeeder::class,
+        // ]);
     }
 }

@@ -37,7 +37,7 @@ return new class extends Migration
             $table->date('fecha_emision')->nullable();
             $table->foreignId('mencion_da_id')->constrained('menciones_da', 'id');
             $table->string('observaciones')->nullable();
-            $table->foreignId('graduacion_id')->constrained('graduacion_da', 'id')->nullable();
+            $table->foreignId('graduacion_id')->default(100)->constrained('graduacion_da', 'id');
             $table->string('file_dir', 500)->nullable();
             $table->boolean('verificado')->default(false);
 

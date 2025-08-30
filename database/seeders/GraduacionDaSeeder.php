@@ -22,6 +22,12 @@ class GraduacionDaSeeder extends Seeder
         }
 
         DB::transaction(function () use ($csvPath) {
+            // Primero insertar el registro por defecto "No registrado"
+            GraduacionDa::updateOrCreate(
+                ['id' => 100],
+                ['medio_graduacion' => 'No registrado']
+            );
+
             $handle = fopen($csvPath, 'r');
 
             if ($handle === false) {
@@ -55,6 +61,11 @@ class GraduacionDaSeeder extends Seeder
                 $codigo = trim($row[$codigoIndex]);
 
                 if (empty($medio)) {
+                    continue;
+                }
+
+                // Si el código es 100, saltarlo porque ya está usado para "No registrado"
+                if ($codigo == '100') {
                     continue;
                 }
 
