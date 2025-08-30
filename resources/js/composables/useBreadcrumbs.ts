@@ -8,7 +8,7 @@ interface BreadcrumbConfig {
   label: string
   parent?: string
   dynamic?: (props: any) => string
-  href?: (props: any) => string
+  href?: (props: any) => string | null
 }
 
 // Global registry for all breadcrumb configurations
@@ -149,7 +149,8 @@ export function useBreadcrumbs(overrideBreadcrumbs?: BreadcrumbItem[]) {
   // Get current route name using Ziggy
   const getCurrentRoute = (): string | null => {
     try {
-      return route().current()
+      const current = route().current()
+      return typeof current === 'string' ? current : null
     } catch (e) {
       return null
     }
