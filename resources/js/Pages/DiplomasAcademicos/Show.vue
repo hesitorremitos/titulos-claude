@@ -150,12 +150,12 @@
             <CardContent>
               <div v-if="diploma.file_dir" class="space-y-4">
                 <iframe 
-                  :src="`/storage/${diploma.file_dir}`" 
+                  :src="route('v2.diplomas-academicos.pdf', diploma.id)" 
                   class="w-full h-[600px] border rounded-md"
                   title="Documento del Diploma Académico"
                 ></iframe>
                 <div class="flex justify-center">
-                  <Button variant="outline" as="a" :href="`/storage/${diploma.file_dir}`" download>
+                  <Button variant="outline" as="a" :href="route('v2.diplomas-academicos.pdf', diploma.id)" download>
                     <Download class="h-4 w-4 mr-2" />
                     Descargar PDF
                   </Button>

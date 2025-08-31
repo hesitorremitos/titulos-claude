@@ -93,6 +93,10 @@ Route::group(['prefix' => 'v2'], function () {
         
         // API endpoint for person search
         Route::get('/api/{ci}', [DiplomaAcademicoController::class, 'searchPerson'])->name('v2.api.search-person');
+        
+        // Ruta segura para servir archivos PDF
+        Route::get('/diplomas-academicos/{diploma}/pdf', [DiplomaAcademicoController::class, 'servePdf'])
+            ->name('v2.diplomas-academicos.pdf');
     });
 
     // Menciones CRUD

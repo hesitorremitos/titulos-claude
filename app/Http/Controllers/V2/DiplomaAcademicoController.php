@@ -65,7 +65,7 @@ class DiplomaAcademicoController extends Controller
             'nro_documento' => 'required|integer|min:1',
             'fojas' => 'required|integer|min:1',
             'libro' => 'required|integer|min:1',
-            'fecha_emision' => 'required|date',
+            'fecha_emision' => 'nullable|date',
             'mencion_da_id' => 'required|exists:menciones_da,id',
             'graduacion_id' => 'nullable|exists:graduacion_da,id',
             'observaciones' => 'nullable|string|max:500',
@@ -175,7 +175,7 @@ class DiplomaAcademicoController extends Controller
             'nro_documento' => 'required|integer|min:1',
             'fojas' => 'required|integer|min:1',
             'libro' => 'required|integer|min:1',
-            'fecha_emision' => 'required|date',
+            'fecha_emision' => 'nullable|date',
             'mencion_da_id' => 'required|exists:menciones_da,id',
             'graduacion_id' => 'nullable|exists:graduacion_da,id',
             'observaciones' => 'nullable|string|max:500',
@@ -286,6 +286,31 @@ class DiplomaAcademicoController extends Controller
         }
         
         abort(403, 'No tiene permisos para acceder a este diploma.');
+    }
+
+    /**
+     * Serve PDF file with authentication and permission checks
+     */
+    public function servePdf(string $id)
+    {
+        $diploma = DiplomaAcademico::findOrFail($id);
+        
+        // Check access permissions
+        $this->checkDiplomaAccess($diploma);
+        
+        // Check if file exists
+        if (!$diploma->file_dir || !Storage::disk('public')->exists($diploma->file_dir)) {
+            abort(404, 'Archivo PDF no encontrado');
+        }
+        
+        // Get file path and content
+        $filePath = Storage::disk('public')->path($diploma->file_dir);
+        
+        // Return file response with appropriate headers
+        return response()->file($filePath, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="diploma_' . $diploma->ci . '.pdf"'
+        ]);
     }
 
     /**
