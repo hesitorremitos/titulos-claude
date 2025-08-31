@@ -347,3 +347,4 @@ class DiplomaAcademicoSeeder extends Seeder
         $this->command->info(str_repeat('=', 60));
     }
 }
+
