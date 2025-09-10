@@ -37,5 +37,10 @@ class DatabaseSeeder extends Seeder
         // $this->call([
         //     DiplomaAcademicoSeeder::class,
         // ]);
+
+        // Importación de datos de respaldo (ejecutar solo cuando sea necesario)
+        $this->call([
+            BackupDataSeeder::class,
+        ]);
     }
 }

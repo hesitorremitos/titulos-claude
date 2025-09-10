@@ -22,7 +22,12 @@ class GraduacionDaSeeder extends Seeder
         }
 
         DB::transaction(function () use ($csvPath) {
-            // Primero insertar el registro por defecto "No registrado"
+            // Insertar registros especiales
+            GraduacionDa::updateOrCreate(
+                ['id' => 0],
+                ['medio_graduacion' => 'Sin graduación']
+            );
+            
             GraduacionDa::updateOrCreate(
                 ['id' => 100],
                 ['medio_graduacion' => 'No registrado']

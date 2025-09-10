@@ -30,15 +30,15 @@ return [
 
     'disks' => [
 
-        'local' => [
+        'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/private'),
+            'root' => 'E:/titulos/V5/storage/app/private',
             'serve' => true,
             'throw' => false,
             'report' => false,
         ],
 
-        'public' => [
+        'public1' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
