@@ -73,6 +73,7 @@ const formatDate = (dateString: string | undefined) => {
                   <TableHead>Nombre Completo</TableHead>
                   <TableHead>Mención</TableHead>
                   <TableHead>Fecha Emisión</TableHead>
+                  <TableHead>Estado Documento</TableHead>
                   <TableHead class="text-right">Acciones</TableHead>
                 </TableRow>
               </TableHeader>
@@ -84,6 +85,14 @@ const formatDate = (dateString: string | undefined) => {
                   <TableCell>{{ diploma.persona?.nombres }} {{ diploma.persona?.paterno }} {{ diploma.persona?.materno }}</TableCell>
                   <TableCell>{{ diploma.mencion?.nombre }}</TableCell>
                   <TableCell>{{ formatDate(diploma.fecha_emision) }}</TableCell>
+                  <TableCell>
+                    <Badge 
+                      :variant="diploma.file_dir ? 'default' : 'destructive'"
+                      class="text-xs"
+                    >
+                      {{ diploma.file_dir ? '✓ Digitalizado' : '✗ Sin documento' }}
+                    </Badge>
+                  </TableCell>
                   <TableCell class="text-right">
                     <Button variant="ghost" size="icon" as="a" :href="route('v2.diplomas-academicos.show', diploma.id)">
                       <Eye class="h-4 w-4" />

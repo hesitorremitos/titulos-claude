@@ -196,6 +196,34 @@
         <!-- Columna derecha: PDF Viewer -->
         <div class="space-y-6">
           <!-- Actualizar PDF (Opcional) -->
+           <!-- Vista Previa del Documento -->
+          <Card class="flex-1">
+            <CardHeader>
+              <CardTitle class="flex items-center">
+                <FileText class="h-5 w-5 mr-2" />
+                Vista Previa del Documento
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div v-if="diploma.file_dir" class="space-y-4">
+                <iframe 
+                  :src="route('v2.diplomas-academicos.pdf', diploma.id)" 
+                  class="w-full h-[500px] border rounded-md"
+                  title="Documento del Diploma Académico"
+                ></iframe>
+                <p class="text-xs text-muted-foreground text-center">
+                  Documento actual. Si sube uno nuevo, este será reemplazado.
+                </p>
+              </div>
+              <div v-else class="text-center py-16">
+                <FileText class="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                <h3 class="text-lg font-medium mb-2">Sin documento PDF</h3>
+                <p class="text-muted-foreground text-sm">
+                  Este diploma no tiene un archivo PDF. Puede subir uno usando el formulario.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
           <Card>
             <CardHeader>
               <CardTitle class="flex items-center">
@@ -272,34 +300,7 @@
             </CardContent>
           </Card>
 
-          <!-- Vista Previa del Documento -->
-          <Card class="flex-1">
-            <CardHeader>
-              <CardTitle class="flex items-center">
-                <FileText class="h-5 w-5 mr-2" />
-                Vista Previa del Documento
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div v-if="diploma.file_dir" class="space-y-4">
-                <iframe 
-                  :src="route('v2.diplomas-academicos.pdf', diploma.id)" 
-                  class="w-full h-[500px] border rounded-md"
-                  title="Documento del Diploma Académico"
-                ></iframe>
-                <p class="text-xs text-muted-foreground text-center">
-                  Documento actual. Si sube uno nuevo, este será reemplazado.
-                </p>
-              </div>
-              <div v-else class="text-center py-16">
-                <FileText class="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                <h3 class="text-lg font-medium mb-2">Sin documento PDF</h3>
-                <p class="text-muted-foreground text-sm">
-                  Este diploma no tiene un archivo PDF. Puede subir uno usando el formulario.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+          
         </div>
       </div>
 
