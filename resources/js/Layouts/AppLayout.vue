@@ -6,7 +6,6 @@ import { Toaster } from '@/components/ui/sonner';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Icon } from '@iconify/vue';
 import { Head, router } from '@inertiajs/vue3';
-import { useColorMode } from '@vueuse/core';
 import { computed } from 'vue';
 import type { NavTab } from '@/types';
 
@@ -19,15 +18,6 @@ interface Props {
 
 const props = defineProps<Props>();
 
-// Color mode management
-const mode = useColorMode({
-  selector: 'html',
-  attribute: 'class',
-  modes: {
-    dark: 'dark',
-    light: '',
-  },
-});
 
 const currentNavTabs = computed(() => props.navTabs || []);
 const currentActiveTab = computed(() => props.activeTab || (currentNavTabs.value.length > 0 ? currentNavTabs.value[0].value : ''));
@@ -43,7 +33,6 @@ const currentActiveTab = computed(() => props.activeTab || (currentNavTabs.value
                 <!-- TopBar sin props de breadcrumbs -->
                 <TopBar />
 
-                <!-s- Navegación por tabs (opcional) -->
                 <div v-if="navTabs && navTabs.length > 0" class="border-b border-border/30 bg-gradient-to-r from-card via-card/90 to-card/80">
                     <div class="px-4 py-1">
                         <Tabs :model-value="currentActiveTab" class="w-full">
