@@ -1,0 +1,78 @@
+﻿id_programa,programa,TPN
+ARQ,ARQUITECTURA,Arquitecto(a)
+ARM,ARTES MUSICALES,Licenciado(a) en artes musicales
+APT,ARTES PLASTICAS,Licenciado(a) en artes plasticas
+IAI,INGENIERIA AGROINDUSTRIAL,Ingeniero(a) agroindustrial
+AGR,INGENIERIA AGRONOMICA,Ingeniero(a) agronomo
+VAG,INGENIERIA AGROPECUARIA - VILLAZON,Ingeniero(a) agropecuario(a)
+IDR,INGENIERIA EN DESARROLLO RURAL,Ingeniero(a) en desarrollo rural
+MVZ,MED. VETERINARIA Y ZOOTECNIA - TUPIZA,Medico(a) veterinario(a) y zootecnista
+ENF,ENFERMERIA,Licenciado(a) en enfermeria
+LEF,ENFERMERIA - LLICA,Licenciado(a) en enfermeria
+VEF,ENFERMERIA - VILLAZON,Licenciado(a) en enfermeria
+PEN,PROG. DE AUXILIARES DE ENFERMERIA,Auxiliar en enfermeria
+TMF,TEC. MEDIO ENFERMERIA,Tecnico(a) medio en enfermeria
+ADM,ADMINISTRACION DE EMPRESAS,Administrador(a) de empresas
+COP,AUDITORIA - CONTADURIA PUBLICA,Auditor(a)-contador(a) publico(a) autorizado(a)
+CTB,CONTABILIDAD Y FINANZAS,Contador(a) Financiero
+CTT,CONTADURIA PUBLICA - TUPIZA,
+ECO,ECONOMIA,Economista
+CEC,ECONOMIA - UNCIA,Economista
+UEC,ECONOMIA - UYUNI,Economista
+ICO,INGENIERIA COMERCIAL,Licenciado(a) en trabajo social
+LAT,LICENCIATURA EN AUDITORIA - TUPIZA,
+PCO,PROGRAMA DE LICENCIATURA EN AUDITORIA,
+EST,ESTADISTICA,Licenciado(a) en estadistica
+FIS,FISICA,Licenciado(a) en fisica
+INF,INGENIERIA INFORMATICA,Ingeniero(a) en informatica
+TSR,ING. INFORMATICA - TECNICO SUPERIOR EN REDES Y CIBERSEGURIDAD,Tecnico superior en redes y ciberseguridad
+TSS,ING. INFORMATICA - TECNICO SUPERIOR EN SISTEMAS INFORMATICOS,Tecnico superior en sistemas informaticos 
+MAT,MATEMATICA,Licenciado(a) en matematicas
+CIN,PROGRAMA INGENIERIA INFORMATICA - UNCIA,
+QMC,QUIMICA,Licenciado(a) en quimica 
+QUI,QUIMICA - UYUNI,Licenciado(a) en quimica 
+COM,CIENCIAS DE LA COMUNICACION,Comunicador(a)
+EDI,ESCUELA DE IDIOMAS,
+EDT,ESCUELA DE IDIOMAS - TUPIZA,
+EXI,EXTENSION LIBRE - INGLES,
+EXQ,EXTENSION LIBRE - QUECHUA,
+LEI,LINGUISTICA E IDIOMAS,Licenciado(a) en idiomas 
+ULI,LINGUISTICA E IDIOMAS - UYUNI,Licenciado(a) en idiomas 
+CLI,PROGRAMA LINGUISTICA E IDIOMAS - UNCIA,
+TCS,TRABAJO SOCIAL,Licenciado(a) en trabajo social
+CTS,TRABAJO SOCIAL - UNCIA,Licenciado(a) en trabajo social
+TUR,TURISMO,Licenciado(a) en turismo
+TUU,TURISMO - UYUNI,Licenciado(a) en turismo 
+DER,DERECHO,Abogado(a)
+DET,DERECHO - TUPIZA,Abogado(a)
+CDE,DERECHO - UNCIA,Abogado(a)
+LBC,LABORATORIO CLINICO,
+PIC,PROGRAMA DE PEDAGOGIA INTERCULTURAL,Licenciado(a) en pedagogia intercultural
+CCV,CONSTRUCCIONES CIVILES,Tecnico(a) universitario superior en construcciones civiles
+GYT,ING. EN GEODESIA Y TOPOGRAFIA,Ingeniero(a) en geodesia y topografia
+CIV,INGENIERIA CIVIL,Ingeniero(a) civil
+IMA,INGENIERIA DEL MEDIO AMBIENTE,Ingeniero(a) del medio ambiente
+IGO,INGENIERIA GEOLOGICA,Ingeniero(a) geologo
+PMM,ING. DE PROCESOS DE MAT. PRIMAS MIN.,Ingeniero(a) de procesos de materias primas minerales
+IMI,INGENIERIA MINERA,Ingeniero(a) de minas
+ELE,INGENIERIA ELECTRICA,Ingeniero(a) electrico(a)
+IET,INGENIERIA ELECTRONICA,Ingeniero(a) electronico(a)
+IMC,INGENIERIA MECANICA,Ingeniero(a) mecanico(a)
+IMT,INGENIERIA MECATRONICA,Ingeniero(a) mecatronico(a)
+MAU,MECANICA AUTOMOTRIZ,
+LMA,MECANICA AUTOMOTRIZ - LLICA,
+TED,TEC. MEDIO ELECTRICIDAD,Tecnico(a) universitario medio en electricidad
+TEA,TEC. MEDIO ELECTRONICA,Tecnico(a) universitario medio en electronica
+TMA,TEC. MEDIO MECANICA AUTOMOTRIZ,Tecnico(a) universitario medio en mecanica automotriz
+TMG,TEC. MEDIO MECANICA GENERAL,Tecnico(a) universitario medio en mecanica general
+MED,MEDICINA,Medico Cirujano
+LAB,LABORATORIO FISICA,
+SAG,AGRONOMIA - SACACA,
+SEN,ENFERMERIA - SACACA,Licenciado(a) en enfermeria
+CIF,INFORMATICA - UNCIA,Ingeniero(a) Informatico(a)
+UEN,ENFERMERIA - UYUNI,Licenciado(a) en enfermeria
+SIS,INGENIERIA DE SISTEMAS,Ingeniero(a) en sistemas 
+SIT,INGENIERIA DE SISTEMAS - TUPIZA,Ingeniero(a) en sistemas 
+DPD,INGENIERIA EN DISEÑO Y PROGRAMACION DIGITAL,Ingeniero(a) en diseÑo y programacion digital
+ODO,ODONTOLOGIA,
+VIC,VICERRECTORADO,
