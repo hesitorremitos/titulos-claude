@@ -197,7 +197,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Head, Link, router } from '@inertiajs/vue3'
+import { Head, router } from '@inertiajs/vue3'
 import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
