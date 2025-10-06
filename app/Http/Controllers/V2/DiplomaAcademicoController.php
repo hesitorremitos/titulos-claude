@@ -27,14 +27,28 @@ class DiplomaAcademicoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('search');
+        
         $diplomas = DiplomaAcademico::with(['persona', 'mencion'])
+            ->when($search, function ($query, $search) {
+                $query->whereHas('persona', function ($personaQuery) use ($search) {
+                    $personaQuery->where('ci', 'like', "%{$search}%")
+                        ->orWhere('nombres', 'like', "%{$search}%")
+                        ->orWhere('paterno', 'like', "%{$search}%")
+                        ->orWhere('materno', 'like', "%{$search}%");
+                });
+            })
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('DiplomasAcademicos/Index', [
             'diplomas' => $diplomas,
+            'filters' => [
+                'search' => $search,
+            ],
         ]);
     }
 

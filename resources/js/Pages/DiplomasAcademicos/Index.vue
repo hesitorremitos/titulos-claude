@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { computed, ref } from 'vue'
+import { Head, Link, router } from '@inertiajs/vue3'
 import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
 import { Icon } from '@iconify/vue'
 import {
@@ -14,7 +14,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Eye, Pencil, Trash2, PlusCircle } from 'lucide-vue-next'
+import { Input } from '@/components/ui/input'
+import { Eye, Search, X, PlusCircle } from 'lucide-vue-next'
 import type { DiplomaAcademico, PaginatedResponse } from '@/types/models.d'
 
 // Configurar layout persistente
@@ -28,10 +29,40 @@ defineOptions({
 // Props
 const props = defineProps<{
   diplomas: PaginatedResponse<DiplomaAcademico>
+  filters: {
+    search?: string
+  }
 }>()
 
 // Computed property to check if there are diplomas
 const hasDiplomas = computed(() => props.diplomas.data.length > 0)
+
+// Search functionality
+const search = ref(props.filters.search || '')
+
+// We'll use a manual debounce approach instead of watch
+
+let searchTimeout: number
+const debouncedSearch = () => {
+  clearTimeout(searchTimeout)
+  searchTimeout = setTimeout(() => {
+    router.get(route('v2.diplomas-academicos.index'), {
+      search: search.value || undefined,
+    }, {
+      preserveState: true,
+      replace: true,
+    })
+  }, 300)
+}
+
+// Clear search
+const clearSearch = () => {
+  search.value = ''
+  router.get(route('v2.diplomas-academicos.index'), {}, {
+    preserveState: true,
+    replace: true,
+  })
+}
 
 // Function to format date
 const formatDate = (dateString: string | undefined) => {
@@ -65,6 +96,28 @@ const formatDate = (dateString: string | undefined) => {
           </Link>
         </CardHeader>
         <CardContent>
+          <!-- Buscador -->
+          <div class="mb-6">
+            <div class="relative max-w-md">
+              <Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                v-model="search"
+                @input="debouncedSearch"
+                placeholder="Buscar por CI, nombres o apellidos..."
+                class="pl-10 pr-10"
+              />
+              <Button
+                v-if="search"
+                variant="ghost"
+                size="icon"
+                class="absolute right-1 top-1/2 h-6 w-6 -translate-y-1/2 hover:bg-transparent"
+                @click="clearSearch"
+              >
+                <X class="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
           <div v-if="hasDiplomas">
             <Table>
               <TableHeader>
@@ -113,10 +166,10 @@ const formatDate = (dateString: string | undefined) => {
                   :key="link.label"
                   :href="link.url"
                   :disabled="!link.url || link.active"
-                  v-html="link.label"
                   size="sm"
                   :variant="link.active ? 'default' : 'outline'"
                   as="a"
+                  v-html="link.label"
                 />
               </div>
             </div>
@@ -125,16 +178,26 @@ const formatDate = (dateString: string | undefined) => {
           <!-- Empty State -->
           <div v-else class="text-center py-16">
             <Icon icon="material-symbols:school" class="h-16 w-16 text-muted-foreground mx-auto mb-6" />
-            <h3 class="text-xl font-semibold">No hay diplomas académicos</h3>
+            <h3 class="text-xl font-semibold">
+              {{ search ? 'No se encontraron resultados' : 'No hay diplomas académicos' }}
+            </h3>
             <p class="text-muted-foreground mt-2">
-              Comienza registrando un nuevo diploma académico.
+              {{ search 
+                ? `No se encontraron diplomas que coincidan con "${search}".` 
+                : 'Comienza registrando un nuevo diploma académico.' 
+              }}
             </p>
-            <Link :href="route('v2.diplomas-academicos.create')" class="mt-6 inline-block">
-              <Button>
-                <PlusCircle class="h-4 w-4 mr-2" />
-                Registrar Primer Diploma
+            <div class="mt-6 space-x-3">
+              <Button v-if="search" variant="outline" @click="clearSearch">
+                Limpiar búsqueda
               </Button>
-            </Link>
+              <Link :href="route('v2.diplomas-academicos.create')">
+                <Button>
+                  <PlusCircle class="h-4 w-4 mr-2" />
+                  {{ search ? 'Registrar Diploma' : 'Registrar Primer Diploma' }}
+                </Button>
+              </Link>
+            </div>
           </div>
         </CardContent>
       </Card>
