@@ -21,8 +21,10 @@
     },
     "memory": {
       "type": "stdio",
-      "command": "npx",
+      "command": "cmd",
       "args": [
+        "/c",
+        "npx",
         "-y",
         "@modelcontextprotocol/server-memory"
       ],
@@ -32,8 +34,10 @@
     },
     "repomix": {
       "type": "stdio",
-      "command": "npx",
+      "command": "cmd",
       "args": [
+        "/c",
+        "npx",
         "-y",
         "repomix",
         "--mcp"
