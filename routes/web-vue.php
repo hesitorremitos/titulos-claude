@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\InertiaLoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DiplomaBachiller\DiplomaBachillerController;
+use App\Http\Controllers\DiplomaBachiller\MencionController as MencionDBController;
 use App\Http\Controllers\DiplomasAcademicos\DiplomaAcademicoController;
 use App\Http\Controllers\DiplomasAcademicos\MencionController;
 use App\Http\Controllers\DiplomasAcademicos\ModalidadController;
@@ -144,6 +146,32 @@ Route::middleware('auth')->group(function () {
         'destroy' => 'titulos-provision-nacional.destroy',
     ])->parameters([
         'titulos-provision-nacional' => 'titulo',
+    ]);
+});
+
+// Diplomas de Bachiller CRUD
+Route::middleware('auth')->group(function () {
+    // Menciones CRUD
+    Route::get('/diploma-bachiller/menciones', [MencionDBController::class, 'index'])->name('diploma-bachiller.menciones.index');
+    Route::post('/diploma-bachiller/menciones', [MencionDBController::class, 'store'])->name('diploma-bachiller.menciones.store');
+    Route::put('/diploma-bachiller/menciones/{mencion}', [MencionDBController::class, 'update'])->name('diploma-bachiller.menciones.update');
+    Route::delete('/diploma-bachiller/menciones/{mencion}', [MencionDBController::class, 'destroy'])->name('diploma-bachiller.menciones.destroy');
+
+    // Ruta segura para servir archivos PDF
+    Route::get('/diploma-bachiller/{diploma}/pdf', [DiplomaBachillerController::class, 'servePdf'])
+        ->name('diploma-bachiller.pdf');
+
+    // Resource routes
+    Route::resource('/diploma-bachiller', DiplomaBachillerController::class)->names([
+        'index' => 'diploma-bachiller.index',
+        'create' => 'diploma-bachiller.create',
+        'store' => 'diploma-bachiller.store',
+        'show' => 'diploma-bachiller.show',
+        'edit' => 'diploma-bachiller.edit',
+        'update' => 'diploma-bachiller.update',
+        'destroy' => 'diploma-bachiller.destroy',
+    ])->parameters([
+        'diploma-bachiller' => 'diploma',
     ]);
 });
 

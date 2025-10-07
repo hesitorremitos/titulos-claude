@@ -85,10 +85,22 @@ import {
 } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { useDiplomaAcademicoStore } from '@/stores/titulos/useDiplomaAcademicoStore'
+import { useDiplomaBachillerStore } from '@/stores/titulos/useDiplomaBachillerStore'
+
+const props = defineProps<{
+  storeType?: 'diplomaAcademico' | 'diplomaBachiller'
+}>()
 
 // Stores
 const personalDataStore = usePersonalDataStore()
-const diplomaStore = useDiplomaAcademicoStore()
+const diplomaAcademicoStore = useDiplomaAcademicoStore()
+const diplomaBachillerStore = useDiplomaBachillerStore()
+
+const activeStore = computed(() => {
+  return props.storeType === 'diplomaBachiller'
+    ? diplomaBachillerStore
+    : diplomaAcademicoStore
+})
 
 // State
 const pdfFile = ref<File | null>(null)
@@ -159,7 +171,7 @@ const processFile = (file: File) => {
   pdfFile.value = file
   
   // Asignar archivo al store de diploma
-  diplomaStore.file = file
+  activeStore.value.file = file
   
   // Extraer CI del nombre y buscar automáticamente
   extractCiAndSearch(file.name)
@@ -170,7 +182,7 @@ const replaceFile = () => {
   error.value = ''
   
   // Limpiar archivo del store
-  diplomaStore.file = null
+  activeStore.value.file = null
 }
 
 // Watch file dialog changes with watchEffect

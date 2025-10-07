@@ -42,3 +42,7 @@ export interface TituloProvisionNacionalPageProps extends PageProps {
     menciones?: import('./titulos/titulo-provision-nacional').MencionTpn[]
     modalidades?: import('./titulos/titulo-provision-nacional').ModalidadTpn[]
 }
+
+export interface DiplomaBachillerPageProps extends PageProps {
+    menciones?: import('./titulos/diploma-bachiller').MencionDiplomaBachiller[]
+}

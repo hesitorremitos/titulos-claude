@@ -51,6 +51,32 @@ const breadcrumbRegistry: Record<string, BreadcrumbConfig> = {
     parent: 'diplomas-academicos'
   },
 
+  // Diplomas Bachiller
+  'diploma-bachiller.index': {
+    label: 'Lista',
+    parent: 'diploma-bachiller'
+  },
+  'diploma-bachiller.create': {
+    label: 'Registrar',
+    parent: 'diploma-bachiller'
+  },
+  'diploma-bachiller.show': {
+    label: 'Ver',
+    parent: 'diploma-bachiller',
+    dynamic: (props) => `Ver: ${props.diploma?.ci || props.diploma?.persona?.nombres || 'Diploma'}`,
+    href: (props) => props.diploma ? route('diploma-bachiller.show', props.diploma.id) : null
+  },
+  'diploma-bachiller.edit': {
+    label: 'Editar',
+    parent: 'diploma-bachiller.show',
+    dynamic: (props) => `Editar: ${props.diploma?.ci || props.diploma?.persona?.nombres || 'Diploma'}`,
+  },
+
+  'diploma-bachiller.menciones.index': {
+    label: 'Menciones',
+    parent: 'diploma-bachiller'
+  },
+
   // Facultades
   'facultades.index': {
     label: 'Lista',
@@ -126,6 +152,11 @@ const breadcrumbRegistry: Record<string, BreadcrumbConfig> = {
     parent: 'dashboard',
     href: () => route('diplomas-academicos.index')
   },
+  'diploma-bachiller': {
+    label: 'Diplomas Bachiller',
+    parent: 'dashboard',
+    href: () => route('diploma-bachiller.index')
+  },
   'facultades': {
     label: 'Facultades',
     parent: 'dashboard',
@@ -151,7 +182,7 @@ export function useBreadcrumbs(overrideBreadcrumbs?: BreadcrumbItem[]) {
     try {
       const current = route().current()
       return typeof current === 'string' ? current : null
-    } catch (e) {
+    } catch {
       return null
     }
   }
@@ -176,7 +207,7 @@ export function useBreadcrumbs(overrideBreadcrumbs?: BreadcrumbItem[]) {
     if (config.href) {
       try {
         href = config.href(pageProps)
-      } catch (e) {
+      } catch {
         href = null
       }
     }

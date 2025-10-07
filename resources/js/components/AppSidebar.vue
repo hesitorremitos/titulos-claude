@@ -109,8 +109,8 @@ const navigationSections = computed((): NavigationSection[] => [
             {
                 label: 'Diplomas Bachiller',
                 icon: GraduationCap,
-                route: '/diplomas-bachiller',
-                disabled: true,
+                route: '/diploma-bachiller',
+                disabled: false,
             },
         ],
     },

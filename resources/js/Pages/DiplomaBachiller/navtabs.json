@@ -1,0 +1,20 @@
+[
+  {
+    "label": "Lista",
+    "href": "/diploma-bachiller",
+    "icon": "material-symbols:list",
+    "value": "lista"
+  },
+  {
+    "label": "Registrar",
+    "href": "/diploma-bachiller/create",
+    "icon": "material-symbols:add",
+    "value": "registrar"
+  },
+  {
+    "label": "Menciones",
+    "href": "/diploma-bachiller/menciones",
+    "icon": "material-symbols:category",
+    "value": "menciones"
+  }
+]
