@@ -206,7 +206,7 @@
         
         <!-- Columna derecha: PDF Viewer (siempre visible) -->
         <div class="h-full">
-          <PdfViewer class="h-full" />
+          <PdfViewer class="h-full" store-type="tituloProvisionNacional" />
           <p v-if="form.errors.file" class="text-sm text-red-500 mt-2">
             {{ form.errors.file }}
           </p>
@@ -284,7 +284,7 @@ const page = usePage()
 const submitForm = () => {
   updateFormData()
   
-  form.post(route('diplomas-academicos.store'), {
+  form.post(route('titulos-provision-nacional.store'), {
     forceFormData: true,
     onSuccess: () => {
       // Limpiar stores después del éxito

@@ -49,7 +49,7 @@ let searchTimeout: number
 const debouncedSearch = () => {
   clearTimeout(searchTimeout)
   searchTimeout = setTimeout(() => {
-    router.get(route('diplomas-academicos.index'), {
+    router.get(route('titulos-provision-nacional.index'), {
       search: search.value || undefined,
     }, {
       preserveState: true,
@@ -61,7 +61,7 @@ const debouncedSearch = () => {
 // Clear search
 const clearSearch = () => {
   search.value = ''
-  router.get(route('diplomas-academicos.index'), {}, {
+  router.get(route('titulos-provision-nacional.index'), {}, {
     preserveState: true,
     replace: true,
   })

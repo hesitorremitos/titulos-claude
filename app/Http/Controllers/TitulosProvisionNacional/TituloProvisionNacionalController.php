@@ -7,21 +7,25 @@ use App\Models\TitulosProvisionNacional\TituloProvisionNacional;
 use App\Models\TitulosProvisionNacional\Mencion;
 use App\Models\TitulosProvisionNacional\Modalidad;
 use App\Models\Persona;
+use App\Services\Documents\TituloProvisionNacionalDocumentService;
 use App\Services\UniversityApiService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class TituloProvisionNacionalController extends Controller
 {
     protected UniversityApiService $universityApiService;
+    protected TituloProvisionNacionalDocumentService $documentService;
 
-    public function __construct(UniversityApiService $universityApiService)
-    {
+    public function __construct(
+        UniversityApiService $universityApiService,
+        TituloProvisionNacionalDocumentService $documentService
+    ) {
         $this->universityApiService = $universityApiService;
+        $this->documentService = $documentService;
     }
 
     /**
@@ -77,20 +81,37 @@ class TituloProvisionNacionalController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'ci' => 'required|string|exists:personas,ci',
+            'ci' => 'required|string|min:3|max:255',
+            'nombres' => 'required|string|max:255',
+            'paterno' => 'required|string|max:255',
+            'materno' => 'nullable|string|max:255',
             'nro_documento' => 'required|integer|min:1',
             'fojas' => 'nullable|integer|min:1',
             'libro' => 'nullable|integer|min:1',
             'fecha_emision' => 'required|date|before_or_equal:today',
-              'observaciones' => 'nullable|string|max:1000',
+            'observaciones' => 'nullable|string|max:1000',
             'mencion_tpn_id' => 'nullable|exists:menciones_tpn,id',
             'modalidad_tpn_id' => 'nullable|exists:modalidades_tpn,id',
-            'file_dir' => 'nullable|string|max:500',
             'verificado' => 'boolean',
+            'file' => 'required|file|mimes:pdf|max:51200',
         ]);
+
+        $validated['verificado'] = array_key_exists('verificado', $validated)
+            ? (bool) $validated['verificado']
+            : false;
+
+        $persona = $this->upsertPersona($validated);
+        $mencion = $this->findMencion($validated['mencion_tpn_id'] ?? null);
+
+        $validated['file_dir'] = $this->documentService->store(
+            $request->file('file'),
+            $this->buildDocumentContext($validated, $persona, $mencion)
+        );
 
         $validated['created_by'] = Auth::id();
         $validated['updated_by'] = Auth::id();
+
+        unset($validated['file'], $validated['nombres'], $validated['paterno'], $validated['materno']);
 
         $titulo = TituloProvisionNacional::create($validated);
 
@@ -124,7 +145,7 @@ class TituloProvisionNacionalController extends Controller
      */
     public function edit(string $id)
     {
-        $titulo = TituloProvisionNacional::findOrFail($id);
+        $titulo = TituloProvisionNacional::with(['persona', 'mencion', 'modalidad'])->findOrFail($id);
 
         $this->authorizeAccess($titulo, 'edit');
 
@@ -153,19 +174,39 @@ class TituloProvisionNacionalController extends Controller
         $this->authorizeAccess($titulo, 'update');
 
         $validated = $request->validate([
-            'ci' => 'required|string|exists:personas,ci',
+            'ci' => 'required|string|min:3|max:255',
+            'nombres' => 'required|string|max:255',
+            'paterno' => 'required|string|max:255',
+            'materno' => 'nullable|string|max:255',
             'nro_documento' => 'required|integer|min:1',
             'fojas' => 'nullable|integer|min:1',
             'libro' => 'nullable|integer|min:1',
             'fecha_emision' => 'required|date|before_or_equal:today',
-              'observaciones' => 'nullable|string|max:1000',
+            'observaciones' => 'nullable|string|max:1000',
             'mencion_tpn_id' => 'nullable|exists:menciones_tpn,id',
             'modalidad_tpn_id' => 'nullable|exists:modalidades_tpn,id',
-            'file_dir' => 'nullable|string|max:500',
             'verificado' => 'boolean',
+            'file' => 'nullable|file|mimes:pdf|max:51200',
         ]);
 
+        $validated['verificado'] = array_key_exists('verificado', $validated)
+            ? (bool) $validated['verificado']
+            : $titulo->verificado;
+
+        $persona = $this->upsertPersona($validated);
+        $mencion = $this->findMencion($validated['mencion_tpn_id'] ?? null);
+
+        if ($request->hasFile('file')) {
+            $validated['file_dir'] = $this->documentService->replace(
+                $titulo->file_dir,
+                $request->file('file'),
+                $this->buildDocumentContext($validated, $persona, $mencion)
+            );
+        }
+
         $validated['updated_by'] = Auth::id();
+
+        unset($validated['file'], $validated['nombres'], $validated['paterno'], $validated['materno']);
 
         $titulo->update($validated);
 
@@ -182,6 +223,8 @@ class TituloProvisionNacionalController extends Controller
         $titulo = TituloProvisionNacional::findOrFail($id);
 
         $this->authorizeAccess($titulo, 'destroy');
+
+        $this->documentService->delete($titulo->file_dir);
 
         $titulo->delete();
 
@@ -219,20 +262,45 @@ class TituloProvisionNacionalController extends Controller
 
         $this->authorizeView($titulo);
 
-        if (!$titulo->file_dir) {
+        if (! $titulo->file_dir || ! Storage::disk('public')->exists($titulo->file_dir)) {
             abort(404, 'Archivo PDF no encontrado.');
         }
 
-        $filePath = storage_path('app/public/' . $titulo->file_dir);
-
-        if (!file_exists($filePath)) {
-            abort(404, 'Archivo PDF no encontrado.');
-        }
+        $filePath = Storage::disk('public')->path($titulo->file_dir);
 
         return response()->file($filePath, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="titulo_pn_' . $titulo->nro_titulo_pn . '.pdf"'
         ]);
+    }
+
+    private function upsertPersona(array $data): Persona
+    {
+        return Persona::updateOrCreate(
+            ['ci' => $data['ci']],
+            [
+                'nombres' => $data['nombres'],
+                'paterno' => $data['paterno'],
+                'materno' => isset($data['materno']) && $data['materno'] !== '' ? $data['materno'] : null,
+            ]
+        );
+    }
+
+    private function findMencion(?int $mencionId): ?Mencion
+    {
+        return $mencionId ? Mencion::find($mencionId) : null;
+    }
+
+    private function buildDocumentContext(array $validated, Persona $persona, ?Mencion $mencion): array
+    {
+        return [
+            'fecha_emision' => $validated['fecha_emision'] ?? null,
+            'mencion' => $mencion?->nombre,
+            'ci' => $persona->ci,
+            'nombres' => $persona->nombres,
+            'paterno' => $persona->paterno,
+            'materno' => $persona->materno,
+        ];
     }
 
     /**
@@ -243,7 +311,7 @@ class TituloProvisionNacionalController extends Controller
         $user = Auth::user();
 
         // Administrators have full access
-        if ($user->hasRole('Administrator')) {
+        if ($user->hasRole('Administrador') || $user->hasRole('Administrator')) {
             return;
         }
 
@@ -268,7 +336,7 @@ class TituloProvisionNacionalController extends Controller
         $user = Auth::user();
 
         // Administrators have full access
-        if ($user->hasRole('Administrator')) {
+        if ($user->hasRole('Administrador') || $user->hasRole('Administrator')) {
             return;
         }
 

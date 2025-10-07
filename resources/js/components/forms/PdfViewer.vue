@@ -86,20 +86,28 @@ import {
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { useDiplomaAcademicoStore } from '@/stores/titulos/useDiplomaAcademicoStore'
 import { useDiplomaBachillerStore } from '@/stores/titulos/useDiplomaBachillerStore'
+import { useTituloProvisionNacionalStore } from '@/stores/titulos/useTituloProvisionNacionalStore'
 
 const props = defineProps<{
-  storeType?: 'diplomaAcademico' | 'diplomaBachiller'
+  storeType?: 'diplomaAcademico' | 'diplomaBachiller' | 'tituloProvisionNacional'
 }>()
 
 // Stores
 const personalDataStore = usePersonalDataStore()
 const diplomaAcademicoStore = useDiplomaAcademicoStore()
 const diplomaBachillerStore = useDiplomaBachillerStore()
+const tituloProvisionNacionalStore = useTituloProvisionNacionalStore()
 
 const activeStore = computed(() => {
-  return props.storeType === 'diplomaBachiller'
-    ? diplomaBachillerStore
-    : diplomaAcademicoStore
+  if (props.storeType === 'diplomaBachiller') {
+    return diplomaBachillerStore
+  }
+
+  if (props.storeType === 'tituloProvisionNacional') {
+    return tituloProvisionNacionalStore
+  }
+
+  return diplomaAcademicoStore
 })
 
 // State
