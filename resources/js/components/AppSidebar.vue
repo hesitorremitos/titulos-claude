@@ -16,7 +16,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { ChevronRight, GraduationCap, Home, Settings, Building2, BookOpen, Users, Award, Crown, Star, Brain, LogOut } from 'lucide-vue-next';
+import { ChevronRight, GraduationCap, Home, Settings, Building2, BookOpen, Users, Award, Crown, Star, Brain, ScrollText, LogOut } from 'lucide-vue-next';
 import { router, usePage } from '@inertiajs/vue3';
 import { computed, ref, onMounted } from 'vue';
 import type { Component } from 'vue';
@@ -122,6 +122,12 @@ const navigationSections = computed((): NavigationSection[] => [
                 label: 'Maestrías',
                 icon: Brain,
                 route: '/maestrias',
+                disabled: false,
+            },
+            {
+                label: 'Diplomados',
+                icon: ScrollText,
+                route: '/diplomados',
                 disabled: false,
             },
             {

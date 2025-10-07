@@ -8,6 +8,9 @@ use App\Http\Controllers\Maestria\ModalidadController as MaestriaModalidadContro
 use App\Http\Controllers\Doctorado\DoctoradoController;
 use App\Http\Controllers\Doctorado\MencionController as DoctoradoMencionController;
 use App\Http\Controllers\Doctorado\ModalidadController as DoctoradoModalidadController;
+use App\Http\Controllers\Diplomado\DiplomadoController;
+use App\Http\Controllers\Diplomado\MencionController as DiplomadoMencionController;
+use App\Http\Controllers\Diplomado\ModalidadController as DiplomadoModalidadController;
 use App\Http\Controllers\DiplomaBachiller\DiplomaBachillerController;
 use App\Http\Controllers\DiplomaBachiller\MencionController as MencionDBController;
 use App\Http\Controllers\DiplomasAcademicos\DiplomaAcademicoController;
@@ -180,6 +183,34 @@ Route::middleware('auth')->group(function () {
         'destroy' => 'maestrias.destroy',
     ])->parameters([
         'maestrias' => 'maestria',
+    ]);
+});
+
+// Diplomados CRUD
+Route::middleware('auth')->group(function () {
+    Route::get('/diplomados/menciones', [DiplomadoMencionController::class, 'index'])->name('diplomados.menciones.index');
+    Route::post('/diplomados/menciones', [DiplomadoMencionController::class, 'store'])->name('diplomados.menciones.store');
+    Route::put('/diplomados/menciones/{mencion}', [DiplomadoMencionController::class, 'update'])->name('diplomados.menciones.update');
+    Route::delete('/diplomados/menciones/{mencion}', [DiplomadoMencionController::class, 'destroy'])->name('diplomados.menciones.destroy');
+
+    Route::get('/diplomados/modalidades', [DiplomadoModalidadController::class, 'index'])->name('diplomados.modalidades.index');
+    Route::post('/diplomados/modalidades', [DiplomadoModalidadController::class, 'store'])->name('diplomados.modalidades.store');
+    Route::put('/diplomados/modalidades/{modalidad}', [DiplomadoModalidadController::class, 'update'])->name('diplomados.modalidades.update');
+    Route::delete('/diplomados/modalidades/{modalidad}', [DiplomadoModalidadController::class, 'destroy'])->name('diplomados.modalidades.destroy');
+
+    Route::get('/diplomados/personas/{ci}', [DiplomadoController::class, 'searchPerson'])->name('diplomados.search-person');
+    Route::get('/diplomados/{diplomado}/pdf', [DiplomadoController::class, 'servePdf'])->name('diplomados.pdf');
+
+    Route::resource('/diplomados', DiplomadoController::class)->names([
+        'index' => 'diplomados.index',
+        'create' => 'diplomados.create',
+        'store' => 'diplomados.store',
+        'show' => 'diplomados.show',
+        'edit' => 'diplomados.edit',
+        'update' => 'diplomados.update',
+        'destroy' => 'diplomados.destroy',
+    ])->parameters([
+        'diplomados' => 'diplomado',
     ]);
 });
 

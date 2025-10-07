@@ -1,0 +1,26 @@
+[
+  {
+    "label": "Lista",
+    "href": "/diplomados",
+    "icon": "material-symbols:list",
+    "value": "lista"
+  },
+  {
+    "label": "Registrar",
+    "href": "/diplomados/create",
+    "icon": "material-symbols:add",
+    "value": "registrar"
+  },
+  {
+    "label": "Menciones",
+    "href": "/diplomados/menciones",
+    "icon": "material-symbols:category",
+    "value": "menciones"
+  },
+  {
+    "label": "Modalidades",
+    "href": "/diplomados/modalidades",
+    "icon": "material-symbols:school",
+    "value": "modalidades"
+  }
+]

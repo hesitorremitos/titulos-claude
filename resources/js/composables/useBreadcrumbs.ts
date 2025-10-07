@@ -106,6 +106,35 @@ const breadcrumbRegistry: Record<string, BreadcrumbConfig> = {
     parent: 'maestrias'
   },
 
+  // Diplomados
+  'diplomados.index': {
+    label: 'Lista',
+    parent: 'diplomados'
+  },
+  'diplomados.create': {
+    label: 'Registrar',
+    parent: 'diplomados'
+  },
+  'diplomados.show': {
+    label: 'Ver',
+    parent: 'diplomados',
+    dynamic: (props) => `Ver: ${props.diplomado?.ci || props.diplomado?.persona?.nombres || 'Diplomado'}`,
+    href: (props) => props.diplomado ? route('diplomados.show', props.diplomado.id) : null
+  },
+  'diplomados.edit': {
+    label: 'Editar',
+    parent: 'diplomados.show',
+    dynamic: (props) => `Editar: ${props.diplomado?.ci || props.diplomado?.persona?.nombres || 'Diplomado'}`,
+  },
+  'diplomados.menciones.index': {
+    label: 'Menciones',
+    parent: 'diplomados'
+  },
+  'diplomados.modalidades.index': {
+    label: 'Modalidades',
+    parent: 'diplomados'
+  },
+
   // Doctorados
   'doctorados.index': {
     label: 'Lista',
@@ -219,6 +248,11 @@ const breadcrumbRegistry: Record<string, BreadcrumbConfig> = {
     label: 'Maestrías',
     parent: 'dashboard',
     href: () => route('maestrias.index')
+  },
+  'diplomados': {
+    label: 'Diplomados',
+    parent: 'dashboard',
+    href: () => route('diplomados.index')
   },
   'doctorados': {
     label: 'Doctorados',
