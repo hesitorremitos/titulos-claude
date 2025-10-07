@@ -197,7 +197,8 @@ import {
 } from '@/components/ui/select'
 import { Plus, Edit, Trash2 } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
-import type { Mencion, Facultad, PaginatedResponse } from '@/types/models.d'
+import type { MencionDiplomaAcademico as Mencion, PaginatedResponse } from '@/types/titulos/diploma-academico'
+import type { Facultad } from '@/types/models.d'
 import type { PageProps } from '@/types/ui'
 
 // Configurar layout persistente

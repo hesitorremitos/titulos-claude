@@ -354,7 +354,11 @@ import {
   RefreshCw,
   AlertCircle
 } from 'lucide-vue-next'
-import type { DiplomaAcademico, Mencion, Modalidad } from '@/types/models.d'
+import type {
+  DiplomaAcademico,
+  MencionDiplomaAcademico as Mencion,
+  ModalidadDiplomaAcademico as Modalidad
+} from '@/types/titulos/diploma-academico'
 import { toast } from 'vue-sonner'
 
 // Configurar layout persistente

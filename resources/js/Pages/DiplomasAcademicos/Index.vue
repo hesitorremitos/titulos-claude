@@ -16,7 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Eye, Search, X, PlusCircle } from 'lucide-vue-next'
-import type { DiplomaAcademico, PaginatedResponse } from '@/types/models.d'
+import type { DiplomaAcademico, PaginatedResponse } from '@/types/titulos/diploma-academico'
 
 // Configurar layout persistente
 defineOptions({ 

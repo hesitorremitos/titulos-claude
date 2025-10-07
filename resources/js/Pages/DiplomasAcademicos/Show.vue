@@ -221,7 +221,7 @@ import {
   Trash2, 
   Download 
 } from 'lucide-vue-next'
-import type { DiplomaAcademico } from '@/types/models.d'
+import type { DiplomaAcademico } from '@/types/titulos/diploma-academico'
 import { toast } from 'vue-sonner'
 
 // Configurar layout persistente

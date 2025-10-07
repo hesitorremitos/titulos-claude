@@ -172,7 +172,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Plus, Edit, Trash2 } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
-import type { Modalidad, PaginatedResponse } from '@/types/models.d'
+import type { ModalidadDiplomaAcademico as Modalidad, PaginatedResponse } from '@/types/titulos/diploma-academico'
 import type { PageProps } from '@/types/ui'
 
 // Configurar layout persistente
