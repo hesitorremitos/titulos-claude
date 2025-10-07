@@ -50,11 +50,11 @@ class User extends Authenticatable
 
     public function getAuthIdentifierName()
     {
-    // Use the model primary key name (default is 'id').
-    // Returning the primary key name ensures Laravel uses the numeric id
-    // as the authenticated identifier while still allowing login via CI
-    // in methods like findForPassport.
-    return $this->getKeyName();
+        // Use the model primary key name (default is 'id').
+        // Returning the primary key name ensures Laravel uses the numeric id
+        // as the authenticated identifier while still allowing login via CI
+        // in methods like findForPassport.
+        return $this->getKeyName();
     }
 
     public function findForPassport($username)

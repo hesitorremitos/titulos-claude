@@ -2,14 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\DiplomasAcademicos\DiplomaAcademico;
+use App\Models\DiplomasAcademicos\Mencion;
+use App\Models\DiplomasAcademicos\Modalidad;
+use App\Models\Persona;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Models\Persona;
-use App\Models\DiplomaAcademico;
-use App\Models\GraduacionDa;
-use App\Models\MencionDa;
-use Carbon\Carbon;
 
 class BackupDataSeeder extends Seeder
 {
@@ -19,21 +19,21 @@ class BackupDataSeeder extends Seeder
     public function run(): void
     {
         $this->command->info('Iniciando importación de datos de respaldo...');
-        
+
         // Deshabilitar verificaciones de claves foráneas temporalmente
         $this->disableForeignKeyChecks();
-        
+
         try {
             // Importar personas primero
             $this->importPersonas();
-            
+
             // Importar diplomas académicos
             $this->importDiplomasAcademicos();
-            
+
             $this->command->info('Importación completada exitosamente.');
         } catch (\Exception $e) {
-            $this->command->error('Error durante la importación: ' . $e->getMessage());
-            Log::error('Error en BackupDataSeeder: ' . $e->getMessage());
+            $this->command->error('Error durante la importación: '.$e->getMessage());
+            Log::error('Error en BackupDataSeeder: '.$e->getMessage());
         } finally {
             // Rehabilitar verificaciones de claves foráneas
             $this->enableForeignKeyChecks();
@@ -43,18 +43,20 @@ class BackupDataSeeder extends Seeder
     private function importPersonas(): void
     {
         $this->command->info('Importando personas...');
-        
+
         $csvFile = database_path('backups/persona.csv');
-        
-        if (!file_exists($csvFile)) {
-            $this->command->warn('Archivo persona.csv no encontrado en: ' . $csvFile);
+
+        if (! file_exists($csvFile)) {
+            $this->command->warn('Archivo persona.csv no encontrado en: '.$csvFile);
+
             return;
         }
 
         $handle = fopen($csvFile, 'r');
-        
+
         if ($handle === false) {
             $this->command->error('No se pudo abrir el archivo persona.csv');
+
             return;
         }
 
@@ -67,7 +69,7 @@ class BackupDataSeeder extends Seeder
             try {
                 // Mapear datos del CSV
                 $personaData = array_combine($headers, $data);
-                
+
                 // Limpiar y convertir datos
                 $ci = trim($personaData['ci'], '"');
                 $nombres = trim($personaData['nombres'], '"');
@@ -76,15 +78,15 @@ class BackupDataSeeder extends Seeder
                 $fechaNacimientoRaw = trim($personaData['fecha_nacimiento'], '"');
                 $fechaNacimiento = $this->convertirFecha($fechaNacimientoRaw);
                 $genero = trim($personaData['genero'], '"') ?: null;
-                
+
                 // Si la fecha no se pudo convertir, logear pero continuar con null
-                if (!$fechaNacimiento && !empty($fechaNacimientoRaw)) {
-                    Log::warning("Fecha de nacimiento no válida para persona", [
+                if (! $fechaNacimiento && ! empty($fechaNacimientoRaw)) {
+                    Log::warning('Fecha de nacimiento no válida para persona', [
                         'ci' => $ci,
-                        'fecha_original' => $fechaNacimientoRaw
+                        'fecha_original' => $fechaNacimientoRaw,
                     ]);
                 }
-                
+
                 // Parsear localidad que viene en formato: "Ciudad- Provincia- Departamento"
                 $localidadCompleta = trim($personaData['Localidad'], '"');
                 $ubicacion = $this->parsearUbicacion($localidadCompleta);
@@ -112,14 +114,14 @@ class BackupDataSeeder extends Seeder
                 $importedCount++;
             } catch (\Exception $e) {
                 $errorCount++;
-                Log::warning('Error importando persona: ' . $e->getMessage(), [
-                    'data' => $data ?? []
+                Log::warning('Error importando persona: '.$e->getMessage(), [
+                    'data' => $data ?? [],
                 ]);
             }
         }
 
         fclose($handle);
-        
+
         $this->command->info("Personas importadas: {$importedCount}");
         if ($errorCount > 0) {
             $this->command->warn("Errores durante importación de personas: {$errorCount}");
@@ -129,18 +131,20 @@ class BackupDataSeeder extends Seeder
     private function importDiplomasAcademicos(): void
     {
         $this->command->info('Importando diplomas académicos...');
-        
+
         $csvFile = database_path('backups/diplomas_academicos.csv');
-        
-        if (!file_exists($csvFile)) {
-            $this->command->warn('Archivo diplomas_academicos.csv no encontrado en: ' . $csvFile);
+
+        if (! file_exists($csvFile)) {
+            $this->command->warn('Archivo diplomas_academicos.csv no encontrado en: '.$csvFile);
+
             return;
         }
 
         $handle = fopen($csvFile, 'r');
-        
+
         if ($handle === false) {
             $this->command->error('No se pudo abrir el archivo diplomas_academicos.csv');
+
             return;
         }
 
@@ -156,7 +160,7 @@ class BackupDataSeeder extends Seeder
             try {
                 // Mapear datos del CSV
                 $diplomaData = array_combine($headers, $data);
-                
+
                 // Limpiar y convertir datos
                 $ci = trim($diplomaData['ci'], '"');
                 $nroDocumento = (int) trim($diplomaData['nro_documento'], '"');
@@ -169,27 +173,27 @@ class BackupDataSeeder extends Seeder
                 $graduacionId = (int) trim($diplomaData['graduacion_id'], '"');
                 $fileDir = trim($diplomaData['file_dir'], '"') ?: null;
                 $verificado = (bool) (int) trim($diplomaData['verificado'], '"');
-                
+
                 // Si la fecha no se pudo convertir, logear pero continuar con null
-                if (!$fechaEmision && !empty($fechaEmisionRaw)) {
-                    Log::warning("Fecha no válida para diploma", [
+                if (! $fechaEmision && ! empty($fechaEmisionRaw)) {
+                    Log::warning('Fecha no válida para diploma', [
                         'ci' => $ci,
-                        'fecha_original' => $fechaEmisionRaw
+                        'fecha_original' => $fechaEmisionRaw,
                     ]);
                 }
 
                 // Verificar que exista la persona
-                if (!Persona::where('ci', $ci)->exists()) {
+                if (! Persona::where('ci', $ci)->exists()) {
                     throw new \Exception("Persona con CI {$ci} no existe");
                 }
 
                 // Verificar que exista la mención
-                if (!MencionDa::find($mencionDaId)) {
+                if (! Mencion::find($mencionDaId)) {
                     throw new \Exception("Mención con ID {$mencionDaId} no existe");
                 }
 
                 // Verificar que exista la graduación
-                if (!GraduacionDa::find($graduacionId)) {
+                if (! Modalidad::find($graduacionId)) {
                     throw new \Exception("Graduación con ID {$graduacionId} no existe");
                 }
 
@@ -198,7 +202,7 @@ class BackupDataSeeder extends Seeder
                     'ci' => $ci,
                     'nro_documento' => $nroDocumento,
                     'libro' => $libro,
-                    'fojas' => $fojas
+                    'fojas' => $fojas,
                 ];
 
                 $diplomaData = [
@@ -221,14 +225,14 @@ class BackupDataSeeder extends Seeder
                 $importedCount++;
             } catch (\Exception $e) {
                 $errorCount++;
-                Log::warning('Error importando diploma académico: ' . $e->getMessage(), [
-                    'data' => $data ?? []
+                Log::warning('Error importando diploma académico: '.$e->getMessage(), [
+                    'data' => $data ?? [],
                 ]);
             }
         }
 
         fclose($handle);
-        
+
         $this->command->info("Diplomas académicos importados: {$importedCount}");
         if ($errorCount > 0) {
             $this->command->warn("Errores durante importación de diplomas: {$errorCount}");
@@ -240,13 +244,13 @@ class BackupDataSeeder extends Seeder
      */
     private function convertirFecha(?string $fecha): ?string
     {
-        if (!$fecha || $fecha === '""' || empty(trim($fecha))) {
+        if (! $fecha || $fecha === '""' || empty(trim($fecha))) {
             return null;
         }
 
         // Limpiar la fecha de comillas y espacios
         $fecha = trim($fecha, '"');
-        
+
         if (empty($fecha)) {
             return null;
         }
@@ -256,19 +260,21 @@ class BackupDataSeeder extends Seeder
             $dia = (int) $matches[1];
             $mes = (int) $matches[2];
             $anio = (int) $matches[3];
-            
+
             // Validar que la fecha sea válida
             if (checkdate($mes, $dia, $anio)) {
                 return sprintf('%04d-%02d-%02d', $anio, $mes, $dia);
             }
         }
-        
+
         // Si no coincide con el patrón esperado, intentar con Carbon como fallback
         try {
             $carbon = Carbon::parse($fecha);
+
             return $carbon->format('Y-m-d');
         } catch (\Exception $e) {
             Log::warning("No se pudo convertir fecha: {$fecha}", ['error' => $e->getMessage()]);
+
             return null;
         }
     }
@@ -282,7 +288,7 @@ class BackupDataSeeder extends Seeder
             'pais' => 'Bolivia',
             'departamento' => null,
             'provincia' => null,
-            'localidad' => null
+            'localidad' => null,
         ];
 
         if (empty($ubicacion)) {
@@ -291,7 +297,7 @@ class BackupDataSeeder extends Seeder
 
         // Dividir por guiones
         $partes = array_map('trim', explode('-', $ubicacion));
-        
+
         if (count($partes) >= 3) {
             $resultado['localidad'] = $partes[0];
             $resultado['provincia'] = $partes[1];
@@ -317,7 +323,7 @@ class BackupDataSeeder extends Seeder
     private function disableForeignKeyChecks(): void
     {
         $driver = DB::connection()->getDriverName();
-        
+
         switch ($driver) {
             case 'mysql':
                 DB::statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -337,7 +343,7 @@ class BackupDataSeeder extends Seeder
     private function enableForeignKeyChecks(): void
     {
         $driver = DB::connection()->getDriverName();
-        
+
         switch ($driver) {
             case 'mysql':
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');

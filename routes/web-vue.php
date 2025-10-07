@@ -2,12 +2,12 @@
 
 use App\Http\Controllers\Auth\InertiaLoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DiplomasAcademicos\DiplomaAcademicoController;
+use App\Http\Controllers\DiplomasAcademicos\MencionController;
+use App\Http\Controllers\DiplomasAcademicos\ModalidadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\V2\CarreraController;
-use App\Http\Controllers\V2\DiplomaAcademicoController;
 use App\Http\Controllers\V2\FacultadController;
-use App\Http\Controllers\V2\MencionController;
-use App\Http\Controllers\V2\ModalidadController;
 use App\Http\Controllers\V2\UserController;
 
 // Ruta de prueba para Inertia.js
@@ -90,10 +90,10 @@ Route::group(['prefix' => 'v2'], function () {
         ])->parameters([
             'diplomas-academicos' => 'diploma',
         ]);
-        
+
         // API endpoint for person search
         Route::get('/api/{ci}', [DiplomaAcademicoController::class, 'searchPerson'])->name('v2.api.search-person');
-        
+
         // Ruta segura para servir archivos PDF
         Route::get('/diplomas-academicos/{diploma}/pdf', [DiplomaAcademicoController::class, 'servePdf'])
             ->name('v2.diplomas-academicos.pdf');

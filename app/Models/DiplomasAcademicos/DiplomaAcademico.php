@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\DiplomasAcademicos;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Persona;
+use App\Models\User;
 
 class DiplomaAcademico extends Model
 {
@@ -36,12 +38,12 @@ class DiplomaAcademico extends Model
 
     public function mencion(): BelongsTo
     {
-        return $this->belongsTo(MencionDa::class, 'mencion_da_id');
+        return $this->belongsTo(Mencion::class, 'mencion_da_id');
     }
 
     public function graduacion(): BelongsTo
     {
-        return $this->belongsTo(GraduacionDa::class, 'graduacion_id');
+        return $this->belongsTo(Modalidad::class, 'graduacion_id');
     }
 
     public function createdBy(): BelongsTo

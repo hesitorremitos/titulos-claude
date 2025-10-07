@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\DiplomasAcademicos;
 
+use App\Models\Carrera;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class MencionDa extends Model
+// Importar clase del mismo namespace
+use App\Models\DiplomasAcademicos\DiplomaAcademico;
+
+class Mencion extends Model
 {
     protected $table = 'menciones_da';
 

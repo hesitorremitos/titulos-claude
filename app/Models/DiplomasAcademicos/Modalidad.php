@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\DiplomasAcademicos;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class GraduacionDa extends Model
+// Importar clase del mismo namespace
+use App\Models\DiplomasAcademicos\DiplomaAcademico;
+
+class Modalidad extends Model
 {
     protected $table = 'graduacion_da';
 
@@ -23,7 +26,7 @@ class GraduacionDa extends Model
         return 'id';
     }
 
-    public function diplomaAcademicos(): HasMany
+    public function diplomasAcademicos(): HasMany
     {
         return $this->hasMany(DiplomaAcademico::class, 'graduacion_id');
     }

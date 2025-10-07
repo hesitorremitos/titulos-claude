@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\V2;
+namespace App\Http\Controllers\DiplomasAcademicos;
 
 use App\Http\Controllers\Controller;
-use App\Models\GraduacionDa;
+use App\Models\DiplomasAcademicos\Modalidad;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,7 +14,7 @@ class ModalidadController extends Controller
      */
     public function index()
     {
-        $modalidades = GraduacionDa::withCount('diplomas')
+        $modalidades = Modalidad::withCount('diplomasAcademicos')
             ->latest()
             ->paginate(15);
 
@@ -33,7 +33,7 @@ class ModalidadController extends Controller
         ]);
 
         try {
-            GraduacionDa::create([
+            Modalidad::create([
                 'medio_graduacion' => $request->medio_graduacion,
             ]);
 
@@ -43,17 +43,17 @@ class ModalidadController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['error' => 'Error al crear la modalidad: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Error al crear la modalidad: '.$e->getMessage()]);
         }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, GraduacionDa $modalidad)
+    public function update(Request $request, Modalidad $modalidad)
     {
         $request->validate([
-            'medio_graduacion' => 'required|string|max:255|unique:graduacion_da,medio_graduacion,' . $modalidad->id,
+            'medio_graduacion' => 'required|string|max:255|unique:graduacion_da,medio_graduacion,'.$modalidad->id,
         ]);
 
         try {
@@ -67,19 +67,19 @@ class ModalidadController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['error' => 'Error al actualizar la modalidad: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Error al actualizar la modalidad: '.$e->getMessage()]);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(GraduacionDa $modalidad)
+    public function destroy(Modalidad $modalidad)
     {
         try {
             // Check if there are diplomas using this modalidad
-            $diplomasCount = $modalidad->diplomas()->count();
-            
+            $diplomasCount = $modalidad->diplomasAcademicos()->count();
+
             if ($diplomasCount > 0) {
                 return redirect()->back()
                     ->withErrors(['error' => "No se puede eliminar la modalidad '{$modalidad->medio_graduacion}' porque tiene {$diplomasCount} diploma(s) asociado(s)."]);
@@ -88,11 +88,11 @@ class ModalidadController extends Controller
             $modalidad->delete();
 
             return redirect()->back()
-                ->with('success', 'Modalidad de graduación '. $modalidad->medio_graduacion . ' eliminada exitosamente.');
+                ->with('success', 'Modalidad de graduación '.$modalidad->medio_graduacion.' eliminada exitosamente.');
 
         } catch (\Exception $e) {
             return redirect()->back()
-                ->withErrors(['error' => 'Error al eliminar la modalidad: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Error al eliminar la modalidad: '.$e->getMessage()]);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\GraduacionDa;
+use App\Models\DiplomasAcademicos\Modalidad;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -23,12 +23,12 @@ class GraduacionDaSeeder extends Seeder
 
         DB::transaction(function () use ($csvPath) {
             // Insertar registros especiales
-            GraduacionDa::updateOrCreate(
+            Modalidad::updateOrCreate(
                 ['id' => 0],
                 ['medio_graduacion' => 'Sin graduación']
             );
-            
-            GraduacionDa::updateOrCreate(
+
+            Modalidad::updateOrCreate(
                 ['id' => 100],
                 ['medio_graduacion' => 'No registrado']
             );
@@ -74,7 +74,7 @@ class GraduacionDaSeeder extends Seeder
                     continue;
                 }
 
-                GraduacionDa::updateOrCreate(
+                Modalidad::updateOrCreate(
                     ['id' => $codigo],
                     [
                         'medio_graduacion' => $medio,

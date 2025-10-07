@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\V2;
+namespace App\Http\Controllers\DiplomasAcademicos;
 
 use App\Http\Controllers\Controller;
-use App\Models\DiplomaAcademico;
-use App\Models\GraduacionDa;
-use App\Models\MencionDa;
+use App\Models\DiplomasAcademicos\DiplomaAcademico;
+use App\Models\DiplomasAcademicos\Mencion;
+use App\Models\DiplomasAcademicos\Modalidad;
 use App\Models\Persona;
 use App\Services\UniversityApiService;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -30,7 +30,7 @@ class DiplomaAcademicoController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
-        
+
         $diplomas = DiplomaAcademico::with(['persona', 'mencion'])
             ->when($search, function ($query, $search) {
                 $query->whereHas('persona', function ($personaQuery) use ($search) {
@@ -57,8 +57,8 @@ class DiplomaAcademicoController extends Controller
      */
     public function create()
     {
-        $menciones = MencionDa::all();
-        $graduaciones = GraduacionDa::all();
+        $menciones = Mencion::all();
+        $graduaciones = Modalidad::all();
 
         return Inertia::render('DiplomasAcademicos/Create', [
             'menciones' => $menciones,
@@ -123,7 +123,7 @@ class DiplomaAcademicoController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['error' => 'Error al crear el diploma: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Error al crear el diploma: '.$e->getMessage()]);
         }
     }
 
@@ -133,11 +133,11 @@ class DiplomaAcademicoController extends Controller
     public function show(string $id)
     {
         $diploma = DiplomaAcademico::with([
-            'persona', 
-            'mencion.carrera.facultad', 
+            'persona',
+            'mencion.carrera.facultad',
             'graduacion',
             'createdBy',
-            'updatedBy'
+            'updatedBy',
         ])->findOrFail($id);
 
         // Check access permissions
@@ -154,16 +154,16 @@ class DiplomaAcademicoController extends Controller
     public function edit(string $id)
     {
         $diploma = DiplomaAcademico::with([
-            'persona', 
-            'mencion.carrera.facultad', 
-            'graduacion'
+            'persona',
+            'mencion.carrera.facultad',
+            'graduacion',
         ])->findOrFail($id);
 
         // Check access permissions
         $this->checkDiplomaAccess($diploma);
 
-        $menciones = MencionDa::all();
-        $graduaciones = GraduacionDa::all();
+        $menciones = Mencion::all();
+        $graduaciones = Modalidad::all();
 
         return Inertia::render('DiplomasAcademicos/Edit', [
             'diploma' => $diploma,
@@ -178,7 +178,7 @@ class DiplomaAcademicoController extends Controller
     public function update(Request $request, string $id)
     {
         $diploma = DiplomaAcademico::findOrFail($id);
-        
+
         // Check access permissions
         $this->checkDiplomaAccess($diploma);
         $request->validate([
@@ -238,7 +238,7 @@ class DiplomaAcademicoController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['error' => 'Error al actualizar el diploma: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Error al actualizar el diploma: '.$e->getMessage()]);
         }
     }
 
@@ -248,7 +248,7 @@ class DiplomaAcademicoController extends Controller
     public function destroy(string $id)
     {
         $diploma = DiplomaAcademico::findOrFail($id);
-        
+
         // Check access permissions
         $this->checkDiplomaAccess($diploma);
 
@@ -266,7 +266,7 @@ class DiplomaAcademicoController extends Controller
 
         } catch (\Exception $e) {
             return redirect()->back()
-                ->withErrors(['error' => 'Error al eliminar el diploma: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Error al eliminar el diploma: '.$e->getMessage()]);
         }
     }
 
@@ -276,29 +276,29 @@ class DiplomaAcademicoController extends Controller
     private function checkDiplomaAccess(DiplomaAcademico $diploma): void
     {
         $user = Auth::user();
-        
+
         // Administrators have full access
         if ($user->hasRole('Administrador')) {
             return;
         }
-        
+
         // Jefes can view all but not modify - only allow for show method
         if ($user->hasRole('Jefe')) {
             $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
             $callingMethod = $trace[1]['function'] ?? '';
-            
+
             if (in_array($callingMethod, ['show'])) {
                 return;
             }
-            
+
             abort(403, 'No tiene permisos para realizar esta acción.');
         }
-        
+
         // Personal can only access their own diplomas
         if ($user->hasRole('Personal') && $diploma->created_by === $user->id) {
             return;
         }
-        
+
         abort(403, 'No tiene permisos para acceder a este diploma.');
     }
 
@@ -308,22 +308,22 @@ class DiplomaAcademicoController extends Controller
     public function servePdf(string $id)
     {
         $diploma = DiplomaAcademico::findOrFail($id);
-        
+
         // Check access permissions
         $this->checkDiplomaAccess($diploma);
-        
+
         // Check if file exists
-        if (!$diploma->file_dir || !Storage::disk('public')->exists($diploma->file_dir)) {
+        if (! $diploma->file_dir || ! Storage::disk('public')->exists($diploma->file_dir)) {
             abort(404, 'Archivo PDF no encontrado');
         }
-        
+
         // Get file path and content
         $filePath = Storage::disk('public')->path($diploma->file_dir);
-        
+
         // Return file response with appropriate headers
         return response()->file($filePath, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="diploma_' . $diploma->ci . '.pdf"'
+            'Content-Disposition' => 'inline; filename="diploma_'.$diploma->ci.'.pdf"',
         ]);
     }
 
@@ -338,7 +338,7 @@ class DiplomaAcademicoController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'CI debe tener al menos 3 caracteres',
-                    'data' => []
+                    'data' => [],
                 ], 400);
             }
 
@@ -349,7 +349,7 @@ class DiplomaAcademicoController extends Controller
                 // The frontend expects the raw API response format, so we need to make a direct call
                 // or modify the service to return the raw data
                 $response = Http::timeout(10)->post("https://apititulos.uatf.edu.bo/api/datos?ru='{$ci}'");
-                
+
                 if ($response->successful()) {
                     return response()->json($response->json());
                 }
@@ -361,7 +361,7 @@ class DiplomaAcademicoController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error interno del servidor',
-                'data' => []
+                'data' => [],
             ], 500);
         }
     }

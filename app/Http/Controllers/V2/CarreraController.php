@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V2;
 use App\Http\Controllers\Controller;
 use App\Models\Carrera;
 use App\Models\Facultad;
+use App\Models\DiplomasAcademicos\Mencion;
 use Illuminate\Http\Request;
 
 class CarreraController extends Controller
@@ -159,7 +160,7 @@ class CarreraController extends Controller
     {
         try {
             // Verificar si tiene menciones asociadas
-            $mencionesCount = \App\Models\MencionDa::where('carrera_id', $carrera->id)->count();
+            $mencionesCount = Mencion::where('carrera_id', $carrera->id)->count();
 
             if ($mencionesCount > 0) {
                 return redirect()->back()->withErrors([

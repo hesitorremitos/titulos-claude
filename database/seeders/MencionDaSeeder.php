@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Carrera;
-use App\Models\MencionDa;
+use App\Models\DiplomasAcademicos\Mencion;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -69,7 +69,7 @@ class MencionDaSeeder extends Seeder
                     continue;
                 }
 
-                MencionDa::updateOrCreate(
+                Mencion::updateOrCreate(
                     ['id' => $idMencion],
                     [
                         'nombre' => $mencion,

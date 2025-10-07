@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\V2;
+namespace App\Http\Controllers\DiplomasAcademicos;
 
 use App\Http\Controllers\Controller;
+use App\Models\DiplomasAcademicos\Mencion;
 use App\Models\Facultad;
-use App\Models\MencionDa;
+use App\Models\Carrera;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class MencionController extends Controller
@@ -16,7 +16,7 @@ class MencionController extends Controller
      */
     public function index()
     {
-        $menciones = MencionDa::with(['carrera.facultad'])
+        $menciones = Mencion::with(['carrera.facultad'])
             ->latest()
             ->paginate(15);
 
@@ -39,7 +39,7 @@ class MencionController extends Controller
         ]);
 
         try {
-            MencionDa::create([
+            Mencion::create([
                 'nombre' => $request->nombre,
                 'carrera_id' => $request->carrera_id,
             ]);
@@ -50,17 +50,17 @@ class MencionController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['error' => 'Error al crear la mención: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Error al crear la mención: '.$e->getMessage()]);
         }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MencionDa $mencion)
+    public function update(Request $request, Mencion $mencion)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255|unique:menciones_da,nombre,' . $mencion->id,
+            'nombre' => 'required|string|max:255|unique:menciones_da,nombre,'.$mencion->id,
             'carrera_id' => 'required|exists:carreras,id',
         ]);
 
@@ -76,19 +76,19 @@ class MencionController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['error' => 'Error al actualizar la mención: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Error al actualizar la mención: '.$e->getMessage()]);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MencionDa $mencion)
+    public function destroy(Mencion $mencion)
     {
         try {
             // Check if there are diplomas using this mención
-            $diplomasCount = $mencion->diplomas()->count();
-            
+            $diplomasCount = $mencion->diplomasAcademicos()->count();
+
             if ($diplomasCount > 0) {
                 return redirect()->back()
                     ->withErrors(['error' => "No se puede eliminar la mención '{$mencion->nombre}' porque tiene {$diplomasCount} diploma(s) asociado(s)."]);
@@ -97,11 +97,11 @@ class MencionController extends Controller
             $mencion->delete();
 
             return redirect()->back()
-                ->with('success', 'La mencion ' . $mencion->nombre . ' fue eliminada exitosamente.');
+                ->with('success', 'La mencion '.$mencion->nombre.' fue eliminada exitosamente.');
 
         } catch (\Exception $e) {
             return redirect()->back()
-                ->withErrors(['error' => 'Error al eliminar la mención: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Error al eliminar la mención: '.$e->getMessage()]);
         }
     }
 }

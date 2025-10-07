@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carrera;
-use App\Models\DiplomaAcademico;
+use App\Models\DiplomasAcademicos\DiplomaAcademico;
 use App\Models\Facultad;
 use Inertia\Inertia;
 

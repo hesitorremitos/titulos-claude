@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\DiplomaAcademico;
+use App\Models\DiplomasAcademicos\DiplomaAcademico;
+use App\Models\DiplomasAcademicos\Mencion;
+use App\Models\DiplomasAcademicos\Modalidad;
 use App\Models\Persona;
-use App\Models\MencionDa;
-use App\Models\GraduacionDa;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Seeder;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 
 /**
  * Seeder para migrar diplomas académicos desde CSV
- * 
+ *
  * Características:
  * - Validación robusta de datos
  * - Limpieza automática de CI boliviano (remueve extensiones)
@@ -27,33 +27,39 @@ use Illuminate\Support\Facades\Log;
 class DiplomaAcademicoSeeder extends Seeder
 {
     private array $errors = [];
+
     private int $successCount = 0;
+
     private int $errorCount = 0;
+
     private int $duplicateCount = 0;
+
     private array $menciones = [];
+
     private array $graduaciones = [];
 
     public function run(): void
     {
         $this->command->info('🚀 Iniciando migración de diplomas académicos desde CSV...');
-        
+
         // Cargar datos de referencia
         $this->loadReferenceData();
-        
+
         $csvFile = database_path('csv/titulos/DIPLOMA_A_todo.csv');
         $errorFile = database_path('csv/titulos/DIPLOMA_A_todo_errors.csv');
-        
-        if (!file_exists($csvFile)) {
+
+        if (! file_exists($csvFile)) {
             $this->command->error("❌ Archivo CSV no encontrado: {$csvFile}");
+
             return;
         }
 
         // Crear archivo de errores con encabezados
         $this->initializeErrorFile($errorFile);
-        
+
         $this->command->info("📄 Procesando archivo: {$csvFile}");
         $this->command->info("📝 Archivo de errores: {$errorFile}");
-        
+
         DB::transaction(function () use ($csvFile, $errorFile) {
             $this->processCSV($csvFile, $errorFile);
         });
@@ -65,15 +71,15 @@ class DiplomaAcademicoSeeder extends Seeder
     private function loadReferenceData(): void
     {
         $this->command->info('📊 Cargando datos de referencia...');
-        
+
         // Cargar menciones con sus IDs
-        $this->menciones = MencionDa::pluck('id', 'id')->toArray();
-        
+        $this->menciones = Mencion::pluck('id', 'id')->toArray();
+
         // Cargar graduaciones con sus IDs
-        $this->graduaciones = GraduacionDa::pluck('id', 'id')->toArray();
-        
-        $this->command->info("✅ Menciones cargadas: " . count($this->menciones));
-        $this->command->info("✅ Graduaciones cargadas: " . count($this->graduaciones));
+        $this->graduaciones = Modalidad::pluck('id', 'id')->toArray();
+
+        $this->command->info('✅ Menciones cargadas: '.count($this->menciones));
+        $this->command->info('✅ Graduaciones cargadas: '.count($this->graduaciones));
     }
 
     private function initializeErrorFile(string $errorFile): void
@@ -81,7 +87,7 @@ class DiplomaAcademicoSeeder extends Seeder
         $errorHeaders = [
             'FILA',
             'PATERNO',
-            'MATERNO', 
+            'MATERNO',
             'NOMBRE',
             'LOCALIDAD',
             'FECHA_NACIMIENTO',
@@ -93,45 +99,46 @@ class DiplomaAcademicoSeeder extends Seeder
             'MENCION',
             'MENCION_ID',
             'GRADUACION_ID',
-            'ERRORES'
+            'ERRORES',
         ];
-        
-        file_put_contents($errorFile, implode(',', $errorHeaders) . "\n");
+
+        file_put_contents($errorFile, implode(',', $errorHeaders)."\n");
     }
 
     private function processCSV(string $csvFile, string $errorFile): void
     {
         $handle = fopen($csvFile, 'r');
-        
-        if (!$handle) {
+
+        if (! $handle) {
             $this->command->error('❌ No se pudo abrir el archivo CSV');
+
             return;
         }
 
         // Saltar el encabezado
         $headers = fgetcsv($handle);
         $rowNumber = 1;
-        
+
         $progressBar = $this->command->getOutput()->createProgressBar();
         $progressBar->setFormat('verbose');
-        
+
         while (($row = fgetcsv($handle)) !== false) {
             $rowNumber++;
-            
+
             try {
                 $this->processRow($row, $rowNumber, $errorFile);
                 $progressBar->advance();
-                
+
                 // Mostrar progreso cada 100 registros
                 if ($rowNumber % 100 === 0) {
                     $this->command->info("\n📈 Procesados: {$rowNumber} | Éxitos: {$this->successCount} | Errores: {$this->errorCount}");
                 }
-                
+
             } catch (Exception $e) {
                 $this->handleProcessingError($row, $rowNumber, $e->getMessage(), $errorFile);
             }
         }
-        
+
         $progressBar->finish();
         fclose($handle);
     }
@@ -157,24 +164,25 @@ class DiplomaAcademicoSeeder extends Seeder
 
         // Limpiar y validar datos
         $cleanData = $this->cleanAndValidateData($data, $rowNumber);
-        
+
         if ($cleanData === null) {
             $errors = ['Datos inválidos o faltantes'];
             $this->writeErrorToFile($row, $rowNumber, $errors, $errorFile);
+
             return;
         }
 
         // Procesar persona y diploma (con upsert)
         $this->createOrUpdatePersona($cleanData);
         $this->createOrUpdateDiploma($cleanData);
-        
+
         $this->successCount++;
     }
 
     private function cleanAndValidateData(array $data, int $rowNumber): ?array
     {
         // Limpiar CI removiendo caracteres no numéricos
-        if (!empty($data['ci'])) {
+        if (! empty($data['ci'])) {
             $ciLimpio = preg_replace('/[^0-9]/', '', $data['ci']);
             if (strlen($ciLimpio) >= 4 && strlen($ciLimpio) <= 10) {
                 $data['ci'] = $ciLimpio;
@@ -186,26 +194,26 @@ class DiplomaAcademicoSeeder extends Seeder
         }
 
         // Validar otros campos requeridos
-        if (empty($data['nro_documento']) || !is_numeric($data['nro_documento'])) {
+        if (empty($data['nro_documento']) || ! is_numeric($data['nro_documento'])) {
             return null;
         }
 
-        if (empty($data['fojas']) || !is_numeric($data['fojas'])) {
+        if (empty($data['fojas']) || ! is_numeric($data['fojas'])) {
             return null;
         }
 
-        if (empty($data['libro']) || !is_numeric($data['libro'])) {
+        if (empty($data['libro']) || ! is_numeric($data['libro'])) {
             return null;
         }
 
-        if (empty($data['mencion_id']) || !isset($this->menciones[$data['mencion_id']])) {
+        if (empty($data['mencion_id']) || ! isset($this->menciones[$data['mencion_id']])) {
             return null;
         }
 
         // Graduación ID: usar 100 (No registrado) como default si está vacío o no existe
         if (empty($data['graduacion_id'])) {
             $data['graduacion_id'] = '100'; // Default: No registrado
-        } elseif (!isset($this->graduaciones[$data['graduacion_id']])) {
+        } elseif (! isset($this->graduaciones[$data['graduacion_id']])) {
             $data['graduacion_id'] = '100'; // Si no existe, usar default
         }
 
@@ -228,13 +236,14 @@ class DiplomaAcademicoSeeder extends Seeder
             if (strpos($excelDate, '/') !== false || strpos($excelDate, '-') !== false) {
                 return Carbon::parse($excelDate);
             }
-            
+
             // Convertir desde número de días de Excel (desde 1900-01-01)
             if (is_numeric($excelDate)) {
                 $unixTimestamp = ($excelDate - 25569) * 86400;
+
                 return Carbon::createFromTimestamp($unixTimestamp);
             }
-            
+
             return null;
         } catch (Exception $e) {
             return null;
@@ -244,7 +253,7 @@ class DiplomaAcademicoSeeder extends Seeder
     private function createOrUpdatePersona(array $data): void
     {
         $fechaNacimiento = null;
-        if (!empty($data['fecha_nacimiento'])) {
+        if (! empty($data['fecha_nacimiento'])) {
             $fechaNacimiento = $this->convertExcelDate($data['fecha_nacimiento']);
         }
 
@@ -269,7 +278,7 @@ class DiplomaAcademicoSeeder extends Seeder
     private function parseLocation(string $location): array
     {
         $parts = array_map('trim', explode('-', $location));
-        
+
         return [
             'localidad' => $parts[0] ?? null,
             'provincia' => $parts[1] ?? null,
@@ -280,22 +289,22 @@ class DiplomaAcademicoSeeder extends Seeder
     private function createOrUpdateDiploma(array $data): void
     {
         $fechaEmision = null;
-        if (!empty($data['fecha_emision'])) {
+        if (! empty($data['fecha_emision'])) {
             $fechaEmision = $this->convertExcelDate($data['fecha_emision']);
         }
 
         // Usar upsert basado en la clave única de la migración (libro, fojas, nro_documento)
         DiplomaAcademico::updateOrCreate(
             [
-                'libro' => is_numeric($data['libro']) ? (int)$data['libro'] : null,
-                'fojas' => is_numeric($data['fojas']) ? (int)$data['fojas'] : null,
-                'nro_documento' => (int)$data['nro_documento'],
+                'libro' => is_numeric($data['libro']) ? (int) $data['libro'] : null,
+                'fojas' => is_numeric($data['fojas']) ? (int) $data['fojas'] : null,
+                'nro_documento' => (int) $data['nro_documento'],
             ],
             [
                 'ci' => $data['ci'],
                 'fecha_emision' => $fechaEmision,
-                'mencion_da_id' => (int)$data['mencion_id'],
-                'graduacion_id' => (int)$data['graduacion_id'], // Siempre tendrá un valor válido después de cleanAndValidateData
+                'mencion_da_id' => (int) $data['mencion_id'],
+                'graduacion_id' => (int) $data['graduacion_id'], // Siempre tendrá un valor válido después de cleanAndValidateData
                 'verificado' => false,
                 'created_by' => 1, // Asumiendo usuario admin con ID 1
                 'updated_by' => 1,
@@ -306,22 +315,23 @@ class DiplomaAcademicoSeeder extends Seeder
     private function writeErrorToFile(array $row, int $rowNumber, array $errors, string $errorFile): void
     {
         $this->errorCount++;
-        
+
         $errorRow = [
             $rowNumber,
             ...$row,
-            implode('; ', $errors)
+            implode('; ', $errors),
         ];
-        
+
         // Escapar comillas y campos con comas
         $escapedRow = array_map(function ($field) {
             if (is_string($field) && (strpos($field, ',') !== false || strpos($field, '"') !== false)) {
-                return '"' . str_replace('"', '""', $field) . '"';
+                return '"'.str_replace('"', '""', $field).'"';
             }
+
             return $field;
         }, $errorRow);
-        
-        file_put_contents($errorFile, implode(',', $escapedRow) . "\n", FILE_APPEND);
+
+        file_put_contents($errorFile, implode(',', $escapedRow)."\n", FILE_APPEND);
     }
 
     private function handleProcessingError(array $row, int $rowNumber, string $error, string $errorFile): void
@@ -332,19 +342,18 @@ class DiplomaAcademicoSeeder extends Seeder
 
     private function showFinalSummary(): void
     {
-        $this->command->info("\n" . str_repeat('=', 60));
+        $this->command->info("\n".str_repeat('=', 60));
         $this->command->info('📊 RESUMEN DE MIGRACIÓN DE DIPLOMAS ACADÉMICOS');
         $this->command->info(str_repeat('=', 60));
         $this->command->info("✅ Registros procesados exitosamente: {$this->successCount}");
         $this->command->info("❌ Registros con errores: {$this->errorCount}");
         $this->command->info("🔄 Registros duplicados: {$this->duplicateCount}");
-        $this->command->info("📝 Total procesado: " . ($this->successCount + $this->errorCount));
-        
+        $this->command->info('📝 Total procesado: '.($this->successCount + $this->errorCount));
+
         if ($this->errorCount > 0) {
-            $this->command->warn("⚠️  Revisa el archivo de errores: database/csv/titulos/DIPLOMA_A_todo_errors.csv");
+            $this->command->warn('⚠️  Revisa el archivo de errores: database/csv/titulos/DIPLOMA_A_todo_errors.csv');
         }
-        
+
         $this->command->info(str_repeat('=', 60));
     }
 }
-
