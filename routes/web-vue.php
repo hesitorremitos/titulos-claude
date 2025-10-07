@@ -109,4 +109,4 @@ Route::middleware('auth')->group(function () {
 });
 
 // Incluir las rutas del prototipo CRUD base
-require base_path('routes/prototipo.php');
+// require base_path('routes/prototipo.php');
