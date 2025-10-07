@@ -27,13 +27,6 @@
         </Stepper>
 
         <div class="space-y-6">
-          <div
-            v-if="!canRegister"
-            class="rounded-md border border-amber-500 bg-amber-50 p-4 text-sm text-amber-700"
-          >
-            Debes registrar al menos una mención y una modalidad de doctorado activas para poder crear un doctorado.
-          </div>
-
           <div v-if="currentStep === 1" class="space-y-6">
             <Card>
               <CardHeader>
@@ -397,7 +390,6 @@ const page = usePage()
 
 const submitForm = () => {
   if (!canRegister.value) {
-    toast.error('Debes registrar al menos una mención y una modalidad de doctorado activas antes de crear un doctorado.')
     return
   }
 

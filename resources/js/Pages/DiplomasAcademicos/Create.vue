@@ -195,7 +195,7 @@
               v-else
               type="submit"
               class="bg-primary"
-              :disabled="form.processing"
+              :disabled="form.processing || !canRegister"
               @click="submitForm"
             >
               <span v-if="form.processing">Guardando...</span>
@@ -216,7 +216,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { Head, useForm, usePage } from '@inertiajs/vue3'
 import ApiPersonSearch from '@/components/forms/ApiPersonSearch.vue'
 import PersonalDataForm from '@/components/forms/PersonalDataForm.vue'
@@ -271,6 +271,11 @@ const diplomaStore = useDiplomaAcademicoStore()
 // Form con Inertia
 const form = useForm(diplomaStore.formData)
 
+const canRegister = computed(() => {
+  const menciones = props.menciones?.length ?? 0
+  return menciones > 0
+})
+
 // Actualizar form data cuando cambien los stores
 const updateFormData = () => {
   form.clearErrors()
@@ -282,6 +287,10 @@ const page = usePage()
 
 // Función para enviar con datos combinados
 const submitForm = () => {
+  if (!canRegister.value) {
+    return
+  }
+
   updateFormData()
   
   form.post(route('diplomas-academicos.store'), {
@@ -330,5 +339,11 @@ const previousStep = () => {
     currentStep.value--
   }
 }
+
+onMounted(() => {
+  if (props.dependenciesReady === false || !canRegister.value) {
+    toast.error('Debes registrar al menos una mención de diploma académico antes de crear un diploma.')
+  }
+})
 
 </script>

@@ -57,12 +57,14 @@ class DiplomaAcademicoController extends Controller
      */
     public function create()
     {
-        $menciones = Mencion::all();
-        $graduaciones = Modalidad::all();
+        $menciones = Mencion::orderBy('nombre')->get();
+        $graduaciones = Modalidad::orderBy('medio_graduacion')->get();
+        $dependenciesReady = $menciones->isNotEmpty();
 
         return Inertia::render('DiplomasAcademicos/Create', [
             'menciones' => $menciones,
             'graduaciones' => $graduaciones,
+            'dependenciesReady' => $dependenciesReady,
         ]);
     }
 

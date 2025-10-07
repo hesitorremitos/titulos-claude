@@ -54,11 +54,7 @@ class MaestriaController extends Controller
 
     public function create()
     {
-        if (! $this->ensureDependencies(false)) {
-            return redirect()
-                ->route('maestrias.index')
-                ->with('error', 'Para registrar una maestría necesitas al menos una mención y una modalidad activas.');
-        }
+        $dependenciesReady = $this->ensureDependencies(false);
 
         $menciones = Mencion::where('activo', true)
             ->orderBy('nombre')
@@ -76,6 +72,7 @@ class MaestriaController extends Controller
             'menciones' => $menciones,
             'modalidades' => $modalidades,
             'mencionesTpn' => $mencionesTpn,
+            'dependenciesReady' => $dependenciesReady,
         ]);
     }
 

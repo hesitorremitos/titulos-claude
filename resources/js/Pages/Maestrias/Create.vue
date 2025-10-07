@@ -27,13 +27,6 @@
         </Stepper>
 
         <div class="space-y-6">
-          <div
-            v-if="!canRegister"
-            class="rounded-md border border-amber-500 bg-amber-50 p-4 text-sm text-amber-700"
-          >
-            Debes registrar al menos una mención y una modalidad de maestría activas para poder crear una maestría.
-          </div>
-
           <div v-if="currentStep === 1" class="space-y-6">
             <Card>
               <CardHeader>
@@ -320,7 +313,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { Head, useForm, usePage } from '@inertiajs/vue3'
 import ApiPersonSearch from '@/components/forms/ApiPersonSearch.vue'
 import PersonalDataForm from '@/components/forms/PersonalDataForm.vue'
@@ -385,7 +378,6 @@ const page = usePage()
 
 const submitForm = () => {
   if (!canRegister.value) {
-    toast.error('Debes registrar al menos una mención y una modalidad de maestría activas antes de crear una maestría.')
     return
   }
 
@@ -433,4 +425,10 @@ const previousStep = () => {
     currentStep.value -= 1
   }
 }
+
+onMounted(() => {
+  if (props.dependenciesReady === false || !canRegister.value) {
+    toast.error('Debes registrar al menos una mención y una modalidad de maestría activas antes de crear una maestría.')
+  }
+})
 </script>

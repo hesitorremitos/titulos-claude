@@ -61,9 +61,11 @@ class DiplomaBachillerController extends Controller
     public function create()
     {
         $menciones = Mencion::orderBy('nombre')->get();
+        $dependenciesReady = $menciones->isNotEmpty();
 
         return Inertia::render('DiplomaBachiller/Create', [
             'menciones' => $menciones,
+            'dependenciesReady' => $dependenciesReady,
         ]);
     }
 

@@ -35,22 +35,26 @@ export interface DiplomaPageProps extends PageProps {
     graduaciones?: import('./models').Modalidad[]
     facultades?: import('./models').Facultad[]
     carreras?: import('./models').Carrera[]
+    dependenciesReady?: boolean
 }
 
 // Props específicas para páginas de títulos provisionales nacionales
 export interface TituloProvisionNacionalPageProps extends PageProps {
     menciones?: import('./titulos/titulo-provision-nacional').MencionTpn[]
     modalidades?: import('./titulos/titulo-provision-nacional').ModalidadTpn[]
+    dependenciesReady?: boolean
 }
 
 export interface DiplomaBachillerPageProps extends PageProps {
     menciones?: import('./titulos/diploma-bachiller').MencionDiplomaBachiller[]
+    dependenciesReady?: boolean
 }
 
 export interface MaestriaPageProps extends PageProps {
     menciones?: import('./titulos/maestria').MencionMaestria[]
     modalidades?: import('./titulos/maestria').ModalidadMaestria[]
     mencionesTpn?: import('./titulos/titulo-provision-nacional').MencionTpn[]
+    dependenciesReady?: boolean
 }
 
 export interface DoctoradoPageProps extends PageProps {

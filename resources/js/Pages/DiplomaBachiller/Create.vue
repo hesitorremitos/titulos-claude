@@ -166,7 +166,7 @@
             v-else
             type="submit"
             class="bg-primary"
-            :disabled="form.processing"
+            :disabled="form.processing || !canRegister"
             @click="submitForm"
           >
             <span v-if="form.processing">Guardando...</span>
@@ -186,7 +186,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { Head, useForm, usePage } from '@inertiajs/vue3'
 import ApiPersonSearch from '@/components/forms/ApiPersonSearch.vue'
 import PersonalDataForm from '@/components/forms/PersonalDataForm.vue'
@@ -236,6 +236,11 @@ const diplomaStore = useDiplomaBachillerStore()
 
 const form = useForm(diplomaStore.formData)
 
+const canRegister = computed(() => {
+  const menciones = props.menciones?.length ?? 0
+  return menciones > 0
+})
+
 const updateFormData = () => {
   form.clearErrors()
   Object.assign(form, diplomaStore.formData)
@@ -244,6 +249,10 @@ const updateFormData = () => {
 const page = usePage()
 
 const submitForm = () => {
+  if (!canRegister.value) {
+    return
+  }
+
   updateFormData()
 
   form.post(route('diploma-bachiller.store'), {
@@ -288,4 +297,10 @@ const previousStep = () => {
     currentStep.value -= 1
   }
 }
+
+onMounted(() => {
+  if (props.dependenciesReady === false || !canRegister.value) {
+    toast.error('Debes registrar al menos una mención de diploma de bachiller antes de crear un diploma.')
+  }
+})
 </script>

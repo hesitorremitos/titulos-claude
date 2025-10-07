@@ -69,9 +69,12 @@ class TituloProvisionNacionalController extends Controller
             ->orderBy('nombre')
             ->get();
 
+        $dependenciesReady = $menciones->isNotEmpty() && $modalidades->isNotEmpty();
+
         return Inertia::render('TitulosProvisionNacional/Create', [
             'menciones' => $menciones,
             'modalidades' => $modalidades,
+            'dependenciesReady' => $dependenciesReady,
         ]);
     }
 
