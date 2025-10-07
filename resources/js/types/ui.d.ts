@@ -64,6 +64,14 @@ export interface DiplomadoPageProps extends PageProps {
     dependenciesReady?: boolean
 }
 
+export interface EspecialidadPageProps extends PageProps {
+    menciones?: import('./titulos/especialidad').MencionEspecialidad[]
+    modalidades?: import('./titulos/especialidad').ModalidadEspecialidad[]
+    mencionesTpn: import('./titulos/titulo-provision-nacional').MencionTpn[]
+    universidades: import('./titulos/especialidad').Universidad[]
+    dependenciesReady?: boolean
+}
+
 export interface DoctoradoPageProps extends PageProps {
     menciones?: import('./titulos/doctorado').MencionDoctorado[]
     modalidades?: import('./titulos/doctorado').ModalidadDoctorado[]

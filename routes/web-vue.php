@@ -11,6 +11,9 @@ use App\Http\Controllers\Doctorado\ModalidadController as DoctoradoModalidadCont
 use App\Http\Controllers\Diplomado\DiplomadoController;
 use App\Http\Controllers\Diplomado\MencionController as DiplomadoMencionController;
 use App\Http\Controllers\Diplomado\ModalidadController as DiplomadoModalidadController;
+use App\Http\Controllers\Especialidad\EspecialidadController;
+use App\Http\Controllers\Especialidad\MencionController as EspecialidadMencionController;
+use App\Http\Controllers\Especialidad\ModalidadController as EspecialidadModalidadController;
 use App\Http\Controllers\DiplomaBachiller\DiplomaBachillerController;
 use App\Http\Controllers\DiplomaBachiller\MencionController as MencionDBController;
 use App\Http\Controllers\DiplomasAcademicos\DiplomaAcademicoController;
@@ -211,6 +214,34 @@ Route::middleware('auth')->group(function () {
         'destroy' => 'diplomados.destroy',
     ])->parameters([
         'diplomados' => 'diplomado',
+    ]);
+});
+
+// Especialidades CRUD
+Route::middleware('auth')->group(function () {
+    Route::get('/especialidades/menciones', [EspecialidadMencionController::class, 'index'])->name('especialidades.menciones.index');
+    Route::post('/especialidades/menciones', [EspecialidadMencionController::class, 'store'])->name('especialidades.menciones.store');
+    Route::put('/especialidades/menciones/{mencion}', [EspecialidadMencionController::class, 'update'])->name('especialidades.menciones.update');
+    Route::delete('/especialidades/menciones/{mencion}', [EspecialidadMencionController::class, 'destroy'])->name('especialidades.menciones.destroy');
+
+    Route::get('/especialidades/modalidades', [EspecialidadModalidadController::class, 'index'])->name('especialidades.modalidades.index');
+    Route::post('/especialidades/modalidades', [EspecialidadModalidadController::class, 'store'])->name('especialidades.modalidades.store');
+    Route::put('/especialidades/modalidades/{modalidad}', [EspecialidadModalidadController::class, 'update'])->name('especialidades.modalidades.update');
+    Route::delete('/especialidades/modalidades/{modalidad}', [EspecialidadModalidadController::class, 'destroy'])->name('especialidades.modalidades.destroy');
+
+    Route::get('/especialidades/personas/{ci}', [EspecialidadController::class, 'searchPerson'])->name('especialidades.search-person');
+    Route::get('/especialidades/{especialidad}/pdf', [EspecialidadController::class, 'servePdf'])->name('especialidades.pdf');
+
+    Route::resource('/especialidades', EspecialidadController::class)->names([
+        'index' => 'especialidades.index',
+        'create' => 'especialidades.create',
+        'store' => 'especialidades.store',
+        'show' => 'especialidades.show',
+        'edit' => 'especialidades.edit',
+        'update' => 'especialidades.update',
+        'destroy' => 'especialidades.destroy',
+    ])->parameters([
+        'especialidades' => 'especialidad',
     ]);
 });
 

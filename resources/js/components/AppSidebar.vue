@@ -42,9 +42,6 @@ interface NavigationSection {
 const page = usePage();
 const user = computed(() => page.props.auth?.user);
 const userRole = computed(() => {
-    // Debug: log the complete user object
-    console.log('Complete user object:', user.value);
-    
     // Try to get role from Spatie roles array first (now it's an array of strings)
     if (user.value?.roles && Array.isArray(user.value.roles) && user.value.roles.length > 0) {
         return user.value.roles[0];
@@ -140,7 +137,7 @@ const navigationSections = computed((): NavigationSection[] => [
                 label: 'Especialidades',
                 icon: Star,
                 route: '/especialidades',
-                disabled: true,
+                disabled: false,
             },
         ],
     },
@@ -177,10 +174,6 @@ const navigationSections = computed((): NavigationSection[] => [
 const visibleSections = computed(() => {
     return navigationSections.value.filter(section => {
         if (!section.permission_required) return true;
-        
-        // Debug: log user role and required permissions
-        console.log('User role:', userRole.value);
-        console.log('Section:', section.title, 'requires:', section.permission_required);
         
         // Check permissions - case insensitive for flexibility
         const currentRole = userRole.value.toLowerCase();

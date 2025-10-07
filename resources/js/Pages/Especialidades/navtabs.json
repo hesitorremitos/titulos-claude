@@ -1,0 +1,26 @@
+[
+  {
+    "label": "Lista",
+    "href": "/especialidades",
+    "icon": "material-symbols:list",
+    "value": "lista"
+  },
+  {
+    "label": "Registrar",
+    "href": "/especialidades/create",
+    "icon": "material-symbols:add",
+    "value": "registrar"
+  },
+  {
+    "label": "Menciones",
+    "href": "/especialidades/menciones",
+    "icon": "material-symbols:category",
+    "value": "menciones"
+  },
+  {
+    "label": "Modalidades",
+    "href": "/especialidades/modalidades",
+    "icon": "material-symbols:school",
+    "value": "modalidades"
+  }
+]

@@ -46,6 +46,14 @@ export interface Persona {
   updated_at?: string
 }
 
+export interface UniversidadModel {
+  id: number
+  nombre: string
+  sigla?: string | null
+  created_at?: string
+  updated_at?: string
+}
+
 
 export interface PaginatedResponse<T> {
     data: T[];

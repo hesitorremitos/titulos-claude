@@ -135,6 +135,35 @@ const breadcrumbRegistry: Record<string, BreadcrumbConfig> = {
     parent: 'diplomados'
   },
 
+  // Especialidades
+  'especialidades.index': {
+    label: 'Lista',
+    parent: 'especialidades'
+  },
+  'especialidades.create': {
+    label: 'Registrar',
+    parent: 'especialidades'
+  },
+  'especialidades.show': {
+    label: 'Ver',
+    parent: 'especialidades',
+    dynamic: (props) => `Ver: ${props.especialidad?.ci || props.especialidad?.persona?.nombres || 'Especialidad'}`,
+    href: (props) => props.especialidad ? route('especialidades.show', props.especialidad.id) : null
+  },
+  'especialidades.edit': {
+    label: 'Editar',
+    parent: 'especialidades.show',
+    dynamic: (props) => `Editar: ${props.especialidad?.ci || props.especialidad?.persona?.nombres || 'Especialidad'}`,
+  },
+  'especialidades.menciones.index': {
+    label: 'Menciones',
+    parent: 'especialidades'
+  },
+  'especialidades.modalidades.index': {
+    label: 'Modalidades',
+    parent: 'especialidades'
+  },
+
   // Doctorados
   'doctorados.index': {
     label: 'Lista',
@@ -253,6 +282,11 @@ const breadcrumbRegistry: Record<string, BreadcrumbConfig> = {
     label: 'Diplomados',
     parent: 'dashboard',
     href: () => route('diplomados.index')
+  },
+  'especialidades': {
+    label: 'Especialidades',
+    parent: 'dashboard',
+    href: () => route('especialidades.index')
   },
   'doctorados': {
     label: 'Doctorados',
