@@ -1,0 +1,26 @@
+[
+  {
+    "label": "Lista",
+    "href": "/doctorados",
+    "icon": "material-symbols:list",
+    "value": "lista"
+  },
+  {
+    "label": "Registrar",
+    "href": "/doctorados/create",
+    "icon": "material-symbols:add",
+    "value": "registrar"
+  },
+  {
+    "label": "Menciones",
+    "href": "/doctorados/menciones",
+    "icon": "material-symbols:category",
+    "value": "menciones"
+  },
+  {
+    "label": "Modalidades",
+    "href": "/doctorados/modalidades",
+    "icon": "material-symbols:school",
+    "value": "modalidades"
+  }
+]

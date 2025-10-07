@@ -106,6 +106,35 @@ const breadcrumbRegistry: Record<string, BreadcrumbConfig> = {
     parent: 'maestrias'
   },
 
+  // Doctorados
+  'doctorados.index': {
+    label: 'Lista',
+    parent: 'doctorados'
+  },
+  'doctorados.create': {
+    label: 'Registrar',
+    parent: 'doctorados'
+  },
+  'doctorados.show': {
+    label: 'Ver',
+    parent: 'doctorados',
+    dynamic: (props) => `Ver: ${props.doctorado?.ci || props.doctorado?.persona?.nombres || 'Doctorado'}`,
+    href: (props) => props.doctorado ? route('doctorados.show', props.doctorado.id) : null
+  },
+  'doctorados.edit': {
+    label: 'Editar',
+    parent: 'doctorados.show',
+    dynamic: (props) => `Editar: ${props.doctorado?.ci || props.doctorado?.persona?.nombres || 'Doctorado'}`,
+  },
+  'doctorados.menciones.index': {
+    label: 'Menciones',
+    parent: 'doctorados'
+  },
+  'doctorados.modalidades.index': {
+    label: 'Modalidades',
+    parent: 'doctorados'
+  },
+
   // Facultades
   'facultades.index': {
     label: 'Lista',
@@ -190,6 +219,11 @@ const breadcrumbRegistry: Record<string, BreadcrumbConfig> = {
     label: 'Maestrías',
     parent: 'dashboard',
     href: () => route('maestrias.index')
+  },
+  'doctorados': {
+    label: 'Doctorados',
+    parent: 'dashboard',
+    href: () => route('doctorados.index')
   },
   'facultades': {
     label: 'Facultades',

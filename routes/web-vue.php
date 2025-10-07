@@ -5,6 +5,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Maestria\MaestriaController;
 use App\Http\Controllers\Maestria\MencionController as MaestriaMencionController;
 use App\Http\Controllers\Maestria\ModalidadController as MaestriaModalidadController;
+use App\Http\Controllers\Doctorado\DoctoradoController;
+use App\Http\Controllers\Doctorado\MencionController as DoctoradoMencionController;
+use App\Http\Controllers\Doctorado\ModalidadController as DoctoradoModalidadController;
 use App\Http\Controllers\DiplomaBachiller\DiplomaBachillerController;
 use App\Http\Controllers\DiplomaBachiller\MencionController as MencionDBController;
 use App\Http\Controllers\DiplomasAcademicos\DiplomaAcademicoController;
@@ -177,6 +180,34 @@ Route::middleware('auth')->group(function () {
         'destroy' => 'maestrias.destroy',
     ])->parameters([
         'maestrias' => 'maestria',
+    ]);
+});
+
+// Doctorados CRUD
+Route::middleware('auth')->group(function () {
+    Route::get('/doctorados/menciones', [DoctoradoMencionController::class, 'index'])->name('doctorados.menciones.index');
+    Route::post('/doctorados/menciones', [DoctoradoMencionController::class, 'store'])->name('doctorados.menciones.store');
+    Route::put('/doctorados/menciones/{mencion}', [DoctoradoMencionController::class, 'update'])->name('doctorados.menciones.update');
+    Route::delete('/doctorados/menciones/{mencion}', [DoctoradoMencionController::class, 'destroy'])->name('doctorados.menciones.destroy');
+
+    Route::get('/doctorados/modalidades', [DoctoradoModalidadController::class, 'index'])->name('doctorados.modalidades.index');
+    Route::post('/doctorados/modalidades', [DoctoradoModalidadController::class, 'store'])->name('doctorados.modalidades.store');
+    Route::put('/doctorados/modalidades/{modalidad}', [DoctoradoModalidadController::class, 'update'])->name('doctorados.modalidades.update');
+    Route::delete('/doctorados/modalidades/{modalidad}', [DoctoradoModalidadController::class, 'destroy'])->name('doctorados.modalidades.destroy');
+
+    Route::get('/doctorados/personas/{ci}', [DoctoradoController::class, 'searchPerson'])->name('doctorados.search-person');
+    Route::get('/doctorados/{doctorado}/pdf', [DoctoradoController::class, 'servePdf'])->name('doctorados.pdf');
+
+    Route::resource('/doctorados', DoctoradoController::class)->names([
+        'index' => 'doctorados.index',
+        'create' => 'doctorados.create',
+        'store' => 'doctorados.store',
+        'show' => 'doctorados.show',
+        'edit' => 'doctorados.edit',
+        'update' => 'doctorados.update',
+        'destroy' => 'doctorados.destroy',
+    ])->parameters([
+        'doctorados' => 'doctorado',
     ]);
 });
 

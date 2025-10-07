@@ -128,7 +128,7 @@ const navigationSections = computed((): NavigationSection[] => [
                 label: 'Doctorados',
                 icon: Crown,
                 route: '/doctorados',
-                disabled: true,
+                disabled: false,
             },
             {
                 label: 'Especialidades',
