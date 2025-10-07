@@ -295,7 +295,7 @@ class DiplomaAcademicoController extends Controller
         }
 
         // Personal can only access their own diplomas
-        if ($user->hasRole('Personal') && $diploma->created_by === $user->id) {
+        if ($user->hasRole('Personal') && $diploma->created_by === $user->getKey()) {
             return;
         }
 
