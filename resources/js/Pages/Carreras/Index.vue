@@ -22,9 +22,9 @@
                             v-for="carrera in carreras.data"
                             :key="carrera.id"
                             class="group cursor-pointer border-b border-border/30 transition-colors duration-150 last:border-0 hover:bg-accent/30 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none active:bg-accent/40"
-                            @click="router.visit(route('v2.carreras.show', carrera.id))"
-                            @keydown.enter="router.visit(route('v2.carreras.show', carrera.id))"
-                            @keydown.space.prevent="router.visit(route('v2.carreras.show', carrera.id))"
+                            @click="router.visit(route('carreras.show', carrera.id))"
+                            @keydown.enter="router.visit(route('carreras.show', carrera.id))"
+                            @keydown.space.prevent="router.visit(route('carreras.show', carrera.id))"
                             tabindex="0"
                             :aria-label="`Ver detalles de ${carrera.programa}`"
                             role="button"
@@ -57,7 +57,7 @@
                             <h3 class="text-lg font-medium">No se encontraron carreras</h3>
                             <p class="mb-4 max-w-md text-center text-muted-foreground">Comienza creando tu primera carrera académica.</p>
                             <Button as-child>
-                                <Link :href="route('v2.carreras.create')">
+                                <Link :href="route('carreras.create')">
                                     <Icon icon="lucide:plus-circle" class="mr-2 h-4 w-4" />
                                     Nueva Carrera
                                 </Link>
@@ -130,8 +130,8 @@ defineProps<Props>();
 
 // Navigation tabs - Solo Lista y Registrar
 const navTabs = [
-    { label: 'Lista', href: '/v2/carreras', icon: 'lucide:list-checks', value: 'lista' },
-    { label: 'Registrar', href: '/v2/carreras/create', icon: 'lucide:plus-circle', value: 'registrar' },
+    { label: 'Lista', href: '/carreras', icon: 'lucide:list-checks', value: 'lista' },
+    { label: 'Registrar', href: '/carreras/create', icon: 'lucide:plus-circle', value: 'registrar' },
 ];
 
 // Navigation and pagination methods

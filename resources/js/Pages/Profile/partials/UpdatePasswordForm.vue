@@ -14,7 +14,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.patch(route('v2.profile.password'), {
+    form.patch(route('profile.password'), {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();

@@ -46,7 +46,7 @@ let searchTimeout: number
 const debouncedSearch = () => {
   clearTimeout(searchTimeout)
   searchTimeout = setTimeout(() => {
-    router.get(route('v2.diplomas-academicos.index'), {
+    router.get(route('diplomas-academicos.index'), {
       search: search.value || undefined,
     }, {
       preserveState: true,
@@ -58,7 +58,7 @@ const debouncedSearch = () => {
 // Clear search
 const clearSearch = () => {
   search.value = ''
-  router.get(route('v2.diplomas-academicos.index'), {}, {
+  router.get(route('diplomas-academicos.index'), {}, {
     preserveState: true,
     replace: true,
   })
@@ -88,7 +88,7 @@ const formatDate = (dateString: string | undefined) => {
               Aquí puedes ver, editar y eliminar los diplomas académicos.
             </CardDescription>
           </div>
-          <Link :href="route('v2.diplomas-academicos.create')">
+          <Link :href="route('diplomas-academicos.create')">
             <Button>
               <PlusCircle class="h-4 w-4 mr-2" />
               Registrar Diploma
@@ -147,7 +147,7 @@ const formatDate = (dateString: string | undefined) => {
                     </Badge>
                   </TableCell>
                   <TableCell class="text-right">
-                    <Button variant="ghost" size="icon" as="a" :href="route('v2.diplomas-academicos.show', diploma.id)">
+                    <Button variant="ghost" size="icon" as="a" :href="route('diplomas-academicos.show', diploma.id)">
                       <Eye class="h-4 w-4" />
                     </Button>
                   </TableCell>
@@ -192,7 +192,7 @@ const formatDate = (dateString: string | undefined) => {
               <Button v-if="search" variant="outline" @click="clearSearch">
                 Limpiar búsqueda
               </Button>
-              <Link :href="route('v2.diplomas-academicos.create')">
+              <Link :href="route('diplomas-academicos.create')">
                 <Button>
                   <PlusCircle class="h-4 w-4 mr-2" />
                   {{ search ? 'Registrar Diploma' : 'Registrar Primer Diploma' }}

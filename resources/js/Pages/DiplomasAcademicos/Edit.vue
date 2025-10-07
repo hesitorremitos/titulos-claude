@@ -207,7 +207,7 @@
             <CardContent>
               <div v-if="diploma.file_dir" class="space-y-4">
                 <iframe 
-                  :src="route('v2.diplomas-academicos.pdf', diploma.id)" 
+                  :src="route('diplomas-academicos.pdf', diploma.id)" 
                   class="w-full h-[500px] border rounded-md"
                   title="Documento del Diploma Académico"
                 ></iframe>
@@ -306,7 +306,7 @@
 
       <!-- Botones de acción -->
       <div class="flex justify-between pt-6 border-t">
-        <Button variant="outline" as="a" :href="route('v2.diplomas-academicos.show', diploma.id)">
+        <Button variant="outline" as="a" :href="route('diplomas-academicos.show', diploma.id)">
           <X class="h-4 w-4 mr-2" />
           Cancelar
         </Button>
@@ -471,7 +471,7 @@ const updateDiploma = () => {
   console.log('Original diploma data:', props.diploma)
   
   // Usar POST con _method=PATCH para manejar archivos correctamente
-  form.post(route('v2.diplomas-academicos.update', props.diploma.id), {
+  form.post(route('diplomas-academicos.update', props.diploma.id), {
     forceFormData: true,
     onSuccess: () => {
       toast.success('Diploma actualizado exitosamente')

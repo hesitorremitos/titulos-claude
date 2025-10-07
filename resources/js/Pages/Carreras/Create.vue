@@ -84,7 +84,7 @@
                                     {{ processing ? 'Guardando...' : 'Guardar' }}
                                 </Button>
                                 <Button variant="outline" type="button" as-child>
-                                    <Link :href="route('v2.carreras.index')"> Cancelar </Link>
+                                    <Link :href="route('carreras.index')"> Cancelar </Link>
                                 </Button>
                             </div>
                         </form>
@@ -121,8 +121,8 @@ const props = defineProps<Props>();
 
 // Navigation tabs - Solo Lista y Registrar
 const navTabs = [
-    { label: 'Lista', href: '/v2/carreras', icon: 'lucide:list-checks', value: 'lista' },
-    { label: 'Registrar', href: '/v2/carreras/create', icon: 'lucide:plus-circle', value: 'registrar' },
+    { label: 'Lista', href: '/carreras', icon: 'lucide:list-checks', value: 'lista' },
+    { label: 'Registrar', href: '/carreras/create', icon: 'lucide:plus-circle', value: 'registrar' },
 ];
 
 // Form usando useForm
@@ -140,7 +140,7 @@ const submit = () => {
     // Ensure ID is uppercase before submitting
     form.id = form.id.toUpperCase();
 
-    form.post(route('v2.carreras.store'), {
+    form.post(route('carreras.store'), {
         onSuccess: () => {
             toast.success('Carrera creada exitosamente');
         },

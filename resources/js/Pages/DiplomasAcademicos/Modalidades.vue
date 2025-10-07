@@ -234,7 +234,7 @@ const openDeleteDialog = (modalidad: Modalidad) => {
 const submitForm = () => {
   if (editingModalidad.value) {
     // Update
-    form.put(route('v2.modalidades.update', editingModalidad.value.id), {
+    form.put(route('diplomas-academicos.modalidades.update', editingModalidad.value.id), {
       onSuccess: () => {
         closeFormDialog()
         toast.success((page.props.flash as any).success)
@@ -245,7 +245,7 @@ const submitForm = () => {
     })
   } else {
     // Create
-    form.post(route('v2.modalidades.store'), {
+    form.post(route('diplomas-academicos.modalidades.store'), {
       onSuccess: () => {
         closeFormDialog()
         toast.success((page.props.flash as any).success)
@@ -259,7 +259,7 @@ const submitForm = () => {
 
 const deleteModalidad = () => {
   if (deletingModalidad.value) {
-    router.delete(route('v2.modalidades.destroy', deletingModalidad.value.id), {
+    router.delete(route('diplomas-academicos.modalidades.destroy', deletingModalidad.value.id), {
       onSuccess: () => {
         showDeleteDialog.value = false
         deletingModalidad.value = null

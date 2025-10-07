@@ -31,7 +31,7 @@ const confirmUserDeletion = () => {
 };
 
 const deleteUser = () => {
-    form.delete(route('v2.profile.destroy'), {
+    form.delete(route('profile.destroy'), {
         preserveScroll: true,
         onSuccess: () => {
             confirmingUserDeletion.value = false;

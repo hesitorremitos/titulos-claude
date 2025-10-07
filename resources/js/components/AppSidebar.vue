@@ -83,7 +83,7 @@ const navigationSections = computed((): NavigationSection[] => [
             {
                 label: 'Dashboard',
                 icon: Home,
-                route: '/v2/dashboard',
+                route: '/dashboard',
                 disabled: false,
             },
         ],
@@ -97,19 +97,19 @@ const navigationSections = computed((): NavigationSection[] => [
             {
                 label: 'Diplomas Académicos',
                 icon: BookOpen,
-                route: '/v2/diplomas-academicos',
+                route: '/diplomas-academicos',
                 disabled: false,
             },
             {
                 label: 'Títulos Académicos',
                 icon: Award,
-                route: '/v2/titulos-academicos',
+                route: '/titulos-academicos',
                 disabled: false,
             },
             {
                 label: 'Diplomas Bachiller',
                 icon: GraduationCap,
-                route: '/v2/diplomas-bachiller',
+                route: '/diplomas-bachiller',
                 disabled: true,
             },
         ],
@@ -123,19 +123,19 @@ const navigationSections = computed((): NavigationSection[] => [
             {
                 label: 'Maestrías',
                 icon: Brain,
-                route: '/v2/maestrias',
+                route: '/maestrias',
                 disabled: true,
             },
             {
                 label: 'Doctorados',
                 icon: Crown,
-                route: '/v2/doctorados',
+                route: '/doctorados',
                 disabled: true,
             },
             {
                 label: 'Especialidades',
                 icon: Star,
-                route: '/v2/especialidades',
+                route: '/especialidades',
                 disabled: true,
             },
         ],
@@ -150,19 +150,19 @@ const navigationSections = computed((): NavigationSection[] => [
             {
                 label: 'Usuarios',
                 icon: Users,
-                route: '/v2/usuarios',
+                route: '/usuarios',
                 disabled: false,
             },
             {
                 label: 'Facultades',
                 icon: Building2,
-                route: '/v2/facultades',
+                route: '/facultades',
                 disabled: false,
             },
             {
                 label: 'Carreras',
                 icon: BookOpen,
-                route: '/v2/carreras',
+                route: '/carreras',
                 disabled: false,
             },
         ],
@@ -333,7 +333,7 @@ const logout = () => {
                         </DropdownMenuTrigger>
 
                         <DropdownMenuContent class="w-56" align="end">
-                            <DropdownMenuItem @click="router.visit(route('v2.profile.show'))">
+                            <DropdownMenuItem @click="router.visit(route('profile.show'))">
                                 <Users class="mr-2 h-4 w-4" />
                                 Mi Perfil
                             </DropdownMenuItem>

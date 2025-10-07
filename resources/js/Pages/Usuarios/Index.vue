@@ -116,7 +116,7 @@
                                             <Tooltip>
                                                 <TooltipTrigger as-child>
                                                     <Button variant="ghost" size="sm" as-child>
-                                                        <Link :href="route('v2.usuarios.show', usuario.id)">
+                                                        <Link :href="route('usuarios.show', usuario.id)">
                                                             <Icon icon="mdi:eye" class="h-4 w-4" />
                                                         </Link>
                                                     </Button>
@@ -131,7 +131,7 @@
                                             <Tooltip>
                                                 <TooltipTrigger as-child>
                                                     <Button variant="ghost" size="sm" as-child>
-                                                        <Link :href="route('v2.usuarios.edit', usuario.id)">
+                                                        <Link :href="route('usuarios.edit', usuario.id)">
                                                             <Icon icon="mdi:pencil" class="h-4 w-4" />
                                                         </Link>
                                                     </Button>
@@ -167,7 +167,7 @@
                                 {{ searchTerm ? 'Intenta con otros términos de búsqueda.' : 'Comienza creando tu primer usuario.' }}
                             </p>
                             <Button as-child v-if="!searchTerm">
-                                <Link :href="route('v2.usuarios.create')">
+                                <Link :href="route('usuarios.create')">
                                     <Icon icon="mdi:plus" class="mr-2 h-4 w-4" />
                                     Nuevo Usuario
                                 </Link>
@@ -251,8 +251,8 @@ const props = defineProps<Props>();
 
 // Navigation tabs - Solo Lista y Registrar
 const navTabs = [
-    { label: 'Lista', href: '/v2/usuarios', icon: 'lucide:users', value: 'lista' },
-    { label: 'Registrar', href: '/v2/usuarios/create', icon: 'lucide:user-plus', value: 'registrar' },
+    { label: 'Lista', href: '/usuarios', icon: 'lucide:users', value: 'lista' },
+    { label: 'Registrar', href: '/usuarios/create', icon: 'lucide:user-plus', value: 'registrar' },
 ];
 
 const searchTerm = ref(props.filters.search || '');
@@ -286,7 +286,7 @@ const getRoleColor = (roleName: string) => {
 
 const confirmDelete = (usuario: Usuario) => {
     if (confirm(`¿Estás seguro de que quieres eliminar el usuario "${usuario.name}"?`)) {
-        router.delete(route('v2.usuarios.destroy', usuario.id), {
+        router.delete(route('usuarios.destroy', usuario.id), {
             onSuccess: (page: any) => {
                 const successMessage = page.props.flash?.success || 'Usuario eliminado exitosamente';
                 toast.success(successMessage);

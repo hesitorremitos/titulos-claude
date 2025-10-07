@@ -59,7 +59,7 @@ class FacultadController extends Controller
         try {
             $facultad = Facultad::create($request->all());
 
-            return redirect()->route('v2.facultades.index');
+            return redirect()->route('facultades.index');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
@@ -109,7 +109,7 @@ class FacultadController extends Controller
         try {
             $facultad->update($request->all());
 
-            return redirect()->route('v2.facultades.index')
+            return redirect()->route('facultades.index')
                 ->with('success', 'Facultad actualizada exitosamente.');
         } catch (\Exception $e) {
             return redirect()->back()

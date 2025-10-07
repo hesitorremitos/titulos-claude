@@ -117,7 +117,7 @@ class DiplomaAcademicoController extends Controller
                 'created_by' => Auth::id(),
             ]);
 
-            return redirect()->route('v2.diplomas-academicos.index')
+            return redirect()->route('diplomas-academicos.index')
                 ->with('success', 'Diploma académico creado exitosamente.');
 
         } catch (\Exception $e) {
@@ -232,7 +232,7 @@ class DiplomaAcademicoController extends Controller
                 'updated_by' => Auth::id(),
             ]);
 
-            return redirect()->route('v2.diplomas-academicos.show', $diploma->id)
+            return redirect()->route('diplomas-academicos.show', $diploma->id)
                 ->with('success', 'Diploma académico actualizado exitosamente.');
 
         } catch (\Exception $e) {
@@ -261,7 +261,7 @@ class DiplomaAcademicoController extends Controller
             // Delete diploma
             $diploma->delete();
 
-            return redirect()->route('v2.diplomas-academicos.index')
+            return redirect()->route('diplomas-academicos.index')
                 ->with('success', 'Diploma académico eliminado exitosamente.');
 
         } catch (\Exception $e) {

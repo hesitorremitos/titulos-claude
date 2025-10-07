@@ -141,7 +141,7 @@
                                     {{ processing ? 'Guardando...' : 'Crear Usuario' }}
                                 </Button>
                                 <Button variant="outline" type="button" as-child>
-                                    <Link :href="route('v2.usuarios.index')">
+                                    <Link :href="route('usuarios.index')">
                                         <Icon icon="mdi:arrow-left" class="mr-2 h-4 w-4" />
                                         Cancelar
                                     </Link>
@@ -179,8 +179,8 @@ const props = defineProps<Props>();
 
 // Navigation tabs - Solo Lista y Registrar
 const navTabs = [
-    { label: 'Lista', href: '/v2/usuarios', icon: 'lucide:users', value: 'lista' },
-    { label: 'Registrar', href: '/v2/usuarios/create', icon: 'lucide:user-plus', value: 'registrar' },
+    { label: 'Lista', href: '/usuarios', icon: 'lucide:users', value: 'lista' },
+    { label: 'Registrar', href: '/usuarios/create', icon: 'lucide:user-plus', value: 'registrar' },
 ];
 
 // Form usando useForm
@@ -197,7 +197,7 @@ const { processing } = form;
 
 // Methods
 const submit = () => {
-    form.post(route('v2.usuarios.store'), {
+    form.post(route('usuarios.store'), {
         onSuccess: () => {
             toast.success('Usuario creado exitosamente');
         },

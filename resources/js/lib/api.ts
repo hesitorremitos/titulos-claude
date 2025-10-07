@@ -27,7 +27,7 @@ export interface ApiSearchResult {
  */
 export async function searchPersonByCi(ci: string): Promise<ApiSearchResult> {
   try {
-    const response = await axios.get(`/v2/api/${ci}`)
+    const response = await axios.get(`/api/${ci}`)
     
     // Si la respuesta es exitosa y tiene datos
     if (response.status === 200 && Array.isArray(response.data) && response.data.length > 0) {

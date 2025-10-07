@@ -4,7 +4,7 @@ use App\Http\Controllers\StyleGuideController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect('/v2/login');
+    return redirect('/login');
 });
 
 // Ruta pública para la guía de estilos

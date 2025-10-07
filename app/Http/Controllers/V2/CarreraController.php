@@ -87,7 +87,7 @@ class CarreraController extends Controller
         try {
             $carrera = Carrera::create($request->all());
 
-            return redirect()->route('v2.carreras.index');
+            return redirect()->route('carreras.index');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
@@ -145,7 +145,7 @@ class CarreraController extends Controller
         try {
             $carrera->update($request->all());
 
-            return redirect()->route('v2.carreras.index');
+            return redirect()->route('carreras.index');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
@@ -170,7 +170,7 @@ class CarreraController extends Controller
 
             $carrera->delete();
 
-            return redirect()->route('v2.carreras.index');
+            return redirect()->route('carreras.index');
 
         } catch (\Exception $e) {
             return redirect()->back()->withErrors([

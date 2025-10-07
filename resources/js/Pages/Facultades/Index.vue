@@ -21,9 +21,9 @@
                             v-for="facultad in facultades.data"
                             :key="facultad.id"
                             class="group cursor-pointer border-b border-border/30 transition-colors duration-150 last:border-0 hover:bg-accent/30 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none active:bg-accent/40"
-                            @click="router.visit(route('v2.facultades.show', facultad.id))"
-                            @keydown.enter="router.visit(route('v2.facultades.show', facultad.id))"
-                            @keydown.space.prevent="router.visit(route('v2.facultades.show', facultad.id))"
+                            @click="router.visit(route('facultades.show', facultad.id))"
+                            @keydown.enter="router.visit(route('facultades.show', facultad.id))"
+                            @keydown.space.prevent="router.visit(route('facultades.show', facultad.id))"
                             tabindex="0"
                             :aria-label="`Ver detalles de ${facultad.nombre}`"
                             role="button"
@@ -53,7 +53,7 @@
                                 Comienza creando tu primera facultad para organizar las carreras académicas.
                             </p>
                             <Button as-child>
-                                <Link :href="route('v2.facultades.create')">
+                                <Link :href="route('facultades.create')">
                                     <Icon icon="lucide:plus-circle" class="mr-2 h-4 w-4" />
                                     Nueva Facultad
                                 </Link>
@@ -125,8 +125,8 @@ defineProps<Props>();
 
 // Navigation tabs - Solo Lista y Registrar
 const navTabs = [
-    { label: 'Lista', href: '/v2/facultades', icon: 'lucide:building-2', value: 'lista' },
-    { label: 'Registrar', href: '/v2/facultades/create', icon: 'lucide:plus-circle', value: 'registrar' },
+    { label: 'Lista', href: '/facultades', icon: 'lucide:building-2', value: 'lista' },
+    { label: 'Registrar', href: '/facultades/create', icon: 'lucide:plus-circle', value: 'registrar' },
 ];
 
 // Methods

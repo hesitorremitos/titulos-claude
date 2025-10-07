@@ -10,109 +10,103 @@ use App\Http\Controllers\V2\CarreraController;
 use App\Http\Controllers\V2\FacultadController;
 use App\Http\Controllers\V2\UserController;
 
-// Ruta de prueba para Inertia.js
-// Definicion de rutas version 2
-Route::group(['prefix' => 'v2'], function () {
+// Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')
+    ->middleware('auth');
 
-    // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('v2.dashboard')
-        ->middleware('auth');
+// Auth
+Route::get('/login', [InertiaLoginController::class, 'create'])->name('login')
+    ->middleware('guest');
+Route::post('/login', [InertiaLoginController::class, 'store'])->name('login.store')
+    ->middleware('guest');
+Route::post('/logout', [InertiaLoginController::class, 'destroy'])->name('logout')
+    ->middleware('auth');
 
-    // Auth
-    Route::get('/login', [InertiaLoginController::class, 'create'])->name('login')
-        ->middleware('guest');
-    Route::post('/login', [InertiaLoginController::class, 'store'])->name('login.store')
-        ->middleware('guest');
-    Route::post('/logout', [InertiaLoginController::class, 'destroy'])->name('logout')
-        ->middleware('auth');
+// Profile management
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/password', [ProfileController::class, 'updatePasswordVue'])->name('profile.password');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-    // Profile management
-    Route::middleware('auth')->group(function () {
-        Route::get('/profile', [ProfileController::class, 'show'])->name('v2.profile.show');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('v2.profile.update');
-        Route::patch('/profile/password', [ProfileController::class, 'updatePasswordVue'])->name('v2.profile.password');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('v2.profile.destroy');
-    });
+// Facultades CRUD
+Route::middleware('auth')->group(function () {
+    Route::resource('/facultades', FacultadController::class)->names([
+        'index' => 'facultades.index',
+        'create' => 'facultades.create',
+        'store' => 'facultades.store',
+        'show' => 'facultades.show',
+        'edit' => 'facultades.edit',
+        'update' => 'facultades.update',
+        'destroy' => 'facultades.destroy',
+    ])->parameters([
+        'facultades' => 'facultad',
+    ]);
+});
 
-    // Facultades CRUD
-    Route::middleware('auth')->group(function () {
-        Route::resource('/facultades', FacultadController::class)->names([
-            'index' => 'v2.facultades.index',
-            'create' => 'v2.facultades.create',
-            'store' => 'v2.facultades.store',
-            'show' => 'v2.facultades.show',
-            'edit' => 'v2.facultades.edit',
-            'update' => 'v2.facultades.update',
-            'destroy' => 'v2.facultades.destroy',
-        ])->parameters([
-            'facultades' => 'facultad',
-        ]);
-    });
+// Carreras CRUD
+Route::middleware('auth')->group(function () {
+    Route::resource('/carreras', CarreraController::class)->names([
+        'index' => 'carreras.index',
+        'create' => 'carreras.create',
+        'store' => 'carreras.store',
+        'show' => 'carreras.show',
+        'edit' => 'carreras.edit',
+        'update' => 'carreras.update',
+        'destroy' => 'carreras.destroy',
+    ]);
+});
 
-    // Carreras CRUD
-    Route::middleware('auth')->group(function () {
-        Route::resource('/carreras', CarreraController::class)->names([
-            'index' => 'v2.carreras.index',
-            'create' => 'v2.carreras.create',
-            'store' => 'v2.carreras.store',
-            'show' => 'v2.carreras.show',
-            'edit' => 'v2.carreras.edit',
-            'update' => 'v2.carreras.update',
-            'destroy' => 'v2.carreras.destroy',
-        ]);
-    });
+// Usuarios CRUD
+Route::middleware('auth')->group(function () {
+    Route::resource('/usuarios', UserController::class)->names([
+        'index' => 'usuarios.index',
+        'create' => 'usuarios.create',
+        'store' => 'usuarios.store',
+        'show' => 'usuarios.show',
+        'edit' => 'usuarios.edit',
+        'update' => 'usuarios.update',
+        'destroy' => 'usuarios.destroy',
+    ])->parameters([
+        'usuarios' => 'usuario',
+    ]);
+});
 
-    // Usuarios CRUD
-    Route::middleware('auth')->group(function () {
-        Route::resource('/usuarios', UserController::class)->names([
-            'index' => 'v2.usuarios.index',
-            'create' => 'v2.usuarios.create',
-            'store' => 'v2.usuarios.store',
-            'show' => 'v2.usuarios.show',
-            'edit' => 'v2.usuarios.edit',
-            'update' => 'v2.usuarios.update',
-            'destroy' => 'v2.usuarios.destroy',
-        ])->parameters([
-            'usuarios' => 'usuario',
-        ]);
-    });
+// Diplomas Académicos CRUD - Rutas específicas primero para evitar conflictos
+Route::middleware('auth')->group(function () {
+    // Menciones CRUD (anidadas bajo diplomas-academicos)
+    Route::get('/diplomas-academicos/menciones', [MencionController::class, 'index'])->name('diplomas-academicos.menciones.index');
+    Route::post('/diplomas-academicos/menciones', [MencionController::class, 'store'])->name('diplomas-academicos.menciones.store');
+    Route::put('/diplomas-academicos/menciones/{mencion}', [MencionController::class, 'update'])->name('diplomas-academicos.menciones.update');
+    Route::delete('/diplomas-academicos/menciones/{mencion}', [MencionController::class, 'destroy'])->name('diplomas-academicos.menciones.destroy');
 
-    // Diplomas Académicos CRUD
-    Route::middleware('auth')->group(function () {
-        Route::resource('/diplomas-academicos', DiplomaAcademicoController::class)->names([
-            'index' => 'v2.diplomas-academicos.index',
-            'create' => 'v2.diplomas-academicos.create',
-            'store' => 'v2.diplomas-academicos.store',
-            'show' => 'v2.diplomas-academicos.show',
-            'edit' => 'v2.diplomas-academicos.edit',
-            'update' => 'v2.diplomas-academicos.update',
-            'destroy' => 'v2.diplomas-academicos.destroy',
-        ])->parameters([
-            'diplomas-academicos' => 'diploma',
-        ]);
+    // Modalidades CRUD (anidadas bajo diplomas-academicos)
+    Route::get('/diplomas-academicos/modalidades', [ModalidadController::class, 'index'])->name('diplomas-academicos.modalidades.index');
+    Route::post('/diplomas-academicos/modalidades', [ModalidadController::class, 'store'])->name('diplomas-academicos.modalidades.store');
+    Route::put('/diplomas-academicos/modalidades/{modalidad}', [ModalidadController::class, 'update'])->name('diplomas-academicos.modalidades.update');
+    Route::delete('/diplomas-academicos/modalidades/{modalidad}', [ModalidadController::class, 'destroy'])->name('diplomas-academicos.modalidades.destroy');
 
-        // API endpoint for person search
-        Route::get('/api/{ci}', [DiplomaAcademicoController::class, 'searchPerson'])->name('v2.api.search-person');
+    // API endpoint for person search
+    Route::get('/api/{ci}', [DiplomaAcademicoController::class, 'searchPerson'])->name('api.search-person');
 
-        // Ruta segura para servir archivos PDF
-        Route::get('/diplomas-academicos/{diploma}/pdf', [DiplomaAcademicoController::class, 'servePdf'])
-            ->name('v2.diplomas-academicos.pdf');
-    });
+    // Ruta segura para servir archivos PDF
+    Route::get('/diplomas-academicos/{diploma}/pdf', [DiplomaAcademicoController::class, 'servePdf'])
+        ->name('diplomas-academicos.pdf');
 
-    // Menciones CRUD
-    Route::middleware('auth')->group(function () {
-        Route::get('/menciones', [MencionController::class, 'index'])->name('v2.menciones.index');
-        Route::post('/menciones', [MencionController::class, 'store'])->name('v2.menciones.store');
-        Route::put('/menciones/{mencion}', [MencionController::class, 'update'])->name('v2.menciones.update');
-        Route::delete('/menciones/{mencion}', [MencionController::class, 'destroy'])->name('v2.menciones.destroy');
-    });
+    // Resource routes (deben ir al final para no capturar rutas específicas)
+    Route::resource('/diplomas-academicos', DiplomaAcademicoController::class)->names([
+        'index' => 'diplomas-academicos.index',
+        'create' => 'diplomas-academicos.create',
+        'store' => 'diplomas-academicos.store',
+        'show' => 'diplomas-academicos.show',
+        'edit' => 'diplomas-academicos.edit',
+        'update' => 'diplomas-academicos.update',
+        'destroy' => 'diplomas-academicos.destroy',
+    ])->parameters([
+        'diplomas-academicos' => 'diploma',
+    ]);
+});
 
-    // Modalidades CRUD
-    Route::middleware('auth')->group(function () {
-        Route::get('/modalidades', [ModalidadController::class, 'index'])->name('v2.modalidades.index');
-        Route::post('/modalidades', [ModalidadController::class, 'store'])->name('v2.modalidades.store');
-        Route::put('/modalidades/{modalidad}', [ModalidadController::class, 'update'])->name('v2.modalidades.update');
-        Route::delete('/modalidades/{modalidad}', [ModalidadController::class, 'destroy'])->name('v2.modalidades.destroy');
-    });
-
-  });
+// Incluir las rutas del prototipo CRUD base
+require base_path('routes/prototipo.php');

@@ -50,7 +50,7 @@
                                     {{ processing ? 'Guardando...' : 'Guardar' }}
                                 </Button>
                                 <Button variant="outline" type="button" as-child>
-                                    <Link :href="route('v2.facultades.show', facultad.id)"> Cancelar </Link>
+                                    <Link :href="route('facultades.show', facultad.id)"> Cancelar </Link>
                                 </Button>
                             </div>
                         </form>
@@ -94,7 +94,7 @@ const { processing } = form;
 
 // Methods
 const submit = () => {
-    form.put(route('v2.facultades.update', props.facultad.id), {
+    form.put(route('facultades.update', props.facultad.id), {
         onSuccess: () => {
             toast.success('Facultad actualizada exitosamente');
         },

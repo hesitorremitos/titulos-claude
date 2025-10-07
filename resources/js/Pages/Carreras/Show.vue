@@ -17,7 +17,7 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <Button variant="outline" as-child>
-                            <Link :href="route('v2.carreras.edit', carrera.id)">
+                            <Link :href="route('carreras.edit', carrera.id)">
                                 <Icon icon="mdi:pencil" class="mr-2 h-4 w-4" />
                                 Editar
                             </Link>
@@ -96,7 +96,7 @@
                                 <Icon icon="mdi-school" class="mt-1 h-6 w-6 text-blue-500" />
                                 <div class="flex-1">
                                     <Link
-                                        :href="route('v2.facultades.show', carrera.facultad.id)"
+                                        :href="route('facultades.show', carrera.facultad.id)"
                                         class="text-lg font-medium text-blue-700 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-200"
                                     >
                                         {{ carrera.facultad.nombre }}
@@ -106,7 +106,7 @@
                                     </p>
                                 </div>
                                 <Button variant="outline" size="sm" as-child>
-                                    <Link :href="route('v2.facultades.show', carrera.facultad.id)">
+                                    <Link :href="route('facultades.show', carrera.facultad.id)">
                                         <Icon icon="mdi:arrow-right" class="h-4 w-4" />
                                     </Link>
                                 </Button>
@@ -129,7 +129,7 @@
                     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         <!-- View Faculty -->
                         <Card class="p-4 transition-colors hover:bg-accent/50">
-                            <Link :href="route('v2.facultades.show', carrera.facultad.id)" class="block">
+                            <Link :href="route('facultades.show', carrera.facultad.id)" class="block">
                                 <div class="flex items-center gap-3">
                                     <div class="rounded-lg bg-blue-100 p-2 dark:bg-blue-900">
                                         <Icon icon="mdi:school" class="h-5 w-5 text-blue-600 dark:text-blue-400" />
@@ -145,7 +145,7 @@
 
                         <!-- View All Careers from Faculty -->
                         <Card class="p-4 transition-colors hover:bg-accent/50">
-                            <Link :href="route('v2.carreras.index', { facultad_id: carrera.facultad.id })" class="block">
+                            <Link :href="route('carreras.index', { facultad_id: carrera.facultad.id })" class="block">
                                 <div class="flex items-center gap-3">
                                     <div class="rounded-lg bg-green-100 p-2 dark:bg-green-900">
                                         <Icon icon="mdi:book-multiple" class="h-5 w-5 text-green-600 dark:text-green-400" />
@@ -161,7 +161,7 @@
 
                         <!-- Edit Career -->
                         <Card class="p-4 transition-colors hover:bg-accent/50">
-                            <Link :href="route('v2.carreras.edit', carrera.id)" class="block">
+                            <Link :href="route('carreras.edit', carrera.id)" class="block">
                                 <div class="flex items-center gap-3">
                                     <div class="rounded-lg bg-orange-100 p-2 dark:bg-orange-900">
                                         <Icon icon="mdi:pencil" class="h-5 w-5 text-orange-600 dark:text-orange-400" />
@@ -198,7 +198,7 @@
             <!-- Actions -->
             <div class="flex items-center justify-between border-t border-border pt-6">
                 <Button variant="outline" as-child>
-                    <Link :href="route('v2.carreras.index')">
+                    <Link :href="route('carreras.index')">
                         <Icon icon="mdi-arrow-left" class="mr-2 h-4 w-4" />
                         Volver a Carreras
                     </Link>
@@ -206,7 +206,7 @@
 
                 <div class="flex items-center gap-2">
                     <Button variant="outline" as-child>
-                        <Link :href="route('v2.carreras.edit', carrera.id)">
+                        <Link :href="route('carreras.edit', carrera.id)">
                             <Icon icon="mdi-pencil" class="mr-2 h-4 w-4" />
                             Editar Carrera
                         </Link>
@@ -259,7 +259,7 @@ const props = defineProps<Props>();
 
 // Methods
 const deleteCarrera = () => {
-    router.delete(route('v2.carreras.destroy', props.carrera.id), {
+    router.delete(route('carreras.destroy', props.carrera.id), {
         onSuccess: () => {
             toast.success('Carrera eliminada exitosamente');
         },

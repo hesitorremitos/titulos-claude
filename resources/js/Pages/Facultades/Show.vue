@@ -10,7 +10,7 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <Button variant="outline" as-child>
-                            <Link :href="route('v2.facultades.edit', facultad.id)">
+                            <Link :href="route('facultades.edit', facultad.id)">
                                 <Icon icon="mdi:pencil" class="mr-2 h-4 w-4" />
                                 Editar
                             </Link>
@@ -103,7 +103,7 @@
                             <CardDescription> Lista de carreras que pertenecen a esta facultad </CardDescription>
                         </div>
                         <Button as-child>
-                            <Link :href="route('v2.carreras.create', { facultad_id: facultad.id })">
+                            <Link :href="route('carreras.create', { facultad_id: facultad.id })">
                                 <Icon icon="mdi:plus" class="mr-2 h-4 w-4" />
                                 Nueva Carrera
                             </Link>
@@ -129,7 +129,7 @@
                                         </code>
                                     </TableCell>
                                     <TableCell>
-                                        <Link :href="route('v2.carreras.show', carrera.id)" class="font-medium hover:underline">
+                                        <Link :href="route('carreras.show', carrera.id)" class="font-medium hover:underline">
                                             {{ carrera.programa }}
                                         </Link>
                                     </TableCell>
@@ -141,12 +141,12 @@
                                     <TableCell class="text-right">
                                         <div class="flex items-center justify-end gap-2">
                                             <Button variant="ghost" size="sm" as-child>
-                                                <Link :href="route('v2.carreras.show', carrera.id)">
+                                                <Link :href="route('carreras.show', carrera.id)">
                                                     <Icon icon="mdi:eye" class="h-4 w-4" />
                                                 </Link>
                                             </Button>
                                             <Button variant="ghost" size="sm" as-child>
-                                                <Link :href="route('v2.carreras.edit', carrera.id)">
+                                                <Link :href="route('carreras.edit', carrera.id)">
                                                     <Icon icon="mdi:pencil" class="h-4 w-4" />
                                                 </Link>
                                             </Button>
@@ -163,7 +163,7 @@
                         <h3 class="text-lg font-medium">No hay carreras asociadas</h3>
                         <p class="mb-6 text-muted-foreground">Esta facultad aún no tiene carreras. Crea la primera carrera para comenzar.</p>
                         <Button as-child>
-                            <Link :href="route('v2.carreras.create', { facultad_id: facultad.id })">
+                            <Link :href="route('carreras.create', { facultad_id: facultad.id })">
                                 <Icon icon="mdi:plus" class="mr-2 h-4 w-4" />
                                 Crear Primera Carrera
                             </Link>
@@ -175,7 +175,7 @@
             <!-- Actions -->
             <div class="flex items-center justify-between border-t border-border pt-6">
                 <Button variant="outline" as-child>
-                    <Link :href="route('v2.facultades.index')">
+                    <Link :href="route('facultades.index')">
                         <Icon icon="mdi:arrow-left" class="mr-2 h-4 w-4" />
                         Volver a Facultades
                     </Link>
@@ -183,7 +183,7 @@
 
                 <div class="flex items-center gap-2">
                     <Button variant="outline" as-child>
-                        <Link :href="route('v2.facultades.edit', facultad.id)">
+                        <Link :href="route('facultades.edit', facultad.id)">
                             <Icon icon="mdi:pencil" class="mr-2 h-4 w-4" />
                             Editar Facultad
                         </Link>
@@ -237,7 +237,7 @@ const props = defineProps<Props>();
 
 // Methods
 const deleteFacultad = () => {
-    router.delete(route('v2.facultades.destroy', props.facultad.id), {
+    router.delete(route('facultades.destroy', props.facultad.id), {
         onSuccess: () => {
             toast.success('Facultad eliminada exitosamente');
         },

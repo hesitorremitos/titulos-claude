@@ -14,132 +14,132 @@ interface BreadcrumbConfig {
 // Global registry for all breadcrumb configurations
 const breadcrumbRegistry: Record<string, BreadcrumbConfig> = {
   // Dashboard
-  'v2.dashboard': {
+  'dashboard': {
     label: 'Dashboard'
   },
 
   // Diplomas Académicos
-  'v2.diplomas-academicos.index': {
+  'diplomas-academicos.index': {
     label: 'Lista',
     parent: 'diplomas-academicos'
   },
-  'v2.diplomas-academicos.create': {
+  'diplomas-academicos.create': {
     label: 'Registrar',
     parent: 'diplomas-academicos'
   },
-  'v2.diplomas-academicos.show': {
+  'diplomas-academicos.show': {
     label: 'Ver',
     parent: 'diplomas-academicos',
     dynamic: (props) => `Ver: ${props.diploma?.ci || props.diploma?.persona?.nombres || 'Diploma'}`,
-    href: (props) => props.diploma ? route('v2.diplomas-academicos.show', props.diploma.id) : null
+    href: (props) => props.diploma ? route('diplomas-academicos.show', props.diploma.id) : null
   },
-  'v2.diplomas-academicos.edit': {
+  'diplomas-academicos.edit': {
     label: 'Editar',
-    parent: 'v2.diplomas-academicos.show',
+    parent: 'diplomas-academicos.show',
     dynamic: (props) => `Editar: ${props.diploma?.ci || props.diploma?.persona?.nombres || 'Diploma'}`,
   },
 
   // Menciones
-  'v2.menciones.index': {
+  'diplomas-academicos.menciones.index': {
     label: 'Menciones',
     parent: 'diplomas-academicos'
   },
 
   // Modalidades
-  'v2.modalidades.index': {
+  'diplomas-academicos.modalidades.index': {
     label: 'Modalidades',
     parent: 'diplomas-academicos'
   },
 
   // Facultades
-  'v2.facultades.index': {
+  'facultades.index': {
     label: 'Lista',
     parent: 'facultades'
   },
-  'v2.facultades.create': {
+  'facultades.create': {
     label: 'Registrar',
     parent: 'facultades'
   },
-  'v2.facultades.show': {
+  'facultades.show': {
     label: 'Ver',
     parent: 'facultades',
     dynamic: (props) => `Ver: ${props.facultad?.nombre || 'Facultad'}`,
-    href: (props) => props.facultad ? route('v2.facultades.show', props.facultad.id) : null
+    href: (props) => props.facultad ? route('facultades.show', props.facultad.id) : null
   },
-  'v2.facultades.edit': {
+  'facultades.edit': {
     label: 'Editar',
-    parent: 'v2.facultades.show',
+    parent: 'facultades.show',
     dynamic: (props) => `Editar: ${props.facultad?.nombre || 'Facultad'}`,
   },
 
   // Carreras
-  'v2.carreras.index': {
+  'carreras.index': {
     label: 'Lista',
     parent: 'carreras'
   },
-  'v2.carreras.create': {
+  'carreras.create': {
     label: 'Registrar',
     parent: 'carreras'
   },
-  'v2.carreras.show': {
+  'carreras.show': {
     label: 'Ver',
     parent: 'carreras',
     dynamic: (props) => `Ver: ${props.carrera?.programa || 'Carrera'}`,
-    href: (props) => props.carrera ? route('v2.carreras.show', props.carrera.id) : null
+    href: (props) => props.carrera ? route('carreras.show', props.carrera.id) : null
   },
-  'v2.carreras.edit': {
+  'carreras.edit': {
     label: 'Editar',
-    parent: 'v2.carreras.show',
+    parent: 'carreras.show',
     dynamic: (props) => `Editar: ${props.carrera?.programa || 'Carrera'}`,
   },
 
   // Usuarios
-  'v2.usuarios.index': {
+  'usuarios.index': {
     label: 'Lista',
     parent: 'usuarios'
   },
-  'v2.usuarios.create': {
+  'usuarios.create': {
     label: 'Registrar',
     parent: 'usuarios'
   },
-  'v2.usuarios.show': {
+  'usuarios.show': {
     label: 'Ver',
     parent: 'usuarios',
     dynamic: (props) => `Ver: ${props.usuario?.name || 'Usuario'}`,
-    href: (props) => props.usuario ? route('v2.usuarios.show', props.usuario.id) : null
+    href: (props) => props.usuario ? route('usuarios.show', props.usuario.id) : null
   },
-  'v2.usuarios.edit': {
+  'usuarios.edit': {
     label: 'Editar',
-    parent: 'v2.usuarios.show',
+    parent: 'usuarios.show',
     dynamic: (props) => `Editar: ${props.usuario?.name || 'Usuario'}`,
   },
 
   // Profile
   'profile.index': {
     label: 'Mi Perfil',
-    parent: 'v2.dashboard'
+    parent: 'dashboard'
   },
 
   // Parent categories (virtual breadcrumb levels)
   'diplomas-academicos': {
     label: 'Diplomas Académicos',
-    parent: 'v2.dashboard',
-    href: () => route('v2.diplomas-academicos.index')
+    parent: 'dashboard',
+    href: () => route('diplomas-academicos.index')
   },
   'facultades': {
     label: 'Facultades',
-    parent: 'v2.dashboard',
-    href: () => route('v2.facultades.index')
+    parent: 'dashboard',
+    href: () => route('facultades.index')
   },
   'carreras': {
     label: 'Carreras',
-    parent: 'v2.dashboard',
-    href: () => route('v2.carreras.index')
+    parent: 'dashboard',
+    href: () => route('carreras.index')
   },
   'usuarios': {
     label: 'Usuarios',
-    parent: 'v2.dashboard',
-    href: () => route('v2.usuarios.index')
+    parent: 'dashboard',
+    href: () => route('usuarios.index')
   },
 }
 

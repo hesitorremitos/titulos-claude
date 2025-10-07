@@ -10,13 +10,13 @@
                     </div>
                     <div class="flex items-center gap-3">
                         <Button variant="outline" as-child>
-                            <Link :href="route('v2.usuarios.edit', usuario.id)">
+                            <Link :href="route('usuarios.edit', usuario.id)">
                                 <Icon icon="mdi:pencil" class="mr-2 h-4 w-4" />
                                 Editar
                             </Link>
                         </Button>
                         <Button variant="outline" as-child>
-                            <Link :href="route('v2.usuarios.index')">
+                            <Link :href="route('usuarios.index')">
                                 <Icon icon="mdi:arrow-left" class="mr-2 h-4 w-4" />
                                 Volver
                             </Link>
@@ -96,7 +96,7 @@
                             <h3 class="text-lg font-medium">Sin roles asignados</h3>
                             <p class="text-muted-foreground">Este usuario no tiene roles asignados actualmente.</p>
                             <Button class="mt-4" variant="outline" as-child>
-                                <Link :href="route('v2.usuarios.edit', usuario.id)">
+                                <Link :href="route('usuarios.edit', usuario.id)">
                                     <Icon icon="mdi:shield-plus" class="mr-2 h-4 w-4" />
                                     Asignar Roles
                                 </Link>
@@ -148,7 +148,7 @@
                 <CardContent>
                     <div class="flex flex-wrap gap-3">
                         <Button as-child>
-                            <Link :href="route('v2.usuarios.edit', usuario.id)">
+                            <Link :href="route('usuarios.edit', usuario.id)">
                                 <Icon icon="mdi:pencil" class="mr-2 h-4 w-4" />
                                 Editar Usuario
                             </Link>
@@ -252,7 +252,7 @@ const formatDate = (dateString: string) => {
 
 const confirmDelete = () => {
     if (confirm(`¿Estás seguro de que quieres eliminar el usuario "${props.usuario.name}"?`)) {
-        router.delete(route('v2.usuarios.destroy', props.usuario.id), {
+        router.delete(route('usuarios.destroy', props.usuario.id), {
             onSuccess: (page: any) => {
                 const successMessage = page.props.flash?.success || 'Usuario eliminado exitosamente';
                 toast.success(successMessage);

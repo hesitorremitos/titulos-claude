@@ -281,7 +281,7 @@ const page = usePage()
 const submitForm = () => {
   updateFormData()
   
-  form.post(route('v2.diplomas-academicos.store'), {
+  form.post(route('diplomas-academicos.store'), {
     forceFormData: true,
     onSuccess: () => {
       // Limpiar stores después del éxito

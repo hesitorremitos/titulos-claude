@@ -27,7 +27,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.patch(route('v2.profile.update'), {
+    form.patch(route('profile.update'), {
         preserveScroll: true,
         onSuccess: () => {
             toast.success('Tu información personal ha sido actualizada correctamente.');

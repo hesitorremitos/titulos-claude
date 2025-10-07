@@ -264,7 +264,7 @@ const openDeleteDialog = (mencion: Mencion) => {
 const submitForm = () => {
   if (editingMencion.value) {
     // Update
-    form.put(route('v2.menciones.update', editingMencion.value.id), {
+    form.put(route('diplomas-academicos.menciones.update', editingMencion.value.id), {
       onSuccess: () => {
         closeFormDialog()
         toast.success((page.props.flash as any).success)
@@ -275,7 +275,7 @@ const submitForm = () => {
     })
   } else {
     // Create
-    form.post(route('v2.menciones.store'), {
+    form.post(route('diplomas-academicos.menciones.store'), {
       onSuccess: () => {
         closeFormDialog()
         toast.success((page.props.flash as any).success)
@@ -289,7 +289,7 @@ const submitForm = () => {
 
 const deleteMencion = () => {
   if (deletingMencion.value) {
-    router.delete(route('v2.menciones.destroy', deletingMencion.value.id), {
+    router.delete(route('diplomas-academicos.menciones.destroy', deletingMencion.value.id), {
       onSuccess: () => {
         showDeleteDialog.value = false
         deletingMencion.value = null

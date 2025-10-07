@@ -99,7 +99,7 @@ class UserController extends Controller
                 $user->assignRole($request->roles);
             }
 
-            return redirect()->route('v2.usuarios.index');
+            return redirect()->route('usuarios.index');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
@@ -169,7 +169,7 @@ class UserController extends Controller
                 $usuario->syncRoles([]);
             }
 
-            return redirect()->route('v2.usuarios.index')
+            return redirect()->route('usuarios.index')
                 ->with('success', 'Usuario actualizado exitosamente.');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -186,7 +186,7 @@ class UserController extends Controller
         try {
             // Evitar que el usuario se elimine a sí mismo
             if ($usuario->id == auth()->id()) {
-                return redirect()->route('v2.usuarios.index')->withErrors([
+                return redirect()->route('usuarios.index')->withErrors([
                     'delete' => 'No puedes eliminar tu propio usuario.',
                 ]);
             }
@@ -196,7 +196,7 @@ class UserController extends Controller
             if ($adminRole && $usuario->hasRole('Administrador')) {
                 $adminCount = User::role('Administrador')->count();
                 if ($adminCount <= 1) {
-                    return redirect()->route('v2.usuarios.index')->withErrors([
+                    return redirect()->route('usuarios.index')->withErrors([
                         'delete' => 'No se puede eliminar el último administrador del sistema.',
                     ]);
                 }
@@ -205,11 +205,11 @@ class UserController extends Controller
             $userName = $usuario->name;
             $usuario->delete();
 
-            return redirect()->route('v2.usuarios.index')
+            return redirect()->route('usuarios.index')
                 ->with('success', "Usuario '{$userName}' eliminado exitosamente.");
 
         } catch (\Exception $e) {
-            return redirect()->route('v2.usuarios.index')->withErrors([
+            return redirect()->route('usuarios.index')->withErrors([
                 'delete' => 'Error al eliminar el usuario. Por favor, inténtelo nuevamente.',
             ]);
         }
@@ -233,7 +233,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            return redirect()->route('v2.usuarios.edit', $usuario)
+            return redirect()->route('usuarios.edit', $usuario)
                 ->with('success', 'Contraseña restablecida exitosamente.');
         } catch (\Exception $e) {
             return redirect()->back()

@@ -31,29 +31,29 @@ const pageTitle = computed(() => props.title)
 
 // Navegación unificada de Diplomas Académicos
 const navTabs = computed(() => [
-  { 
-    label: 'Lista', 
-    href: route('v2.diplomas-academicos.index'), 
-    icon: 'material-symbols:list', 
-    value: 'lista' 
+  {
+    label: 'Lista',
+    href: route('diplomas-academicos.index'),
+    icon: 'material-symbols:list',
+    value: 'lista'
   },
-  { 
-    label: 'Registrar', 
-    href: route('v2.diplomas-academicos.create'), 
-    icon: 'material-symbols:add', 
-    value: 'registrar' 
+  {
+    label: 'Registrar',
+    href: route('diplomas-academicos.create'),
+    icon: 'material-symbols:add',
+    value: 'registrar'
   },
-  { 
-    label: 'Menciones', 
-    href: route('v2.menciones.index'), 
-    icon: 'material-symbols:category', 
-    value: 'menciones' 
+  {
+    label: 'Menciones',
+    href: route('diplomas-academicos.menciones.index'),
+    icon: 'material-symbols:category',
+    value: 'menciones'
   },
-  { 
-    label: 'Modalidades', 
-    href: route('v2.modalidades.index'), 
-    icon: 'material-symbols:school', 
-    value: 'modalidades' 
+  {
+    label: 'Modalidades',
+    href: route('diplomas-academicos.modalidades.index'),
+    icon: 'material-symbols:school',
+    value: 'modalidades'
   },
 ])
 

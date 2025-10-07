@@ -92,7 +92,7 @@ class TituloProvisionNacionalController extends Controller
         TituloProvisionNacional::create($validated);
 
         return redirect()
-            ->route('v2.titulos-provision-nacional.index')
+            ->route('titulos-provision-nacional.index')
             ->with('success', 'Título de Provisión Nacional registrado exitosamente.');
     }
 
@@ -164,7 +164,7 @@ class TituloProvisionNacionalController extends Controller
         $titulo->update($validated);
 
         return redirect()
-            ->route('v2.titulos-provision-nacional.show', $titulo)
+            ->route('titulos-provision-nacional.show', $titulo)
             ->with('success', 'Título de Provisión Nacional actualizado exitosamente.');
     }
 
@@ -184,7 +184,7 @@ class TituloProvisionNacionalController extends Controller
         $titulo->delete();
 
         return redirect()
-            ->route('v2.titulos-provision-nacional.index')
+            ->route('titulos-provision-nacional.index')
             ->with('success', 'Título de Provisión Nacional eliminado exitosamente.');
     }
 

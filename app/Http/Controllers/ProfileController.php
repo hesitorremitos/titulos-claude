@@ -93,7 +93,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return Redirect::route('v2.profile.show');
+        return Redirect::route('profile.show');
     }
 
     /**
@@ -142,7 +142,7 @@ class ProfileController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return Redirect::route('v2.profile.show');
+        return Redirect::route('profile.show');
     }
 
     /**

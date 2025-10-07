@@ -165,7 +165,7 @@
                                     {{ processing ? 'Guardando...' : 'Guardar Cambios' }}
                                 </Button>
                                 <Button variant="outline" type="button" as-child>
-                                    <Link :href="route('v2.usuarios.index')">
+                                    <Link :href="route('usuarios.index')">
                                         <Icon icon="mdi:arrow-left" class="mr-2 h-4 w-4" />
                                         Cancelar
                                     </Link>
@@ -228,7 +228,7 @@ const { processing } = form;
 
 // Methods
 const submit = () => {
-    form.put(route('v2.usuarios.update', props.usuario.id), {
+    form.put(route('usuarios.update', props.usuario.id), {
         onSuccess: () => {
             toast.success('Usuario actualizado exitosamente');
             showPasswordReset.value = false;

@@ -90,7 +90,7 @@
                                     {{ processing ? 'Guardando...' : 'Guardar' }}
                                 </Button>
                                 <Button variant="outline" type="button" as-child>
-                                    <Link :href="route('v2.carreras.show', carrera.id)"> Cancelar </Link>
+                                    <Link :href="route('carreras.show', carrera.id)"> Cancelar </Link>
                                 </Button>
                             </div>
                         </form>
@@ -147,7 +147,7 @@ const submit = () => {
     // Ensure ID is uppercase before submitting
     form.id = form.id.toUpperCase();
 
-    form.put(route('v2.carreras.update', props.carrera.id), {
+    form.put(route('carreras.update', props.carrera.id), {
         onSuccess: () => {
             toast.success('Carrera actualizada exitosamente');
         },

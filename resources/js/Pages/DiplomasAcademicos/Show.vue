@@ -14,7 +14,7 @@
         
         <!-- Botones de acción -->
         <div class="flex space-x-3">
-          <Button variant="outline" as="a" :href="route('v2.diplomas-academicos.edit', diploma.id)">
+          <Button variant="outline" as="a" :href="route('diplomas-academicos.edit', diploma.id)">
             <Edit class="h-4 w-4 mr-2" />
             Editar
           </Button>
@@ -149,13 +149,13 @@
             </CardHeader>
             <CardContent>
               <div v-if="diploma.file_dir" class="space-y-4">
-                <iframe 
-                  :src="route('v2.diplomas-academicos.pdf', diploma.id)" 
+                <iframe
+                  :src="route('diplomas-academicos.pdf', diploma.id)"
                   class="w-full h-[600px] border rounded-md"
                   title="Documento del Diploma Académico"
                 ></iframe>
                 <div class="flex justify-center">
-                  <Button variant="outline" as="a" :href="route('v2.diplomas-academicos.pdf', diploma.id)" download>
+                  <Button variant="outline" as="a" :href="route('diplomas-academicos.pdf', diploma.id)" download>
                     <Download class="h-4 w-4 mr-2" />
                     Descargar PDF
                   </Button>
@@ -253,9 +253,9 @@ const formatDate = (dateString: string | undefined) => {
 
 // Delete diploma function
 const deleteDiploma = () => {
-  router.delete(route('v2.diplomas-academicos.destroy', props.diploma.id), {
+  router.delete(route('diplomas-academicos.destroy', props.diploma.id), {
     onSuccess: () => {
-      router.visit(route('v2.diplomas-academicos.index'))
+      router.visit(route('diplomas-academicos.index'))
       toast.success('Diploma eliminado con éxito')
     }
   })

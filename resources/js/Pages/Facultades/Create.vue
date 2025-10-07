@@ -48,7 +48,7 @@
                                     {{ processing ? 'Guardando...' : 'Guardar' }}
                                 </Button>
                                 <Button variant="outline" type="button" as-child>
-                                    <Link :href="route('v2.facultades.index')"> Cancelar </Link>
+                                    <Link :href="route('facultades.index')"> Cancelar </Link>
                                 </Button>
                             </div>
                         </form>
@@ -76,8 +76,8 @@ const props = defineProps<Props>();
 
 // Navigation tabs - Solo Lista y Registrar
 const navTabs = [
-    { label: 'Lista', href: '/v2/facultades', icon: 'lucide:building-2', value: 'lista' },
-    { label: 'Registrar', href: '/v2/facultades/create', icon: 'lucide:plus-circle', value: 'registrar' },
+    { label: 'Lista', href: '/facultades', icon: 'lucide:building-2', value: 'lista' },
+    { label: 'Registrar', href: '/facultades/create', icon: 'lucide:plus-circle', value: 'registrar' },
 ];
 
 // Form usando useForm
@@ -90,7 +90,7 @@ const { processing } = form;
 
 // Methods
 const submit = () => {
-    form.post(route('v2.facultades.store'), {
+    form.post(route('facultades.store'), {
         onSuccess: () => {
             toast.success('Facultad creada exitosamente');
         },
