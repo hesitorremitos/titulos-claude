@@ -92,7 +92,6 @@ const navigationSections = computed((): NavigationSection[] => [
         id: 'titulo_grado',
         title: 'TÍTULOS DE GRADO',
         collapsible: true,
-        icon: GraduationCap,
         items: [
             {
                 label: 'Diplomas Académicos',
@@ -118,7 +117,6 @@ const navigationSections = computed((): NavigationSection[] => [
         id: 'titulo_postgrado',
         title: 'TÍTULOS DE POSTGRADO',
         collapsible: true,
-        icon: Crown,
         items: [
             {
                 label: 'Maestrías',
