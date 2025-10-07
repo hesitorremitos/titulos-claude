@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Auth\InertiaLoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Maestria\MaestriaController;
+use App\Http\Controllers\Maestria\MencionController as MaestriaMencionController;
+use App\Http\Controllers\Maestria\ModalidadController as MaestriaModalidadController;
 use App\Http\Controllers\DiplomaBachiller\DiplomaBachillerController;
 use App\Http\Controllers\DiplomaBachiller\MencionController as MencionDBController;
 use App\Http\Controllers\DiplomasAcademicos\DiplomaAcademicoController;
@@ -146,6 +149,34 @@ Route::middleware('auth')->group(function () {
         'destroy' => 'titulos-provision-nacional.destroy',
     ])->parameters([
         'titulos-provision-nacional' => 'titulo',
+    ]);
+});
+
+// Maestrías CRUD
+Route::middleware('auth')->group(function () {
+    Route::get('/maestrias/menciones', [MaestriaMencionController::class, 'index'])->name('maestrias.menciones.index');
+    Route::post('/maestrias/menciones', [MaestriaMencionController::class, 'store'])->name('maestrias.menciones.store');
+    Route::put('/maestrias/menciones/{mencion}', [MaestriaMencionController::class, 'update'])->name('maestrias.menciones.update');
+    Route::delete('/maestrias/menciones/{mencion}', [MaestriaMencionController::class, 'destroy'])->name('maestrias.menciones.destroy');
+
+    Route::get('/maestrias/modalidades', [MaestriaModalidadController::class, 'index'])->name('maestrias.modalidades.index');
+    Route::post('/maestrias/modalidades', [MaestriaModalidadController::class, 'store'])->name('maestrias.modalidades.store');
+    Route::put('/maestrias/modalidades/{modalidad}', [MaestriaModalidadController::class, 'update'])->name('maestrias.modalidades.update');
+    Route::delete('/maestrias/modalidades/{modalidad}', [MaestriaModalidadController::class, 'destroy'])->name('maestrias.modalidades.destroy');
+
+    Route::get('/maestrias/personas/{ci}', [MaestriaController::class, 'searchPerson'])->name('maestrias.search-person');
+    Route::get('/maestrias/{maestria}/pdf', [MaestriaController::class, 'servePdf'])->name('maestrias.pdf');
+
+    Route::resource('/maestrias', MaestriaController::class)->names([
+        'index' => 'maestrias.index',
+        'create' => 'maestrias.create',
+        'store' => 'maestrias.store',
+        'show' => 'maestrias.show',
+        'edit' => 'maestrias.edit',
+        'update' => 'maestrias.update',
+        'destroy' => 'maestrias.destroy',
+    ])->parameters([
+        'maestrias' => 'maestria',
     ]);
 });
 

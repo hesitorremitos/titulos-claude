@@ -77,6 +77,35 @@ const breadcrumbRegistry: Record<string, BreadcrumbConfig> = {
     parent: 'diploma-bachiller'
   },
 
+  // Maestrías
+  'maestrias.index': {
+    label: 'Lista',
+    parent: 'maestrias'
+  },
+  'maestrias.create': {
+    label: 'Registrar',
+    parent: 'maestrias'
+  },
+  'maestrias.show': {
+    label: 'Ver',
+    parent: 'maestrias',
+    dynamic: (props) => `Ver: ${props.maestria?.ci || props.maestria?.persona?.nombres || 'Maestría'}`,
+    href: (props) => props.maestria ? route('maestrias.show', props.maestria.id) : null
+  },
+  'maestrias.edit': {
+    label: 'Editar',
+    parent: 'maestrias.show',
+    dynamic: (props) => `Editar: ${props.maestria?.ci || props.maestria?.persona?.nombres || 'Maestría'}`,
+  },
+  'maestrias.menciones.index': {
+    label: 'Menciones',
+    parent: 'maestrias'
+  },
+  'maestrias.modalidades.index': {
+    label: 'Modalidades',
+    parent: 'maestrias'
+  },
+
   // Facultades
   'facultades.index': {
     label: 'Lista',
@@ -156,6 +185,11 @@ const breadcrumbRegistry: Record<string, BreadcrumbConfig> = {
     label: 'Diplomas Bachiller',
     parent: 'dashboard',
     href: () => route('diploma-bachiller.index')
+  },
+  'maestrias': {
+    label: 'Maestrías',
+    parent: 'dashboard',
+    href: () => route('maestrias.index')
   },
   'facultades': {
     label: 'Facultades',

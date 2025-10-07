@@ -124,7 +124,7 @@ const navigationSections = computed((): NavigationSection[] => [
                 label: 'Maestrías',
                 icon: Brain,
                 route: '/maestrias',
-                disabled: true,
+                disabled: false,
             },
             {
                 label: 'Doctorados',

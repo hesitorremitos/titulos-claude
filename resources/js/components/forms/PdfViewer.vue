@@ -87,9 +87,10 @@ import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { useDiplomaAcademicoStore } from '@/stores/titulos/useDiplomaAcademicoStore'
 import { useDiplomaBachillerStore } from '@/stores/titulos/useDiplomaBachillerStore'
 import { useTituloProvisionNacionalStore } from '@/stores/titulos/useTituloProvisionNacionalStore'
+import { useMaestriaStore } from '@/stores/titulos/useMaestriaStore'
 
 const props = defineProps<{
-  storeType?: 'diplomaAcademico' | 'diplomaBachiller' | 'tituloProvisionNacional'
+  storeType?: 'diplomaAcademico' | 'diplomaBachiller' | 'tituloProvisionNacional' | 'maestria'
 }>()
 
 // Stores
@@ -97,6 +98,7 @@ const personalDataStore = usePersonalDataStore()
 const diplomaAcademicoStore = useDiplomaAcademicoStore()
 const diplomaBachillerStore = useDiplomaBachillerStore()
 const tituloProvisionNacionalStore = useTituloProvisionNacionalStore()
+const maestriaStore = useMaestriaStore()
 
 const activeStore = computed(() => {
   if (props.storeType === 'diplomaBachiller') {
@@ -105,6 +107,10 @@ const activeStore = computed(() => {
 
   if (props.storeType === 'tituloProvisionNacional') {
     return tituloProvisionNacionalStore
+  }
+
+  if (props.storeType === 'maestria') {
+    return maestriaStore
   }
 
   return diplomaAcademicoStore
