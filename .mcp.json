@@ -43,6 +43,14 @@
         "--mcp"
       ],
       "env": {}
+    },
+    "zai-mcp-server": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@z_ai/mcp-server"
+      ]
     }
   }
 }
