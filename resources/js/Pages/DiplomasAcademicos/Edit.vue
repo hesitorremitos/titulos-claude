@@ -238,7 +238,7 @@
                 <div
                   ref="dropZoneRef"
                   :class="dropZoneClasses"
-                  @click="openFileDialog"
+                  @click="() => openFileDialog()"
                 >
                   <div class="flex flex-col items-center space-y-3">
                     <Upload class="h-12 w-12 text-muted-foreground" />
@@ -327,7 +327,7 @@
 </template>
 
 <script setup lang="ts">
-import { Head, useForm, usePage } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import { ref, computed, watchEffect } from 'vue'
 import { useDropZone, useFileDialog, useObjectUrl } from '@vueuse/core'
 import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
@@ -354,7 +354,7 @@ import {
   RefreshCw,
   AlertCircle
 } from 'lucide-vue-next'
-import type { DiplomaAcademico, MencionDa, GraduacionDa } from '@/types/models.d'
+import type { DiplomaAcademico, Mencion, Modalidad } from '@/types/models.d'
 import { toast } from 'vue-sonner'
 
 // Configurar layout persistente
@@ -368,12 +368,10 @@ defineOptions({
 // Props
 const props = defineProps<{
   diploma: DiplomaAcademico
-  menciones: MencionDa[]
-  graduaciones: GraduacionDa[]
+  menciones: Mencion[]
+  graduaciones: Modalidad[]
 }>()
 
-// Page
-const page = usePage()
 
 // Form
 const form = useForm({
@@ -461,14 +459,6 @@ const removeFile = () => {
 }
 
 
-
-// Handle file change (legacy support)
-const handleFileChange = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  if (target.files && target.files.length > 0) {
-    processFile(target.files[0])
-  }
-}
 
 // Update diploma
 const updateDiploma = () => {

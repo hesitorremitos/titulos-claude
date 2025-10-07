@@ -38,7 +38,8 @@
       "mcp__vscode-mcp-server__read_file_code",
       "mcp__repomix__pack_codebase",
       "mcp__repomix__read_repomix_output",
-      "mcp__repomix__grep_repomix_output"
+      "mcp__repomix__grep_repomix_output",
+      "Bash(git add:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

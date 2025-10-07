@@ -31,8 +31,8 @@ export interface PageProps {
 
 // Props específicas para páginas de diplomas
 export interface DiplomaPageProps extends PageProps {
-    menciones?: import('./models').MencionDa[]
-    graduaciones?: import('./models').GraduacionDa[]
+    menciones?: import('./models').Mencion[]
+    graduaciones?: import('./models').Modalidad[]
     facultades?: import('./models').Facultad[]
     carreras?: import('./models').Carrera[]
 }

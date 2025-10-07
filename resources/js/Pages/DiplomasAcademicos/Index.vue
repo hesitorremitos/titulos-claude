@@ -169,8 +169,9 @@ const formatDate = (dateString: string | undefined) => {
                   size="sm"
                   :variant="link.active ? 'default' : 'outline'"
                   as="a"
-                  v-html="link.label"
-                />
+                >
+                  {{ link.label }}
+                </Button>
               </div>
             </div>
           </div>

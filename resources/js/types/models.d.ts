@@ -19,24 +19,8 @@ export interface Carrera {
   updated_at?: string
 }
 
-export interface MencionDa {
-  id: number
-  nombre: string
-  carrera_id: string
-  carrera?: Carrera
-  created_at?: string
-  updated_at?: string
-  diplomas?: DiplomaAcademico[]
-}
-
-export interface GraduacionDa {
-  id: number
-  medio_graduacion: string
-  created_at?: string
-  updated_at?: string
-  diplomas?: DiplomaAcademico[]
-  diplomas_count?: number
-}
+// Tipos Mencion y Modalidad movidos a: resources/js/types/diplomas-academicos/index.ts
+// Ahora cada tipo de título tiene sus propias modalidades y menciones específicas
 
 export interface User {
   id: number
@@ -62,56 +46,6 @@ export interface Persona {
   updated_at?: string
 }
 
-export interface DiplomaAcademico {
-  id: number
-  ci: string // Foreign key to personas.ci
-  nro_documento: number
-  fojas: number
-  libro: number
-  fecha_emision?: string
-  mencion_da_id: number
-  observaciones?: string
-  graduacion_id?: number
-  file_dir?: string
-  verificado: boolean
-  created_by: number
-  updated_by?: number
-  created_at?: string
-  updated_at?: string
-  
-  // Relaciones
-  persona?: Persona
-  mencion?: MencionDa
-  graduacion?: GraduacionDa
-  createdBy?: User
-  updatedBy?: User
-  // Computed attributes
-  estado?: string
-}
-
-export interface TituloAcademico {
-  id: number
-  ci: string // Foreign key to personas.ci
-  nro_documento: number
-  fojas: number
-  libro: number
-  fecha_emision?: string
-  nro_diploma_academico: string // Campo específico para este tipo de título
-  observaciones?: string
-  graduacion_id?: number
-  file_dir?: string
-  verificado: boolean
-  created_by: number
-  updated_by?: number
-  created_at?: string
-  updated_at?: string
-  
-  // Relaciones
-  persona?: Persona
-  graduacion?: GraduacionDa
-  createdBy?: User
-  updatedBy?: User
-}
 
 export interface PaginatedResponse<T> {
     data: T[];

@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\V2;
 
 use App\Http\Controllers\Controller;
-use App\Models\TituloProvisionNacional;
 use App\Models\GraduacionDa;
-use App\Models\Persona;
+use App\Models\TituloProvisionNacional;
 use App\Services\UniversityApiService;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -83,7 +82,7 @@ class TituloProvisionNacionalController extends Controller
         // Upload PDF if provided
         if ($request->hasFile('file_dir')) {
             $file = $request->file('file_dir');
-            $filename = 'tpn_' . $validated['ci'] . '_' . time() . '.pdf';
+            $filename = 'tpn_'.$validated['ci'].'_'.time().'.pdf';
             $validated['file_dir'] = $file->storeAs('titulos-provision-nacional', $filename, 'public');
         }
 
@@ -156,7 +155,7 @@ class TituloProvisionNacionalController extends Controller
             }
 
             $file = $request->file('file_dir');
-            $filename = 'tpn_' . $titulo->ci . '_' . time() . '.pdf';
+            $filename = 'tpn_'.$titulo->ci.'_'.time().'.pdf';
             $validated['file_dir'] = $file->storeAs('titulos-provision-nacional', $filename, 'public');
         }
 
@@ -194,7 +193,7 @@ class TituloProvisionNacionalController extends Controller
      */
     public function servePdf(TituloProvisionNacional $titulo)
     {
-        if (!$titulo->file_dir) {
+        if (! $titulo->file_dir) {
             abort(404, 'PDF no disponible');
         }
 
@@ -203,7 +202,7 @@ class TituloProvisionNacionalController extends Controller
         // Return file response with appropriate headers
         return response()->file($filePath, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="tpn_' . $titulo->ci . '.pdf"'
+            'Content-Disposition' => 'inline; filename="tpn_'.$titulo->ci.'.pdf"',
         ]);
     }
 
@@ -218,7 +217,7 @@ class TituloProvisionNacionalController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'CI debe tener al menos 3 caracteres',
-                    'data' => []
+                    'data' => [],
                 ], 400);
             }
 
@@ -240,7 +239,7 @@ class TituloProvisionNacionalController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error interno del servidor',
-                'data' => []
+                'data' => [],
             ], 500);
         }
     }
@@ -262,6 +261,7 @@ class TituloProvisionNacionalController extends Controller
             if ($requireEditPermission) {
                 abort(403, 'No tienes permiso para editar títulos.');
             }
+
             return;
         }
 
@@ -270,6 +270,7 @@ class TituloProvisionNacionalController extends Controller
             if ($titulo->created_by !== $user->id) {
                 abort(403, 'No tienes permiso para acceder a este título.');
             }
+
             return;
         }
 

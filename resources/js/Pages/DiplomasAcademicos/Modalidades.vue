@@ -65,11 +65,12 @@
                 :key="link.label"
                 :href="link.url"
                 :disabled="!link.url || link.active"
-                v-html="link.label"
                 size="sm"
                 :variant="link.active ? 'default' : 'outline'"
                 as="a"
-              />
+              >
+                {{ link.label }}
+              </Button>
             </div>
           </div>
         </CardContent>
@@ -171,7 +172,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Plus, Edit, Trash2 } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
-import type { GraduacionDa, PaginatedResponse } from '@/types/models.d'
+import type { Modalidad, PaginatedResponse } from '@/types/models.d'
 import type { PageProps } from '@/types/ui'
 
 // Configurar layout persistente
@@ -184,17 +185,18 @@ defineOptions({
 
 // Props
 interface Props extends PageProps {
-  modalidades: PaginatedResponse<GraduacionDa>
+  modalidades: PaginatedResponse<Modalidad>
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<Props>()
 const page = usePage()
 
 // State
 const showFormDialog = ref(false)
 const showDeleteDialog = ref(false)
-const editingModalidad = ref<GraduacionDa | null>(null)
-const deletingModalidad = ref<GraduacionDa | null>(null)
+const editingModalidad = ref<Modalidad | null>(null)
+const deletingModalidad = ref<Modalidad | null>(null)
 
 // Form
 const form = useForm({
@@ -209,7 +211,7 @@ const openCreateDialog = () => {
   showFormDialog.value = true
 }
 
-const openEditDialog = (modalidad: GraduacionDa) => {
+const openEditDialog = (modalidad: Modalidad) => {
   editingModalidad.value = modalidad
   form.medio_graduacion = modalidad.medio_graduacion
   form.clearErrors()
@@ -222,7 +224,7 @@ const closeFormDialog = () => {
   form.reset()
 }
 
-const openDeleteDialog = (modalidad: GraduacionDa) => {
+const openDeleteDialog = (modalidad: Modalidad) => {
   deletingModalidad.value = modalidad
   showDeleteDialog.value = true
 }

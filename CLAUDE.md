@@ -490,3 +490,4 @@ This is a Laravel 12 application for digitalizing academic titles for the Univer
 
 ### Uso del MCP de Serena
 - **Recordar siempre usar el MCP de Serena en lo posible durante el desarrollo del sistema**
+- No uses el comando php -l para verificar la sintaxis, es inecesario.

@@ -61,11 +61,12 @@
                 :key="link.label"
                 :href="link.url"
                 :disabled="!link.url || link.active"
-                v-html="link.label"
                 size="sm"
                 :variant="link.active ? 'default' : 'outline'"
                 as="a"
-              />
+              >
+                {{ link.label }}
+              </Button>
             </div>
           </div>
         </CardContent>
@@ -196,7 +197,7 @@ import {
 } from '@/components/ui/select'
 import { Plus, Edit, Trash2 } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
-import type { MencionDa, Facultad, Carrera, PaginatedResponse } from '@/types/models.d'
+import type { Mencion, Facultad, PaginatedResponse } from '@/types/models.d'
 import type { PageProps } from '@/types/ui'
 
 // Configurar layout persistente
@@ -209,18 +210,19 @@ defineOptions({
 
 // Props
 interface Props extends PageProps {
-  menciones: PaginatedResponse<MencionDa>
+  menciones: PaginatedResponse<Mencion>
   carreras: Facultad[]
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<Props>()
 const page = usePage()
 
 // State
 const showFormDialog = ref(false)
 const showDeleteDialog = ref(false)
-const editingMencion = ref<MencionDa | null>(null)
-const deletingMencion = ref<MencionDa | null>(null)
+const editingMencion = ref<Mencion | null>(null)
+const deletingMencion = ref<Mencion | null>(null)
 
 // Form
 const form = useForm({
@@ -236,7 +238,7 @@ const openCreateDialog = () => {
   showFormDialog.value = true
 }
 
-const openEditDialog = (mencion: MencionDa) => {
+const openEditDialog = (mencion: Mencion) => {
   editingMencion.value = mencion
   form.nombre = mencion.nombre
   form.carrera_id = mencion.carrera_id
@@ -250,7 +252,7 @@ const closeFormDialog = () => {
   form.reset()
 }
 
-const openDeleteDialog = (mencion: MencionDa) => {
+const openDeleteDialog = (mencion: Mencion) => {
   deletingMencion.value = mencion
   showDeleteDialog.value = true
 }

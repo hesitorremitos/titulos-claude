@@ -216,9 +216,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { Head, useForm, usePage } from '@inertiajs/vue3'
-import AppLayout from '@/Layouts/AppLayout.vue'
 import ApiPersonSearch from '@/components/forms/ApiPersonSearch.vue'
 import PersonalDataForm from '@/components/forms/PersonalDataForm.vue'
 import PdfViewer from '@/components/forms/PdfViewer.vue'
@@ -226,7 +225,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { 
   Stepper, 
-  StepperDescription, 
   StepperIndicator, 
   StepperItem, 
   StepperSeparator, 
@@ -235,7 +233,6 @@ import {
 } from '@/components/ui/stepper'
 import { Search, GraduationCap, User } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
-import { storeToRefs } from 'pinia'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import {

@@ -32,13 +32,13 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => 'E:/titulos/V5/storage/app/private',
+            'root' => 'D:/titulos/V5/storage/app/private',
             'serve' => true,
             'throw' => false,
             'report' => false,
         ],
 
-        'public1' => [
+        'public1    ' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
