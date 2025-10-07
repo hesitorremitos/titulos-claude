@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Lista",
+    "href": "/carreras",
+    "icon": "lucide:list-checks",
+    "value": "lista"
+  },
+  {
+    "label": "Registrar",
+    "href": "/carreras/create",
+    "icon": "lucide:plus-circle",
+    "value": "registrar"
+  }
+]

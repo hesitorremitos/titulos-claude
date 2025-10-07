@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
-import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
+import navTabs from './navtabs.json'
 import { Icon } from '@iconify/vue'
 import {
   Table,
@@ -19,11 +20,13 @@ import { Eye, Search, X, PlusCircle } from 'lucide-vue-next'
 import type { DiplomaAcademico, PaginatedResponse } from '@/types/titulos/diploma-academico'
 
 // Configurar layout persistente
-defineOptions({ 
-  layout: (h: any, page: any) => h(SubLayout, { 
+defineOptions({
+  layout: (h: any, page: any) => h(AppLayout, {
     title: 'Diplomas Académicos',
+    pageTitle: 'Diplomas Académicos',
+    navTabs: navTabs,
     activeTab: 'lista'
-  }, () => page) 
+  }, () => page)
 })
 
 // Props

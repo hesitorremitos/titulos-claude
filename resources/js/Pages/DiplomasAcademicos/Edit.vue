@@ -330,7 +330,8 @@
 import { Head, useForm } from '@inertiajs/vue3'
 import { ref, computed, watchEffect } from 'vue'
 import { useDropZone, useFileDialog, useObjectUrl } from '@vueuse/core'
-import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
+import navTabs from './navtabs.json'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -362,11 +363,13 @@ import type {
 import { toast } from 'vue-sonner'
 
 // Configurar layout persistente
-defineOptions({ 
-  layout: (h: any, page: any) => h(SubLayout, { 
+defineOptions({
+  layout: (h: any, page: any) => h(AppLayout, {
     title: 'Editar Diploma Académico',
+    pageTitle: 'Editar Diploma Académico',
+    navTabs: navTabs,
     activeTab: 'lista'
-  }, () => page) 
+  }, () => page)
 })
 
 // Props

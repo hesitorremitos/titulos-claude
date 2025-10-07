@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Lista",
+    "href": "/facultades",
+    "icon": "lucide:building-2",
+    "value": "lista"
+  },
+  {
+    "label": "Registrar",
+    "href": "/facultades/create",
+    "icon": "lucide:plus-circle",
+    "value": "registrar"
+  }
+]

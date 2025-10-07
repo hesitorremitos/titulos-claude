@@ -197,6 +197,7 @@
 <script setup lang="ts">
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Badge } from '@/components/ui/badge';
+import navTabs from './navtabs.json';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Pagination, PaginationContent, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
@@ -248,12 +249,6 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-
-// Navigation tabs - Solo Lista y Registrar
-const navTabs = [
-    { label: 'Lista', href: '/usuarios', icon: 'lucide:users', value: 'lista' },
-    { label: 'Registrar', href: '/usuarios/create', icon: 'lucide:user-plus', value: 'registrar' },
-];
 
 const searchTerm = ref(props.filters.search || '');
 

@@ -155,7 +155,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Head, useForm, router, usePage } from '@inertiajs/vue3'
-import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
+import navTabs from './navtabs.json'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -202,11 +203,13 @@ import type { Facultad } from '@/types/models.d'
 import type { PageProps } from '@/types/ui'
 
 // Configurar layout persistente
-defineOptions({ 
-  layout: (h: any, page: any) => h(SubLayout, { 
+defineOptions({
+  layout: (h: any, page: any) => h(AppLayout, {
     title: 'Menciones Académicas',
+    pageTitle: 'Menciones Académicas',
+    navTabs: navTabs,
     activeTab: 'menciones'
-  }, () => page) 
+  }, () => page)
 })
 
 // Props

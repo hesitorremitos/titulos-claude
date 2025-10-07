@@ -86,6 +86,7 @@
 
 <script setup lang="ts">
 import AppLayout from '@/Layouts/AppLayout.vue';
+import navTabs from './navtabs.json';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Pagination, PaginationContent, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
@@ -127,12 +128,6 @@ interface Props {
 }
 
 defineProps<Props>();
-
-// Navigation tabs - Solo Lista y Registrar
-const navTabs = [
-    { label: 'Lista', href: '/carreras', icon: 'lucide:list-checks', value: 'lista' },
-    { label: 'Registrar', href: '/carreras/create', icon: 'lucide:plus-circle', value: 'registrar' },
-];
 
 // Navigation and pagination methods
 

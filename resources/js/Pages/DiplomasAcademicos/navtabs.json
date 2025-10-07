@@ -1,0 +1,26 @@
+[
+  {
+    "label": "Lista",
+    "href": "/diplomas-academicos",
+    "icon": "material-symbols:list",
+    "value": "lista"
+  },
+  {
+    "label": "Registrar",
+    "href": "/diplomas-academicos/create",
+    "icon": "material-symbols:add",
+    "value": "registrar"
+  },
+  {
+    "label": "Menciones",
+    "href": "/diplomas-academicos/menciones",
+    "icon": "material-symbols:category",
+    "value": "menciones"
+  },
+  {
+    "label": "Modalidades",
+    "href": "/diplomas-academicos/modalidades",
+    "icon": "material-symbols:school",
+    "value": "modalidades"
+  }
+]

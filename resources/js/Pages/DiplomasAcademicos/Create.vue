@@ -247,15 +247,18 @@ import {
 
 import type { DiplomaPageProps } from '@/types/ui'
 import { useDiplomaAcademicoStore } from '@/stores/titulos/useDiplomaAcademicoStore'
-import SubLayout from '@/Layouts/titulos/DiplomaAcademico.vue'
+import AppLayout from '@/Layouts/AppLayout.vue'
+import navTabs from './navtabs.json'
 import { toast } from 'vue-sonner'
 
 // Configurar layout persistente
-defineOptions({ 
-  layout: (h: any, page: any) => h(SubLayout, { 
+defineOptions({
+  layout: (h: any, page: any) => h(AppLayout, {
     title: 'Registrar Diploma Académico',
+    pageTitle: 'Registrar Diploma Académico',
+    navTabs: navTabs,
     activeTab: 'registrar'
-  }, () => page) 
+  }, () => page)
 })
 
 // Props tipadas

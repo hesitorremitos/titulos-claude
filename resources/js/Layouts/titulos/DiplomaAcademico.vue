@@ -13,6 +13,7 @@
 import { computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import { toast } from 'vue-sonner'
+import navTabsData from '../../Pages/DiplomasAcademicos/navtabs.json'
 import AppLayout from '../AppLayout.vue'
 
 interface Props {
@@ -29,33 +30,8 @@ const page = usePage()
 // Título de la página
 const pageTitle = computed(() => props.title)
 
-// Navegación unificada de Diplomas Académicos
-const navTabs = computed(() => [
-  {
-    label: 'Lista',
-    href: route('diplomas-academicos.index'),
-    icon: 'material-symbols:list',
-    value: 'lista'
-  },
-  {
-    label: 'Registrar',
-    href: route('diplomas-academicos.create'),
-    icon: 'material-symbols:add',
-    value: 'registrar'
-  },
-  {
-    label: 'Menciones',
-    href: route('diplomas-academicos.menciones.index'),
-    icon: 'material-symbols:category',
-    value: 'menciones'
-  },
-  {
-    label: 'Modalidades',
-    href: route('diplomas-academicos.modalidades.index'),
-    icon: 'material-symbols:school',
-    value: 'modalidades'
-  },
-])
+// Navegación unificada de Diplomas Académicos desde JSON
+const navTabs = navTabsData
 
 // Breadcrumbs ahora son automáticos via BreadcrumbManager
 

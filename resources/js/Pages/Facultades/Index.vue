@@ -87,6 +87,7 @@
 
 <script setup lang="ts">
 import AppLayout from '@/Layouts/AppLayout.vue';
+import navTabs from './navtabs.json';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -122,12 +123,6 @@ interface Props {
 }
 
 defineProps<Props>();
-
-// Navigation tabs - Solo Lista y Registrar
-const navTabs = [
-    { label: 'Lista', href: '/facultades', icon: 'lucide:building-2', value: 'lista' },
-    { label: 'Registrar', href: '/facultades/create', icon: 'lucide:plus-circle', value: 'registrar' },
-];
 
 // Methods
 const goToPage = (page: number) => {
