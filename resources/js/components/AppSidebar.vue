@@ -101,9 +101,9 @@ const navigationSections = computed((): NavigationSection[] => [
                 disabled: false,
             },
             {
-                label: 'Títulos Académicos',
+                label: 'Títulos Provisional Nacionales',
                 icon: Award,
-                route: '/titulos-academicos',
+                route: '/titulos-provision-nacional',
                 disabled: false,
             },
             {

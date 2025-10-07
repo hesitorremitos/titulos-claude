@@ -36,3 +36,9 @@ export interface DiplomaPageProps extends PageProps {
     facultades?: import('./models').Facultad[]
     carreras?: import('./models').Carrera[]
 }
+
+// Props específicas para páginas de títulos provisionales nacionales
+export interface TituloProvisionNacionalPageProps extends PageProps {
+    menciones?: import('./titulos/titulo-provision-nacional').MencionTpn[]
+    modalidades?: import('./titulos/titulo-provision-nacional').ModalidadTpn[]
+}

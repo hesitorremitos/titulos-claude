@@ -1,0 +1,26 @@
+[
+  {
+    "label": "Lista",
+    "href": "/titulos-provision-nacional",
+    "icon": "material-symbols:list",
+    "value": "lista"
+  },
+  {
+    "label": "Registrar",
+    "href": "/titulos-provision-nacional/create",
+    "icon": "material-symbols:add",
+    "value": "registrar"
+  },
+  {
+    "label": "Menciones",
+    "href": "/titulos-provision-nacional/menciones",
+    "icon": "material-symbols:category",
+    "value": "menciones"
+  },
+  {
+    "label": "Modalidades",
+    "href": "/titulos-provision-nacional/modalidades",
+    "icon": "material-symbols:school",
+    "value": "modalidades"
+  }
+]

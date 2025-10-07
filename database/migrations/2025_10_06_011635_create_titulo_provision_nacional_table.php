@@ -19,9 +19,9 @@ return new class extends Migration
             $table->unsignedInteger('fojas');
             $table->unsignedInteger('libro');
             $table->date('fecha_emision')->nullable();
-            $table->string('nro_titulo_pn'); // Campo específico para TPN
             $table->string('observaciones')->nullable();
-            $table->foreignId('graduacion_id')->constrained('graduacion_da', 'id')->nullable();
+            $table->foreignId('mencion_tpn_id')->constrained('menciones_tpn', 'id')->nullable();
+            $table->foreignId('modalidad_tpn_id')->constrained('modalidades_tpn', 'id')->nullable();
             $table->string('file_dir', 500)->nullable();
             $table->boolean('verificado')->default(false);
 
@@ -34,7 +34,26 @@ return new class extends Migration
             // Llave foránea para ci con la tabla personas
             $table->foreign('ci')->references('ci')->on('personas');
             $table->unique(['libro', 'fojas', 'nro_documento']);
-            $table->unique(['ci', 'nro_titulo_pn']); // Único por persona
+            });
+
+        // Crear tabla para menciones de Título Provisional Nacional
+        Schema::create('menciones_tpn', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre', 200)->unique();
+            $table->char('carrera_id', 5);
+            $table->foreign('carrera_id')->references('id')->on('carreras');
+            $table->text('descripcion')->nullable();
+            $table->boolean('activo')->default(true);
+            $table->timestamps();
+        });
+
+        // Crear tabla para modalidades de graduación de Título Provisional Nacional
+        Schema::create('modalidades_tpn', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre', 100)->unique();
+            $table->text('descripcion')->nullable();
+            $table->boolean('activo')->default(true);
+            $table->timestamps();
         });
     }
 
@@ -43,6 +62,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('menciones_tpn');
+        Schema::dropIfExists('modalidades_tpn');
         Schema::dropIfExists('titulo_provision_nacional');
     }
 };

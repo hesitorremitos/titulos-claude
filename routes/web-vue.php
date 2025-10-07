@@ -5,6 +5,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiplomasAcademicos\DiplomaAcademicoController;
 use App\Http\Controllers\DiplomasAcademicos\MencionController;
 use App\Http\Controllers\DiplomasAcademicos\ModalidadController;
+use App\Http\Controllers\TitulosProvisionNacional\TituloProvisionNacionalController;
+use App\Http\Controllers\TitulosProvisionNacional\MencionController as TPNMencionController;
+use App\Http\Controllers\TitulosProvisionNacional\ModalidadController as TPNModalidadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\FacultadController;
@@ -87,6 +90,19 @@ Route::middleware('auth')->group(function () {
     Route::put('/diplomas-academicos/modalidades/{modalidad}', [ModalidadController::class, 'update'])->name('diplomas-academicos.modalidades.update');
     Route::delete('/diplomas-academicos/modalidades/{modalidad}', [ModalidadController::class, 'destroy'])->name('diplomas-academicos.modalidades.destroy');
 
+    // Títulos Provisional Nacionales
+    // Menciones CRUD (anidadas bajo titulos-provision-nacional)
+    Route::get('/titulos-provision-nacional/menciones', [TPNMencionController::class, 'index'])->name('titulos-provision-nacional.menciones.index');
+    Route::post('/titulos-provision-nacional/menciones', [TPNMencionController::class, 'store'])->name('titulos-provision-nacional.menciones.store');
+    Route::put('/titulos-provision-nacional/menciones/{mencion}', [TPNMencionController::class, 'update'])->name('titulos-provision-nacional.menciones.update');
+    Route::delete('/titulos-provision-nacional/menciones/{mencion}', [TPNMencionController::class, 'destroy'])->name('titulos-provision-nacional.menciones.destroy');
+
+    // Modalidades CRUD (anidadas bajo titulos-provision-nacional)
+    Route::get('/titulos-provision-nacional/modalidades', [TPNModalidadController::class, 'index'])->name('titulos-provision-nacional.modalidades.index');
+    Route::post('/titulos-provision-nacional/modalidades', [TPNModalidadController::class, 'store'])->name('titulos-provision-nacional.modalidades.store');
+    Route::put('/titulos-provision-nacional/modalidades/{modalidad}', [TPNModalidadController::class, 'update'])->name('titulos-provision-nacional.modalidades.update');
+    Route::delete('/titulos-provision-nacional/modalidades/{modalidad}', [TPNModalidadController::class, 'destroy'])->name('titulos-provision-nacional.modalidades.destroy');
+
     // API endpoint for person search
     Route::get('/api/{ci}', [DiplomaAcademicoController::class, 'searchPerson'])->name('api.search-person');
 
@@ -105,6 +121,29 @@ Route::middleware('auth')->group(function () {
         'destroy' => 'diplomas-academicos.destroy',
     ])->parameters([
         'diplomas-academicos' => 'diploma',
+    ]);
+});
+
+// Títulos Provisional Nacionales CRUD
+Route::middleware('auth')->group(function () {
+    // API endpoint for person search (reutiliza el mismo de diplomas)
+    Route::get('/api/{ci}', [DiplomaAcademicoController::class, 'searchPerson'])->name('api.search-person');
+
+    // Ruta segura para servir archivos PDF
+    Route::get('/titulos-provision-nacional/{titulo}/pdf', [TituloProvisionNacionalController::class, 'servePdf'])
+        ->name('titulos-provision-nacional.pdf');
+
+    // Resource routes (deben ir al final para no capturar rutas específicas)
+    Route::resource('/titulos-provision-nacional', TituloProvisionNacionalController::class)->names([
+        'index' => 'titulos-provision-nacional.index',
+        'create' => 'titulos-provision-nacional.create',
+        'store' => 'titulos-provision-nacional.store',
+        'show' => 'titulos-provision-nacional.show',
+        'edit' => 'titulos-provision-nacional.edit',
+        'update' => 'titulos-provision-nacional.update',
+        'destroy' => 'titulos-provision-nacional.destroy',
+    ])->parameters([
+        'titulos-provision-nacional' => 'titulo',
     ]);
 });
 
