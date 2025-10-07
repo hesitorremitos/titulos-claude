@@ -6,9 +6,9 @@ use App\Http\Controllers\DiplomasAcademicos\DiplomaAcademicoController;
 use App\Http\Controllers\DiplomasAcademicos\MencionController;
 use App\Http\Controllers\DiplomasAcademicos\ModalidadController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\V2\CarreraController;
-use App\Http\Controllers\V2\FacultadController;
-use App\Http\Controllers\V2\UserController;
+use App\Http\Controllers\CarreraController;
+use App\Http\Controllers\FacultadController;
+use App\Http\Controllers\UserController;
 
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')
