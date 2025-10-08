@@ -171,8 +171,7 @@ defineOptions({
   }, () => page)
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = defineProps<{
+defineProps<{
   menciones: PaginatedResponse<MencionDiplomaBachiller>
 }>()
 

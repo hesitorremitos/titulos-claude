@@ -183,8 +183,7 @@ defineOptions({
   }, () => page)
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = defineProps<{
+defineProps<{
   menciones: PaginatedResponse<MencionEspecialidad>
 }>()
 
@@ -196,7 +195,7 @@ const deletingMencion = ref<MencionEspecialidad | null>(null)
 
 const form = useForm({
   nombre: '',
-  activo: true,
+  activo: true as boolean,
 })
 
 const openCreateDialog = () => {

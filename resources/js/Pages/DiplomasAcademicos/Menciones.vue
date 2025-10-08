@@ -218,8 +218,7 @@ interface Props extends PageProps {
   carreras: Facultad[]
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = defineProps<Props>()
+defineProps<Props>()
 const page = usePage()
 
 // State

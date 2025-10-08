@@ -183,7 +183,7 @@ defineOptions({
   }, () => page)
 })
 
-const props = defineProps<{
+defineProps<{
   menciones: PaginatedResponse<MencionDiplomado>
 }>()
 
@@ -195,7 +195,7 @@ const deletingMencion = ref<MencionDiplomado | null>(null)
 
 const form = useForm({
   nombre: '',
-  activo: true,
+  activo: true as boolean,
 })
 
 const openCreateDialog = () => {
