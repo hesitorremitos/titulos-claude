@@ -16,7 +16,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { ChevronRight, GraduationCap, Home, Settings, Building2, BookOpen, Users, Award, Crown, Star, Brain, ScrollText, LogOut } from 'lucide-vue-next';
+import { ChevronRight, GraduationCap, Home, Settings, Building2, BookOpen, Users, Award, Crown, Star, Brain, ScrollText, LogOut, University } from 'lucide-vue-next';
 import { router, usePage } from '@inertiajs/vue3';
 import { computed, ref, onMounted } from 'vue';
 import type { Component } from 'vue';
@@ -59,7 +59,7 @@ const userRole = computed(() => {
 // Estados de las secciones colapsables (persistidos en localStorage)
 const sectionStates = ref<Record<string, boolean>>({
     titulogrado: true,      // titulo_grado -> titulogrado
-    titulopostgrado: false, // titulo_postgrado -> titulopostgrado  
+    titulopostgrado: true, // titulo_postgrado -> titulopostgrado  
     adminsection: true,     // admin_section -> adminsection
 });
 
@@ -152,6 +152,12 @@ const navigationSections = computed((): NavigationSection[] => [
                 label: 'Usuarios',
                 icon: Users,
                 route: '/usuarios',
+                disabled: false,
+            },
+            {
+                label: 'Universidades',
+                icon: University,
+                route: '/universidades',
                 disabled: false,
             },
             {

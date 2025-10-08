@@ -26,6 +26,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\FacultadController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UniversidadController;
 
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')
@@ -72,6 +73,21 @@ Route::middleware('auth')->group(function () {
         'edit' => 'carreras.edit',
         'update' => 'carreras.update',
         'destroy' => 'carreras.destroy',
+    ]);
+});
+
+// Universidades CRUD
+Route::middleware('auth')->group(function () {
+    Route::resource('/universidades', UniversidadController::class)->names([
+        'index' => 'universidades.index',
+        'create' => 'universidades.create',
+        'store' => 'universidades.store',
+        'show' => 'universidades.show',
+        'edit' => 'universidades.edit',
+        'update' => 'universidades.update',
+        'destroy' => 'universidades.destroy',
+    ])->parameters([
+        'universidades' => 'universidad',
     ]);
 });
 

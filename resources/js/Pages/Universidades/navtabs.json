@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Lista",
+    "href": "/universidades",
+    "icon": "lucide:graduation-cap",
+    "value": "lista"
+  },
+  {
+    "label": "Registrar",
+    "href": "/universidades/create",
+    "icon": "lucide:plus-circle",
+    "value": "registrar"
+  }
+]
