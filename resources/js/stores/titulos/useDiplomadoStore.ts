@@ -13,7 +13,7 @@ interface DiplomadoState {
   gestion: number | string | undefined
   version: number | string | undefined
   modalidad_diplomado_id: number | string | undefined
-  horas_creditos: number | string | undefined
+  horas_creditos: string
   trabajo_final: boolean
   file: File | null
 }
@@ -31,7 +31,7 @@ export const useDiplomadoStore = defineStore('diplomado', {
     gestion: undefined,
     version: undefined,
     modalidad_diplomado_id: undefined,
-    horas_creditos: undefined,
+    horas_creditos: '',
     trabajo_final: false,
     file: null
   }),

@@ -38,7 +38,7 @@ class Diplomado extends Model
         'verificado' => 'boolean',
         'gestion' => 'integer',
         'version' => 'integer',
-        'horas_creditos' => 'integer',
+        'horas_creditos' => 'string',
         'trabajo_final' => 'boolean',
         'fojas' => 'integer',
         'libro' => 'integer',

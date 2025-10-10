@@ -252,9 +252,12 @@
                 <Input
                   id="horas_creditos"
                   v-model="form.horas_creditos"
-                  type="number"
+                  type="text"
+                  placeholder="Ej. 120/2024"
+                  @input="onHorasCreditosInput($event, 'edit')"
                   :class="form.errors.horas_creditos ? 'border-red-500' : ''"
                 />
+                <p class="text-xs text-muted-foreground mt-1">Formato requerido: horas/año (ejemplo 120/2024).</p>
                 <p v-if="form.errors.horas_creditos" class="text-sm text-red-500 mt-1">
                   {{ form.errors.horas_creditos }}
                 </p>
@@ -399,6 +402,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { formatHorasCreditos } from '@/lib/utils'
 import {
   Select,
   SelectContent,
@@ -483,6 +487,17 @@ const mencionDiplomadoOptions = computed(() =>
 const newPdfFile = ref<File | null>(null)
 const fileError = ref('')
 const dropZoneRef = ref<HTMLElement>()
+
+const onHorasCreditosInput = (event: Event, context: 'edit' | 'create' = 'edit') => {
+  const input = event.target as HTMLInputElement
+  const formatted = formatHorasCreditos(input.value)
+  if (context === 'edit') {
+    form.horas_creditos = formatted
+  }
+  if (input.value !== formatted) {
+    input.value = formatted
+  }
+}
 
 const { isOverDropZone } = useDropZone(dropZoneRef, {
   onDrop: (files) => {

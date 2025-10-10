@@ -229,13 +229,16 @@
 
                 <div class="grid grid-cols-2 gap-4">
                   <div>
-                    <Label for="horas_academicas">Horas Académicas / Créditos</Label>
+                    <Label for="horas_academicas">Horas Académicas / Año</Label>
                     <Input
                       id="horas_academicas"
                       v-model="maestriaStore.horas_academicas"
-                      type="number"
+                      type="text"
+                      placeholder="Ej. 1600/2024"
+                      @input="onHorasCreditosInput"
                       :class="form.errors.horas_academicas ? 'border-red-500' : ''"
                     />
+                    <p class="text-xs text-muted-foreground mt-1">Formato requerido: horas/año (ejemplo 1600/2024).</p>
                     <p v-if="form.errors.horas_academicas" class="text-sm text-red-500 mt-1">
                       {{ form.errors.horas_academicas }}
                     </p>
@@ -332,6 +335,7 @@ import { Search, GraduationCap, User } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { formatHorasCreditos } from '@/lib/utils'
 import {
   Select,
   SelectContent,
@@ -375,6 +379,15 @@ const updateFormData = () => {
 }
 
 const page = usePage()
+
+const onHorasCreditosInput = (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const formatted = formatHorasCreditos(input.value)
+  maestriaStore.horas_academicas = formatted
+  if (input.value !== formatted) {
+    input.value = formatted
+  }
+}
 
 const submitForm = () => {
   if (!canRegister.value) {

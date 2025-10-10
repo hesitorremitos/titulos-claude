@@ -13,8 +13,7 @@ interface DoctoradoState {
   gestion_final: number | string | undefined
   version: number | string | undefined
   modalidad_doctorado_id: number | string | undefined
-  horas_academicas: number | string | undefined
-  creditos_totales: number | string | undefined
+  horas_creditos: string
   observaciones: string
   file: File | null
 }
@@ -32,8 +31,7 @@ export const useDoctoradoStore = defineStore('doctorado', {
     gestion_final: undefined,
     version: undefined,
     modalidad_doctorado_id: undefined,
-    horas_academicas: undefined,
-    creditos_totales: undefined,
+    horas_creditos: '',
     observaciones: '',
     file: null
   }),
@@ -58,8 +56,7 @@ export const useDoctoradoStore = defineStore('doctorado', {
         gestion_final: this.gestion_final,
         version: this.version,
         modalidad_doctorado_id: this.modalidad_doctorado_id,
-        horas_academicas: this.horas_academicas,
-        creditos_totales: this.creditos_totales,
+        horas_creditos: this.horas_creditos,
         observaciones: this.observaciones,
         file: this.file
       }

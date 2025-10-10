@@ -74,7 +74,7 @@
                   <div>
                     <Label for="mencion_tpn_id">Mención TPN (opcional)</Label>
                     <Combobox
-                      v-model="doctoradoStore.mencion_tpn_id"
+                      v-model="mencionTpnModel"
                       :options="mencionTpnOptions"
                       placeholder="Seleccione una mención de TPN"
                       search-placeholder="Buscar mención..."
@@ -143,7 +143,7 @@
                 <div>
                   <Label for="mencion_doctorado_id">Mención</Label>
                   <Combobox
-                    v-model="doctoradoStore.mencion_doctorado_id"
+                    v-model="mencionDoctoradoModel"
                     :options="mencionDoctoradoOptions"
                     placeholder="Seleccione una mención"
                     search-placeholder="Buscar mención..."
@@ -198,7 +198,7 @@
                   </div>
                   <div>
                     <Label for="modalidad_doctorado_id">Modalidad</Label>
-                    <Select v-model="doctoradoStore.modalidad_doctorado_id">
+                    <Select v-model="modalidadDoctoradoModel">
                       <SelectTrigger :class="form.errors.modalidad_doctorado_id ? 'border-red-500' : ''">
                         <SelectValue placeholder="Seleccione una modalidad" />
                       </SelectTrigger>
@@ -223,27 +223,18 @@
 
                 <div class="grid grid-cols-2 gap-4">
                   <div>
-                    <Label for="horas_academicas">Horas Académicas / Créditos</Label>
+                    <Label for="horas_creditos">Horas Académicas / Año</Label>
                     <Input
-                      id="horas_academicas"
-                      v-model="doctoradoStore.horas_academicas"
-                      type="number"
-                      :class="form.errors.horas_academicas ? 'border-red-500' : ''"
+                      id="horas_creditos"
+                      v-model="doctoradoStore.horas_creditos"
+                      type="text"
+                      placeholder="Ej. 1600/2024"
+                      @input="onHorasCreditosInput"
+                      :class="form.errors.horas_creditos ? 'border-red-500' : ''"
                     />
-                    <p v-if="form.errors.horas_academicas" class="text-sm text-red-500 mt-1">
-                      {{ form.errors.horas_academicas }}
-                    </p>
-                  </div>
-                  <div>
-                    <Label for="creditos_totales">Créditos Totales</Label>
-                    <Input
-                      id="creditos_totales"
-                      v-model="doctoradoStore.creditos_totales"
-                      type="number"
-                      :class="form.errors.creditos_totales ? 'border-red-500' : ''"
-                    />
-                    <p v-if="form.errors.creditos_totales" class="text-sm text-red-500 mt-1">
-                      {{ form.errors.creditos_totales }}
+                    <p class="text-xs text-muted-foreground mt-1">Formato requerido: horas/año (ejemplo 1600/2024).</p>
+                    <p v-if="form.errors.horas_creditos" class="text-sm text-red-500 mt-1">
+                      {{ form.errors.horas_creditos }}
                     </p>
                   </div>
                 </div>
@@ -324,6 +315,7 @@ import { Search, GraduationCap, User } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { formatHorasCreditos } from '@/lib/utils'
 import {
   Select,
   SelectContent,
@@ -376,12 +368,43 @@ const mencionDoctoradoOptions = computed(() =>
   })),
 )
 
+
+const mencionTpnModel = computed<string | number | null>({
+  get: () => doctoradoStore.mencion_tpn_id ?? null,
+  set: (value) => {
+    doctoradoStore.mencion_tpn_id = value == null ? undefined : value;
+  },
+});
+
+const mencionDoctoradoModel = computed<string | number | null>({
+  get: () => doctoradoStore.mencion_doctorado_id ?? null,
+  set: (value) => {
+    doctoradoStore.mencion_doctorado_id = value == null ? undefined : value;
+  },
+});
+
+const modalidadDoctoradoModel = computed<string | number | null>({
+  get: () => doctoradoStore.modalidad_doctorado_id ?? null,
+  set: (value) => {
+    doctoradoStore.modalidad_doctorado_id = value == null ? undefined : value;
+  },
+});
+
 const updateFormData = () => {
   form.clearErrors()
   Object.assign(form, doctoradoStore.formData)
 }
 
 const page = usePage()
+
+const onHorasCreditosInput = (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const formatted = formatHorasCreditos(input.value)
+  doctoradoStore.horas_creditos = formatted
+  if (input.value !== formatted) {
+    input.value = formatted
+  }
+}
 
 const submitForm = () => {
   if (!canRegister.value) {

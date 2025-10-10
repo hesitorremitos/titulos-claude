@@ -270,7 +270,7 @@ class MaestriaController extends Controller
             'gestion_inicial' => 'nullable|integer|min:1900|max:2100',
             'gestion_final' => 'nullable|integer|min:1900|max:2100',
             'modalidad_maestria_id' => 'required|exists:modalidades_maestria,id',
-            'horas_academicas' => 'nullable|integer|min:0|max:10000',
+            'horas_academicas' => ['nullable', 'string', 'regex:/^\d{1,6}\/\d{4}$/'],
             'defensa_final' => 'nullable|integer|min:0|max:100',
             'observaciones' => 'nullable|string|max:1000',
             'verificado' => 'boolean',
@@ -316,7 +316,7 @@ class MaestriaController extends Controller
             }
         }
 
-        foreach (['gestion_inicial', 'gestion_final', 'horas_academicas', 'defensa_final', 'fojas', 'libro', 'nro_documento'] as $field) {
+        foreach (['gestion_inicial', 'gestion_final', 'defensa_final', 'fojas', 'libro', 'nro_documento'] as $field) {
             if (isset($validated[$field]) && $validated[$field] !== null && $validated[$field] !== '') {
                 $validated[$field] = (int) $validated[$field];
             } else {

@@ -74,7 +74,7 @@
                   <div>
                     <Label for="mencion_tpn_id">Mención TPN (opcional)</Label>
                     <Combobox
-                      v-model="diplomadoStore.mencion_tpn_id"
+                      v-model="mencionTpnModel"
                       :options="mencionTpnOptions"
                       placeholder="Seleccione una mención de TPN"
                       search-placeholder="Buscar mención..."
@@ -162,7 +162,7 @@
                   <div>
                     <Label for="mencion_diplomado_id">Mención</Label>
                     <Combobox
-                      v-model="diplomadoStore.mencion_diplomado_id"
+                      v-model="mencionDiplomadoModel"
                       :options="mencionDiplomadoOptions"
                       placeholder="Seleccione una mención"
                       search-placeholder="Buscar mención..."
@@ -205,7 +205,7 @@
                 <div class="grid grid-cols-2 gap-4">
                   <div>
                     <Label for="modalidad_diplomado_id">Modalidad</Label>
-                    <Select v-model="diplomadoStore.modalidad_diplomado_id">
+                    <Select v-model="modalidadDiplomadoModel">
                       <SelectTrigger :class="form.errors.modalidad_diplomado_id ? 'border-red-500' : ''">
                         <SelectValue placeholder="Seleccione una modalidad" />
                       </SelectTrigger>
@@ -227,13 +227,16 @@
                     </p>
                   </div>
                   <div>
-                    <Label for="horas_creditos">Horas Académicas / Créditos</Label>
+                    <Label for="horas_creditos">Horas Académicas / Año</Label>
                     <Input
                       id="horas_creditos"
                       v-model="diplomadoStore.horas_creditos"
-                      type="number"
+                      type="text"
+                      placeholder="Ej. 120/2024"
+                      @input="onHorasCreditosInput"
                       :class="form.errors.horas_creditos ? 'border-red-500' : ''"
                     />
+                    <p class="text-xs text-muted-foreground mt-1">Formato requerido: horas/año (ejemplo 120/2024).</p>
                     <p v-if="form.errors.horas_creditos" class="text-sm text-red-500 mt-1">
                       {{ form.errors.horas_creditos }}
                     </p>
@@ -308,6 +311,7 @@ import { Search, GraduationCap, User } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { formatHorasCreditos } from '@/lib/utils'
 import {
   Select,
   SelectContent,
@@ -361,12 +365,43 @@ const mencionDiplomadoOptions = computed(() =>
   })),
 )
 
+
+const mencionTpnModel = computed<string | number | null>({
+  get: () => diplomadoStore.mencion_tpn_id ?? null,
+  set: (value) => {
+    diplomadoStore.mencion_tpn_id = value == null ? undefined : value;
+  },
+});
+
+const mencionDiplomadoModel = computed<string | number | null>({
+  get: () => diplomadoStore.mencion_diplomado_id ?? null,
+  set: (value) => {
+    diplomadoStore.mencion_diplomado_id = value == null ? undefined : value;
+  },
+});
+
+const modalidadDiplomadoModel = computed<string | number | null>({
+  get: () => diplomadoStore.modalidad_diplomado_id ?? null,
+  set: (value) => {
+    diplomadoStore.modalidad_diplomado_id = value == null ? undefined : value;
+  },
+});
+
 const updateFormData = () => {
   form.clearErrors()
   Object.assign(form, diplomadoStore.formData)
 }
 
 const page = usePage()
+
+const onHorasCreditosInput = (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const formatted = formatHorasCreditos(input.value)
+  diplomadoStore.horas_creditos = formatted
+  if (input.value !== formatted) {
+    input.value = formatted
+  }
+}
 
 const submitForm = () => {
   if (!canRegister.value) {

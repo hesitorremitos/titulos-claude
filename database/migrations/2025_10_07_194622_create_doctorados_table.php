@@ -47,8 +47,7 @@ return new class extends Migration
 
             $table->foreignId('modalidad_doctorado_id')->nullable()->constrained('modalidades_doctorado')->nullOnDelete();
 
-            $table->unsignedSmallInteger('horas_academicas')->nullable();
-            $table->unsignedSmallInteger('creditos_totales')->nullable();
+            $table->string('horas_creditos', 20)->nullable();
 
             $table->string('file_dir', 500)->nullable();
             $table->boolean('verificado')->default(false);

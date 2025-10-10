@@ -12,7 +12,7 @@ interface MaestriaState {
   gestion_inicial: number | string | undefined
   gestion_final: number | string | undefined
   modalidad_maestria_id: number | string | undefined
-  horas_academicas: number | string | undefined
+  horas_academicas: string
   defensa_final: number | string | undefined
   observaciones: string
   file: File | null
@@ -30,7 +30,7 @@ export const useMaestriaStore = defineStore('maestria', {
     gestion_inicial: undefined,
     gestion_final: undefined,
     modalidad_maestria_id: undefined,
-    horas_academicas: undefined,
+    horas_academicas: '',
     defensa_final: undefined,
     observaciones: '',
     file: null

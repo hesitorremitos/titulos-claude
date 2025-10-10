@@ -113,12 +113,12 @@
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <Label class="text-xs font-medium text-muted-foreground">Horas Académicas / Créditos</Label>
-                <p class="text-sm font-medium">{{ doctorado.horas_academicas ?? 'No especificado' }}</p>
+                <Label class="text-xs font-medium text-muted-foreground">Horas Académicas</Label>
+                <p class="text-sm font-medium">{{ horasCreditos.horas ?? 'No especificado' }}</p>
               </div>
               <div>
-                <Label class="text-xs font-medium text-muted-foreground">Créditos Totales</Label>
-                <p class="text-sm font-medium">{{ doctorado.creditos_totales ?? 'No especificado' }}</p>
+                <Label class="text-xs font-medium text-muted-foreground">Año</Label>
+                <p class="text-sm font-medium">{{ horasCreditos.year ?? 'No especificado' }}</p>
               </div>
             </div>
             <div v-if="doctorado.observaciones">
@@ -216,7 +216,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import navTabs from './navtabs.json'
@@ -259,6 +259,15 @@ const props = defineProps<{
 }>()
 
 const showDeleteDialog = ref(false)
+
+const horasCreditos = computed(() => {
+  const raw = props.doctorado.horas_creditos ?? ''
+  const [horas, year] = raw.split('/')
+  return {
+    horas: horas || null,
+    year: year || null,
+  }
+})
 
 const formatDate = (dateString?: string | null) => {
   if (!dateString) return 'No especificada'

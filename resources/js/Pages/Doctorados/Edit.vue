@@ -263,27 +263,18 @@
 
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <Label for="horas_academicas">Horas Académicas / Créditos</Label>
+                <Label for="horas_creditos">Horas Académicas / Año</Label>
                 <Input
-                  id="horas_academicas"
-                  v-model="form.horas_academicas"
-                  type="number"
-                  :class="form.errors.horas_academicas ? 'border-red-500' : ''"
+                  id="horas_creditos"
+                  v-model="form.horas_creditos"
+                  type="text"
+                  placeholder="Ej. 1600/2024"
+                  @input="onHorasCreditosInput"
+                  :class="form.errors.horas_creditos ? 'border-red-500' : ''"
                 />
-                <p v-if="form.errors.horas_academicas" class="text-sm text-red-500 mt-1">
-                  {{ form.errors.horas_academicas }}
-                </p>
-              </div>
-              <div>
-                <Label for="creditos_totales">Créditos Totales</Label>
-                <Input
-                  id="creditos_totales"
-                  v-model="form.creditos_totales"
-                  type="number"
-                  :class="form.errors.creditos_totales ? 'border-red-500' : ''"
-                />
-                <p v-if="form.errors.creditos_totales" class="text-sm text-red-500 mt-1">
-                  {{ form.errors.creditos_totales }}
+                <p class="text-xs text-muted-foreground mt-1">Formato requerido: horas/año (ejemplo 1600/2024).</p>
+                <p v-if="form.errors.horas_creditos" class="text-sm text-red-500 mt-1">
+                  {{ form.errors.horas_creditos }}
                 </p>
               </div>
             </div>
@@ -438,6 +429,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { formatHorasCreditos } from '@/lib/utils'
 import {
   Select,
   SelectContent,
@@ -497,8 +489,7 @@ const form = useForm({
   gestion_final: props.doctorado.gestion_final ?? '',
   version: props.doctorado.version ?? '',
   modalidad_doctorado_id: props.doctorado.modalidad_doctorado_id ? String(props.doctorado.modalidad_doctorado_id) : '',
-  horas_academicas: props.doctorado.horas_academicas ?? '',
-  creditos_totales: props.doctorado.creditos_totales ?? '',
+  horas_creditos: props.doctorado.horas_creditos ?? '',
   observaciones: props.doctorado.observaciones ?? '',
   file: null as File | null,
   _method: 'patch'
@@ -507,6 +498,15 @@ const form = useForm({
 const newPdfFile = ref<File | null>(null)
 const fileError = ref('')
 const dropZoneRef = ref<HTMLElement>()
+
+const onHorasCreditosInput = (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const formatted = formatHorasCreditos(input.value)
+  form.horas_creditos = formatted
+  if (input.value !== formatted) {
+    input.value = formatted
+  }
+}
 
 const { isOverDropZone } = useDropZone(dropZoneRef, {
   onDrop: (files) => {
@@ -573,8 +573,6 @@ const normalizePayload = (data: Record<string, any>) => {
     'gestion_inicial',
     'gestion_final',
     'version',
-    'horas_academicas',
-    'creditos_totales',
     'fojas',
     'libro',
     'nro_documento'

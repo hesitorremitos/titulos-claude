@@ -53,8 +53,7 @@ export interface Doctorado {
   gestion_final?: number | null
   version?: number | null
   modalidad_doctorado_id?: number | null
-  horas_academicas?: number | null
-  creditos_totales?: number | null
+  horas_creditos?: string | null
   observaciones?: string | null
   file_dir?: string | null
   verificado: boolean
@@ -94,8 +93,7 @@ export interface DoctoradoForm {
   gestion_final?: number | string
   version?: number | string
   modalidad_doctorado_id: string
-  horas_academicas?: number | string
-  creditos_totales?: number | string
+  horas_creditos?: string
   observaciones?: string
   file?: File | null
   _method?: 'POST' | 'PUT' | 'PATCH'

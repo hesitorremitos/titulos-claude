@@ -52,7 +52,7 @@ export interface Maestria {
   gestion_inicial?: number | null
   gestion_final?: number | null
   modalidad_maestria_id?: number | null
-  horas_academicas?: number | null
+  horas_academicas?: string | null
   defensa_final?: number | null
   observaciones?: string | null
   carpeta?: string | null
@@ -93,7 +93,7 @@ export interface MaestriaForm {
   gestion_inicial?: number | string
   gestion_final?: number | string
   modalidad_maestria_id: string
-  horas_academicas?: number | string
+  horas_academicas?: string
   defensa_final?: number | string
   observaciones?: string
   file?: File | null

@@ -53,7 +53,7 @@ export interface Diplomado {
   gestion?: number | null
   version?: number | null
   modalidad_diplomado_id?: number | null
-  horas_creditos?: number | null
+  horas_creditos?: string | null
   trabajo_final?: boolean | null
   file_dir?: string | null
   verificado: boolean
@@ -93,7 +93,7 @@ export interface DiplomadoForm {
   gestion?: number | string
   version?: number | string
   modalidad_diplomado_id?: string
-  horas_creditos?: number | string
+  horas_creditos?: string
   trabajo_final?: boolean
   file?: File | null
   _method?: 'POST' | 'PUT' | 'PATCH'

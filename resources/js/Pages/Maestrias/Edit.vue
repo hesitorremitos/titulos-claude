@@ -249,13 +249,16 @@
 
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <Label for="horas_academicas">Horas Académicas / Créditos</Label>
+                <Label for="horas_academicas">Horas Académicas / Año</Label>
                 <Input
                   id="horas_academicas"
                   v-model="form.horas_academicas"
-                  type="number"
+                  type="text"
+                  placeholder="Ej. 1600/2024"
+                  @input="onHorasCreditosInput"
                   :class="form.errors.horas_academicas ? 'border-red-500' : ''"
                 />
+                <p class="text-xs text-muted-foreground mt-1">Formato requerido: horas/año (ejemplo 1600/2024).</p>
                 <p v-if="form.errors.horas_academicas" class="text-sm text-red-500 mt-1">
                   {{ form.errors.horas_academicas }}
                 </p>
@@ -426,6 +429,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { formatHorasCreditos } from '@/lib/utils'
 import {
   Select,
   SelectContent,
@@ -495,6 +499,15 @@ const newPdfFile = ref<File | null>(null)
 const fileError = ref('')
 const dropZoneRef = ref<HTMLElement>()
 
+const onHorasCreditosInput = (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const formatted = formatHorasCreditos(input.value)
+  form.horas_academicas = formatted
+  if (input.value !== formatted) {
+    input.value = formatted
+  }
+}
+
 const { isOverDropZone } = useDropZone(dropZoneRef, {
   onDrop: (files) => {
     const file = files?.[0]
@@ -559,7 +572,6 @@ const normalizePayload = (data: Record<string, any>) => {
     'modalidad_maestria_id',
     'gestion_inicial',
     'gestion_final',
-    'horas_academicas',
     'defensa_final',
     'fojas',
     'libro',

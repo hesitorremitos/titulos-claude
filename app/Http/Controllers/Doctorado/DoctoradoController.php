@@ -260,8 +260,7 @@ class DoctoradoController extends Controller
             'gestion_final' => 'nullable|integer|min:1900|max:2100',
             'version' => 'nullable|integer|min:0|max:100',
             'modalidad_doctorado_id' => 'required|exists:modalidades_doctorado,id',
-            'horas_academicas' => 'nullable|integer|min:0|max:10000',
-            'creditos_totales' => 'nullable|integer|min:0|max:10000',
+            'horas_creditos' => ['nullable', 'string', 'regex:/^\d{1,6}\/\d{4}$/'],
             'observaciones' => 'nullable|string|max:1000',
             'verificado' => 'boolean',
             'file' => $id ? 'nullable|file|mimes:pdf|max:51200' : 'required|file|mimes:pdf|max:51200',
@@ -276,7 +275,7 @@ class DoctoradoController extends Controller
             }
         }
 
-        foreach (['gestion_inicial', 'gestion_final', 'version', 'horas_academicas', 'creditos_totales', 'fojas', 'libro', 'nro_documento'] as $field) {
+        foreach (['gestion_inicial', 'gestion_final', 'version', 'fojas', 'libro', 'nro_documento'] as $field) {
             if (isset($validated[$field]) && $validated[$field] !== null && $validated[$field] !== '') {
                 $validated[$field] = (int) $validated[$field];
             } else {

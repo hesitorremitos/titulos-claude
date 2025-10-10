@@ -262,7 +262,7 @@ class DiplomadoController extends Controller
             'gestion' => 'nullable|integer|min:1900|max:2100',
             'version' => 'nullable|integer|min:0|max:100',
             'modalidad_diplomado_id' => 'nullable|exists:modalidades_diplomado,id',
-            'horas_creditos' => 'nullable|integer|min:0|max:10000',
+            'horas_creditos' => ['nullable', 'string', 'regex:/^\d{1,6}\/\d{4}$/'],
             'trabajo_final' => 'nullable|boolean',
             'verificado' => 'boolean',
             'file' => $id ? 'nullable|file|mimes:pdf|max:51200' : 'required|file|mimes:pdf|max:51200',
@@ -279,7 +279,7 @@ class DiplomadoController extends Controller
             }
         }
 
-        foreach (['gestion', 'version', 'horas_creditos', 'fojas', 'libro', 'nro_documento'] as $field) {
+        foreach (['gestion', 'version', 'fojas', 'libro', 'nro_documento'] as $field) {
             if (isset($validated[$field]) && $validated[$field] !== null && $validated[$field] !== '') {
                 $validated[$field] = (int) $validated[$field];
             } else {

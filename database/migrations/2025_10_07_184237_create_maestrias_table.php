@@ -56,7 +56,7 @@ return new class extends Migration
                 ->constrained('modalidades_maestria')
                 ->nullOnDelete();
 
-            $table->unsignedSmallInteger('horas_academicas')->nullable();
+            $table->string('horas_academicas', 20)->nullable();
             $table->unsignedTinyInteger('defensa_final')->nullable();
 
             $table->string('carpeta', 255)->nullable();

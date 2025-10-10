@@ -39,7 +39,7 @@ class Maestria extends Model
         'verificado' => 'boolean',
         'gestion_inicial' => 'integer',
         'gestion_final' => 'integer',
-        'horas_academicas' => 'integer',
+        'horas_academicas' => 'string',
         'defensa_final' => 'integer',
         'fojas' => 'integer',
         'libro' => 'integer',

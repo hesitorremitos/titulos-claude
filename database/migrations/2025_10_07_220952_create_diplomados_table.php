@@ -57,7 +57,7 @@ return new class extends Migration
                 ->constrained('modalidades_diplomado')
                 ->nullOnDelete();
 
-            $table->unsignedSmallInteger('horas_creditos')->nullable();
+            $table->string('horas_creditos', 20)->nullable();
             $table->boolean('trabajo_final')->default(false);
 
             $table->string('file_dir', 500)->nullable();
