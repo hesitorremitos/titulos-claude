@@ -29,10 +29,10 @@ const submit = () => {
             <h1 class="text-2xl font-bold tracking-tight text-primary">Sistema de Títulos UATF</h1>
         </a>
     </div>
-    <Card class="w-full max-w-sm border border-gray-300 bg-card/50 shadow-xl">
+    <Card class="w-full max-w-sm border border-border/60 bg-card/80 shadow-lg shadow-black/10 backdrop-blur-sm">
         <CardHeader class="space-y-1">
-            <CardTitle class="text-2xl font-bold">Acceder</CardTitle>
-            <CardDescription>Ingresa tus credenciales</CardDescription>
+            <CardTitle class="text-2xl font-semibold">Acceder</CardTitle>
+            <CardDescription class="text-sm text-muted-foreground">Ingresa tus credenciales</CardDescription>
             <p v-if="props.status" class="text-sm text-secondary">{{ props.status }}</p>
         </CardHeader>
         <CardContent>
@@ -65,10 +65,10 @@ const submit = () => {
                         id="remember"
                         type="checkbox"
                         v-model="form.remember"
-                        class="h-4 w-4 rounded border-input text-primary focus-visible:ring-1 focus-visible:ring-ring/30"
-                    />
-                    <Label for="remember" class="text-sm">Recordarme</Label>
-                </div>
+                        class="h-4 w-4 rounded border-border/70 bg-background/60 text-primary focus-visible:ring-1 focus-visible:ring-ring/40"
+                />
+                <Label for="remember" class="text-sm">Recordarme</Label>
+            </div>
                 <Button type="submit" class="w-full" :disabled="form.processing">
                     <span v-if="!form.processing">Ingresar</span>
                     <span v-else>Ingresando...</span>
