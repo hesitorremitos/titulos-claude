@@ -121,38 +121,26 @@
                   </div>
                     <div>
                     <Label for="mencion_tpn_id">Mención</Label>
-                    <Select v-model="tituloStore.mencion_tpn_id">
-                      <SelectTrigger :class="form.errors.mencion_tpn_id ? 'border-red-500' : ''">
-                        <SelectValue placeholder="Seleccione una mención" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Menciones</SelectLabel>
-                          <SelectItem v-for="mencion in props.menciones" :key="mencion.id" :value="mencion.id">
-                            {{ mencion.nombre }}
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
+                    <Combobox
+                      v-model="mencionIdModel"
+                      :options="mencionOptions"
+                      placeholder="Seleccione una mención"
+                      search-placeholder="Buscar mención..."
+                      :class="form.errors.mencion_tpn_id ? 'border-red-500 focus:ring-red-500' : ''"
+                    />
                     <p v-if="form.errors.mencion_tpn_id" class="text-sm text-red-500 mt-1">
                       {{ form.errors.mencion_tpn_id }}
                     </p>
                   </div>
                   <div>
                     <Label for="modalidad_tpn_id">Modalidad (Opcional)</Label>
-                    <Select v-model="tituloStore.modalidad_tpn_id">
-                      <SelectTrigger :class="form.errors.modalidad_tpn_id ? 'border-red-500' : ''">
-                        <SelectValue placeholder="Seleccione una modalidad" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Modalidades</SelectLabel>
-                          <SelectItem v-for="modalidad in props.modalidades" :key="modalidad.id" :value="modalidad.id">
-                            {{ modalidad.nombre }}
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
+                    <Combobox
+                      v-model="modalidadIdModel"
+                      :options="modalidadOptions"
+                      placeholder="Seleccione una modalidad"
+                      search-placeholder="Buscar modalidad..."
+                      :class="form.errors.modalidad_tpn_id ? 'border-red-500 focus:ring-red-500' : ''"
+                    />
                     <p v-if="form.errors.modalidad_tpn_id" class="text-sm text-red-500 mt-1">
                       {{ form.errors.modalidad_tpn_id }}
                     </p>
@@ -235,15 +223,7 @@ import { Search, GraduationCap, User } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Combobox } from '@/components/ui/combobox'
 
 import type { TituloProvisionNacionalPageProps } from '@/types/ui'
 import { useTituloProvisionNacionalStore } from '@/stores/titulos/useTituloProvisionNacionalStore'
@@ -275,6 +255,37 @@ const canRegister = computed(() => {
   const menciones = props.menciones?.length ?? 0
   const modalidades = props.modalidades?.length ?? 0
   return menciones > 0 && modalidades > 0
+})
+
+const mencionOptions = computed(() =>
+  props.menciones?.map((mencion) => ({
+    label: mencion.nombre,
+    value: mencion.id,
+  })) ?? [],
+)
+
+const modalidadOptions = computed(() => [
+  { label: 'Sin modalidad', value: null },
+  ...(
+    props.modalidades?.map((modalidad) => ({
+      label: modalidad.nombre,
+      value: modalidad.id,
+    })) ?? []
+  ),
+])
+
+const mencionIdModel = computed<number | null>({
+  get: () => tituloStore.mencion_tpn_id ?? null,
+  set: (value) => {
+    tituloStore.mencion_tpn_id = value == null ? undefined : Number(value)
+  },
+})
+
+const modalidadIdModel = computed<number | null>({
+  get: () => tituloStore.modalidad_tpn_id ?? null,
+  set: (value) => {
+    tituloStore.modalidad_tpn_id = value == null ? undefined : Number(value)
+  },
 })
 
 // Actualizar form data cuando cambien los stores

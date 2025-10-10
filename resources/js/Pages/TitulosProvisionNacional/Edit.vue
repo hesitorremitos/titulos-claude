@@ -135,46 +135,26 @@
             </div>
             <div>
               <Label for="mencion_tpn_id">Mención</Label>
-              <Select v-model="form.mencion_tpn_id">
-                <SelectTrigger :class="form.errors.mencion_tpn_id ? 'border-red-500' : ''">
-                  <SelectValue placeholder="Seleccione una mención" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Menciones</SelectLabel>
-                    <SelectItem
-                      v-for="mencion in menciones"
-                      :key="mencion.id"
-                      :value="String(mencion.id)"
-                    >
-                      {{ mencion.nombre }}
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <Combobox
+                v-model="mencionIdModel"
+                :options="mencionOptions"
+                placeholder="Seleccione una mención"
+                search-placeholder="Buscar mención..."
+                :class="form.errors.mencion_tpn_id ? 'border-red-500 focus:ring-red-500' : ''"
+              />
               <p v-if="form.errors.mencion_tpn_id" class="text-sm text-red-500 mt-1">
                 {{ form.errors.mencion_tpn_id }}
               </p>
             </div>
             <div>
               <Label for="modalidad_tpn_id">Modalidad</Label>
-              <Select v-model="form.modalidad_tpn_id">
-                <SelectTrigger :class="form.errors.modalidad_tpn_id ? 'border-red-500' : ''">
-                  <SelectValue placeholder="Seleccione una modalidad (opcional)" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Modalidades</SelectLabel>
-                    <SelectItem
-                      v-for="modalidad in modalidades"
-                      :key="modalidad.id"
-                      :value="String(modalidad.id)"
-                    >
-                      {{ modalidad.nombre }}
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <Combobox
+                v-model="modalidadIdModel"
+                :options="modalidadOptions"
+                placeholder="Seleccione una modalidad (opcional)"
+                search-placeholder="Buscar modalidad..."
+                :class="form.errors.modalidad_tpn_id ? 'border-red-500 focus:ring-red-500' : ''"
+              />
               <p v-if="form.errors.modalidad_tpn_id" class="text-sm text-red-500 mt-1">
                 {{ form.errors.modalidad_tpn_id }}
               </p>
@@ -329,15 +309,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Combobox } from '@/components/ui/combobox'
 import {
   User,
   GraduationCap,
@@ -384,6 +356,35 @@ const form = useForm({
   observaciones: props.titulo.observaciones ?? '',
   file: null as File | null,
   _method: 'patch',
+})
+
+const mencionOptions = computed(() =>
+  menciones.map((mencion) => ({
+    label: mencion.nombre,
+    value: String(mencion.id),
+  })),
+)
+
+const modalidadOptions = computed(() => [
+  { label: 'Sin modalidad', value: '' },
+  ...modalidades.map((modalidad) => ({
+    label: modalidad.nombre,
+    value: String(modalidad.id),
+  })),
+])
+
+const mencionIdModel = computed({
+  get: () => form.mencion_tpn_id ?? '',
+  set: (value: string) => {
+    form.mencion_tpn_id = value ? value : ''
+  },
+})
+
+const modalidadIdModel = computed({
+  get: () => form.modalidad_tpn_id ?? '',
+  set: (value: string) => {
+    form.modalidad_tpn_id = value ? value : ''
+  },
 })
 
 const newPdfFile = ref<File | null>(null)

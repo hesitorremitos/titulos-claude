@@ -135,19 +135,13 @@
             </div>
             <div>
               <Label for="mencion_db_id">Mención</Label>
-              <Select v-model="form.mencion_db_id">
-                <SelectTrigger :class="form.errors.mencion_db_id ? 'border-red-500' : ''">
-                  <SelectValue placeholder="Seleccione una mención" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Menciones</SelectLabel>
-                    <SelectItem v-for="mencion in menciones" :key="mencion.id" :value="mencion.id.toString()">
-                      {{ mencion.nombre }}
-                    </SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <Combobox
+                v-model="form.mencion_db_id"
+                :options="mencionOptions"
+                placeholder="Seleccione una mención"
+                search-placeholder="Buscar mención..."
+                :class="form.errors.mencion_db_id ? 'border-red-500 focus:ring-red-500' : ''"
+              />
               <p v-if="form.errors.mencion_db_id" class="text-sm text-red-500 mt-1">
                 {{ form.errors.mencion_db_id }}
               </p>
@@ -310,6 +304,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Combobox } from '@/components/ui/combobox'
 import {
   User,
   GraduationCap,
@@ -354,6 +349,13 @@ const form = useForm({
   file: null as File | null,
   _method: 'patch',
 })
+
+const mencionOptions = computed(() =>
+  props.menciones.map((mencion) => ({
+    label: mencion.nombre,
+    value: mencion.id.toString(),
+  })),
+)
 
 const newPdfFile = ref<File | null>(null)
 const fileError = ref('')

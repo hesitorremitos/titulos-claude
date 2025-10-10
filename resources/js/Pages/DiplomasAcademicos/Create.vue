@@ -121,38 +121,26 @@
                   </div>
                   <div>
                     <Label for="mencion_da_id">Mención</Label>
-                    <Select v-model="diplomaStore.mencion_da_id">
-                      <SelectTrigger :class="form.errors.mencion_da_id ? 'border-red-500' : ''">
-                        <SelectValue placeholder="Seleccione una mención" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Menciones</SelectLabel>
-                          <SelectItem v-for="mencion in props.menciones" :key="mencion.id" :value="mencion.id">
-                            {{ mencion.nombre }}
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
+                    <Combobox
+                      v-model="mencionIdModel"
+                      :options="mencionOptions"
+                      placeholder="Seleccione una mención"
+                      search-placeholder="Buscar mención..."
+                      :class="form.errors.mencion_da_id ? 'border-red-500 focus:ring-red-500' : ''"
+                    />
                     <p v-if="form.errors.mencion_da_id" class="text-sm text-red-500 mt-1">
                       {{ form.errors.mencion_da_id }}
                     </p>
                   </div>
                   <div>
                     <Label for="graduacion_id">Modalidad de Graduación (Opcional)</Label>
-                    <Select v-model="diplomaStore.graduacion_id">
-                      <SelectTrigger :class="form.errors.graduacion_id ? 'border-red-500' : ''">
-                        <SelectValue placeholder="Seleccione una modalidad" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Modalidades</SelectLabel>
-                          <SelectItem v-for="graduacion in props.graduaciones" :key="graduacion.id" :value="graduacion.id">
-                            {{ graduacion.medio_graduacion }}
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
+                    <Combobox
+                      v-model="graduacionIdModel"
+                      :options="graduacionOptions"
+                      placeholder="Seleccione una modalidad"
+                      search-placeholder="Buscar modalidad..."
+                      :class="form.errors.graduacion_id ? 'border-red-500 focus:ring-red-500' : ''"
+                    />
                     <p v-if="form.errors.graduacion_id" class="text-sm text-red-500 mt-1">
                       {{ form.errors.graduacion_id }}
                     </p>
@@ -235,15 +223,7 @@ import { Search, GraduationCap, User } from 'lucide-vue-next'
 import { usePersonalDataStore } from '@/stores/usePersonalDataStore'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Combobox } from '@/components/ui/combobox'
 
 import type { DiplomaPageProps } from '@/types/ui'
 import { useDiplomaAcademicoStore } from '@/stores/titulos/useDiplomaAcademicoStore'
@@ -275,6 +255,37 @@ const canRegister = computed(() => {
   const menciones = props.menciones?.length ?? 0
   return menciones > 0
 })
+
+const mencionOptions = computed(() =>
+  props.menciones?.map((mencion) => ({
+    label: mencion.nombre,
+    value: mencion.id,
+  })) ?? [],
+)
+
+const mencionIdModel = computed<number | null>({
+  get: () => diplomaStore.mencion_da_id ?? null,
+  set: (value) => {
+    diplomaStore.mencion_da_id = value == null ? undefined : Number(value);
+  },
+});
+
+const graduacionOptions = computed(() => [
+  { label: 'Sin modalidad', value: null },
+  ...(
+    props.graduaciones?.map((graduacion) => ({
+      label: graduacion.medio_graduacion,
+      value: graduacion.id,
+    })) ?? []
+  ),
+]);
+
+const graduacionIdModel = computed<number | null>({
+  get: () => diplomaStore.graduacion_id ?? null,
+  set: (value) => {
+    diplomaStore.graduacion_id = value == null ? undefined : Number(value);
+  },
+});
 
 // Actualizar form data cuando cambien los stores
 const updateFormData = () => {

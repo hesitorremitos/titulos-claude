@@ -140,38 +140,26 @@
               </div>
               <div>
                 <Label for="mencion_da_id">Mención</Label>
-                <Select v-model="form.mencion_da_id">
-                  <SelectTrigger :class="form.errors.mencion_da_id ? 'border-red-500' : ''">
-                    <SelectValue placeholder="Seleccione una mención" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Menciones</SelectLabel>
-                      <SelectItem v-for="mencion in menciones" :key="mencion.id" :value="mencion.id.toString()">
-                        {{ mencion.nombre }}
-                      </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <Combobox
+                  v-model="form.mencion_da_id"
+                  :options="mencionOptions"
+                  placeholder="Seleccione una mención"
+                  search-placeholder="Buscar mención..."
+                  :class="form.errors.mencion_da_id ? 'border-red-500 focus:ring-red-500' : ''"
+                />
                 <p v-if="form.errors.mencion_da_id" class="text-sm text-red-500 mt-1">
                   {{ form.errors.mencion_da_id }}
                 </p>
               </div>
               <div>
                 <Label for="graduacion_id">Modalidad de Graduación (Opcional)</Label>
-                <Select v-model="form.graduacion_id">
-                  <SelectTrigger :class="form.errors.graduacion_id ? 'border-red-500' : ''">
-                    <SelectValue placeholder="Seleccione una modalidad" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Modalidades</SelectLabel>
-                      <SelectItem v-for="graduacion in graduaciones" :key="graduacion.id" :value="graduacion.id.toString()">
-                        {{ graduacion.medio_graduacion }}
-                      </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <Combobox
+                  v-model="graduacionIdModel"
+                  :options="graduacionOptions"
+                  placeholder="Seleccione una modalidad"
+                  search-placeholder="Buscar modalidad..."
+                  :class="form.errors.graduacion_id ? 'border-red-500 focus:ring-red-500' : ''"
+                />
                 <p v-if="form.errors.graduacion_id" class="text-sm text-red-500 mt-1">
                   {{ form.errors.graduacion_id }}
                 </p>
@@ -336,15 +324,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Combobox } from '@/components/ui/combobox'
 import { 
   User, 
   GraduationCap, 
@@ -395,6 +375,28 @@ const form = useForm({
   observaciones: props.diploma.observaciones || '',
   file: null as File | null,
   _method: 'patch',
+})
+
+const mencionOptions = computed(() =>
+  props.menciones.map((mencion) => ({
+    label: mencion.nombre,
+    value: mencion.id.toString(),
+  })),
+)
+
+const graduacionOptions = computed(() => [
+  { label: 'Sin modalidad', value: '' },
+  ...props.graduaciones.map((graduacion) => ({
+    label: graduacion.medio_graduacion,
+    value: graduacion.id.toString(),
+  })),
+])
+
+const graduacionIdModel = computed({
+  get: () => form.graduacion_id ?? '',
+  set: (value: string) => {
+    form.graduacion_id = value ? value : null
+  },
 })
 
 // Drag & Drop functionality

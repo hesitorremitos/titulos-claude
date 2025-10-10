@@ -73,23 +73,13 @@
                   </div>
                   <div>
                     <Label for="mencion_tpn_id">Mención TPN (opcional)</Label>
-                    <Select v-model="diplomadoStore.mencion_tpn_id">
-                      <SelectTrigger :class="form.errors.mencion_tpn_id ? 'border-red-500' : ''">
-                        <SelectValue placeholder="Seleccione una mención de TPN" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Menciones</SelectLabel>
-                          <SelectItem
-                            v-for="mencion in props.mencionesTpn ?? []"
-                            :key="mencion.id"
-                            :value="String(mencion.id)"
-                          >
-                            {{ mencion.nombre }}
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
+                    <Combobox
+                      v-model="diplomadoStore.mencion_tpn_id"
+                      :options="mencionTpnOptions"
+                      placeholder="Seleccione una mención de TPN"
+                      search-placeholder="Buscar mención..."
+                      :class="form.errors.mencion_tpn_id ? 'border-red-500 focus:ring-red-500' : ''"
+                    />
                     <p v-if="form.errors.mencion_tpn_id" class="text-sm text-red-500 mt-1">
                       {{ form.errors.mencion_tpn_id }}
                     </p>
@@ -171,23 +161,13 @@
                   </div>
                   <div>
                     <Label for="mencion_diplomado_id">Mención</Label>
-                    <Select v-model="diplomadoStore.mencion_diplomado_id">
-                      <SelectTrigger :class="form.errors.mencion_diplomado_id ? 'border-red-500' : ''">
-                        <SelectValue placeholder="Seleccione una mención" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Menciones</SelectLabel>
-                          <SelectItem
-                            v-for="mencion in props.menciones ?? []"
-                            :key="mencion.id"
-                            :value="String(mencion.id)"
-                          >
-                            {{ mencion.nombre }}
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
+                    <Combobox
+                      v-model="diplomadoStore.mencion_diplomado_id"
+                      :options="mencionDiplomadoOptions"
+                      placeholder="Seleccione una mención"
+                      search-placeholder="Buscar mención..."
+                      :class="form.errors.mencion_diplomado_id ? 'border-red-500 focus:ring-red-500' : ''"
+                    />
                     <p v-if="form.errors.mencion_diplomado_id" class="text-sm text-red-500 mt-1">
                       {{ form.errors.mencion_diplomado_id }}
                     </p>
@@ -337,6 +317,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Combobox } from '@/components/ui/combobox'
 import { Switch } from '@/components/ui/switch'
 import type { DiplomadoPageProps } from '@/types/ui'
 import { useDiplomadoStore } from '@/stores/titulos/useDiplomadoStore'
@@ -365,6 +346,20 @@ const canRegister = computed(() => {
   const modalidades = props.modalidades?.length ?? 0
   return menciones > 0 && modalidades > 0
 })
+
+const mencionTpnOptions = computed(() =>
+  (props.mencionesTpn ?? []).map((mencion) => ({
+    label: mencion.nombre,
+    value: String(mencion.id),
+  })),
+)
+
+const mencionDiplomadoOptions = computed(() =>
+  (props.menciones ?? []).map((mencion) => ({
+    label: mencion.nombre,
+    value: String(mencion.id),
+  })),
+)
 
 const updateFormData = () => {
   form.clearErrors()

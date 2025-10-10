@@ -73,23 +73,13 @@
                   </div>
                   <div>
                     <Label for="mencion_tpn_id">Mención TPN (opcional)</Label>
-                    <Select v-model="doctoradoStore.mencion_tpn_id">
-                      <SelectTrigger :class="form.errors.mencion_tpn_id ? 'border-red-500' : ''">
-                        <SelectValue placeholder="Seleccione una mención de TPN" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Menciones</SelectLabel>
-                          <SelectItem
-                            v-for="mencion in props.mencionesTpn ?? []"
-                            :key="mencion.id"
-                            :value="mencion.id"
-                          >
-                            {{ mencion.nombre }}
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
+                    <Combobox
+                      v-model="doctoradoStore.mencion_tpn_id"
+                      :options="mencionTpnOptions"
+                      placeholder="Seleccione una mención de TPN"
+                      search-placeholder="Buscar mención..."
+                      :class="form.errors.mencion_tpn_id ? 'border-red-500 focus:ring-red-500' : ''"
+                    />
                     <p v-if="form.errors.mencion_tpn_id" class="text-sm text-red-500 mt-1">
                       {{ form.errors.mencion_tpn_id }}
                     </p>
@@ -152,23 +142,13 @@
 
                 <div>
                   <Label for="mencion_doctorado_id">Mención</Label>
-                  <Select v-model="doctoradoStore.mencion_doctorado_id">
-                    <SelectTrigger :class="form.errors.mencion_doctorado_id ? 'border-red-500' : ''">
-                      <SelectValue placeholder="Seleccione una mención" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Menciones</SelectLabel>
-                        <SelectItem
-                          v-for="mencion in props.menciones ?? []"
-                          :key="mencion.id"
-                          :value="mencion.id"
-                        >
-                          {{ mencion.nombre }}
-                        </SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                  <Combobox
+                    v-model="doctoradoStore.mencion_doctorado_id"
+                    :options="mencionDoctoradoOptions"
+                    placeholder="Seleccione una mención"
+                    search-placeholder="Buscar mención..."
+                    :class="form.errors.mencion_doctorado_id ? 'border-red-500 focus:ring-red-500' : ''"
+                  />
                   <p v-if="form.errors.mencion_doctorado_id" class="text-sm text-red-500 mt-1">
                     {{ form.errors.mencion_doctorado_id }}
                   </p>
@@ -353,6 +333,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Combobox } from '@/components/ui/combobox'
 import type { DoctoradoPageProps } from '@/types/ui'
 import { useDoctoradoStore } from '@/stores/titulos/useDoctoradoStore'
 import AppLayout from '@/Layouts/AppLayout.vue'
@@ -380,6 +361,20 @@ const canRegister = computed(() => {
   const modalidades = props.modalidades?.length ?? 0
   return menciones > 0 && modalidades > 0
 })
+
+const mencionTpnOptions = computed(() =>
+  (props.mencionesTpn ?? []).map((mencion) => ({
+    label: mencion.nombre,
+    value: mencion.id,
+  })),
+)
+
+const mencionDoctoradoOptions = computed(() =>
+  (props.menciones ?? []).map((mencion) => ({
+    label: mencion.nombre,
+    value: mencion.id,
+  })),
+)
 
 const updateFormData = () => {
   form.clearErrors()
