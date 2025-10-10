@@ -25,6 +25,24 @@ class DiplomaBachillerController extends Controller
     ) {
         $this->universityApiService = $universityApiService;
         $this->documentService = $documentService;
+
+        $this->middleware('auth');
+
+        $this->middleware('active.role:Administrador|Jefe|Personal')->only([
+            'index',
+            'show',
+            'servePdf',
+        ]);
+
+        $this->middleware('active.role:Administrador|Personal')->only([
+            'create',
+            'store',
+            'edit',
+            'update',
+            'searchPerson',
+        ]);
+
+        $this->middleware('active.role:Administrador')->only('destroy');
     }
 
     /**
@@ -34,6 +52,8 @@ class DiplomaBachillerController extends Controller
     {
         $search = $request->get('search');
 
+        $user = $request->user();
+
         $diplomas = DiplomaBachiller::with(['persona', 'mencion'])
             ->when($search, function ($query, $search) {
                 $query->whereHas('persona', function ($personaQuery) use ($search) {
@@ -42,6 +62,9 @@ class DiplomaBachillerController extends Controller
                         ->orWhere('paterno', 'like', "%{$search}%")
                         ->orWhere('materno', 'like', "%{$search}%");
                 });
+            })
+            ->when($user && $user->activeRoleIs('Personal'), function ($query) use ($user) {
+                $query->where('created_by', $user->getKey());
             })
             ->latest()
             ->paginate(10)
@@ -291,15 +314,15 @@ class DiplomaBachillerController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->hasRole('Administrador') || $user->hasRole('Administrator')) {
+        if ($user->activeRoleIn(['Administrador', 'Administrator'])) {
             return;
         }
 
-        if ($user->hasRole('Jefe') && in_array($action, ['show'])) {
+        if ($user->activeRoleIs('Jefe') && in_array($action, ['show', 'servePdf'])) {
             return;
         }
 
-        if ($user->hasRole('Personal') && $diploma->created_by === $user->getKey()) {
+        if ($user->activeRoleIs('Personal') && $diploma->created_by === $user->getKey()) {
             return;
         }
 
@@ -313,15 +336,15 @@ class DiplomaBachillerController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->hasRole('Administrador') || $user->hasRole('Administrator')) {
+        if ($user->activeRoleIn(['Administrador', 'Administrator'])) {
             return;
         }
 
-        if ($user->hasRole('Jefe')) {
+        if ($user->activeRoleIs('Jefe')) {
             return;
         }
 
-        if ($user->hasRole('Personal') && $diploma->created_by === $user->getKey()) {
+        if ($user->activeRoleIs('Personal') && $diploma->created_by === $user->getKey()) {
             return;
         }
 

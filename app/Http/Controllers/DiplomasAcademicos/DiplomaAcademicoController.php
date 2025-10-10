@@ -22,6 +22,24 @@ class DiplomaAcademicoController extends Controller
     public function __construct(UniversityApiService $universityApiService)
     {
         $this->universityApiService = $universityApiService;
+
+        $this->middleware('auth');
+
+        $this->middleware('active.role:Administrador|Jefe|Personal')->only([
+            'index',
+            'show',
+            'servePdf',
+        ]);
+
+        $this->middleware('active.role:Administrador|Personal')->only([
+            'create',
+            'store',
+            'edit',
+            'update',
+            'searchPerson',
+        ]);
+
+        $this->middleware('active.role:Administrador')->only('destroy');
     }
 
     /**
@@ -31,6 +49,8 @@ class DiplomaAcademicoController extends Controller
     {
         $search = $request->get('search');
 
+        $user = $request->user();
+
         $diplomas = DiplomaAcademico::with(['persona', 'mencion'])
             ->when($search, function ($query, $search) {
                 $query->whereHas('persona', function ($personaQuery) use ($search) {
@@ -39,6 +59,9 @@ class DiplomaAcademicoController extends Controller
                         ->orWhere('paterno', 'like', "%{$search}%")
                         ->orWhere('materno', 'like', "%{$search}%");
                 });
+            })
+            ->when($user && $user->activeRoleIs('Personal'), function ($query) use ($user) {
+                $query->where('created_by', $user->getKey());
             })
             ->latest()
             ->paginate(10)
@@ -279,25 +302,25 @@ class DiplomaAcademicoController extends Controller
     {
         $user = Auth::user();
 
-        // Administrators have full access
-        if ($user->hasRole('Administrador')) {
+        // Administrador tiene acceso completo
+        if ($user->activeRoleIn(['Administrador', 'Administrator'])) {
             return;
         }
 
-        // Jefes can view all but not modify - only allow for show method
-        if ($user->hasRole('Jefe')) {
+        // Jefe solo lectura
+        if ($user->activeRoleIs('Jefe')) {
             $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
             $callingMethod = $trace[1]['function'] ?? '';
 
-            if (in_array($callingMethod, ['show'])) {
+            if (in_array($callingMethod, ['show', 'servePdf'])) {
                 return;
             }
 
             abort(403, 'No tiene permisos para realizar esta acción.');
         }
 
-        // Personal can only access their own diplomas
-        if ($user->hasRole('Personal') && $diploma->created_by === $user->getKey()) {
+        // Personal solo sus propios registros
+        if ($user->activeRoleIs('Personal') && $diploma->created_by === $user->getKey()) {
             return;
         }
 

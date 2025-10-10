@@ -13,12 +13,21 @@
         </div>
         
         <!-- Botones de acción -->
-        <div class="flex space-x-3">
-          <Button variant="outline" as="a" :href="route('diplomas-academicos.edit', diploma.id)">
+        <div v-if="canEditDocument || canDeleteDocument" class="flex space-x-3">
+          <Button
+            v-if="canEditDocument"
+            variant="outline"
+            as="a"
+            :href="route('diplomas-academicos.edit', diploma.id)"
+          >
             <Edit class="h-4 w-4 mr-2" />
             Editar
           </Button>
-          <Button variant="destructive" @click="showDeleteDialog = true">
+          <Button
+            v-if="canDeleteDocument"
+            variant="destructive"
+            @click="showDeleteDialog = true"
+          >
             <Trash2 class="h-4 w-4 mr-2" />
             Eliminar
           </Button>
@@ -175,7 +184,7 @@
     </div>
 
     <!-- Dialog de confirmación para eliminación -->
-    <AlertDialog v-model:open="showDeleteDialog">
+    <AlertDialog v-if="canDeleteDocument" v-model:open="showDeleteDialog">
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>¿Eliminar diploma académico?</AlertDialogTitle>
@@ -196,7 +205,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import navTabs from './navtabs.json'
@@ -224,6 +233,7 @@ import {
 } from 'lucide-vue-next'
 import type { DiplomaAcademico } from '@/types/titulos/diploma-academico'
 import { toast } from 'vue-sonner'
+import { useAuthz } from '@/composables/useAuthz'
 
 // Configurar layout persistente
 defineOptions({
@@ -242,6 +252,10 @@ const props = defineProps<{
 
 // State
 const showDeleteDialog = ref(false)
+const { hasPermission } = useAuthz()
+
+const canEditDocument = computed(() => hasPermission('editar-documentos'))
+const canDeleteDocument = computed(() => hasPermission('eliminar-documentos'))
 
 // Function to format date
 const formatDate = (dateString: string | undefined) => {
@@ -256,6 +270,10 @@ const formatDate = (dateString: string | undefined) => {
 
 // Delete diploma function
 const deleteDiploma = () => {
+  if (!canDeleteDocument.value) {
+    return
+  }
+
   router.delete(route('diplomas-academicos.destroy', props.diploma.id), {
     onSuccess: () => {
       router.visit(route('diplomas-academicos.index'))

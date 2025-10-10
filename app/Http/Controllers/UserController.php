@@ -11,6 +11,21 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('active.role:Administrador|Jefe')->only(['index', 'show']);
+        $this->middleware('active.role:Administrador')->only([
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy',
+            'resetPassword',
+        ]);
+    }
+
     /**
      * Mostrar lista de usuarios
      */

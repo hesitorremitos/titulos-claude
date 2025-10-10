@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserRoleSeeder extends Seeder
 {
@@ -15,24 +16,28 @@ class UserRoleSeeder extends Seeder
         // Asignar rol de Administrador al usuario existente
         $adminUser = User::where('email', 'admin@uatf.edu.bo')->first();
         if ($adminUser) {
-            $adminUser->assignRole('Administrador');
+            $adminUser->syncRoles(['Administrador']);
         }
 
-        // Crear usuarios de ejemplo para cada rol
-        $jefeUser = User::create([
-            'name' => 'Jefe de Títulos',
-            'email' => 'jefe@uatf.edu.bo',
-            'ci' => '12345679',
-            'password' => bcrypt('password'),
-        ]);
-        $jefeUser->assignRole('Jefe');
+        // Crear o actualizar usuarios de ejemplo para cada rol
+        $jefeUser = User::updateOrCreate(
+            ['email' => 'jefe@uatf.edu.bo'],
+            [
+                'name' => 'Jefe de Títulos',
+                'ci' => '12345679',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $jefeUser->syncRoles(['Jefe']);
 
-        $personalUser = User::create([
-            'name' => 'Personal de Títulos',
-            'email' => 'personal@uatf.edu.bo',
-            'ci' => '12345680',
-            'password' => bcrypt('password'),
-        ]);
-        $personalUser->assignRole('Personal');
+        $personalUser = User::updateOrCreate(
+            ['email' => 'personal@uatf.edu.bo'],
+            [
+                'name' => 'Personal de Títulos',
+                'ci' => '12345680',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $personalUser->syncRoles(['Personal']);
     }
 }

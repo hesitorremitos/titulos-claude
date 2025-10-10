@@ -2,7 +2,7 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import {
     Sidebar,
     SidebarContent,
@@ -16,10 +16,11 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { ChevronRight, GraduationCap, Home, Settings, Building2, BookOpen, Users, Award, Crown, Star, Brain, ScrollText, LogOut, University } from 'lucide-vue-next';
+import { Check, ChevronRight, GraduationCap, Home, Settings, Building2, BookOpen, Users, Award, Crown, Star, Brain, ScrollText, LogOut, University } from 'lucide-vue-next';
 import { router, usePage } from '@inertiajs/vue3';
 import { computed, ref, onMounted } from 'vue';
 import type { Component } from 'vue';
+import { useAuthz } from '@/composables/useAuthz';
 
 // Types for navigation structure
 interface NavigationItem {
@@ -27,6 +28,7 @@ interface NavigationItem {
     icon: Component;
     route: string;
     disabled: boolean;
+    allowedRoles?: string[];
 }
 
 interface NavigationSection {
@@ -41,20 +43,8 @@ interface NavigationSection {
 // Props del usuario desde Inertia
 const page = usePage();
 const user = computed(() => page.props.auth?.user);
-const userRole = computed(() => {
-    // Try to get role from Spatie roles array first (now it's an array of strings)
-    if (user.value?.roles && Array.isArray(user.value.roles) && user.value.roles.length > 0) {
-        return user.value.roles[0];
-    }
-    
-    // Fallback to direct role field
-    if (user.value?.role) {
-        return user.value.role;
-    }
-    
-    // Default fallback
-    return 'personal';
-});
+const { roles, activeRole, switchRole, isSwitchingRole } = useAuthz();
+const userRole = computed(() => activeRole.value || 'Personal');
 
 // Estados de las secciones colapsables (persistidos en localStorage)
 const sectionStates = ref<Record<string, boolean>>({
@@ -146,31 +136,35 @@ const navigationSections = computed((): NavigationSection[] => [
         title: 'GESTIÓN ADMINISTRATIVA',
         collapsible: true,
         icon: Settings,
-        permission_required: ['admin', 'administrador', 'jefe', 'Administrador', 'Jefe', 'administrator'],
+        permission_required: ['Administrador', 'Jefe', 'Personal'],
         items: [
             {
                 label: 'Usuarios',
                 icon: Users,
                 route: '/usuarios',
                 disabled: false,
+                allowedRoles: ['Administrador', 'Jefe'],
             },
             {
                 label: 'Universidades',
                 icon: University,
                 route: '/universidades',
                 disabled: false,
+                allowedRoles: ['Administrador', 'Personal'],
             },
             {
                 label: 'Facultades',
                 icon: Building2,
                 route: '/facultades',
                 disabled: false,
+                allowedRoles: ['Administrador', 'Personal'],
             },
             {
                 label: 'Carreras',
                 icon: BookOpen,
                 route: '/carreras',
                 disabled: false,
+                allowedRoles: ['Administrador', 'Personal'],
             },
         ],
     },
@@ -178,16 +172,35 @@ const navigationSections = computed((): NavigationSection[] => [
 
 // Filtered sections based on user permissions
 const visibleSections = computed(() => {
-    return navigationSections.value.filter(section => {
-        if (!section.permission_required) return true;
-        
-        // Check permissions - case insensitive for flexibility
-        const currentRole = userRole.value.toLowerCase();
-        const allowedRoles = section.permission_required.map(role => role.toLowerCase());
-        
-        return allowedRoles.includes(currentRole);
-    });
+    return navigationSections.value
+        .map((section) => {
+            if (section.permission_required && !section.permission_required.includes(userRole.value)) {
+                return null;
+            }
+
+            const items = section.items.filter((item) => {
+                if (!item.allowedRoles || item.allowedRoles.length === 0) {
+                    return true;
+                }
+
+                return item.allowedRoles.includes(userRole.value);
+            });
+
+            if (items.length === 0) {
+                return null;
+            }
+
+            return {
+                ...section,
+                items,
+            };
+        })
+        .filter((section): section is NavigationSection => section !== null);
 });
+
+const onSelectRole = (role: string) => {
+    switchRole(role);
+};
 
 // Update section state when collapsible changes
 const updateSectionState = (sectionId: string, isOpen: boolean) => {
@@ -344,6 +357,20 @@ const logout = () => {
                                 <Settings class="mr-2 h-4 w-4" />
                                 Configuración
                             </DropdownMenuItem>
+                            <template v-if="roles.length > 1">
+                                <DropdownMenuSeparator />
+                                <DropdownMenuLabel>Roles disponibles</DropdownMenuLabel>
+                                <DropdownMenuItem
+                                    v-for="roleName in roles"
+                                    :key="roleName"
+                                    :disabled="isSwitchingRole || roleName === activeRole"
+                                    class="flex items-center justify-between gap-2"
+                                    @select.prevent="onSelectRole(roleName)"
+                                >
+                                    <span>{{ roleName }}</span>
+                                    <Check v-if="roleName === activeRole" class="h-4 w-4 text-primary" />
+                                </DropdownMenuItem>
+                            </template>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem @click="logout" class="text-destructive">
                                 <LogOut class="mr-2 h-4 w-4" />

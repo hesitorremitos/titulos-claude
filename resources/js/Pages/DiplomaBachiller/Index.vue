@@ -18,6 +18,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Eye, Search, X, PlusCircle } from 'lucide-vue-next'
 import type { DiplomaBachiller, PaginatedResponse } from '@/types/titulos/diploma-bachiller'
+import { useAuthz } from '@/composables/useAuthz'
 
 defineOptions({
   layout: (h: any, page: any) => h(AppLayout, {
@@ -36,6 +37,8 @@ const props = defineProps<{
 }>()
 
 const hasDiplomas = computed(() => props.diplomas.data.length > 0)
+const { hasPermission } = useAuthz()
+const canCreateDocuments = computed(() => hasPermission('crear-documentos'))
 
 const search = ref(props.filters.search || '')
 
@@ -82,7 +85,7 @@ const formatDate = (dateString: string | undefined) => {
             Gestiona los diplomas de bachiller registrados en el sistema.
           </CardDescription>
         </div>
-        <Link :href="route('diploma-bachiller.create')">
+        <Link v-if="canCreateDocuments" :href="route('diploma-bachiller.create')">
           <Button>
             <PlusCircle class="h-4 w-4 mr-2" />
             Registrar Diploma
@@ -155,7 +158,7 @@ const formatDate = (dateString: string | undefined) => {
             <p class="text-lg font-semibold text-foreground">No hay diplomas registrados</p>
             <p class="text-muted-foreground">Comienza registrando un nuevo diploma de bachiller.</p>
           </div>
-          <Button :href="route('diploma-bachiller.create')" as="a">
+          <Button v-if="canCreateDocuments" :href="route('diploma-bachiller.create')" as="a">
             Registrar Diploma
           </Button>
         </div>

@@ -18,6 +18,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Eye, Search, X, PlusCircle } from 'lucide-vue-next'
 import type { DiplomaAcademico, PaginatedResponse } from '@/types/titulos/diploma-academico'
+import { useAuthz } from '@/composables/useAuthz'
 
 // Configurar layout persistente
 defineOptions({
@@ -39,6 +40,8 @@ const props = defineProps<{
 
 // Computed property to check if there are diplomas
 const hasDiplomas = computed(() => props.diplomas.data.length > 0)
+const { hasPermission } = useAuthz()
+const canCreateDocuments = computed(() => hasPermission('crear-documentos'))
 
 // Search functionality
 const search = ref(props.filters.search || '')
@@ -91,7 +94,7 @@ const formatDate = (dateString: string | undefined) => {
               Aquí puedes ver, editar y eliminar los diplomas académicos.
             </CardDescription>
           </div>
-          <Link :href="route('diplomas-academicos.create')">
+          <Link v-if="canCreateDocuments" :href="route('diplomas-academicos.create')">
             <Button>
               <PlusCircle class="h-4 w-4 mr-2" />
               Registrar Diploma
@@ -195,7 +198,7 @@ const formatDate = (dateString: string | undefined) => {
               <Button v-if="search" variant="outline" @click="clearSearch">
                 Limpiar búsqueda
               </Button>
-              <Link :href="route('diplomas-academicos.create')">
+              <Link v-if="canCreateDocuments" :href="route('diplomas-academicos.create')">
                 <Button>
                   <PlusCircle class="h-4 w-4 mr-2" />
                   {{ search ? 'Registrar Diploma' : 'Registrar Primer Diploma' }}

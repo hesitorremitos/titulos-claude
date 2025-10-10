@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Arr;
 
 class User extends Authenticatable
 {
@@ -60,5 +61,43 @@ class User extends Authenticatable
     public function findForPassport($username)
     {
         return $this->where('ci', $username)->first();
+    }
+
+    public function activeRole(): ?string
+    {
+        $current = session('active_role');
+
+        if ($current && $this->getRoleNames()->contains($current)) {
+            return $current;
+        }
+
+        $fallback = $this->getRoleNames()->first();
+
+        if ($fallback) {
+            session(['active_role' => $fallback]);
+        }
+
+        return $fallback;
+    }
+
+    public function setActiveRole(string $role): void
+    {
+        if (! $this->getRoleNames()->contains($role)) {
+            abort(403, 'No tienes asignado el rol solicitado.');
+        }
+
+        session(['active_role' => $role]);
+    }
+
+    public function activeRoleIs(string $role): bool
+    {
+        return $this->activeRole() === $role;
+    }
+
+    public function activeRoleIn(iterable $roles): bool
+    {
+        $rolesArray = Arr::wrap($roles);
+
+        return in_array($this->activeRole(), $rolesArray, true);
     }
 }

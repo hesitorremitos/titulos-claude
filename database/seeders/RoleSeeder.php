@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RoleSeeder extends Seeder
 {
@@ -13,7 +14,8 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear permisos
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
         $permissions = [
             // Facultades
             'ver-facultades',
@@ -27,47 +29,55 @@ class RoleSeeder extends Seeder
             'editar-carreras',
             'eliminar-carreras',
 
-            // Usuarios (para futura implementación)
+            // Universidades
+            'ver-universidades',
+            'crear-universidades',
+            'editar-universidades',
+            'eliminar-universidades',
+
+            // Usuarios
             'ver-usuarios',
             'crear-usuarios',
             'editar-usuarios',
             'eliminar-usuarios',
 
-            // Títulos (para futura implementación)
-            'ver-titulos',
-            'crear-titulos',
-            'editar-titulos',
-            'eliminar-titulos',
-            'editar-titulos-propios', // Solo títulos que el usuario creó
+            // Documentos académicos
+            'ver-documentos',
+            'crear-documentos',
+            'editar-documentos',
+            'eliminar-documentos',
+            'editar-documentos-propios',
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
-        // Crear roles
-        $adminRole = Role::create(['name' => 'Administrador']);
-        $jefeRole = Role::create(['name' => 'Jefe']);
-        $personalRole = Role::create(['name' => 'Personal']);
+        $adminRole = Role::firstOrCreate(['name' => 'Administrador']);
+        $jefeRole = Role::firstOrCreate(['name' => 'Jefe']);
+        $personalRole = Role::firstOrCreate(['name' => 'Personal']);
 
-        // Asignar permisos al Administrador (acceso completo)
-        $adminRole->givePermissionTo(Permission::all());
+        $adminRole->syncPermissions(Permission::all());
 
-        // Asignar permisos al Jefe (solo visualización)
-        $jefeRole->givePermissionTo([
-            'ver-facultades',
-            'ver-carreras',
+        $jefeRole->syncPermissions([
+            'ver-documentos',
             'ver-usuarios',
-            'ver-titulos',
         ]);
 
-        // Asignar permisos al Personal (limitado)
-        $personalRole->givePermissionTo([
+        $personalRole->syncPermissions([
+            'ver-documentos',
+            'crear-documentos',
+            'editar-documentos',
+            'editar-documentos-propios',
             'ver-facultades',
+            'crear-facultades',
+            'editar-facultades',
             'ver-carreras',
-            'ver-titulos',
-            'crear-titulos',
-            'editar-titulos-propios',
+            'crear-carreras',
+            'editar-carreras',
+            'ver-universidades',
+            'crear-universidades',
+            'editar-universidades',
         ]);
     }
 }

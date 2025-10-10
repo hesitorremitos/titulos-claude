@@ -9,6 +9,22 @@ use Illuminate\Http\Request;
 
 class UniversidadController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('active.role:Administrador|Personal')->only([
+            'index',
+            'show',
+            'create',
+            'store',
+            'edit',
+            'update',
+        ]);
+
+        $this->middleware('active.role:Administrador')->only('destroy');
+    }
+
     /**
      * Mostrar lista de universidades
      */

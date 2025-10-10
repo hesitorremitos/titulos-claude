@@ -9,6 +9,15 @@ use Inertia\Inertia;
 
 class MencionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('active.role:Administrador|Jefe|Personal')->only('index');
+        $this->middleware('active.role:Administrador|Personal')->only(['store', 'update']);
+        $this->middleware('active.role:Administrador')->only('destroy');
+    }
+
     public function index()
     {
         $menciones = Mencion::withCount('diplomados')

@@ -26,6 +26,24 @@ class TituloProvisionNacionalController extends Controller
     ) {
         $this->universityApiService = $universityApiService;
         $this->documentService = $documentService;
+
+        $this->middleware('auth');
+
+        $this->middleware('active.role:Administrador|Jefe|Personal')->only([
+            'index',
+            'show',
+            'servePdf',
+        ]);
+
+        $this->middleware('active.role:Administrador|Personal')->only([
+            'create',
+            'store',
+            'edit',
+            'update',
+            'searchPerson',
+        ]);
+
+        $this->middleware('active.role:Administrador')->only('destroy');
     }
 
     /**
@@ -314,17 +332,17 @@ class TituloProvisionNacionalController extends Controller
         $user = Auth::user();
 
         // Administrators have full access
-        if ($user->hasRole('Administrador') || $user->hasRole('Administrator')) {
+        if ($user->activeRoleIn(['Administrador', 'Administrator'])) {
             return;
         }
 
         // Jefe can only view
-        if ($user->hasRole('Jefe') && in_array($action, ['show'])) {
+        if ($user->activeRoleIs('Jefe') && in_array($action, ['show', 'servePdf'])) {
             return;
         }
 
         // Personal can only access their own titles
-        if ($user->hasRole('Personal') && $titulo->created_by === $user->getKey()) {
+        if ($user->activeRoleIs('Personal') && $titulo->created_by === $user->getKey()) {
             return;
         }
 
@@ -339,17 +357,17 @@ class TituloProvisionNacionalController extends Controller
         $user = Auth::user();
 
         // Administrators have full access
-        if ($user->hasRole('Administrador') || $user->hasRole('Administrator')) {
+        if ($user->activeRoleIn(['Administrador', 'Administrator'])) {
             return;
         }
 
         // Jefe can view all
-        if ($user->hasRole('Jefe')) {
+        if ($user->activeRoleIs('Jefe')) {
             return;
         }
 
         // Personal can only access their own titles
-        if ($user->hasRole('Personal') && $titulo->created_by === $user->getKey()) {
+        if ($user->activeRoleIs('Personal') && $titulo->created_by === $user->getKey()) {
             return;
         }
 

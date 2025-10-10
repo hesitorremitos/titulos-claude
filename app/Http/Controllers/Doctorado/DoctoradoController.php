@@ -24,11 +24,30 @@ class DoctoradoController extends Controller
         protected UniversityApiService $universityApiService,
         protected DoctoradoDocumentService $documentService
     ) {
+        $this->middleware('auth');
+
+        $this->middleware('active.role:Administrador|Jefe|Personal')->only([
+            'index',
+            'show',
+            'servePdf',
+        ]);
+
+        $this->middleware('active.role:Administrador|Personal')->only([
+            'create',
+            'store',
+            'edit',
+            'update',
+            'searchPerson',
+        ]);
+
+        $this->middleware('active.role:Administrador')->only('destroy');
     }
 
     public function index(Request $request)
     {
         $search = $request->get('search');
+
+        $user = $request->user();
 
         $doctorados = Doctorado::with(['persona', 'mencion', 'modalidad', 'mencionTpn'])
             ->when($search, function ($query, $search) {
@@ -40,6 +59,9 @@ class DoctoradoController extends Controller
                             ->orWhere('paterno', 'like', "%{$search}%")
                             ->orWhere('materno', 'like', "%{$search}%");
                     });
+            })
+            ->when($user && $user->activeRoleIs('Personal'), function ($query) use ($user) {
+                $query->where('created_by', $user->getKey());
             })
             ->latest()
             ->paginate(10)
@@ -335,15 +357,15 @@ class DoctoradoController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->hasRole('Administrador') || $user->hasRole('Administrator')) {
+        if ($user->activeRoleIn(['Administrador', 'Administrator'])) {
             return;
         }
 
-        if ($user->hasRole('Jefe') && in_array($action, ['show'])) {
+        if ($user->activeRoleIs('Jefe') && in_array($action, ['show', 'servePdf'])) {
             return;
         }
 
-        if ($user->hasRole('Personal') && $doctorado->created_by === $user->getKey()) {
+        if ($user->activeRoleIs('Personal') && $doctorado->created_by === $user->getKey()) {
             return;
         }
 
@@ -354,15 +376,15 @@ class DoctoradoController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->hasRole('Administrador') || $user->hasRole('Administrator')) {
+        if ($user->activeRoleIn(['Administrador', 'Administrator'])) {
             return;
         }
 
-        if ($user->hasRole('Jefe')) {
+        if ($user->activeRoleIs('Jefe')) {
             return;
         }
 
-        if ($user->hasRole('Personal') && $doctorado->created_by === $user->getKey()) {
+        if ($user->activeRoleIs('Personal') && $doctorado->created_by === $user->getKey()) {
             return;
         }
 

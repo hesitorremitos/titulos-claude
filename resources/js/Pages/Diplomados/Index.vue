@@ -18,6 +18,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Eye, Search, X, PlusCircle } from 'lucide-vue-next'
 import type { Diplomado, PaginatedResponse } from '@/types/titulos/diplomado'
+import { useAuthz } from '@/composables/useAuthz'
 
 defineOptions({
   layout: (h: any, page: any) => h(AppLayout, {
@@ -37,6 +38,8 @@ const props = defineProps<{
 
 const hasDiplomados = computed(() => props.diplomados.data.length > 0)
 const search = ref(props.filters.search || '')
+const { hasPermission } = useAuthz()
+const canCreateDocuments = computed(() => hasPermission('crear-documentos'))
 
 let searchTimeout: number
 const debouncedSearch = () => {
@@ -86,7 +89,7 @@ const formatDate = (dateString?: string | null) => {
             Gestiona los diplomados registrados en el sistema.
           </CardDescription>
         </div>
-        <Link :href="route('diplomados.create')">
+        <Link v-if="canCreateDocuments" :href="route('diplomados.create')">
           <Button>
             <PlusCircle class="h-4 w-4 mr-2" />
             Registrar Diplomado
@@ -185,7 +188,7 @@ const formatDate = (dateString?: string | null) => {
             <p class="text-lg font-semibold text-foreground">No hay diplomados registrados</p>
             <p class="text-muted-foreground">Comienza registrando un nuevo diplomado.</p>
           </div>
-          <Button :href="route('diplomados.create')" as="a">
+          <Button v-if="canCreateDocuments" :href="route('diplomados.create')" as="a">
             Registrar Diplomado
           </Button>
         </div>

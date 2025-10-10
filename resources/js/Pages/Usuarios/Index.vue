@@ -2,7 +2,7 @@
     <AppLayout 
         title="Usuarios" 
         page-title="Usuarios" 
-        :nav-tabs="navTabs" 
+        :nav-tabs="filteredNavTabs" 
         active-tab="lista"
     >
         <div class="space-y-6">
@@ -82,6 +82,7 @@
                             <TableHead class="w-2/5">Nombre</TableHead>
                             <TableHead class="w-1/4">Email</TableHead>
                             <TableHead class="w-1/6 pr-4 text-center">Roles</TableHead>
+                            <TableHead class="w-1/6 pr-4 text-right">Acciones</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -127,7 +128,7 @@
                                             </Tooltip>
                                         </TooltipProvider>
 
-                                        <TooltipProvider>
+                                        <TooltipProvider v-if="canEditUsers">
                                             <Tooltip>
                                                 <TooltipTrigger as-child>
                                                     <Button variant="ghost" size="sm" as-child>
@@ -142,7 +143,7 @@
                                             </Tooltip>
                                         </TooltipProvider>
 
-                                        <TooltipProvider v-if="usuario.id !== $page.props.auth?.user?.id">
+                                        <TooltipProvider v-if="canDeleteUsers && usuario.id !== $page.props.auth?.user?.id">
                                             <Tooltip>
                                                 <TooltipTrigger as-child>
                                                     <Button variant="ghost" size="sm" @click="confirmDelete(usuario)">
@@ -166,7 +167,7 @@
                             <p class="mb-4 text-muted-foreground">
                                 {{ searchTerm ? 'Intenta con otros términos de búsqueda.' : 'Comienza creando tu primer usuario.' }}
                             </p>
-                            <Button as-child v-if="!searchTerm">
+                            <Button as-child v-if="!searchTerm && canManageUsers">
                                 <Link :href="route('usuarios.create')">
                                     <Icon icon="mdi:plus" class="mr-2 h-4 w-4" />
                                     Nuevo Usuario
@@ -205,8 +206,9 @@ import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableR
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Icon } from '@iconify/vue';
 import { Link, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { toast } from 'vue-sonner';
+import { useAuthz } from '@/composables/useAuthz';
 
 interface Role {
     id: number;
@@ -251,6 +253,20 @@ interface Props {
 const props = defineProps<Props>();
 
 const searchTerm = ref(props.filters.search || '');
+const { hasPermission } = useAuthz();
+
+const canManageUsers = computed(() =>
+    hasPermission('crear-usuarios') || hasPermission('editar-usuarios') || hasPermission('eliminar-usuarios'),
+);
+const canEditUsers = computed(() => hasPermission('editar-usuarios'));
+const canDeleteUsers = computed(() => hasPermission('eliminar-usuarios'));
+const filteredNavTabs = computed(() => {
+    if (canManageUsers.value) {
+        return navTabs;
+    }
+
+    return navTabs.filter((tab) => tab.value !== 'registrar');
+});
 
 // Methods
 const goToPage = (page: number) => {

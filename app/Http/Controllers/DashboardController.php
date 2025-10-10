@@ -19,17 +19,15 @@ class DashboardController extends Controller
         $totalCarreras = Carrera::count();
 
         // Conteo de diplomas del mes actual (solo los que puede ver el usuario según su rol)
+        $user = auth()->user();
+
         $diplomasEsteMes = DiplomaAcademico::query()
-            ->when(auth()->user()->hasRole('Personal'), function ($query) {
+            ->when($user && $user->activeRoleIs('Personal'), function ($query) {
                 return $query->where('created_by', auth()->id());
             })
             ->whereYear('created_at', now()->year)
             ->whereMonth('created_at', now()->month)
             ->count();
-
-        // Obtener usuario actual
-        $user = auth()->user();
-        $userRole = $user->getRoleNames()->first();
 
         return Inertia::render('Dashboard', [
             'stats' => [
@@ -39,7 +37,7 @@ class DashboardController extends Controller
             ],
             'user' => [
                 'name' => $user->name,
-                'role' => $userRole,
+                'role' => $user->activeRole(),
             ],
         ]);
     }

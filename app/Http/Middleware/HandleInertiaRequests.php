@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Spatie\Permission\Models\Role;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -35,17 +36,36 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+        $activeRole = $user?->activeRole();
+        $roles = $user ? $user->getRoleNames()->toArray() : [];
+
+        $permissions = [];
+        if ($user) {
+            if ($activeRole) {
+                try {
+                    $roleModel = Role::findByName($activeRole);
+                    $permissions = $roleModel->permissions->pluck('name')->toArray();
+                } catch (\Throwable $e) {
+                    $permissions = $user->getAllPermissions()->pluck('name')->toArray();
+                }
+            } else {
+                $permissions = $user->getAllPermissions()->pluck('name')->toArray();
+            }
+        }
+
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user() ? [
-                    'id' => $request->user()->id,
-                    'name' => $request->user()->name,
-                    'email' => $request->user()->email,
-                    'ci' => $request->user()->ci,
-                    'role' => $request->user()->role ?? 'personal',
-                    'roles' => $request->user()->roles->pluck('name')->toArray(),
-                    'permissions' => $request->user()->getAllPermissions()->pluck('name')->toArray(),
+                'user' => $user ? [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'ci' => $user->ci,
+                    'role' => $activeRole ?? $user->role ?? 'Personal',
+                    'activeRole' => $activeRole,
+                    'roles' => $roles,
+                    'permissions' => $permissions,
                 ] : null,
             ],
             'flash' => [

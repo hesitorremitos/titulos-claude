@@ -6,11 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\TitulosProvisionNacional\Mencion;
 use App\Models\Carrera;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class MencionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('active.role:Administrador|Jefe|Personal')->only('index');
+        $this->middleware('active.role:Administrador|Personal')->only(['store', 'update']);
+        $this->middleware('active.role:Administrador')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      */

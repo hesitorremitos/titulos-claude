@@ -200,4 +200,23 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function setActiveRole(Request $request)
+    {
+        $validated = $request->validate([
+            'role' => ['required', 'string'],
+        ]);
+
+        $user = $request->user();
+
+        $user->setActiveRole($validated['role']);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'active_role' => $user->activeRole(),
+            ]);
+        }
+
+        return Redirect::back()->with('success', 'Rol activo actualizado.');
+    }
 }
