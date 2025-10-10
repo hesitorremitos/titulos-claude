@@ -1,61 +1,100 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Guía de Puesta en Marcha
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Requisitos previos
+- PHP 8.2 con extensiones recomendadas por Laravel (intl, mbstring, openssl, etc.).
+- Composer 2.x.
+- Node.js 20+ y npm.
+- Motor de base de datos (SQLite por defecto, MySQL/MariaDB y PostgreSQL soportados).
+- Acceso de lectura a los CSV ubicados en `database/csv` si se migrarán datos históricos.
 
-## About Laravel
+## Instalación base
+```bash
+composer install
+npm install
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Configuración de entorno
+1. Copiar el archivo de entorno y generar la clave de aplicación:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+2. Ajustar la conexión de base de datos en `.env`. Para usar un motor distinto del predeterminado (SQLite), establecer las variables:
+   ```dotenv
+   DB_CONNECTION=mysql        # mysql, pgsql, sqlsrv, etc.
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=titulos
+   DB_USERNAME=usuario
+   DB_PASSWORD=secreto
+   ```
+   Guardar los cambios y ejecutar `php artisan config:clear` si la aplicación ya estaba levantada.
+3. Revisar el valor de `FILESYSTEM_DISK`. Si deseas servir documentos desde un disco distinto al configurado por defecto, define aquí el nombre del disco (ver sección siguiente).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Configuración del almacenamiento de archivos
+Los PDFs se entregan desde el disco `public` declarado en `config/filesystems.php`, actualmente apuntando a `D:/titulos/V5/storage/app/private`.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Para utilizar otra unidad o carpeta:
+1. Edita `config/filesystems.php` y actualiza la ruta del disco deseado, por ejemplo:
+   ```php
+   'public' => [
+       'driver' => 'local',
+       'root' => '/mnt/data/titulos/storage/app/private',
+       'serve' => true,
+       'throw' => false,
+   ],
+   ```
+2. Si prefieres mantener ambos destinos, crea un disco adicional (por ejemplo `titulos_disco`) y cambia la variable `FILESYSTEM_DISK` en `.env` para apuntar al nuevo disco.
+3. Ejecuta `php artisan storage:link` si necesitas exponer el directorio público mediante `public/storage`.
 
-## Learning Laravel
+## Migraciones
+Ejecuta las migraciones después de ajustar el entorno:
+```bash
+php artisan migrate
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Seeders
+Los semilleros de usuarios y roles son obligatorios para poder iniciar sesión en el sistema. Puedes ejecutarlos de forma individual:
+```bash
+php artisan db:seed --class=UserSeeder
+php artisan db:seed --class=RoleSeeder
+php artisan db:seed --class=UserRoleSeeder
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Seeders opcionales (ejecutar según las necesidades del entorno):
+- `php artisan db:seed --class=FacultadSeeder`
+- `php artisan db:seed --class=CarreraSeeder`
+- `php artisan db:seed --class=GraduacionDaSeeder`
+- `php artisan db:seed --class=MencionDaSeeder`
+- `php artisan db:seed --class=BackupDataSeeder` (importa CSV históricos de personas y diplomas; requiere archivos en `database/backups`)
+- `php artisan db:seed --class=DiplomaAcademicoSeeder` (migra `database/csv/titulos/DIPLOMA_A_todo.csv`, revisar documentación antes de ejecutarlo)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Si deseas ejecutar todo el flujo definido en `DatabaseSeeder`, ten presente que incluye `BackupDataSeeder` por defecto. Ajusta esa clase antes de correr `php artisan db:seed` si no necesitas la importación masiva.
 
-## Laravel Sponsors
+## Carga masiva desde CSV (opcional)
+El comando personalizado `migrate:titulos` automatiza las importaciones disponibles:
+```bash
+# Migración incremental
+php artisan migrate:titulos
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# Reinicia tablas relacionadas y vuelve a importar
+php artisan migrate:titulos --fresh
+```
+Revisa `database/csv/README_MIGRACIONES.md` para conocer la preparación de archivos y métricas esperadas.
 
-### Premium Partners
+## Construcción del frontend
+Entorno de desarrollo:
+```bash
+php artisan serve
+npm run dev
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Compilación de producción:
+```bash
+npm run build
+```
 
-## Contributing
+Opcionalmente, `composer dev` levanta servidor PHP, escucha la cola y ejecuta Vite en paralelo mediante `concurrently`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Comprobación final
+- Verifica que puedes acceder a `http://localhost:8000/login` con las credenciales generadas por los seeders.
